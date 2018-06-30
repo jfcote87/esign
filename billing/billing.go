@@ -23,8 +23,8 @@ import (
     
     "golang.org/x/net/context"
     
-    "mystuff/esign"
-    "mystuff/esign/model"
+    "github.com/jfcote87/esign"
+    "github.com/jfcote87/esign/model"
 )
 
 // Service generates DocuSign Billing Category API calls

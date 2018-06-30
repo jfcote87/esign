@@ -16,9 +16,10 @@ import (
 	"io"
 	"io/ioutil"
 	"mime/multipart"
-	"mystuff/esign/model"
 	"strings"
 	"sync"
+
+	"github.com/jfcote87/esign/model"
 
 	"net/http"
 	"net/textproto"

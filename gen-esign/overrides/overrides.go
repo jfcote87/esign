@@ -6,8 +6,9 @@
 package overrides
 
 import (
-	"mystuff/esign/gen-esign/swagger"
 	"strings"
+
+	"github.com/jfcote87/esign/gen-esign/swagger"
 )
 
 type override struct {

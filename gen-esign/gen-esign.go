@@ -19,8 +19,8 @@ import (
 	"strings"
 	"text/template"
 
-	"mystuff/esign/gen-esign/overrides"
-	"mystuff/esign/gen-esign/swagger"
+	"github.com/jfcote87/esign/gen-esign/overrides"
+	"github.com/jfcote87/esign/gen-esign/swagger"
 )
 
 const (
@@ -29,7 +29,7 @@ const (
 )
 
 var (
-	basePkg     = flag.String("basepkg", "mystuff/esign", "root package in gopath")
+	basePkg     = flag.String("basepkg", "github.com/jfcote87/esign", "root package in gopath")
 	baseDir     = flag.String("gopath", fmt.Sprintf("%s/src", build.Default.GOPATH), "GOPATH src directory")
 	templDir    = flag.String("template", "gen-esign/templates", "Directory for output templates.")
 	buildFlag   = flag.Bool("build", false, "Compile generated packages.")
@@ -139,6 +139,22 @@ func doModel(modelTempl *template.Template, defList []swagger.Definition, defMap
 
 // doPackage
 func doPackage(resTempl *template.Template, serviceName, description string, ops []swagger.Operation, defMap map[string]swagger.Definition) error {
+	var totOps = 0
+	var totQry1 = 0
+	var totQry = 0
+	for _, xy := range ops {
+		totOps++
+		qx := xy.QueryOpts(overrides.GetParameterOverrides())
+		if len(qx) > 0 {
+			totQry++
+			if len(qx) > 1 {
+				totQry1++
+			}
+			//log.Printf("%s: %d", xy.GoFuncName(overrides.GetOperationOverrides()), len(qx))
+		}
+	}
+	log.Printf("%d  %d  %d", totOps, totQry, totQry1)
+
 	packageName := strings.ToLower(serviceName)
 	pkgDir := getEsignDir() + "/" + packageName
 	if err := os.Chdir(pkgDir); err != nil {

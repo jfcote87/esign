@@ -10,10 +10,11 @@
 package legacy
 
 import (
-	"mystuff/esign"
-	"mystuff/esign/model"
 	"net/http"
 	"net/url"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 
 	"golang.org/x/net/context"
 )
