@@ -2,12 +2,12 @@ package esign_test
 
 import (
 	"fmt"
-	"mystuff/esign"
 	"net/http"
 	"net/url"
 	"strings"
 	"testing"
 
+	"github.com/jfcote87/esign"
 	"github.com/jfcote87/testutils"
 
 	"golang.org/x/net/context"

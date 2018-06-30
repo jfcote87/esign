@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// generator creates
+// gen-esign creates the esign package based upon docusign's swagger file
 
 package main
 
@@ -31,7 +31,7 @@ const (
 var (
 	basePkg     = flag.String("basepkg", "github.com/jfcote87/esign", "root package in gopath")
 	baseDir     = flag.String("gopath", fmt.Sprintf("%s/src", build.Default.GOPATH), "GOPATH src directory")
-	templDir    = flag.String("template", "gen-esign/templates", "Directory for output templates.")
+	templDir    = flag.String("template", "gen-esign/templates", "directory containing output templates.")
 	buildFlag   = flag.Bool("build", false, "Compile generated packages.")
 	swaggerFile = flag.String("swagger_file", "esignature.rest.swagger.json", "If non-empty, the path to a local file on disk containing the API to generate. Exclusive with setting --api.")
 )
@@ -153,7 +153,7 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 			//log.Printf("%s: %d", xy.GoFuncName(overrides.GetOperationOverrides()), len(qx))
 		}
 	}
-	log.Printf("%d  %d  %d", totOps, totQry, totQry1)
+	//log.Printf("%d  %d  %d", totOps, totQry, totQry1)
 
 	packageName := strings.ToLower(serviceName)
 	pkgDir := getEsignDir() + "/" + packageName
@@ -168,7 +168,6 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 		}
 	}
 	var data = struct {
-		//BaseDirectory string
 		Service       string
 		Package       string
 		Operations    []swagger.Operation
@@ -178,7 +177,6 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 		PropOverrides map[string]map[string]string
 		Packages      []string
 	}{
-		//BaseDirectory: "mystuff",
 		Service:       serviceName,
 		Package:       packageName,
 		Operations:    ops,

@@ -1,3 +1,12 @@
+// Copyright 2017 James Cote and Liberty Fund, Inc.
+// All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// swagger provides structs and utilities for handling a swagger file.
+// I created it for use with esign package. It is incomplete and not
+// tested for other swagger implementations.
+
 package swagger
 
 import (
@@ -505,7 +514,7 @@ func valueCode(ty string) string {
 	return "val"
 }
 
-// Example contains an Operations example code.  Not
+// Example contains an Operation's example code.  Not
 // currently used in generation.
 type Example struct {
 	Description string                 `json:"description,omitempty"`
