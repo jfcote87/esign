@@ -1,7 +1,8 @@
-// Package overrides provides list of type overrides for definition
-// properties (struct fields) and for operation parameters.  DocuSign
-// defined all fields and parameters as strings, and well, why have
-// a definition? So this package defines the overrides that generator
+// Package overrides provides lists of type overrides for definition
+// properties (struct fields) and for operation parameters found in 
+// Docusign's Rest API swagger definition.  DocuSign defined all fields
+// and parameters as strings, and well, I didn't really like that.
+// So this package defines the overrides that generator
 // uses.
 package overrides
 
