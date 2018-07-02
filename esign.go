@@ -25,7 +25,6 @@ import (
 	"net/textproto"
 	"net/url"
 
-	"github.com/jfcote87/ctxclient"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
 )
@@ -36,6 +35,7 @@ type Credential interface {
 	// Authorize attaches an authorization header to a request and
 	// and fixes the URL to the appropriate host.
 	Authorize(context.Context, *http.Request) error
+	Client(context.Context) *http.Client
 }
 
 // Call describes a DocuSign function
@@ -126,6 +126,11 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 		closeUploads(c.Files)
 		return errors.New("context may not be nil")
 	}
+	cl := c.Credential.Client(ctx)
+	if cl == nil {
+		closeUploads(c.Files)
+		return errors.New("nil http.client from credential")
+	}
 	// define now so may be used by deferred log function
 	var responseBytes []byte
 	var res *http.Response
@@ -138,7 +143,7 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 		// formatted body for file upload
 		var cancelFunc func()
 		body, ct, cancelFunc = multiBody(c.Payload, c.Files) // no error, errors will occur during read
-		defer cancelFunc()                                   // cancelfunc will close all io.ReadCloses is c
+		defer cancelFunc()                                   // ensure all readers close
 	} else if c.Payload != nil {
 		switch payload := c.Payload.(type) {
 		case url.Values:
@@ -165,22 +170,17 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 	if result != nil && file == nil {
 		req.Header.Set("accept", "application/json")
 	}
-
 	// authorize request
 	if err = c.Credential.Authorize(ctx, req); err != nil {
 		return err
 	}
-
-	credInterface := c.Credential.(interface{})
 	// set logging
-	if logger, ok := credInterface.(loggerFunc); ok {
+	if logger, ok := c.Credential.(dsLogger); ok {
 		isLogged = true
-		defer logger(ctx, req, res, c.Payload, responseBytes)
+		defer logger.Log(ctx, req, res, c.Payload, responseBytes)
 	}
-
-	// select client func and perform call.  nil ctxclient.Resolver calls ctxclient.Default
-	clientResolver, _ := credInterface.(ctxclient.Func)
-	if res, err = ctxhttp.Do(ctx, clientResolver.Client(ctx), req); err == nil {
+	// send to docusign
+	if res, err = ctxhttp.Do(ctx, cl, req); err != nil {
 		return err
 	}
 	// res.Body close on error
@@ -208,7 +208,7 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 }
 
 // multiBody is used to format calls containing files as a multipart/form-data body.
-// Send payload and files thru a multipart writer to format multipart/form-data.  Use
+// Send payload and files thru a multipart writer to format multipart/form-data.
 // Use io.Pipe so we're not copying files into memory.
 func multiBody(payload interface{}, files []*UploadFile) (io.Reader, string, func()) {
 	pr, pw := io.Pipe()
@@ -244,6 +244,7 @@ func multiBody(payload interface{}, files []*UploadFile) (io.Reader, string, fun
 			}
 		}
 
+		// copy each file to multipart writer
 		for _, f := range files {
 			mh := textproto.MIMEHeader{
 				"Content-Type":        []string{f.ContentType},
@@ -271,9 +272,19 @@ type File struct {
 	ContentType string
 }
 
+// dsHTTPClient
+type dsHTTPClient interface {
+	Client(context.Context) *http.Client
+	Get(context.Context) (*http.Client, error)
+}
+
+type dsLogger interface {
+	Log(context.Context, *http.Request, *http.Response, interface{}, []byte)
+}
+
 type loggerFunc func(context.Context, *http.Request, *http.Response, interface{}, []byte)
 
-func (l loggerFunc) log(ctx context.Context, req *http.Request, res *http.Response, payload interface{}, body []byte) {
+func (l loggerFunc) Log(ctx context.Context, req *http.Request, res *http.Response, payload interface{}, body []byte) {
 	l(ctx, req, res, payload, body)
 }
 
@@ -283,48 +294,12 @@ func WithLogger(credential Credential, logFunc func(ctx context.Context, req *ht
 	if logFunc == nil {
 		return credential
 	}
-	if cx, ok := credential.(interface{}).(ctxclient.Func); ok {
-		return struct {
-			Credential
-			ctxclient.Func
-			loggerFunc
-		}{credential, cx, logFunc}
-	}
+
 	return struct {
 		Credential
-		loggerFunc
-	}{credential, logFunc}
+		dsLogger
+	}{credential, loggerFunc(logFunc)}
 
-}
-
-// WithHTTPClientFunc specifies a function to determine the http.Client that
-// calls will use.
-func WithHTTPClientFunc(credential Credential, f func(context.Context) (*http.Client, error)) Credential {
-	if f == nil {
-		return credential
-	}
-	if l, ok := credential.(interface{}).(loggerFunc); ok {
-		return struct {
-			Credential
-			loggerFunc
-			ctxclient.Func
-		}{credential, l, f}
-	}
-	return struct {
-		Credential
-		ctxclient.Func
-	}{credential, f}
-}
-
-// WithHTTPClient specifies the http.Client the credential will use for calls.
-func WithHTTPClient(credential Credential, client *http.Client) Credential {
-	if client != nil {
-		return WithHTTPClientFunc(credential,
-			func(ctx context.Context) (*http.Client, error) {
-				return client, nil
-			})
-	}
-	return credential
 }
 
 // UploadFile describes an a document attachment for uploading
@@ -405,7 +380,7 @@ func GetTabValues(tabs model.Tabs) []model.NameValue {
 
 // ResolveDSURL resolves a relative url.
 // the host parameter determines which docusign server(s) to hit
-//   EX: prod north america, prod europe, demo
+// EX: prod north america, prod europe, demo
 // the accountID is used to finish the url's path.
 func ResolveDSURL(ref *url.URL, host string, accountID string) {
 	ref.Scheme = "https"

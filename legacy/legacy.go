@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/jfcote87/ctxclient"
 	"github.com/jfcote87/esign"
 	"github.com/jfcote87/esign/model"
 
@@ -56,6 +57,7 @@ type OauthCredential struct {
 	Host          string `json:"host,omitempty"`
 	IsDemoAccount bool   `json:"isDemo,omitempty"`
 	OnBehalfOf    string `json:"onBehalfOf,omitempty"`
+	ctxclient.Func
 }
 
 // Authorize update request with authorization parameters
@@ -104,6 +106,8 @@ type Config struct {
 	// Deprecated - use Host
 	IsDemoAccount bool   `json:"isDemo,omitempty"`
 	OnBehalfOf    string `json:"onBehalfOf,omitempty"`
+	// set to customize
+	ctxclient.Func
 }
 
 // OauthCredential retrieves an OauthCredential  from docusign
