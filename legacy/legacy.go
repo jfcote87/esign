@@ -106,7 +106,6 @@ type Config struct {
 	// Deprecated - use Host
 	IsDemoAccount bool   `json:"isDemo,omitempty"`
 	OnBehalfOf    string `json:"onBehalfOf,omitempty"`
-	// set to customize
 	ctxclient.Func
 }
 

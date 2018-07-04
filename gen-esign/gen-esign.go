@@ -133,8 +133,8 @@ func doModel(modelTempl *template.Template, defList []swagger.Definition, defMap
 		FldOverrides: fldOverrides,
 		CustomCode:   overrides.CustomCode,
 	}
-	return modelTempl.Execute(f, data)
 
+	return modelTempl.Execute(f, data)
 }
 
 // doPackage

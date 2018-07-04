@@ -159,7 +159,8 @@ func (d Definition) StructName() string {
 // defMap is a map of all definitions and the overrides specify
 // type overrides.
 func (d Definition) StructFields(defMap map[string]Definition, overrides map[string]map[string]string) []StructField {
-	m, ok := overrides[d.ID]
+	// use x-definition-name for lookup
+	m, ok := overrides[d.Name]
 	if !ok {
 		m = make(map[string]string)
 	}

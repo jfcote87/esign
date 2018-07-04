@@ -249,7 +249,7 @@ type AccountBillingPlanResponse struct {
     // The Billing address for the account.
     BillingAddress *AccountAddress `json:"billingAddress,omitempty"`
     // When set to **true**, the credit card address information is the same as that returned as the billing address. If false, then the billing address is considered a billing contact address, and the credit card address can be different.
-    BillingAddressIsCreditCardAddress string `json:"billingAddressIsCreditCardAddress,omitempty"`
+    BillingAddressIsCreditCardAddress DSBool `json:"billingAddressIsCreditCardAddress,omitempty"`
     // 
     BillingPlan *AccountBillingPlan `json:"billingPlan,omitempty"`
     // A complex type that has information about the credit card used to pay for this account.
@@ -269,7 +269,7 @@ type AccountInformation struct {
     // The name of the current account.
     AccountName string `json:"accountName,omitempty"`
     // When set to **true**, the transaction rooms feature exposed through the Workspaces API is enabled.
-    AllowTransactionRooms string `json:"allowTransactionRooms,omitempty"`
+    AllowTransactionRooms DSBool `json:"allowTransactionRooms,omitempty"`
     // Reserved: TBD
     BillingPeriodDaysRemaining string `json:"billingPeriodDaysRemaining,omitempty"`
     // Reserved: TBD
@@ -285,7 +285,7 @@ type AccountInformation struct {
     // Reserved: TBD
     CanCancelRenewal string `json:"canCancelRenewal,omitempty"`
     // When set to **true**, specifies that you can upgrade the account through the API.
-    CanUpgrade string `json:"canUpgrade,omitempty"`
+    CanUpgrade DSBool `json:"canUpgrade,omitempty"`
     // 
     ConnectPermission string `json:"connectPermission,omitempty"`
     // 
@@ -1178,7 +1178,7 @@ type BillingPaymentItem struct {
     // When set to **true**, a PDF version of the invoice is available. 
     // 
     // To get the PDF, make the call again and change "Accept:" in the header to "Accept: application/pdf".
-    PaymentNumber string `json:"paymentNumber,omitempty"`
+    PaymentNumber DSBool `json:"paymentNumber,omitempty"`
 }
 
 type BillingPaymentRequest struct { 
@@ -2013,7 +2013,7 @@ type ChunkedUploadResponse struct {
     // 
     Committed string `json:"committed,omitempty"`
     // 
-    ExpirationDateTime string `json:"expirationDateTime,omitempty"`
+    ExpirationDateTime *time.Time `json:"expirationDateTime,omitempty"`
     // 
     MaxChunkedUploadParts string `json:"maxChunkedUploadParts,omitempty"`
     // 
@@ -2091,39 +2091,39 @@ type ConnectConfigResults struct {
 // ConnectCustomConfiguration connect configurations
 type ConnectCustomConfiguration struct { 
     // When set to **true**, data is sent to the urlToPublishTo web address. This option can be set to false to stop sending data while maintaining the Connect configuration information.
-    AllowEnvelopePublish string `json:"allowEnvelopePublish,omitempty"`
+    AllowEnvelopePublish DSBool `json:"allowEnvelopePublish,omitempty"`
     // When set to **true**, the tracked envelope and recipient events for all users, including users that are added a later time, are sent through Connect.
-    AllUsers string `json:"allUsers,omitempty"`
+    AllUsers DSBool `json:"allUsers,omitempty"`
     // If merge field's are being used, specifies the type of the merge field. The only  supported value is **salesforce**.
     ConfigurationType string `json:"configurationType,omitempty"`
     //  Specifies the DocuSign generated ID for the Connect configuration.  
     ConnectID string `json:"connectId,omitempty"`
     // This turns Connect logging on or off. When set to **true**, logging is turned on.
-    EnableLog string `json:"enableLog,omitempty"`
+    EnableLog DSBool `json:"enableLog,omitempty"`
     // A comma separated list of Envelope related events that are tracked through Connect. The possible event values are: Sent, Delivered, Completed, Declined, and Voided.
     EnvelopeEvents string `json:"envelopeEvents,omitempty"`
     // When set to **true**, the Connect Service includes the Certificate of Completion with completed envelopes. 
-    IncludeCertificateOfCompletion string `json:"includeCertificateOfCompletion,omitempty"`
+    IncludeCertificateOfCompletion DSBool `json:"includeCertificateOfCompletion,omitempty"`
     // 
     IncludeCertSoapHeader string `json:"includeCertSoapHeader,omitempty"`
     // When set to **true**, the Document Fields associated with the envelope's documents are included in the notification messages. Document Fields are optional custom name-value pairs added to documents using the API. 
-    IncludeDocumentFields string `json:"includeDocumentFields,omitempty"`
+    IncludeDocumentFields DSBool `json:"includeDocumentFields,omitempty"`
     // When set to **true**, Connect will send the PDF document along with the update XML.
-    IncludeDocuments string `json:"includeDocuments,omitempty"`
+    IncludeDocuments DSBool `json:"includeDocuments,omitempty"`
     // When set to **true**, Connect will include the voidedReason for voided envelopes.
-    IncludeEnvelopeVoidReason string `json:"includeEnvelopeVoidReason,omitempty"`
+    IncludeEnvelopeVoidReason DSBool `json:"includeEnvelopeVoidReason,omitempty"`
     // When set to **true**, Connect will include the sender account as Custom Field in the data.
-    IncludeSenderAccountasCustomField string `json:"includeSenderAccountasCustomField,omitempty"`
+    IncludeSenderAccountasCustomField DSBool `json:"includeSenderAccountasCustomField,omitempty"`
     // When set to **true**, Connect will include the envelope time zone information.
-    IncludeTimeZoneInformation string `json:"includeTimeZoneInformation,omitempty"`
+    IncludeTimeZoneInformation DSBool `json:"includeTimeZoneInformation,omitempty"`
     // The name of the Connect configuration. The name helps identify the configuration in the list.
     Name string `json:"name,omitempty"`
     // A comma separated list of *Recipient* related events that will trigger a notification to your webhook Connect listener. The possible event values are: Sent, Delivered, Completed, Declined, AuthenticationFailed, and AutoResponded.
     RecipientEvents string `json:"recipientEvents,omitempty"`
     // When set to **true**, and a publication message fails to be acknowledged, the message goes back into the queue and the system will retry delivery after a successful acknowledgement is received. If the delivery fails a second time, the message is not returned to the queue for sending until Connect receives a successful acknowledgement and it has been at least 24 hours since the previous retry. There is a maximum of ten retries Alternately, you can use Republish Connect Information to manually republish the envelope information.
-    RequiresAcknowledgement string `json:"requiresAcknowledgement,omitempty"`
+    RequiresAcknowledgement DSBool `json:"requiresAcknowledgement,omitempty"`
     // When set to **true**, Mutual TLS will be enabled for notifications. Mutual TLS must be initiated by the listener (the customer's web server) during the TLS handshake protocol. 
-    SignMessageWithX509Certificate string `json:"signMessageWithX509Certificate,omitempty"`
+    SignMessageWithX509Certificate DSBool `json:"signMessageWithX509Certificate,omitempty"`
     // The namespace of the SOAP interface.
     // 
     // The namespace value must be set if useSoapInterface is set to true.
@@ -2135,7 +2135,7 @@ type ConnectCustomConfiguration struct {
     // ###### Note: If allUsers is set to `false` then you must provide a list of user ids.
     UserIds string `json:"userIds,omitempty"`
     // When set to **true**, indicates that the `urlToPublishTo` property contains a SOAP endpoint.
-    UseSoapInterface string `json:"useSoapInterface,omitempty"`
+    UseSoapInterface DSBool `json:"useSoapInterface,omitempty"`
 }
 
 type ConnectDebugLog struct { 
@@ -2339,7 +2339,7 @@ type Contact struct {
     // 
     Organization string `json:"organization,omitempty"`
     // When set to **true**, this custom tab is shared.
-    Shared string `json:"shared,omitempty"`
+    Shared DSBool `json:"shared,omitempty"`
     // 
     SigningGroup string `json:"signingGroup,omitempty"`
     // The display name for the signing group. 
@@ -2606,7 +2606,7 @@ type Decline struct {
 // DiagnosticsSettingsInformation request logs
 type DiagnosticsSettingsInformation struct { 
     //  When set to **true**, enables API request logging for the user. 
-    APIRequestLogging string `json:"apiRequestLogging,omitempty"`
+    APIRequestLogging DSBool `json:"apiRequestLogging,omitempty"`
     // Specifies the maximum number of API requests to log.
     APIRequestLogMaxEntries string `json:"apiRequestLogMaxEntries,omitempty"`
     // Indicates the remaining number of API requests that can be logged.
@@ -3007,11 +3007,11 @@ type EmailSettings struct {
 // Envelope envelope creation, management
 type Envelope struct { 
     // When set to **true**, Document Markup is enabled for envelope. Account must have Document Markup enabled to use this
-    AllowMarkup string `json:"allowMarkup,omitempty"`
+    AllowMarkup DSBool `json:"allowMarkup,omitempty"`
     // When set to **true**, the recipient can redirect an envelope to a more appropriate recipient.
-    AllowReassign string `json:"allowReassign,omitempty"`
+    AllowReassign DSBool `json:"allowReassign,omitempty"`
     // When set to **true**, the envelope is queued for processing and the value of the `status` property is set to 'Processing'. Additionally, get status calls return 'Processing' until completed.
-    Asynchronous string `json:"asynchronous,omitempty"`
+    Asynchronous DSBool `json:"asynchronous,omitempty"`
     // 
     AttachmentsURI string `json:"attachmentsUri,omitempty"`
     // Specifies the Authoritative copy feature. If set to true the Authoritative copy feature is enabled.
@@ -3026,19 +3026,19 @@ type Envelope struct {
     // Retrieves a URI for an endpoint that allows you to easily retrieve certificate information.
     CertificateURI string `json:"certificateUri,omitempty"`
     // Specifies the date and time this item was completed.
-    CompletedDateTime string `json:"completedDateTime,omitempty"`
+    CompletedDateTime *time.Time `json:"completedDateTime,omitempty"`
     // Indicates the date and time the item was created.
-    CreatedDateTime string `json:"createdDateTime,omitempty"`
+    CreatedDateTime *time.Time `json:"createdDateTime,omitempty"`
     // An optional array of strings that allows the sender to provide custom data about the recipient. This information is returned in the envelope status but otherwise not used by DocuSign. Each customField string can be a maximum of 100 characters.
     CustomFields *CustomFields `json:"customFields,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the custom fields.
     CustomFieldsURI string `json:"customFieldsUri,omitempty"`
     // The date and time the recipient declined the document.
-    DeclinedDateTime string `json:"declinedDateTime,omitempty"`
+    DeclinedDateTime *time.Time `json:"declinedDateTime,omitempty"`
     // Specifies the data and time the item was deleted.
-    DeletedDateTime string `json:"deletedDateTime,omitempty"`
+    DeletedDateTime *time.Time `json:"deletedDateTime,omitempty"`
     // Reserved: For DocuSign use only.
-    DeliveredDateTime string `json:"deliveredDateTime,omitempty"`
+    DeliveredDateTime *time.Time `json:"deliveredDateTime,omitempty"`
     // 
     DocumentsCombinedURI string `json:"documentsCombinedUri,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the documents.
@@ -3065,25 +3065,25 @@ type Envelope struct {
     // See [ML:Template Email Subject Merge Fields] for information about adding merge field information to the email subject.
     EmailSubject string `json:"emailSubject,omitempty"`
     // When set to **true**, the signer is allowed to print the document and sign it on paper.
-    EnableWetSign string `json:"enableWetSign,omitempty"`
+    EnableWetSign DSBool `json:"enableWetSign,omitempty"`
     // When set to **true**, documents with tabs can only be viewed by signers that have a tab on that document. Recipients that have an administrative role (Agent, Editor, or Intermediaries) or informational role (Certified Deliveries or Carbon Copies) can always see all the documents in an envelope, unless they are specifically excluded using this setting when an envelope is sent. Documents that do not have tabs are always visible to all recipients, unless they are specifically excluded using this setting when an envelope is sent.
     // 
     // Your account must have Document Visibility enabled to use this.
-    EnforceSignerVisibility string `json:"enforceSignerVisibility,omitempty"`
+    EnforceSignerVisibility DSBool `json:"enforceSignerVisibility,omitempty"`
     // The envelope ID of the envelope status that failed to post.
     EnvelopeID string `json:"envelopeId,omitempty"`
     // When set to **true**, Envelope ID Stamping is enabled.
-    EnvelopeIDStamping string `json:"envelopeIdStamping,omitempty"`
+    EnvelopeIDStamping DSBool `json:"envelopeIdStamping,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the envelope or envelopes.
     EnvelopeURI string `json:"envelopeUri,omitempty"`
     // 
-    InitialSentDateTime string `json:"initialSentDateTime,omitempty"`
+    InitialSentDateTime *time.Time `json:"initialSentDateTime,omitempty"`
     // When set to **true**, indicates that this module is enabled on the account.
-    Is21CFRPart11 string `json:"is21CFRPart11,omitempty"`
+    Is21CFRPart11 DSBool `json:"is21CFRPart11,omitempty"`
     // 
     IsSignatureProviderEnvelope string `json:"isSignatureProviderEnvelope,omitempty"`
     // The date and time the item was last modified.
-    LastModifiedDateTime string `json:"lastModifiedDateTime,omitempty"`
+    LastModifiedDateTime *time.Time `json:"lastModifiedDateTime,omitempty"`
     // 
     LockInformation *LockInformation `json:"lockInformation,omitempty"`
     // When set to **true**, prevents senders from changing the contents of `emailBlurb` and `emailSubject` properties for the envelope. 
@@ -3091,7 +3091,7 @@ type Envelope struct {
     // Additionally, this prevents users from making changes to the contents of `emailBlurb` and `emailSubject` properties when correcting envelopes. 
     // 
     // However, if the `messageLock` node is set to true**** and the `emailSubject` property is empty, senders and correctors are able to add a subject to the envelope.
-    MessageLock string `json:"messageLock,omitempty"`
+    MessageLock DSBool `json:"messageLock,omitempty"`
     // A complex element that specifies the notification options for the envelope. It consists of:
     // 
     // * useAccountDefaults - When set to **true**, the account default notification settings are used for the envelope. 
@@ -3107,7 +3107,7 @@ type Envelope struct {
     //    * expireAfter - An integer that sets the number of days the envelope is active.
     //    * expireWarn - An integer that sets the number of days before envelope expiration that an expiration warning email is sent to the recipient. If set to 0 (zero), no warning email is sent. 
     // 
-    Notification *Notification `json:"notification,omitempty"`
+    Notification DSBool `json:"notification,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the notifications.
     NotificationURI string `json:"notificationUri,omitempty"`
     // 
@@ -3115,11 +3115,11 @@ type Envelope struct {
     // 
     Recipients *Recipients `json:"recipients,omitempty"`
     // When set to **true**, prevents senders from changing, correcting, or deleting the recipient information for the envelope.
-    RecipientsLock string `json:"recipientsLock,omitempty"`
+    RecipientsLock DSBool `json:"recipientsLock,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the recipients.
     RecipientsURI string `json:"recipientsUri,omitempty"`
     // The date and time the envelope was sent.
-    SentDateTime string `json:"sentDateTime,omitempty"`
+    SentDateTime *time.Time `json:"sentDateTime,omitempty"`
     // Specifies the physical location where the signing takes place. It can have two enumeration values; InPerson and Online. The default value is Online.
     SigningLocation string `json:"signingLocation,omitempty"`
     // Indicates the envelope status. Valid values are:
@@ -3129,7 +3129,7 @@ type Envelope struct {
     // 
     Status string `json:"status,omitempty"`
     // The data and time the status changed.
-    StatusChangedDateTime string `json:"statusChangedDateTime,omitempty"`
+    StatusChangedDateTime *time.Time `json:"statusChangedDateTime,omitempty"`
     // Contains a URI for an endpoint which you can use to retrieve the templates.
     TemplatesURI string `json:"templatesUri,omitempty"`
     //  Used to identify an envelope. The id is a sender-generated value and is valid in the DocuSign system for 7 days. It is recommended that a transaction ID is used for offline signing to ensure that an envelope is not sent multiple times. The `transactionId` property can be used determine an envelope's status (i.e. was it created or not) in cases where the internet connection was lost before the envelope status was returned.
@@ -3137,9 +3137,9 @@ type Envelope struct {
     // When set to **true**, the disclosure is shown to recipients in accordance with the account's Electronic Record and Signature Disclosure frequency setting. When set to **false**, the Electronic Record and Signature Disclosure is not shown to any envelope recipients. 
     // 
     // If the `useDisclosure` property is not set, then the account's normal disclosure setting is used and the value of the `useDisclosure` property is not returned in responses when getting envelope information.
-    UseDisclosure string `json:"useDisclosure,omitempty"`
+    UseDisclosure DSBool `json:"useDisclosure,omitempty"`
     // The date and time the envelope or template was voided.
-    VoidedDateTime string `json:"voidedDateTime,omitempty"`
+    VoidedDateTime *time.Time `json:"voidedDateTime,omitempty"`
     // The reason the envelope or template was voided.
     VoidedReason string `json:"voidedReason,omitempty"`
 }
@@ -3425,7 +3425,7 @@ type EnvelopeFormData struct {
     // 
     RecipientFormData []RecipientFormData `json:"recipientFormData,omitempty"`
     // The date and time the envelope was sent.
-    SentDateTime string `json:"sentDateTime,omitempty"`
+    SentDateTime *time.Time `json:"sentDateTime,omitempty"`
     // Indicates the envelope status. Valid values are:
     // 
     // * sent - The envelope is sent to the recipients. 
@@ -3472,11 +3472,11 @@ type EnvelopeSummary struct {
 // EnvelopeTemplate template management
 type EnvelopeTemplate struct { 
     // When set to **true**, Document Markup is enabled for envelope. Account must have Document Markup enabled to use this
-    AllowMarkup string `json:"allowMarkup,omitempty"`
+    AllowMarkup DSBool `json:"allowMarkup,omitempty"`
     // When set to **true**, the recipient can redirect an envelope to a more appropriate recipient.
-    AllowReassign string `json:"allowReassign,omitempty"`
+    AllowReassign DSBool `json:"allowReassign,omitempty"`
     // When set to **true**, the envelope is queued for processing and the value of the `status` property is set to 'Processing'. Additionally, get status calls return 'Processing' until completed.
-    Asynchronous string `json:"asynchronous,omitempty"`
+    Asynchronous DSBool `json:"asynchronous,omitempty"`
     // 
     AttachmentsURI string `json:"attachmentsUri,omitempty"`
     // Specifies the Authoritative copy feature. If set to true the Authoritative copy feature is enabled.
@@ -3491,19 +3491,19 @@ type EnvelopeTemplate struct {
     // Retrieves a URI for an endpoint that allows you to easily retrieve certificate information.
     CertificateURI string `json:"certificateUri,omitempty"`
     // Specifies the date and time this item was completed.
-    CompletedDateTime string `json:"completedDateTime,omitempty"`
+    CompletedDateTime *time.Time `json:"completedDateTime,omitempty"`
     // Indicates the date and time the item was created.
-    CreatedDateTime string `json:"createdDateTime,omitempty"`
+    CreatedDateTime *time.Time `json:"createdDateTime,omitempty"`
     // An optional array of strings that allows the sender to provide custom data about the recipient. This information is returned in the envelope status but otherwise not used by DocuSign. Each customField string can be a maximum of 100 characters.
     CustomFields *CustomFields `json:"customFields,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the custom fields.
     CustomFieldsURI string `json:"customFieldsUri,omitempty"`
     // The date and time the recipient declined the document.
-    DeclinedDateTime string `json:"declinedDateTime,omitempty"`
+    DeclinedDateTime *time.Time `json:"declinedDateTime,omitempty"`
     // Specifies the data and time the item was deleted.
-    DeletedDateTime string `json:"deletedDateTime,omitempty"`
+    DeletedDateTime *time.Time `json:"deletedDateTime,omitempty"`
     // Reserved: For DocuSign use only.
-    DeliveredDateTime string `json:"deliveredDateTime,omitempty"`
+    DeliveredDateTime *time.Time `json:"deliveredDateTime,omitempty"`
     // Complex element contains the details on the documents in the envelope.
     Documents []Document `json:"documents,omitempty"`
     // 
@@ -3519,15 +3519,15 @@ type EnvelopeTemplate struct {
     // See [ML:Template Email Subject Merge Fields] for information about adding merge field information to the email subject.
     EmailSubject string `json:"emailSubject,omitempty"`
     // When set to **true**, the signer is allowed to print the document and sign it on paper.
-    EnableWetSign string `json:"enableWetSign,omitempty"`
+    EnableWetSign DSBool `json:"enableWetSign,omitempty"`
     // When set to **true**, documents with tabs can only be viewed by signers that have a tab on that document. Recipients that have an administrative role (Agent, Editor, or Intermediaries) or informational role (Certified Deliveries or Carbon Copies) can always see all the documents in an envelope, unless they are specifically excluded using this setting when an envelope is sent. Documents that do not have tabs are always visible to all recipients, unless they are specifically excluded using this setting when an envelope is sent.
     // 
     // Your account must have Document Visibility enabled to use this.
-    EnforceSignerVisibility string `json:"enforceSignerVisibility,omitempty"`
+    EnforceSignerVisibility DSBool `json:"enforceSignerVisibility,omitempty"`
     // The envelope ID of the envelope status that failed to post.
     EnvelopeID string `json:"envelopeId,omitempty"`
     // When set to **true**, Envelope ID Stamping is enabled.
-    EnvelopeIDStamping string `json:"envelopeIdStamping,omitempty"`
+    EnvelopeIDStamping DSBool `json:"envelopeIdStamping,omitempty"`
     // A complex element containing the following information:
     // 
     // templateId: Unique identifier of the template. If this is not provided, DocuSign will generate a value. 
@@ -3548,17 +3548,17 @@ type EnvelopeTemplate struct {
     // 
     // owner: The userName, email, userId, userType, and userStatus for the template owner.
     // 
-    EnvelopeTemplateDefinition *EnvelopeTemplateDefinition `json:"envelopeTemplateDefinition,omitempty"`
+    EnvelopeTemplateDefinition DSBool `json:"envelopeTemplateDefinition,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the envelope or envelopes.
     EnvelopeURI string `json:"envelopeUri,omitempty"`
     // 
-    InitialSentDateTime string `json:"initialSentDateTime,omitempty"`
+    InitialSentDateTime *time.Time `json:"initialSentDateTime,omitempty"`
     // When set to **true**, indicates that this module is enabled on the account.
-    Is21CFRPart11 string `json:"is21CFRPart11,omitempty"`
+    Is21CFRPart11 DSBool `json:"is21CFRPart11,omitempty"`
     // 
     IsSignatureProviderEnvelope string `json:"isSignatureProviderEnvelope,omitempty"`
     // The date and time the item was last modified.
-    LastModifiedDateTime string `json:"lastModifiedDateTime,omitempty"`
+    LastModifiedDateTime *time.Time `json:"lastModifiedDateTime,omitempty"`
     // 
     LockInformation *LockInformation `json:"lockInformation,omitempty"`
     // When set to **true**, prevents senders from changing the contents of `emailBlurb` and `emailSubject` properties for the envelope. 
@@ -3566,7 +3566,7 @@ type EnvelopeTemplate struct {
     // Additionally, this prevents users from making changes to the contents of `emailBlurb` and `emailSubject` properties when correcting envelopes. 
     // 
     // However, if the `messageLock` node is set to true**** and the `emailSubject` property is empty, senders and correctors are able to add a subject to the envelope.
-    MessageLock string `json:"messageLock,omitempty"`
+    MessageLock DSBool `json:"messageLock,omitempty"`
     // 
     Notification *Notification `json:"notification,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the notifications.
@@ -3576,11 +3576,11 @@ type EnvelopeTemplate struct {
     // 
     Recipients *Recipients `json:"recipients,omitempty"`
     // When set to **true**, prevents senders from changing, correcting, or deleting the recipient information for the envelope.
-    RecipientsLock string `json:"recipientsLock,omitempty"`
+    RecipientsLock DSBool `json:"recipientsLock,omitempty"`
     // Contains a URI for an endpoint that you can use to retrieve the recipients.
     RecipientsURI string `json:"recipientsUri,omitempty"`
     // The date and time the envelope was sent.
-    SentDateTime string `json:"sentDateTime,omitempty"`
+    SentDateTime *time.Time `json:"sentDateTime,omitempty"`
     // Specifies the physical location where the signing takes place. It can have two enumeration values; InPerson and Online. The default value is Online.
     SigningLocation string `json:"signingLocation,omitempty"`
     // Indicates the envelope status. Valid values are:
@@ -3589,7 +3589,7 @@ type EnvelopeTemplate struct {
     // * created - The envelope is saved as a draft and can be modified and sent later.
     Status string `json:"status,omitempty"`
     // The data and time the status changed.
-    StatusChangedDateTime string `json:"statusChangedDateTime,omitempty"`
+    StatusChangedDateTime *time.Time `json:"statusChangedDateTime,omitempty"`
     // Contains a URI for an endpoint which you can use to retrieve the templates.
     TemplatesURI string `json:"templatesUri,omitempty"`
     //  Used to identify an envelope. The id is a sender-generated value and is valid in the DocuSign system for 7 days. It is recommended that a transaction ID is used for offline signing to ensure that an envelope is not sent multiple times. The `transactionId` property can be used determine an envelope's status (i.e. was it created or not) in cases where the internet connection was lost before the envelope status was returned.
@@ -3597,9 +3597,9 @@ type EnvelopeTemplate struct {
     // When set to **true**, the disclosure is shown to recipients in accordance with the account's Electronic Record and Signature Disclosure frequency setting. When set to **false**, the Electronic Record and Signature Disclosure is not shown to any envelope recipients. 
     // 
     // If the `useDisclosure` property is not set, then the account's normal disclosure setting is used and the value of the `useDisclosure` property is not returned in responses when getting envelope information.
-    UseDisclosure string `json:"useDisclosure,omitempty"`
+    UseDisclosure DSBool `json:"useDisclosure,omitempty"`
     // The date and time the envelope or template was voided.
-    VoidedDateTime string `json:"voidedDateTime,omitempty"`
+    VoidedDateTime *time.Time `json:"voidedDateTime,omitempty"`
     // The reason the envelope or template was voided.
     VoidedReason string `json:"voidedReason,omitempty"`
 }
@@ -5001,7 +5001,7 @@ type LockInformation struct {
     // A complex type containing information about the user that has the Envelope or Template locked.
     LockedByUser *UserInfo `json:"lockedByUser,omitempty"`
     // The datetime until the envelope lock expires.
-    LockedUntilDateTime string `json:"lockedUntilDateTime,omitempty"`
+    LockedUntilDateTime *time.Time `json:"lockedUntilDateTime,omitempty"`
     // A unique identifier provided to the owner of the envelope lock.   Used to prove ownership of the lock.
     LockToken string `json:"lockToken,omitempty"`
     // The type of envelope lock.  Currently "edit" is the only supported type.
@@ -5743,7 +5743,7 @@ type PermissionProfile struct {
     // 
     ModifiedByUsername string `json:"modifiedByUsername,omitempty"`
     // 
-    ModifiedDateTime string `json:"modifiedDateTime,omitempty"`
+    ModifiedDateTime *time.Time `json:"modifiedDateTime,omitempty"`
     // 
     PermissionProfileID string `json:"permissionProfileId,omitempty"`
     // 
@@ -5797,7 +5797,7 @@ type PostTransactionsResponse struct {
 
 type PowerForm struct { 
     // Indicates the date and time the item was created.
-    CreatedDateTime string `json:"createdDateTime,omitempty"`
+    CreatedDateTime *time.Time `json:"createdDateTime,omitempty"`
     // Specifies the email body of the message sent to the recipient. 
     // 
     // Maximum length: 10000 characters. 
@@ -6478,7 +6478,7 @@ type ServiceInformation struct {
     // Reserved: TBD
     BuildBranch string `json:"buildBranch,omitempty"`
     // Reserved: TBD
-    BuildBranchDeployedDateTime string `json:"buildBranchDeployedDateTime,omitempty"`
+    BuildBranchDeployedDateTime *time.Time `json:"buildBranchDeployedDateTime,omitempty"`
     // Reserved: TBD
     BuildSHA string `json:"buildSHA,omitempty"`
     // Reserved: TBD
@@ -6810,7 +6810,7 @@ type SigningGroup struct {
     // 
     ModifiedBy string `json:"modifiedBy,omitempty"`
     // When set to **true** and the feature is enabled in the sender's account, the signing recipient is required to draw signatures and initials at each signature/initial tab ( instead of adopting a signature/initial style or only drawing a signature/initial once).
-    SigningGroupID string `json:"signingGroupId,omitempty"`
+    SigningGroupID DSBool `json:"signingGroupId,omitempty"`
     // 
     Users []SigningGroupUser `json:"users,omitempty"`
 }
@@ -7015,7 +7015,7 @@ type TabMetadata struct {
     // <!--
     // When set to **true**, the anchor string does not consider case when matching strings in the document. The default value is **true**.
     // -->
-    AnchorCaseSensitive string `json:"anchorCaseSensitive,omitempty"`
+    AnchorCaseSensitive DSBool `json:"anchorCaseSensitive,omitempty"`
     // Reserved for DocuSign.
     // <!--
     // Specifies the alignment of anchor tabs with anchor strings. Possible values are **left** or **right**. The default value is **left**.
@@ -7023,13 +7023,13 @@ type TabMetadata struct {
     // 
     AnchorHorizontalAlignment string `json:"anchorHorizontalAlignment,omitempty"`
     // When set to **true**, this tab is ignored if anchorString is not found in the document.
-    AnchorIgnoreIfNotPresent string `json:"anchorIgnoreIfNotPresent,omitempty"`
+    AnchorIgnoreIfNotPresent DSBool `json:"anchorIgnoreIfNotPresent,omitempty"`
     // Reserved for DocuSign.
     // <!--
     // When set to **true**, the anchor string in this tab matches whole words only (strings embedded in other strings are ignored.) The default value is **true**.
     // -->
     // 
-    AnchorMatchWholeWord string `json:"anchorMatchWholeWord,omitempty"`
+    AnchorMatchWholeWord DSBool `json:"anchorMatchWholeWord,omitempty"`
     // Specifies units of the X and Y offset. Units could be pixels, millimeters, centimeters, or inches.
     AnchorUnits string `json:"anchorUnits,omitempty"`
     // Specifies the X axis location of the tab, in achorUnits, relative to the anchorString.
@@ -7037,13 +7037,13 @@ type TabMetadata struct {
     // Specifies the Y axis location of the tab, in achorUnits, relative to the anchorString.
     AnchorYOffset string `json:"anchorYOffset,omitempty"`
     // When set to **true**, the information in the tab is bold.
-    Bold string `json:"bold,omitempty"`
+    Bold DSBool `json:"bold,omitempty"`
     // When set to **true**, the field appears normally while the recipient is adding or modifying the information in the field, but the data is not visible (the characters are hidden by asterisks) to any other signer or the sender.
     // 
     // When an envelope is completed the information is available to the sender through the Form Data link in the DocuSign Console.
     // 
     // This setting applies only to text boxes and does not affect list boxes, radio buttons, or check boxes.
-    ConcealValueOnDocument string `json:"concealValueOnDocument,omitempty"`
+    ConcealValueOnDocument DSBool `json:"concealValueOnDocument,omitempty"`
     // The user name of the DocuSign user who created this object.
     CreatedByDisplayName string `json:"createdByDisplayName,omitempty"`
     // The userId of the DocuSign user who created this object.
@@ -7051,9 +7051,9 @@ type TabMetadata struct {
     // The DocuSign generated custom tab ID for the custom tab to be applied. This can only be used when adding new tabs for a recipient. When used, the new tab inherits all the custom tab properties.
     CustomTabID string `json:"customTabId,omitempty"`
     // When set to **true**, disables the auto sizing of single line text boxes in the signing screen when the signer enters data. If disabled users will only be able enter as much data as the text box can hold. By default this is false. This property only affects single line text boxes.
-    DisableAutoSize string `json:"disableAutoSize,omitempty"`
+    DisableAutoSize DSBool `json:"disableAutoSize,omitempty"`
     // When set to **true**, the custom tab is editable. Otherwise the custom tab cannot be modified.
-    Editable string `json:"editable,omitempty"`
+    Editable DSBool `json:"editable,omitempty"`
     // The font to be used for the tab value. Supported Fonts: Arial, Arial, ArialNarrow, Calibri, CourierNew, Garamond, Georgia, Helvetica,   LucidaConsole, Tahoma, TimesNewRoman, Trebuchet, Verdana, MSGothic, MSMincho, Default.
     Font string `json:"font,omitempty"`
     // The font color used for the information in the tab.
@@ -7067,11 +7067,11 @@ type TabMetadata struct {
     // Height of the tab in pixels.
     Height string `json:"height,omitempty"`
     // When set to **true**, the tab is included in e-mails related to the envelope on which it exists. This applies to only specific tabs.
-    IncludedInEmail string `json:"includedInEmail,omitempty"`
+    IncludedInEmail DSBool `json:"includedInEmail,omitempty"`
     // The original value of the tab.
     InitialValue string `json:"initialValue,omitempty"`
     // When set to **true**, the information in the tab is italic.
-    Italic string `json:"italic,omitempty"`
+    Italic DSBool `json:"italic,omitempty"`
     // If the tab is a list, this represents the values that are possible for the tab.
     Items []string `json:"items,omitempty"`
     // The UTC DateTime this object was last modified. This is in ISO8601 format.
@@ -7081,7 +7081,7 @@ type TabMetadata struct {
     // The userId of the DocuSign user who last modified this object.
     LastModifiedByUserID string `json:"lastModifiedByUserId,omitempty"`
     // When set to **true**, the signer cannot change the data of the custom tab.
-    Locked string `json:"locked,omitempty"`
+    Locked DSBool `json:"locked,omitempty"`
     // The maximum number of entry characters supported by the custom tab.
     MaximumLength string `json:"maximumLength,omitempty"`
     // 
@@ -7089,11 +7089,11 @@ type TabMetadata struct {
     // 
     Name string `json:"name,omitempty"`
     // When set to **true**, the signer is required to fill out this tab
-    Required string `json:"required,omitempty"`
+    Required DSBool `json:"required,omitempty"`
     // 
     ScaleValue string `json:"scaleValue,omitempty"`
     // When set to **true**, this custom tab is shared.
-    Shared string `json:"shared,omitempty"`
+    Shared DSBool `json:"shared,omitempty"`
     // 
     StampType string `json:"stampType,omitempty"`
     // 
@@ -7108,7 +7108,7 @@ type TabMetadata struct {
     // The type of this tab. Values are: Approve, CheckBox, Company, Date, DateSigned,	Decline, Email,	EmailAddress, EnvelopeId, FirstName, Formula, FullName,	InitialHere, InitialHereOptional, LastName, List, Note, Number,	Radio, SignerAttachment, SignHere, SignHereOptional, Ssn, Text, Title, Zip5, or Zip5Dash4.
     Type string `json:"type,omitempty"`
     // When set to **true**, the information in the tab is underlined.
-    Underline string `json:"underline,omitempty"`
+    Underline DSBool `json:"underline,omitempty"`
     // The message displayed if the custom tab fails input validation (either custom of embedded).
     ValidationMessage string `json:"validationMessage,omitempty"`
     // A regular expressionn used to validate input for the tab.
@@ -7691,7 +7691,7 @@ type UserInformation struct {
     // The activation code the new user must enter when activating their account.
     ActivationAccessCode string `json:"activationAccessCode,omitempty"`
     // Indicates the date and time the item was created.
-    CreatedDateTime string `json:"createdDateTime,omitempty"`
+    CreatedDateTime *time.Time `json:"createdDateTime,omitempty"`
     // The name/value pair information for the user custom setting.
     CustomSettings []NameValue `json:"customSettings,omitempty"`
     // 
@@ -7750,7 +7750,7 @@ type UserInformation struct {
     // 
     ProfileImageURI string `json:"profileImageUri,omitempty"`
     // When set to **true**, specifies that an additional activation email is sent to the user if they fail a log on before activating their account. 
-    SendActivationOnInvalidLogin string `json:"sendActivationOnInvalidLogin,omitempty"`
+    SendActivationOnInvalidLogin DSBool `json:"sendActivationOnInvalidLogin,omitempty"`
     // Contains the URI for an endpoint that you can use to retrieve the signature image.
     SignatureImageURI string `json:"signatureImageUri,omitempty"`
     // The suffix for the user's name. 
@@ -7823,13 +7823,13 @@ type UserProfile struct {
     // The name of the user's Company.
     CompanyName string `json:"companyName,omitempty"`
     //  When set to **true**, the user's company and title information are shown on the ID card. 
-    DisplayOrganizationInfo string `json:"displayOrganizationInfo,omitempty"`
+    DisplayOrganizationInfo DSBool `json:"displayOrganizationInfo,omitempty"`
     // When set to **true**, the user's Address and Phone number are shown on the ID card.
-    DisplayPersonalInfo string `json:"displayPersonalInfo,omitempty"`
+    DisplayPersonalInfo DSBool `json:"displayPersonalInfo,omitempty"`
     // When set to **true**, the user's ID card can be viewed from signed documents and envelope history.
-    DisplayProfile string `json:"displayProfile,omitempty"`
+    DisplayProfile DSBool `json:"displayProfile,omitempty"`
     // When set to **true**, the user's usage information is shown on the ID card.
-    DisplayUsageHistory string `json:"displayUsageHistory,omitempty"`
+    DisplayUsageHistory DSBool `json:"displayUsageHistory,omitempty"`
     // 
     ProfileImageURI string `json:"profileImageUri,omitempty"`
     // The title of the user.
@@ -7882,9 +7882,9 @@ type UserSharedItem struct {
 // UserSignature users' signatures
 type UserSignature struct { 
     // The date and time the user adopted their signature.
-    AdoptedDateTime string `json:"adoptedDateTime,omitempty"`
+    AdoptedDateTime *time.Time `json:"adoptedDateTime,omitempty"`
     // Indicates the date and time the item was created.
-    CreatedDateTime string `json:"createdDateTime,omitempty"`
+    CreatedDateTime *time.Time `json:"createdDateTime,omitempty"`
     // 
     DateStampProperties *DateStampProperties `json:"dateStampProperties,omitempty"`
     // 
@@ -8031,7 +8031,7 @@ type Watermark struct {
     // 
     ID string `json:"id,omitempty"`
     // 
-    ImageBase64 []byte `json:"imageBase64,omitempty"`
+    ImageBase64 string `json:"imageBase64,omitempty"`
     // 
     Transparency string `json:"transparency,omitempty"`
     // 

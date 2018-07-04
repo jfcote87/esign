@@ -120,15 +120,22 @@ func checkResponseStatus(res *http.Response) *ResponseError {
 // to be closed by the calling function.
 func (c *Call) Do(ctx context.Context, result interface{}) error {
 	if c == nil {
-		return errors.New("nil Call")
+		return errors.New("nil call")
+	}
+	var cancelFunc = closeUploads
+	if len(c.Files) > 0 {
+		defer func() {
+			cancelFunc(c.Files)
+		}()
+	}
+	if c.Credential == nil {
+		return errors.New("nil credential")
 	}
 	if ctx == nil {
-		closeUploads(c.Files)
-		return errors.New("context may not be nil")
+		return errors.New("nil context")
 	}
-	cl := c.Credential.Client(ctx)
-	if cl == nil {
-		closeUploads(c.Files)
+	httpClient := c.Credential.Client(ctx)
+	if httpClient == nil {
 		return errors.New("nil http.client from credential")
 	}
 	// define now so may be used by deferred log function
@@ -141,9 +148,7 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 	var ct string
 	if len(c.Files) > 0 {
 		// formatted body for file upload
-		var cancelFunc func()
 		body, ct, cancelFunc = multiBody(c.Payload, c.Files) // no error, errors will occur during read
-		defer cancelFunc()                                   // ensure all readers close
 	} else if c.Payload != nil {
 		switch payload := c.Payload.(type) {
 		case url.Values:
@@ -180,7 +185,7 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 		defer logger.Log(ctx, req, res, c.Payload, responseBytes)
 	}
 	// send to docusign
-	if res, err = ctxhttp.Do(ctx, cl, req); err != nil {
+	if res, err = ctxhttp.Do(ctx, httpClient, req); err != nil {
 		return err
 	}
 	// res.Body close on error
@@ -210,25 +215,25 @@ func (c *Call) Do(ctx context.Context, result interface{}) error {
 // multiBody is used to format calls containing files as a multipart/form-data body.
 // Send payload and files thru a multipart writer to format multipart/form-data.
 // Use io.Pipe so we're not copying files into memory.
-func multiBody(payload interface{}, files []*UploadFile) (io.Reader, string, func()) {
+func multiBody(payload interface{}, files []*UploadFile) (io.Reader, string, func([]*UploadFile)) {
 	pr, pw := io.Pipe()
 	mpw := multipart.NewWriter(pw)
 	var once sync.Once
 	var err error
-	cancelFunc := func() {
+	cancelFunc := func(f []*UploadFile) {
 		// Wrap in a once so this is may be called in calling routine
 		once.Do(func() {
 			if err != nil { // On err close pipe reader to create error in reading routine.
 				pr.CloseWithError(fmt.Errorf("batch: multiPart Error: %v", err))
 			}
-			mpw.Close() // close writers will create error in goroutine
+			mpw.Close() // close writers will create error in calling routine
 			pw.Close()
-			closeUploads(files)
+			closeUploads(f)
 		})
 	}
 	go func() {
 		var ptw io.Writer
-		defer cancelFunc()
+		defer cancelFunc(files)
 
 		// write json payload first
 		if payload != nil {
@@ -272,12 +277,6 @@ type File struct {
 	ContentType string
 }
 
-// dsHTTPClient
-type dsHTTPClient interface {
-	Client(context.Context) *http.Client
-	Get(context.Context) (*http.Client, error)
-}
-
 type dsLogger interface {
 	Log(context.Context, *http.Request, *http.Response, interface{}, []byte)
 }
@@ -294,7 +293,6 @@ func WithLogger(credential Credential, logFunc func(ctx context.Context, req *ht
 	if logFunc == nil {
 		return credential
 	}
-
 	return struct {
 		Credential
 		dsLogger
