@@ -841,6 +841,10 @@ var fieldOverrides = []override{
 	{Object: "userInformation", Field: "createdDateTime", Type: "*time.Time"},
 	{Object: "userSignature", Field: "adoptedDateTime", Type: "*time.Time"},
 	{Object: "userSignature", Field: "createdDateTime", Type: "*time.Time"},
+	{Object: "recipientFormData", Field: "declinedTime", Type: "*time.Time"},
+	{Object: "recipientFormData", Field: "deliveredTime", Type: "*time.Time"},
+	{Object: "recipientFormData", Field: "sentTime", Type: "*time.Time"},
+	{Object: "recipientFormData", Field: "signedTime", Type: "*time.Time"},
 }
 
 // TabDefs creates a list definitions for embedded tab structs from the defMap parameter.

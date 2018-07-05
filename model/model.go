@@ -6123,9 +6123,9 @@ type RecipientEvent struct {
 
 type RecipientFormData struct { 
     // 
-    DeclinedTime string `json:"declinedTime,omitempty"`
+    DeclinedTime *time.Time `json:"declinedTime,omitempty"`
     // 
-    DeliveredTime string `json:"deliveredTime,omitempty"`
+    DeliveredTime *time.Time `json:"deliveredTime,omitempty"`
     // 
     Email string `json:"email,omitempty"`
     // 
@@ -6135,9 +6135,9 @@ type RecipientFormData struct {
     // Unique for the recipient. It is used by the tab element to indicate which recipient is to sign the Document.
     RecipientID string `json:"recipientId,omitempty"`
     // 
-    SentTime string `json:"sentTime,omitempty"`
+    SentTime *time.Time `json:"sentTime,omitempty"`
     // 
-    SignedTime string `json:"signedTime,omitempty"`
+    SignedTime *time.Time `json:"signedTime,omitempty"`
 }
 
 type RecipientNamesResponse struct { 
