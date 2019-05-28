@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocuSignEnvelopeInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="http://www.docusign.net/API/3.0">
+    <EnvelopeStatus>
+        <RecipientStatuses>
+            <RecipientStatus>
+                <Type>Signer</Type>
+                <Email>jcote@example.com</Email>
+                <UserName>James F Cote</UserName>
+                <RoutingOrder>1</RoutingOrder>
+                <Sent>2014-11-11T13:41:28.943Z</Sent>
+                <Delivered>2014-11-11T13:43:40.887Z</Delivered>
+                <Signed>2014-11-11T13:43:45.3</Signed>
+                <DeclineReason xsi:nil="true" />
+                <Status>Completed</Status>
+                <RecipientIPAddress>50.58.168.34</RecipientIPAddress>
+                <CustomFields />
+                <TabStatuses>
+                    <TabStatus>
+                        <TabType>Approve</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>1009</XPosition>
+                        <YPosition>110</YPosition>
+                        <TabLabel>Approve 18</TabLabel>
+                        <TabName>Approve</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>193</XPosition>
+                        <YPosition>170</YPosition>
+                        <TabLabel>txtFld</TabLabel>
+                        <TabName>First Field</TabName>
+                        <TabValue>abcdf</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                        <ValidationPattern />
+                        <CustomTabType>Text</CustomTabType>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>EmailAddress</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>959</XPosition>
+                        <YPosition>365</YPosition>
+                        <TabLabel>Email Address</TabLabel>
+                        <TabName>Email Address</TabName>
+                        <TabValue>jcote@example.com</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>jcote@example.com</OriginalValue>
+                    </TabStatus>
+                </TabStatuses>
+                <RecipientAttachment>
+                    <Attachment>
+                        <Data>PEZvcm1EYXRhPjx4ZmRmPjxmaWVsZHM+PGZpZWxkIG5hbWU9InR4dEZsZCI+PHZhbHVlPmFiY2RmPC92YWx1ZT48L2ZpZWxkPjxmaWVsZCBuYW1lPSJFbWFpbEFkZHJlc3MiPjx2YWx1ZT5qY290ZUBsaWJlcnR5ZnVuZC5vcmc8L3ZhbHVlPjwvZmllbGQ+PC9maWVsZHM+PC94ZmRmPjwvRm9ybURhdGE+</Data>
+                        <Label>DSXForm</Label>
+                    </Attachment>
+                </RecipientAttachment>
+                <AccountStatus>Active</AccountStatus>
+                <FormData>
+                    <xfdf>
+                        <fields>
+                            <field name="txtFld">
+                                <value>abcdf</value>
+                            </field>
+                            <field name="EmailAddress">
+                                <value>jcote@example.com</value>
+                            </field>
+                        </fields>
+                    </xfdf>
+                </FormData>
+                <RecipientId>11198fdd-02e6-4cb7-bbb9-07432d997579</RecipientId>
+            </RecipientStatus>
+            <RecipientStatus>
+                <Type>Signer</Type>
+                <Email>jfcote87@example.com</Email>
+                <UserName>JF Cote</UserName>
+                <RoutingOrder>2</RoutingOrder>
+                <Sent>2014-11-11T13:43:46.22</Sent>
+                <Delivered>2014-11-11T13:44:02.157</Delivered>
+                <Signed>2014-11-11T13:44:23.56</Signed>
+                <DeclineReason xsi:nil="true" />
+                <Status>Completed</Status>
+                <RecipientIPAddress>50.58.168.34</RecipientIPAddress>
+                <CustomFields />
+                <TabStatuses>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>NA</Status>
+                        <XPosition>932</XPosition>
+                        <YPosition>428</YPosition>
+                        <TabLabel>Note 17</TabLabel>
+                        <TabName>Note to recipient</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                        <ValidationPattern />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>SignHere</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>132</XPosition>
+                        <YPosition>627</YPosition>
+                        <TabLabel>Signature 1</TabLabel>
+                        <TabName>Sign Here</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>InitialHere</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>995</XPosition>
+                        <YPosition>659</YPosition>
+                        <TabLabel>Initial 3</TabLabel>
+                        <TabName>Initial Here</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Approve</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>298</XPosition>
+                        <YPosition>581</YPosition>
+                        <TabLabel>Approve 9</TabLabel>
+                        <TabName>Approve</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Decline</TabType>
+                        <Status />
+                        <XPosition>592</XPosition>
+                        <YPosition>601</YPosition>
+                        <TabLabel>Decline 10</TabLabel>
+                        <TabName>Decline</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>432</XPosition>
+                        <YPosition>493</YPosition>
+                        <TabLabel>rb1</TabLabel>
+                        <TabName>C</TabName>
+                        <TabValue>X</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>X</OriginalValue>
+                        <ValidationPattern />
+                        <CustomTabType>Radio</CustomTabType>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>814</XPosition>
+                        <YPosition>617</YPosition>
+                        <TabLabel>Drop Down 16</TabLabel>
+                        <TabName>A;B;C;D</TabName>
+                        <TabValue>D</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>B</OriginalValue>
+                        <ValidationPattern />
+                        <ListValues>1:2:3:4</ListValues>
+                        <ListSelectedValue>D</ListSelectedValue>
+                        <CustomTabType>List</CustomTabType>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>FirstName</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>309</XPosition>
+                        <YPosition>784</YPosition>
+                        <TabLabel>First Name</TabLabel>
+                        <TabName>First Name</TabName>
+                        <TabValue>JF</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>JF</OriginalValue>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>LastName</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>504</XPosition>
+                        <YPosition>792</YPosition>
+                        <TabLabel>Last Name</TabLabel>
+                        <TabName>Last Name</TabName>
+                        <TabValue>Cote</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>Cote</OriginalValue>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>95</XPosition>
+                        <YPosition>493</YPosition>
+                        <TabLabel>Check Box 11</TabLabel>
+                        <TabName>Checkbox</TabName>
+                        <TabValue>X</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                        <ValidationPattern />
+                        <CustomTabType>Checkbox</CustomTabType>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>FullName</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>118</XPosition>
+                        <YPosition>782</YPosition>
+                        <TabLabel>Full Name</TabLabel>
+                        <TabName>Full Name</TabName>
+                        <TabValue>JF Cote</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>JF Cote</OriginalValue>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>EmailAddress</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>767</XPosition>
+                        <YPosition>815</YPosition>
+                        <TabLabel>Email Address</TabLabel>
+                        <TabName>Email Address</TabName>
+                        <TabValue>jfcote87@example.com</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue>jfcote87@example.com</OriginalValue>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>DateSigned</TabType>
+                        <Status>Signed</Status>
+                        <XPosition>664</XPosition>
+                        <YPosition>729</YPosition>
+                        <TabLabel>Date Signed</TabLabel>
+                        <TabName>Date Signed</TabName>
+                        <TabValue>11/11/2014 | 10:44 PT</TabValue>
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>Active</Status>
+                        <XPosition>590</XPosition>
+                        <YPosition>504</YPosition>
+                        <TabLabel>rb1</TabLabel>
+                        <TabName>B</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                        <ValidationPattern />
+                        <CustomTabType>Radio</CustomTabType>
+                    </TabStatus>
+                    <TabStatus>
+                        <TabType>Custom</TabType>
+                        <Status>Active</Status>
+                        <XPosition>790</XPosition>
+                        <YPosition>500</YPosition>
+                        <TabLabel>rb1</TabLabel>
+                        <TabName>A</TabName>
+                        <TabValue />
+                        <DocumentID>1</DocumentID>
+                        <PageNumber>1</PageNumber>
+                        <OriginalValue />
+                        <ValidationPattern />
+                        <CustomTabType>Radio</CustomTabType>
+                    </TabStatus>
+                </TabStatuses>
+                <RecipientAttachment>
+                    <Attachment>
+                        <Data>PEZvcm1EYXRhPjx4ZmRmPjxmaWVsZHM+PGZpZWxkIG5hbWU9InJiMSI+PHZhbHVlPkM8L3ZhbHVlPjwvZmllbGQ+PGZpZWxkIG5hbWU9IkRyb3AgRG93biAxNiI+PHZhbHVlPkQ8L3ZhbHVlPjwvZmllbGQ+PGZpZWxkIG5hbWU9IkZpcnN0TmFtZSI+PHZhbHVlPkpGPC92YWx1ZT48L2ZpZWxkPjxmaWVsZCBuYW1lPSJMYXN0TmFtZSI+PHZhbHVlPkNvdGU8L3ZhbHVlPjwvZmllbGQ+PGZpZWxkIG5hbWU9IkNoZWNrIEJveCAxMSI+PHZhbHVlPlg8L3ZhbHVlPjwvZmllbGQ+PGZpZWxkIG5hbWU9IkZ1bGxOYW1lIj48dmFsdWU+SkYgQ290ZTwvdmFsdWU+PC9maWVsZD48ZmllbGQgbmFtZT0iRW1haWxBZGRyZXNzIj48dmFsdWU+amZjb3RlODdAZ21haWwuY29tPC92YWx1ZT48L2ZpZWxkPjxmaWVsZCBuYW1lPSJEYXRlU2lnbmVkIj48dmFsdWU+MTEvMTEvMjAxNCB8IDEwOjQ0IFBUPC92YWx1ZT48L2ZpZWxkPjwvZmllbGRzPjwveGZkZj48L0Zvcm1EYXRhPg==</Data>
+                        <Label>DSXForm</Label>
+                    </Attachment>
+                </RecipientAttachment>
+                <AccountStatus>Active</AccountStatus>
+                <FormData>
+                    <xfdf>
+                        <fields>
+                            <field name="rb1">
+                                <value>C</value>
+                            </field>
+                            <field name="Drop Down 16">
+                                <value>D</value>
+                            </field>
+                            <field name="FirstName">
+                                <value>JF</value>
+                            </field>
+                            <field name="LastName">
+                                <value>Cote</value>
+                            </field>
+                            <field name="Check Box 11">
+                                <value>X</value>
+                            </field>
+                            <field name="FullName">
+                                <value>JF Cote</value>
+                            </field>
+                            <field name="EmailAddress">
+                                <value>jfcote@example.com</value>
+                            </field>
+                            <field name="DateSigned">
+                                <value>11/11/2014 | 10:44 PT</value>
+                            </field>
+                        </fields>
+                    </xfdf>
+                </FormData>
+                <RecipientId>8f4dd293-e916-42bf-8315-f660f65a058a</RecipientId>
+            </RecipientStatus>
+        </RecipientStatuses>
+        <TimeGenerated>2014-11-11T13:44:45.2979179</TimeGenerated>
+        <EnvelopeID>8e0069bb-6193-46b0-b616-3914477b13a5</EnvelopeID>
+        <Subject>Please DocuSign this document: Docusign1.pdf</Subject>
+        <UserName>James F Cote</UserName>
+        <Email>jcote@example.com</Email>
+        <Status>Completed</Status>
+        <Created>2014-11-11T13:35:23.94</Created>
+        <Sent>2014-11-11T13:43:46.283</Sent>
+        <Delivered>2014-11-11T13:44:02.233</Delivered>
+        <Signed>2014-11-11T13:44:23.59</Signed>
+        <Completed>2014-11-11T13:44:23.59</Completed>
+        <ACStatus>Original</ACStatus>
+        <ACStatusDate>2014-11-11T13:35:23.94</ACStatusDate>
+        <ACHolder>James F Cote</ACHolder>
+        <ACHolderEmail>jcote@example.com</ACHolderEmail>
+        <ACHolderLocation>DocuSign</ACHolderLocation>
+        <SigningLocation>Online</SigningLocation>
+        <SenderIPAddress>50.58.168.34   </SenderIPAddress>
+        <EnvelopePDFHash />
+        <CustomFields>
+            <CustomField>
+                <Name>Custom Field</Name>
+                <Show>False</Show>
+                <Required>False</Required>
+                <Value />
+            </CustomField>
+            <CustomField>
+                <Name>AccountId</Name>
+                <Show>false</Show>
+                <Required>false</Required>
+                <Value>123456</Value>
+                <CustomFieldType>Text</CustomFieldType>
+            </CustomField>
+            <CustomField>
+                <Name>AccountName</Name>
+                <Show>false</Show>
+                <Required>false</Required>
+                <Value>XXXXXXXXXXXXXXX</Value>
+                <CustomFieldType>Text</CustomFieldType>
+            </CustomField>
+            <CustomField>
+                <Name>AccountSite</Name>
+                <Show>false</Show>
+                <Required>false</Required>
+                <Value>demo</Value>
+                <CustomFieldType>Text</CustomFieldType>
+            </CustomField>
+        </CustomFields>
+        <AutoNavigation>true</AutoNavigation>
+        <EnvelopeIdStamping>true</EnvelopeIdStamping>
+        <AuthoritativeCopy>false</AuthoritativeCopy>
+        <DocumentStatuses>
+            <DocumentStatus>
+                <ID>1</ID>
+                <Name>Docusign1.pdf</Name>
+                <TemplateName />
+                <Sequence>1</Sequence>
+            </DocumentStatus>
+        </DocumentStatuses>
+    </EnvelopeStatus>
+    <TimeZone>Eastern Standard Time</TimeZone>
+    <TimeZoneOffset>-5</TimeZoneOffset>
+</DocuSignEnvelopeInformation>

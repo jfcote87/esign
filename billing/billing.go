@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,393 +7,397 @@
 
 // Package billing implements the DocuSign SDK
 // category Billing.
-// 
+//
 // Use the Billing category to manage the following billing related tasks:
-// 
+//
 // * Retrieve and update billing plan information.
 // * Retrieve invoices.
 // * Retrieve and update payment information.
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/Billing
+// https://developers.docusign.com/esign/restapi/Billing
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/billing"
+//   )
+//   ...
+//   billingService := billing.New(esignCredential)
 package billing
 
 import (
-    "net/url"
-    "time"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"net/url"
+	"strings"
+	"time"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign Billing Category API calls
+// Service implements DocuSign Billing Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a billing service using cred to authorize calls.
+// New initializes a billing service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
-// GetInvoice retrieves a billing invoice.
-// SDK Method Billing::getInvoice
-// https://docs.docusign.com/esign/restapi/Billing/Invoices/get
-func (s *Service) GetInvoice(invoiceID string) *GetInvoiceCall {
-    return &GetInvoiceCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_invoices/{invoiceId}",
-            PathParameters: map[string]string{ 
-                "{invoiceId}": invoiceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+// PlansGet get the billing plan details.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/get
+//
+// SDK Method Billing::getBillingPlan
+func (s *Service) PlansGet(billingPlanID string) *PlansGetOp {
+	return &PlansGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"", "v2", "billing_plans", billingPlanID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetInvoiceCall implements DocuSign API SDK Billing::getInvoice
-type GetInvoiceCall struct {
-    *esign.Call
+// PlansGetOp implements DocuSign API SDK Billing::getBillingPlan
+type PlansGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansGetOp) Do(ctx context.Context) (*model.BillingPlanResponse, error) {
+	var res *model.BillingPlanResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetInvoiceCall) Do(ctx context.Context)  (*model.BillingInvoice, error) {
-    var res *model.BillingInvoice
-    return res, op.Call.Do(ctx, &res)
-}
-
-// ListInvoices get a List of Billing Invoices
-// SDK Method Billing::listInvoices
-// https://docs.docusign.com/esign/restapi/Billing/Invoices/list
-func (s *Service) ListInvoices() *ListInvoicesCall {
-    return &ListInvoicesCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_invoices",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// ListInvoicesCall implements DocuSign API SDK Billing::listInvoices
-type ListInvoicesCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *ListInvoicesCall) Do(ctx context.Context)  (*model.BillingInvoicesResponse, error) {
-    var res *model.BillingInvoicesResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// FromDate specifies the date/time of the earliest invoice in the account to retrieve.
-func (op *ListInvoicesCall) FromDate(val time.Time) *ListInvoicesCall {
-    op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-    return op
-}
-
-// ToDate specifies the date/time of the latest invoice in the account to retrieve.
-func (op *ListInvoicesCall) ToDate(val time.Time) *ListInvoicesCall {
-    op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-    return op
-}
-
-// ListInvoicesPastDue get a list of past due invoices.
-// SDK Method Billing::listInvoicesPastDue
-// https://docs.docusign.com/esign/restapi/Billing/Invoices/listPastDue
-func (s *Service) ListInvoicesPastDue() *ListInvoicesPastDueCall {
-    return &ListInvoicesPastDueCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_invoices_past_due",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// ListInvoicesPastDueCall implements DocuSign API SDK Billing::listInvoicesPastDue
-type ListInvoicesPastDueCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *ListInvoicesPastDueCall) Do(ctx context.Context)  (*model.BillingInvoicesSummary, error) {
-    var res *model.BillingInvoicesSummary
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetPayment gets billing payment information for a specific payment.
-// SDK Method Billing::getPayment
-// https://docs.docusign.com/esign/restapi/Billing/Payments/get
-func (s *Service) GetPayment(paymentID string) *GetPaymentCall {
-    return &GetPaymentCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_payments/{paymentId}",
-            PathParameters: map[string]string{ 
-                "{paymentId}": paymentID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// GetPaymentCall implements DocuSign API SDK Billing::getPayment
-type GetPaymentCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *GetPaymentCall) Do(ctx context.Context)  (*model.BillingPaymentItem, error) {
-    var res *model.BillingPaymentItem
-    return res, op.Call.Do(ctx, &res)
-}
-
-// ListPayments gets payment information for one or more payments.
-// SDK Method Billing::listPayments
-// https://docs.docusign.com/esign/restapi/Billing/Payments/list
-func (s *Service) ListPayments() *ListPaymentsCall {
-    return &ListPaymentsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_payments",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// ListPaymentsCall implements DocuSign API SDK Billing::listPayments
-type ListPaymentsCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *ListPaymentsCall) Do(ctx context.Context)  (*model.BillingPaymentsResponse, error) {
-    var res *model.BillingPaymentsResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// FromDate specifies the date/time of the earliest payment in the account to retrieve.
-func (op *ListPaymentsCall) FromDate(val time.Time) *ListPaymentsCall {
-    op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-    return op
-}
-
-// ToDate specifies the date/time of the latest payment in the account to retrieve.
-func (op *ListPaymentsCall) ToDate(val time.Time) *ListPaymentsCall {
-    op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-    return op
-}
-
-// MakePayment posts a payment to a past due invoice.
-// SDK Method Billing::makePayment
-// https://docs.docusign.com/esign/restapi/Billing/Payments/create
-func (s *Service) MakePayment(billingPaymentRequest *model.BillingPaymentRequest) *MakePaymentCall {
-    return &MakePaymentCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "billing_payments",
-            Payload: billingPaymentRequest,
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// MakePaymentCall implements DocuSign API SDK Billing::makePayment
-type MakePaymentCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *MakePaymentCall) Do(ctx context.Context)  (*model.BillingPaymentResponse, error) {
-    var res *model.BillingPaymentResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetPlan get Account Billing Plan
+// PlansGetAccountPlan get Account Billing Plan
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/getAccountPlan
+//
 // SDK Method Billing::getPlan
-// https://docs.docusign.com/esign/restapi/Billing/BillingPlans/getAccountPlan
-func (s *Service) GetPlan() *GetPlanCall {
-    return &GetPlanCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_plan",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) PlansGetAccountPlan() *PlansGetAccountPlanOp {
+	return &PlansGetAccountPlanOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_plan",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetPlanCall implements DocuSign API SDK Billing::getPlan
-type GetPlanCall struct {
-    *esign.Call
+// PlansGetAccountPlanOp implements DocuSign API SDK Billing::getPlan
+type PlansGetAccountPlanOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansGetAccountPlanOp) Do(ctx context.Context) (*model.AccountBillingPlanResponse, error) {
+	var res *model.AccountBillingPlanResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetPlanCall) Do(ctx context.Context)  (*model.AccountBillingPlanResponse, error) {
-    var res *model.AccountBillingPlanResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// IncludeCreditCardInformation when set to **true**, excludes credit card information from the response.
-func (op *GetPlanCall) IncludeCreditCardInformation() *GetPlanCall {
-    op.QueryOpts.Set("include_credit_card_information", "true")
-    return op
+// IncludeCreditCardInformation when set to **true**, payment information including credit card information will show in the return.
+func (op *PlansGetAccountPlanOp) IncludeCreditCardInformation() *PlansGetAccountPlanOp {
+	if op != nil {
+		op.QueryOpts.Set("include_credit_card_information", "true")
+	}
+	return op
 }
 
 // IncludeMetadata when set to **true**, the `canUpgrade` and `renewalStatus` properities are included the response and an array of `supportedCountries` property is added to the `billingAddress` information.
-func (op *GetPlanCall) IncludeMetadata() *GetPlanCall {
-    op.QueryOpts.Set("include_metadata", "true")
-    return op
+func (op *PlansGetAccountPlanOp) IncludeMetadata() *PlansGetAccountPlanOp {
+	if op != nil {
+		op.QueryOpts.Set("include_metadata", "true")
+	}
+	return op
 }
 
 // IncludeSuccessorPlans when set to **true**, excludes successor information from the response.
-func (op *GetPlanCall) IncludeSuccessorPlans() *GetPlanCall {
-    op.QueryOpts.Set("include_successor_plans", "true")
-    return op
+func (op *PlansGetAccountPlanOp) IncludeSuccessorPlans() *PlansGetAccountPlanOp {
+	if op != nil {
+		op.QueryOpts.Set("include_successor_plans", "true")
+	}
+	return op
 }
 
-// GetCreditCardInfo get metadata for a given credit card.
+// PlansGetCreditCard get metadata for a given credit card.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/getCreditCard
+//
 // SDK Method Billing::getCreditCardInfo
-// https://docs.docusign.com/esign/restapi/Billing/BillingPlans/getCreditCard
-func (s *Service) GetCreditCardInfo() *GetCreditCardInfoCall {
-    return &GetCreditCardInfoCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "billing_plan/credit_card",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) PlansGetCreditCard() *PlansGetCreditCardOp {
+	return &PlansGetCreditCardOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_plan/credit_card",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetCreditCardInfoCall implements DocuSign API SDK Billing::getCreditCardInfo
-type GetCreditCardInfoCall struct {
-    *esign.Call
+// PlansGetCreditCardOp implements DocuSign API SDK Billing::getCreditCardInfo
+type PlansGetCreditCardOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansGetCreditCardOp) Do(ctx context.Context) (*model.CreditCardInformation, error) {
+	var res *model.CreditCardInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetCreditCardInfoCall) Do(ctx context.Context)  (*model.CreditCardInformation, error) {
-    var res *model.CreditCardInformation
-    return res, op.Call.Do(ctx, &res)
+// PlansList gets the list of available billing plans.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/list
+//
+// SDK Method Billing::listBillingPlans
+func (s *Service) PlansList() *PlansListOp {
+	return &PlansListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2/billing_plans",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdatePlan updates the account billing plan.
+// PlansListOp implements DocuSign API SDK Billing::listBillingPlans
+type PlansListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansListOp) Do(ctx context.Context) (*model.BillingPlansResponse, error) {
+	var res *model.BillingPlansResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// PlansPurchaseEnvelopes reserverd: Purchase additional envelopes.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/purchaseEnvelopes
+//
+// SDK Method Billing::purchaseEnvelopes
+func (s *Service) PlansPurchaseEnvelopes(purchasedEnvelopesInformation *model.PurchasedEnvelopesInformation) *PlansPurchaseEnvelopesOp {
+	return &PlansPurchaseEnvelopesOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "billing_plan/purchased_envelopes",
+		Payload:    purchasedEnvelopesInformation,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// PlansPurchaseEnvelopesOp implements DocuSign API SDK Billing::purchaseEnvelopes
+type PlansPurchaseEnvelopesOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansPurchaseEnvelopesOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
+}
+
+// PlansUpdate updates the account billing plan.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/update
+//
 // SDK Method Billing::updatePlan
-// https://docs.docusign.com/esign/restapi/Billing/BillingPlans/update
-func (s *Service) UpdatePlan(billingPlanInformation *model.BillingPlanInformation) *UpdatePlanCall {
-    return &UpdatePlanCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "billing_plan",
-            Payload: billingPlanInformation,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) PlansUpdate(billingPlanInformation *model.BillingPlanInformation) *PlansUpdateOp {
+	return &PlansUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "billing_plan",
+		Payload:    billingPlanInformation,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdatePlanCall implements DocuSign API SDK Billing::updatePlan
-type UpdatePlanCall struct {
-    *esign.Call
-}
+// PlansUpdateOp implements DocuSign API SDK Billing::updatePlan
+type PlansUpdateOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdatePlanCall) Do(ctx context.Context)  (*model.BillingPlanUpdateResponse, error) {
-    var res *model.BillingPlanUpdateResponse
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *PlansUpdateOp) Do(ctx context.Context) (*model.BillingPlanUpdateResponse, error) {
+	var res *model.BillingPlanUpdateResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // PreviewBillingPlan when set to **true**, updates the account using a preview billing plan.
-func (op *UpdatePlanCall) PreviewBillingPlan() *UpdatePlanCall {
-    op.QueryOpts.Set("preview_billing_plan", "true")
-    return op
+func (op *PlansUpdateOp) PreviewBillingPlan() *PlansUpdateOp {
+	if op != nil {
+		op.QueryOpts.Set("preview_billing_plan", "true")
+	}
+	return op
 }
 
-// GetBillingPlan get the billing plan details.
-// SDK Method Billing::getBillingPlan
-// https://docs.docusign.com/esign/restapi/Billing/BillingPlans/get
-func (s *Service) GetBillingPlan(billingPlanID string) *GetBillingPlanCall {
-    return &GetBillingPlanCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2/billing_plans/{billingPlanId}",
-            PathParameters: map[string]string{ 
-                "{billingPlanId}": billingPlanID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+// InvoicesGet retrieves a billing invoice.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Invoices/get
+//
+// SDK Method Billing::getInvoice
+func (s *Service) InvoicesGet(invoiceID string) *InvoicesGetOp {
+	return &InvoicesGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"billing_invoices", invoiceID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetBillingPlanCall implements DocuSign API SDK Billing::getBillingPlan
-type GetBillingPlanCall struct {
-    *esign.Call
+// InvoicesGetOp implements DocuSign API SDK Billing::getInvoice
+type InvoicesGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *InvoicesGetOp) Do(ctx context.Context) (*model.BillingInvoice, error) {
+	var res *model.BillingInvoice
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetBillingPlanCall) Do(ctx context.Context)  (*model.BillingPlanResponse, error) {
-    var res *model.BillingPlanResponse
-    return res, op.Call.Do(ctx, &res)
+// PDF returns a pdf version of the invoice by setting
+// the Accept header to application/pdf
+//
+// **not included in swagger definition
+func (op *InvoicesGetOp) PDF(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	if op == nil {
+		return nil, esign.ErrNilOp
+	}
+	newOp := esign.Op(*op)
+	newOp.Accept = "application/pdf"
+	return res, (&newOp).Do(ctx, &res)
 }
 
-// ListBillingPlans gets the list of available billing plans.
-// SDK Method Billing::listBillingPlans
-// https://docs.docusign.com/esign/restapi/Billing/BillingPlans/list
-func (s *Service) ListBillingPlans() *ListBillingPlansCall {
-    return &ListBillingPlansCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2/billing_plans",
-            QueryOpts: make(url.Values),
-        },
-    }
+// InvoicesList get a List of Billing Invoices
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Invoices/list
+//
+// SDK Method Billing::listInvoices
+func (s *Service) InvoicesList() *InvoicesListOp {
+	return &InvoicesListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_invoices",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListBillingPlansCall implements DocuSign API SDK Billing::listBillingPlans
-type ListBillingPlansCall struct {
-    *esign.Call
+// InvoicesListOp implements DocuSign API SDK Billing::listInvoices
+type InvoicesListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *InvoicesListOp) Do(ctx context.Context) (*model.BillingInvoicesResponse, error) {
+	var res *model.BillingInvoicesResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *ListBillingPlansCall) Do(ctx context.Context)  (*model.BillingPlansResponse, error) {
-    var res *model.BillingPlansResponse
-    return res, op.Call.Do(ctx, &res)
+// FromDate specifies the date/time of the earliest invoice in the account to retrieve.
+func (op *InvoicesListOp) FromDate(val time.Time) *InvoicesListOp {
+	if op != nil {
+		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
-// PurchaseEnvelopes reserverd: Purchase additional envelopes.
-// SDK Method Billing::purchaseEnvelopes
-// https://docs.docusign.com/esign/restapi/Billing/BillingPlans/purchaseEnvelopes
-func (s *Service) PurchaseEnvelopes(purchasedEnvelopesInformation *model.PurchasedEnvelopesInformation) *PurchaseEnvelopesCall {
-    return &PurchaseEnvelopesCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "billing_plan/purchased_envelopes",
-            Payload: purchasedEnvelopesInformation,
-            QueryOpts: make(url.Values),
-        },
-    }
+// ToDate specifies the date/time of the latest invoice in the account to retrieve.
+func (op *InvoicesListOp) ToDate(val time.Time) *InvoicesListOp {
+	if op != nil {
+		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
-// PurchaseEnvelopesCall implements DocuSign API SDK Billing::purchaseEnvelopes
-type PurchaseEnvelopesCall struct {
-    *esign.Call
+// InvoicesListPastDue get a list of past due invoices.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Invoices/listPastDue
+//
+// SDK Method Billing::listInvoicesPastDue
+func (s *Service) InvoicesListPastDue() *InvoicesListPastDueOp {
+	return &InvoicesListPastDueOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_invoices_past_due",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *PurchaseEnvelopesCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
+// InvoicesListPastDueOp implements DocuSign API SDK Billing::listInvoicesPastDue
+type InvoicesListPastDueOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *InvoicesListPastDueOp) Do(ctx context.Context) (*model.BillingInvoicesSummary, error) {
+	var res *model.BillingInvoicesSummary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
+// PaymentsCreate posts a payment to a past due invoice.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Payments/create
+//
+// SDK Method Billing::makePayment
+func (s *Service) PaymentsCreate(billingPaymentRequest *model.BillingPaymentRequest) *PaymentsCreateOp {
+	return &PaymentsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "billing_payments",
+		Payload:    billingPaymentRequest,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// PaymentsCreateOp implements DocuSign API SDK Billing::makePayment
+type PaymentsCreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PaymentsCreateOp) Do(ctx context.Context) (*model.BillingPaymentResponse, error) {
+	var res *model.BillingPaymentResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// PaymentsGet gets billing payment information for a specific payment.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Payments/get
+//
+// SDK Method Billing::getPayment
+func (s *Service) PaymentsGet(paymentID string) *PaymentsGetOp {
+	return &PaymentsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"billing_payments", paymentID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// PaymentsGetOp implements DocuSign API SDK Billing::getPayment
+type PaymentsGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PaymentsGetOp) Do(ctx context.Context) (*model.BillingPaymentItem, error) {
+	var res *model.BillingPaymentItem
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// PaymentsList gets payment information for one or more payments.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Payments/list
+//
+// SDK Method Billing::listPayments
+func (s *Service) PaymentsList() *PaymentsListOp {
+	return &PaymentsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_payments",
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// PaymentsListOp implements DocuSign API SDK Billing::listPayments
+type PaymentsListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PaymentsListOp) Do(ctx context.Context) (*model.BillingPaymentsResponse, error) {
+	var res *model.BillingPaymentsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// FromDate specifies the date/time of the earliest payment in the account to retrieve.
+func (op *PaymentsListOp) FromDate(val time.Time) *PaymentsListOp {
+	if op != nil {
+		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+	}
+	return op
+}
+
+// ToDate specifies the date/time of the latest payment in the account to retrieve.
+func (op *PaymentsListOp) ToDate(val time.Time) *PaymentsListOp {
+	if op != nil {
+		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+	}
+	return op
+}

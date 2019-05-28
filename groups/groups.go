@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,347 +7,323 @@
 
 // Package groups implements the DocuSign SDK
 // category Groups.
-// 
-// 
+//
+//
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/Groups
+// https://developers.docusign.com/esign/restapi/Groups
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/groups"
+//   )
+//   ...
+//   groupsService := groups.New(esignCredential)
 package groups
 
 import (
-    "fmt"
-    "net/url"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"fmt"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign Groups Category API calls
+// Service implements DocuSign Groups Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a groups service using cred to authorize calls.
+// New initializes a groups service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
-// DeleteBrands deletes brand information from the requested group.
+// BrandsDelete deletes brand information from the requested group.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/GroupBrands/delete
+//
 // SDK Method Groups::deleteBrands
-// https://docs.docusign.com/esign/restapi/Groups/GroupBrands/delete
-func (s *Service) DeleteBrands(groupID string, brandsRequest *model.BrandsRequest) *DeleteBrandsCall {
-    return &DeleteBrandsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "groups/{groupId}/brands",
-            PathParameters: map[string]string{ 
-                "{groupId}": groupID,
-            },
-            Payload: brandsRequest,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) BrandsDelete(groupID string, brandsRequest *model.BrandsRequest) *BrandsDeleteOp {
+	return &BrandsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
+		Payload:    brandsRequest,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// DeleteBrandsCall implements DocuSign API SDK Groups::deleteBrands
-type DeleteBrandsCall struct {
-    *esign.Call
+// BrandsDeleteOp implements DocuSign API SDK Groups::deleteBrands
+type BrandsDeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *BrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+	var res *model.BrandsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *DeleteBrandsCall) Do(ctx context.Context)  (*model.BrandsResponse, error) {
-    var res *model.BrandsResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetBrands gets group brand ID Information.
-// 
+// BrandsGet gets group brand ID Information.
+//
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/GroupBrands/get
+//
 // SDK Method Groups::getBrands
-// https://docs.docusign.com/esign/restapi/Groups/GroupBrands/get
-func (s *Service) GetBrands(groupID string) *GetBrandsCall {
-    return &GetBrandsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "groups/{groupId}/brands",
-            PathParameters: map[string]string{ 
-                "{groupId}": groupID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) BrandsGet(groupID string) *BrandsGetOp {
+	return &BrandsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetBrandsCall implements DocuSign API SDK Groups::getBrands
-type GetBrandsCall struct {
-    *esign.Call
+// BrandsGetOp implements DocuSign API SDK Groups::getBrands
+type BrandsGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *BrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+	var res *model.BrandsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetBrandsCall) Do(ctx context.Context)  (*model.BrandsResponse, error) {
-    var res *model.BrandsResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// UpdateBrands adds group brand ID information to a group.
+// BrandsUpdate adds group brand ID information to a group.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/GroupBrands/update
+//
 // SDK Method Groups::updateBrands
-// https://docs.docusign.com/esign/restapi/Groups/GroupBrands/update
-func (s *Service) UpdateBrands(groupID string, brandsRequest *model.BrandsRequest) *UpdateBrandsCall {
-    return &UpdateBrandsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "groups/{groupId}/brands",
-            PathParameters: map[string]string{ 
-                "{groupId}": groupID,
-            },
-            Payload: brandsRequest,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) BrandsUpdate(groupID string, brandsRequest *model.BrandsRequest) *BrandsUpdateOp {
+	return &BrandsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
+		Payload:    brandsRequest,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateBrandsCall implements DocuSign API SDK Groups::updateBrands
-type UpdateBrandsCall struct {
-    *esign.Call
+// BrandsUpdateOp implements DocuSign API SDK Groups::updateBrands
+type BrandsUpdateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *BrandsUpdateOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+	var res *model.BrandsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdateBrandsCall) Do(ctx context.Context)  (*model.BrandsResponse, error) {
-    var res *model.BrandsResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// DeleteGroupUsers deletes one or more users from a gro
+// UsersDelete deletes one or more users from a gro
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/GroupUsers/delete
+//
 // SDK Method Groups::deleteGroupUsers
-// https://docs.docusign.com/esign/restapi/Groups/GroupUsers/delete
-func (s *Service) DeleteGroupUsers(groupID string, userInfoList *model.UserInfoList) *DeleteGroupUsersCall {
-    return &DeleteGroupUsersCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "groups/{groupId}/users",
-            PathParameters: map[string]string{ 
-                "{groupId}": groupID,
-            },
-            Payload: userInfoList,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) UsersDelete(groupID string, userInfoList *model.UserInfoList) *UsersDeleteOp {
+	return &UsersDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"groups", groupID, "users"}, "/"),
+		Payload:    userInfoList,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// DeleteGroupUsersCall implements DocuSign API SDK Groups::deleteGroupUsers
-type DeleteGroupUsersCall struct {
-    *esign.Call
+// UsersDeleteOp implements DocuSign API SDK Groups::deleteGroupUsers
+type UsersDeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *UsersDeleteOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+	var res *model.UsersResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *DeleteGroupUsersCall) Do(ctx context.Context)  (*model.UsersResponse, error) {
-    var res *model.UsersResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// DeleteGroups deletes an existing user group.
-// SDK Method Groups::deleteGroups
-// https://docs.docusign.com/esign/restapi/Groups/Groups/delete
-func (s *Service) DeleteGroups(groups *model.GroupInformation) *DeleteGroupsCall {
-    return &DeleteGroupsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "groups",
-            Payload: groups,
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// DeleteGroupsCall implements DocuSign API SDK Groups::deleteGroups
-type DeleteGroupsCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *DeleteGroupsCall) Do(ctx context.Context)  (*model.GroupInformation, error) {
-    var res *model.GroupInformation
-    return res, op.Call.Do(ctx, &res)
-}
-
-// ListGroupUsers gets a list of users in a group.
+// UsersList gets a list of users in a group.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/GroupUsers/list
+//
 // SDK Method Groups::listGroupUsers
-// https://docs.docusign.com/esign/restapi/Groups/GroupUsers/list
-func (s *Service) ListGroupUsers(groupID string) *ListGroupUsersCall {
-    return &ListGroupUsersCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "groups/{groupId}/users",
-            PathParameters: map[string]string{ 
-                "{groupId}": groupID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) UsersList(groupID string) *UsersListOp {
+	return &UsersListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"groups", groupID, "users"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListGroupUsersCall implements DocuSign API SDK Groups::listGroupUsers
-type ListGroupUsersCall struct {
-    *esign.Call
-}
+// UsersListOp implements DocuSign API SDK Groups::listGroupUsers
+type UsersListOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *ListGroupUsersCall) Do(ctx context.Context)  (*model.UsersResponse, error) {
-    var res *model.UsersResponse
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *UsersListOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+	var res *model.UsersResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count number of records to return. The number must be greater than 1 and less than or equal to 100.
-func (op *ListGroupUsersCall) Count(val int) *ListGroupUsersCall {
-    op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    return op
+func (op *UsersListOp) Count(val int) *UsersListOp {
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // StartPosition starting value for the list.
-func (op *ListGroupUsersCall) StartPosition(val int) *ListGroupUsersCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
+func (op *UsersListOp) StartPosition(val int) *UsersListOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
-// ListGroups gets information about groups associated with the account.
+// UsersUpdate adds one or more users to an existing group.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/GroupUsers/update
+//
+// SDK Method Groups::updateGroupUsers
+func (s *Service) UsersUpdate(groupID string, userInfoList *model.UserInfoList) *UsersUpdateOp {
+	return &UsersUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"groups", groupID, "users"}, "/"),
+		Payload:    userInfoList,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// UsersUpdateOp implements DocuSign API SDK Groups::updateGroupUsers
+type UsersUpdateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *UsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+	var res *model.UsersResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// Create creates one or more groups for the account.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/Groups/create
+//
+// SDK Method Groups::createGroups
+func (s *Service) Create(groups *model.GroupInformation) *CreateOp {
+	return &CreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "groups",
+		Payload:    groups,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// CreateOp implements DocuSign API SDK Groups::createGroups
+type CreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *CreateOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+	var res *model.GroupInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// Delete deletes an existing user group.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/Groups/delete
+//
+// SDK Method Groups::deleteGroups
+func (s *Service) Delete(groups *model.GroupInformation) *DeleteOp {
+	return &DeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "groups",
+		Payload:    groups,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DeleteOp implements DocuSign API SDK Groups::deleteGroups
+type DeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DeleteOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+	var res *model.GroupInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// List gets information about groups associated with the account.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/Groups/list
+//
 // SDK Method Groups::listGroups
-// https://docs.docusign.com/esign/restapi/Groups/Groups/list
-func (s *Service) ListGroups() *ListGroupsCall {
-    return &ListGroupsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "groups",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) List() *ListOp {
+	return &ListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "groups",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListGroupsCall implements DocuSign API SDK Groups::listGroups
-type ListGroupsCall struct {
-    *esign.Call
-}
+// ListOp implements DocuSign API SDK Groups::listGroups
+type ListOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *ListGroupsCall) Do(ctx context.Context)  (*model.GroupInformation, error) {
-    var res *model.GroupInformation
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *ListOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+	var res *model.GroupInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count number of records to return. The number must be greater than 1 and less than or equal to 100.
-func (op *ListGroupsCall) Count(val int) *ListGroupsCall {
-    op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    return op
-}
-
-// GroupName filters the groups returned by the group name or a sub-string of group name.
-func (op *ListGroupsCall) GroupName(val string) *ListGroupsCall {
-    op.QueryOpts.Set("group_name", val)
-    return op
+func (op *ListOp) Count(val int) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // GroupType set the call query parameter group_type
-func (op *ListGroupsCall) GroupType(val string) *ListGroupsCall {
-    op.QueryOpts.Set("group_type", val)
-    return op
+func (op *ListOp) GroupType(val string) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("group_type", val)
+	}
+	return op
 }
 
 // SearchText set the call query parameter search_text
-func (op *ListGroupsCall) SearchText(val string) *ListGroupsCall {
-    op.QueryOpts.Set("search_text", val)
-    return op
+func (op *ListOp) SearchText(val string) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("search_text", val)
+	}
+	return op
 }
 
 // StartPosition starting value for the list.
-func (op *ListGroupsCall) StartPosition(val int) *ListGroupsCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
+func (op *ListOp) StartPosition(val int) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
-// CreateGroups creates one or more groups for the account.
-// SDK Method Groups::createGroups
-// https://docs.docusign.com/esign/restapi/Groups/Groups/create
-func (s *Service) CreateGroups(groups *model.GroupInformation) *CreateGroupsCall {
-    return &CreateGroupsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "groups",
-            Payload: groups,
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// CreateGroupsCall implements DocuSign API SDK Groups::createGroups
-type CreateGroupsCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *CreateGroupsCall) Do(ctx context.Context)  (*model.GroupInformation, error) {
-    var res *model.GroupInformation
-    return res, op.Call.Do(ctx, &res)
-}
-
-// UpdateGroupUsers adds one or more users to an existing group.
-// SDK Method Groups::updateGroupUsers
-// https://docs.docusign.com/esign/restapi/Groups/GroupUsers/update
-func (s *Service) UpdateGroupUsers(groupID string, userInfoList *model.UserInfoList) *UpdateGroupUsersCall {
-    return &UpdateGroupUsersCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "groups/{groupId}/users",
-            PathParameters: map[string]string{ 
-                "{groupId}": groupID,
-            },
-            Payload: userInfoList,
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// UpdateGroupUsersCall implements DocuSign API SDK Groups::updateGroupUsers
-type UpdateGroupUsersCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *UpdateGroupUsersCall) Do(ctx context.Context)  (*model.UsersResponse, error) {
-    var res *model.UsersResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// UpdateGroups updates the group information for a group.
+// Update updates the group information for a group.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Groups/Groups/update
+//
 // SDK Method Groups::updateGroups
-// https://docs.docusign.com/esign/restapi/Groups/Groups/update
-func (s *Service) UpdateGroups(groups *model.GroupInformation) *UpdateGroupsCall {
-    return &UpdateGroupsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "groups",
-            Payload: groups,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) Update(groups *model.GroupInformation) *UpdateOp {
+	return &UpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "groups",
+		Payload:    groups,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateGroupsCall implements DocuSign API SDK Groups::updateGroups
-type UpdateGroupsCall struct {
-    *esign.Call
-}
+// UpdateOp implements DocuSign API SDK Groups::updateGroups
+type UpdateOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdateGroupsCall) Do(ctx context.Context)  (*model.GroupInformation, error) {
-    var res *model.GroupInformation
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *UpdateOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+	var res *model.GroupInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

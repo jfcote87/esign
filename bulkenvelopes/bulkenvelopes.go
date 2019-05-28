@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,234 +7,232 @@
 
 // Package bulkenvelopes implements the DocuSign SDK
 // category BulkEnvelopes.
-// 
+//
 // Use the BulkEnvelopes category to manage the sending of envelopes to multiple recipients.
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/BulkEnvelopes
+// https://developers.docusign.com/esign/restapi/BulkEnvelopes
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/bulkenvelopes"
+//   )
+//   ...
+//   bulkenvelopesService := bulkenvelopes.New(esignCredential)
 package bulkenvelopes
 
 import (
-    "fmt"
-    "net/url"
-    "strings"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"fmt"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign BulkEnvelopes Category API calls
+// Service implements DocuSign BulkEnvelopes Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a bulkenvelopes service using cred to authorize calls.
+// New initializes a bulkenvelopes service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // Get gets the status of a specified bulk send operation.
+//
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/get
+//
 // SDK Method BulkEnvelopes::get
-// https://docs.docusign.com/esign/restapi/BulkEnvelopes/BulkEnvelopes/get
-func (s *Service) Get(batchID string) *GetCall {
-    return &GetCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "bulk_envelopes/{batchId}",
-            PathParameters: map[string]string{ 
-                "{batchId}": batchID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) Get(batchID string) *GetOp {
+	return &GetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"bulk_envelopes", batchID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetCall implements DocuSign API SDK BulkEnvelopes::get
-type GetCall struct {
-    *esign.Call
-}
+// GetOp implements DocuSign API SDK BulkEnvelopes::get
+type GetOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *GetCall) Do(ctx context.Context)  (*model.BulkEnvelopeStatus, error) {
-    var res *model.BulkEnvelopeStatus
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *GetOp) Do(ctx context.Context) (*model.BulkEnvelopeStatus, error) {
+	var res *model.BulkEnvelopeStatus
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count specifies the number of entries to return.
-func (op *GetCall) Count(val int) *GetCall {
-    op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    return op
+func (op *GetOp) Count(val int) *GetOp {
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
-// Include specifies which entries are included in the response. Multiple entries can be included by using commas in the query string (example: ?include="failed,queued") 
-// 
-// Valid values: 
+// Include specifies which entries are included in the response. Multiple entries can be included by using commas in the query string (example: ?include="failed,queued")
+//
+// Valid values:
 // * all - Returns all entries. If present, overrides all other query settings. This is the default if no query string is provided.
 // * failed - Entries with a failed status.
 // * processing - Entries with a processing status.
 // * queued - Entries with a queued status.
 // * sent - Entries with a sent status.
-func (op *GetCall) Include(val ...string) *GetCall {
-    op.QueryOpts.Set("include", strings.Join(val,","))
-    return op
+func (op *GetOp) Include(val ...string) *GetOp {
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // StartPosition specifies the location in the list of envelopes from which to start.
-func (op *GetCall) StartPosition(val int) *GetCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
+func (op *GetOp) StartPosition(val int) *GetOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // List gets status information about bulk recipient batches.
+//
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/list
+//
 // SDK Method BulkEnvelopes::list
-// https://docs.docusign.com/esign/restapi/BulkEnvelopes/BulkEnvelopes/list
-func (s *Service) List() *ListCall {
-    return &ListCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "bulk_envelopes",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) List() *ListOp {
+	return &ListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "bulk_envelopes",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListCall implements DocuSign API SDK BulkEnvelopes::list
-type ListCall struct {
-    *esign.Call
-}
+// ListOp implements DocuSign API SDK BulkEnvelopes::list
+type ListOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *ListCall) Do(ctx context.Context)  (*model.BulkEnvelopesResponse, error) {
-    var res *model.BulkEnvelopesResponse
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *ListOp) Do(ctx context.Context) (*model.BulkEnvelopesResponse, error) {
+	var res *model.BulkEnvelopesResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count is the number of results to return. This can be 1 to 20.
-func (op *ListCall) Count(val int) *ListCall {
-    op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    return op
+func (op *ListOp) Count(val int) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
-// Include specifies which entries are included in the response. Multiple entries can be included by using commas in the query string (example: ?include="failed,queued") 
-// 
-// Valid values: 
+// Include specifies which entries are included in the response. Multiple entries can be included by using commas in the query string (example: ?include="failed,queued")
+//
+// Valid values:
 // * all - Returns all entries. If present, overrides all other query settings. This is the default if no query string is provided.
 // * failed - Entries with a failed status.
 // * processing - Entries with a processing status.
 // * queued - Entries with a queued status.
 // * sent - Entries with a sent status.
-func (op *ListCall) Include(val ...string) *ListCall {
-    op.QueryOpts.Set("include", strings.Join(val,","))
-    return op
+func (op *ListOp) Include(val ...string) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // StartPosition is the position of the bulk envelope items in the response. This is used for repeated calls, when the number of bulk envelopes returned is too large for one return. The default value is 0.
-func (op *ListCall) StartPosition(val int) *ListCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
+func (op *ListOp) StartPosition(val int) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
-// DeleteRecipients deletes the bulk recipient file from an envelope.
+// RecipientsDelete deletes the bulk recipient file from an envelope.
+//
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/delete
+//
 // SDK Method BulkEnvelopes::deleteRecipients
-// https://docs.docusign.com/esign/restapi/BulkEnvelopes/EnvelopeBulkRecipients/delete
-func (s *Service) DeleteRecipients(envelopeID string, recipientID string) *DeleteRecipientsCall {
-    return &DeleteRecipientsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "envelopes/{envelopeId}/recipients/{recipientId}/bulk_recipients",
-            PathParameters: map[string]string{ 
-                "{envelopeId}": envelopeID,
-                "{recipientId}": recipientID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *RecipientsDeleteOp {
+	return &RecipientsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// DeleteRecipientsCall implements DocuSign API SDK BulkEnvelopes::deleteRecipients
-type DeleteRecipientsCall struct {
-    *esign.Call
+// RecipientsDeleteOp implements DocuSign API SDK BulkEnvelopes::deleteRecipients
+type RecipientsDeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipientsUpdateResponse, error) {
+	var res *model.BulkRecipientsUpdateResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *DeleteRecipientsCall) Do(ctx context.Context)  (*model.BulkRecipientsUpdateResponse, error) {
-    var res *model.BulkRecipientsUpdateResponse
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetRecipients gets the bulk recipient file from an envelope.
+// RecipientsList gets the bulk recipient file from an envelope.
+//
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/list
+//
 // SDK Method BulkEnvelopes::getRecipients
-// https://docs.docusign.com/esign/restapi/BulkEnvelopes/EnvelopeBulkRecipients/list
-func (s *Service) GetRecipients(envelopeID string, recipientID string) *GetRecipientsCall {
-    return &GetRecipientsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "envelopes/{envelopeId}/recipients/{recipientId}/bulk_recipients",
-            PathParameters: map[string]string{ 
-                "{envelopeId}": envelopeID,
-                "{recipientId}": recipientID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RecipientsList(envelopeID string, recipientID string) *RecipientsListOp {
+	return &RecipientsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetRecipientsCall implements DocuSign API SDK BulkEnvelopes::getRecipients
-type GetRecipientsCall struct {
-    *esign.Call
-}
+// RecipientsListOp implements DocuSign API SDK BulkEnvelopes::getRecipients
+type RecipientsListOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *GetRecipientsCall) Do(ctx context.Context)  (*model.BulkRecipientsResponse, error) {
-    var res *model.BulkRecipientsResponse
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *RecipientsListOp) Do(ctx context.Context) (*model.BulkRecipientsResponse, error) {
+	var res *model.BulkRecipientsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeTabs if **true**
 // include the tabs in the the result.
-func (op *GetRecipientsCall) IncludeTabs() *GetRecipientsCall {
-    op.QueryOpts.Set("include_tabs", "true")
-    return op
+func (op *RecipientsListOp) IncludeTabs() *RecipientsListOp {
+	if op != nil {
+		op.QueryOpts.Set("include_tabs", "true")
+	}
+	return op
 }
 
 // StartPosition reserved for DocuSign.
-func (op *GetRecipientsCall) StartPosition(val int) *GetRecipientsCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
+func (op *RecipientsListOp) StartPosition(val int) *RecipientsListOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
-// UpdateRecipients adds or replaces envelope bulk recipients.
+// RecipientsUpdate adds or replaces envelope bulk recipients.
+//
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/update
+//
 // SDK Method BulkEnvelopes::updateRecipients
-// https://docs.docusign.com/esign/restapi/BulkEnvelopes/EnvelopeBulkRecipients/update
-func (s *Service) UpdateRecipients(envelopeID string, recipientID string, bulkRecipientsRequest *model.BulkRecipientsRequest) *UpdateRecipientsCall {
-    return &UpdateRecipientsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "envelopes/{envelopeId}/recipients/{recipientId}/bulk_recipients",
-            PathParameters: map[string]string{ 
-                "{envelopeId}": envelopeID,
-                "{recipientId}": recipientID,
-            },
-            Payload: bulkRecipientsRequest,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RecipientsUpdate(envelopeID string, recipientID string, bulkRecipientsRequest *model.BulkRecipientsRequest) *RecipientsUpdateOp {
+	return &RecipientsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Payload:    bulkRecipientsRequest,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateRecipientsCall implements DocuSign API SDK BulkEnvelopes::updateRecipients
-type UpdateRecipientsCall struct {
-    *esign.Call
-}
+// RecipientsUpdateOp implements DocuSign API SDK BulkEnvelopes::updateRecipients
+type RecipientsUpdateOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdateRecipientsCall) Do(ctx context.Context)  (*model.BulkRecipientsSummaryResponse, error) {
-    var res *model.BulkRecipientsSummaryResponse
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.BulkRecipientsSummaryResponse, error) {
+	var res *model.BulkRecipientsSummaryResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

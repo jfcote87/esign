@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,253 +7,192 @@
 
 // Package authentication implements the DocuSign SDK
 // category Authentication.
-// 
+//
 // Use the Authentication category to manage various account login tasks including:
-// 
+//
 // * Getting login information for a user.
 // * Managing linked social accounts.
 // * Getting and revoking OAuth tokens.
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/Authentication
+// https://developers.docusign.com/esign/restapi/Authentication
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/authentication"
+//   )
+//   ...
+//   authenticationService := authentication.New(esignCredential)
 package authentication
 
 import (
-    "net/url"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign Authentication Category API calls
+// Service implements DocuSign Authentication Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a authentication service using cred to authorize calls.
+// New initializes a authentication service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // Login gets login information for a specified user.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Authentication/Authentication/login
+//
 // SDK Method Authentication::login
-// https://docs.docusign.com/esign/restapi/Authentication/Authentication/login
-func (s *Service) Login() *LoginCall {
-    return &LoginCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2/login_information",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) Login() *LoginOp {
+	return &LoginOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2/login_information",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// LoginCall implements DocuSign API SDK Authentication::login
-type LoginCall struct {
-    *esign.Call
-}
+// LoginOp implements DocuSign API SDK Authentication::login
+type LoginOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *LoginCall) Do(ctx context.Context)  (*model.LoginInformation, error) {
-    var res *model.LoginInformation
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *LoginOp) Do(ctx context.Context) (*model.LoginInformation, error) {
+	var res *model.LoginInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // APIPassword reserved for DocuSign.
-func (op *LoginCall) APIPassword(val string) *LoginCall {
-    op.QueryOpts.Set("api_password", val)
-    return op
+func (op *LoginOp) APIPassword(val string) *LoginOp {
+	if op != nil {
+		op.QueryOpts.Set("api_password", val)
+	}
+	return op
 }
 
 // EmbedAccountIDGUID set the call query parameter embed_account_id_guid
-func (op *LoginCall) EmbedAccountIDGUID(val string) *LoginCall {
-    op.QueryOpts.Set("embed_account_id_guid", val)
-    return op
+func (op *LoginOp) EmbedAccountIDGUID(val string) *LoginOp {
+	if op != nil {
+		op.QueryOpts.Set("embed_account_id_guid", val)
+	}
+	return op
 }
 
 // IncludeAccountIDGUID when set to **true**, shows the account ID GUID in the response.
-func (op *LoginCall) IncludeAccountIDGUID() *LoginCall {
-    op.QueryOpts.Set("include_account_id_guid", "true")
-    return op
+func (op *LoginOp) IncludeAccountIDGUID() *LoginOp {
+	if op != nil {
+		op.QueryOpts.Set("include_account_id_guid", "true")
+	}
+	return op
 }
 
 // LoginSettings determines whether login settings are returned in the response.
-// 
+//
 // Valid Values:
-// 
-// * all -  All the login settings are returned. 
+//
+// * all -  All the login settings are returned.
 // * none - no login settings are returned.
-func (op *LoginCall) LoginSettings(val string) *LoginCall {
-    op.QueryOpts.Set("login_settings", val)
-    return op
+func (op *LoginOp) LoginSettings(val string) *LoginOp {
+	if op != nil {
+		op.QueryOpts.Set("login_settings", val)
+	}
+	return op
 }
 
 // UpdatePassword updates the password for a specified user.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Authentication/Authentication/updatePassword
+//
 // SDK Method Authentication::updatePassword
-// https://docs.docusign.com/esign/restapi/Authentication/Authentication/updatePassword
-func (s *Service) UpdatePassword(loginPart string, userPasswordInformation *model.UserPasswordInformation) *UpdatePasswordCall {
-    return &UpdatePasswordCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "/v2/login_information/{loginPart}",
-            PathParameters: map[string]string{ 
-                "{loginPart}": loginPart,
-            },
-            Payload: userPasswordInformation,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) UpdatePassword(loginPart string, userPasswordInformation *model.UserPasswordInformation) *UpdatePasswordOp {
+	return &UpdatePasswordOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"", "v2", "login_information", loginPart}, "/"),
+		Payload:    userPasswordInformation,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdatePasswordCall implements DocuSign API SDK Authentication::updatePassword
-type UpdatePasswordCall struct {
-    *esign.Call
+// UpdatePasswordOp implements DocuSign API SDK Authentication::updatePassword
+type UpdatePasswordOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *UpdatePasswordOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdatePasswordCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
-}
-
-// RevokeOAuthToken **Deprecated** Revokes an authorization token.
-// 
-// SDK Method Authentication::revokeOAuthToken
-// https://docs.docusign.com/esign/restapi/Authentication/Authentication/revokeOAuthToken
-func (s *Service) RevokeOAuthToken() *RevokeOAuthTokenCall {
-    return &RevokeOAuthTokenCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "/v2/oauth2/revoke",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// RevokeOAuthTokenCall implements DocuSign API SDK Authentication::revokeOAuthToken
-type RevokeOAuthTokenCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *RevokeOAuthTokenCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
-}
-
-// GetOAuthToken **Deprecated** Creates an authorization token.
-// 
-// SDK Method Authentication::getOAuthToken
-// https://docs.docusign.com/esign/restapi/Authentication/Authentication/getOAuthToken
-func (s *Service) GetOAuthToken() *GetOAuthTokenCall {
-    return &GetOAuthTokenCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "/v2/oauth2/token",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// GetOAuthTokenCall implements DocuSign API SDK Authentication::getOAuthToken
-type GetOAuthTokenCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *GetOAuthTokenCall) Do(ctx context.Context)  (*model.OauthAccess, error) {
-    var res *model.OauthAccess
-    return res, op.Call.Do(ctx, &res)
-}
-
-// DeleteSocialLogin deletes user's social account.
+// UserSocialAccountLoginsDelete deletes user's social account.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Authentication/UserSocialAccountLogins/delete
+//
 // SDK Method Authentication::deleteSocialLogin
-// https://docs.docusign.com/esign/restapi/Authentication/UserSocialAccountLogins/delete
-func (s *Service) DeleteSocialLogin(userID string, userSocialAccountLogins *model.SocialAccountInformation) *DeleteSocialLoginCall {
-    return &DeleteSocialLoginCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "users/{userId}/social",
-            PathParameters: map[string]string{ 
-                "{userId}": userID,
-            },
-            Payload: userSocialAccountLogins,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) UserSocialAccountLoginsDelete(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UserSocialAccountLoginsDeleteOp {
+	return &UserSocialAccountLoginsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"users", userID, "social"}, "/"),
+		Payload:    userSocialAccountLogins,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// DeleteSocialLoginCall implements DocuSign API SDK Authentication::deleteSocialLogin
-type DeleteSocialLoginCall struct {
-    *esign.Call
+// UserSocialAccountLoginsDeleteOp implements DocuSign API SDK Authentication::deleteSocialLogin
+type UserSocialAccountLoginsDeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *UserSocialAccountLoginsDeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *DeleteSocialLoginCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
-}
-
-// ListSocialLogins gets a list of a user's social accounts.
+// UserSocialAccountLoginsList gets a list of a user's social accounts.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Authentication/UserSocialAccountLogins/list
+//
 // SDK Method Authentication::listSocialLogins
-// https://docs.docusign.com/esign/restapi/Authentication/UserSocialAccountLogins/list
-func (s *Service) ListSocialLogins(userID string) *ListSocialLoginsCall {
-    return &ListSocialLoginsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "users/{userId}/social",
-            PathParameters: map[string]string{ 
-                "{userId}": userID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) UserSocialAccountLoginsList(userID string) *UserSocialAccountLoginsListOp {
+	return &UserSocialAccountLoginsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"users", userID, "social"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListSocialLoginsCall implements DocuSign API SDK Authentication::listSocialLogins
-type ListSocialLoginsCall struct {
-    *esign.Call
+// UserSocialAccountLoginsListOp implements DocuSign API SDK Authentication::listSocialLogins
+type UserSocialAccountLoginsListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *UserSocialAccountLoginsListOp) Do(ctx context.Context) (*model.UserSocialIDResult, error) {
+	var res *model.UserSocialIDResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *ListSocialLoginsCall) Do(ctx context.Context)  (*model.UserSocialIDResult, error) {
-    var res *model.UserSocialIDResult
-    return res, op.Call.Do(ctx, &res)
-}
-
-// UpdateSocialLogin adds social account for a user.
+// UserSocialAccountLoginsUpdate adds social account for a user.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Authentication/UserSocialAccountLogins/update
+//
 // SDK Method Authentication::updateSocialLogin
-// https://docs.docusign.com/esign/restapi/Authentication/UserSocialAccountLogins/update
-func (s *Service) UpdateSocialLogin(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UpdateSocialLoginCall {
-    return &UpdateSocialLoginCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "users/{userId}/social",
-            PathParameters: map[string]string{ 
-                "{userId}": userID,
-            },
-            Payload: userSocialAccountLogins,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) UserSocialAccountLoginsUpdate(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UserSocialAccountLoginsUpdateOp {
+	return &UserSocialAccountLoginsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"users", userID, "social"}, "/"),
+		Payload:    userSocialAccountLogins,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateSocialLoginCall implements DocuSign API SDK Authentication::updateSocialLogin
-type UpdateSocialLoginCall struct {
-    *esign.Call
-}
+// UserSocialAccountLoginsUpdateOp implements DocuSign API SDK Authentication::updateSocialLogin
+type UserSocialAccountLoginsUpdateOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdateSocialLoginCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
+// Do executes the op.  A nil context will return error.
+func (op *UserSocialAccountLoginsUpdateOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
-

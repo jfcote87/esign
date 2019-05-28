@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,174 +7,164 @@
 
 // Package customtabs implements the DocuSign SDK
 // category CustomTabs.
-// 
+//
 // Custom Tabs enable accounts to have one or more pre-configured (custom) tabs. Custom tabs save time when users are tagging documents since the users don't have to manually set the tabs' parameters.
-// 
-// This category enables custom tabs to be managed programmatically, including creation, deletion, etc. 
+//
+// This category enables custom tabs to be managed programmatically, including creation, deletion, etc.
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/CustomTabs
+// https://developers.docusign.com/esign/restapi/CustomTabs
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/customtabs"
+//   )
+//   ...
+//   customtabsService := customtabs.New(esignCredential)
 package customtabs
 
 import (
-    "net/url"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign CustomTabs Category API calls
+// Service implements DocuSign CustomTabs Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a customtabs service using cred to authorize calls.
+// New initializes a customtabs service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
-}
-
-// Delete deletes custom tab information.
-// SDK Method CustomTabs::delete
-// https://docs.docusign.com/esign/restapi/CustomTabs/CustomTabs/delete
-func (s *Service) Delete(customTabID string) *DeleteCall {
-    return &DeleteCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "tab_definitions/{customTabId}",
-            PathParameters: map[string]string{ 
-                "{customTabId}": customTabID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// DeleteCall implements DocuSign API SDK CustomTabs::delete
-type DeleteCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *DeleteCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
-}
-
-// Get gets custom tab information.
-// SDK Method CustomTabs::get
-// https://docs.docusign.com/esign/restapi/CustomTabs/CustomTabs/get
-func (s *Service) Get(customTabID string) *GetCall {
-    return &GetCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "tab_definitions/{customTabId}",
-            PathParameters: map[string]string{ 
-                "{customTabId}": customTabID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// GetCall implements DocuSign API SDK CustomTabs::get
-type GetCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *GetCall) Do(ctx context.Context)  (*model.TabMetadata, error) {
-    var res *model.TabMetadata
-    return res, op.Call.Do(ctx, &res)
-}
-
-// Update updates custom tab information.
-// 
-// 
-// SDK Method CustomTabs::update
-// https://docs.docusign.com/esign/restapi/CustomTabs/CustomTabs/update
-func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *UpdateCall {
-    return &UpdateCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "tab_definitions/{customTabId}",
-            PathParameters: map[string]string{ 
-                "{customTabId}": customTabID,
-            },
-            Payload: customTabs,
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// UpdateCall implements DocuSign API SDK CustomTabs::update
-type UpdateCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *UpdateCall) Do(ctx context.Context)  (*model.TabMetadata, error) {
-    var res *model.TabMetadata
-    return res, op.Call.Do(ctx, &res)
-}
-
-// List gets a list of all account tabs.
-// SDK Method CustomTabs::list
-// https://docs.docusign.com/esign/restapi/CustomTabs/CustomTabs/list
-func (s *Service) List() *ListCall {
-    return &ListCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "tab_definitions",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// ListCall implements DocuSign API SDK CustomTabs::list
-type ListCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *ListCall) Do(ctx context.Context)  (*model.TabMetadataList, error) {
-    var res *model.TabMetadataList
-    return res, op.Call.Do(ctx, &res)
-}
-
-// CustomTabOnly when set to **true**, only custom tabs are returned in the response.
-func (op *ListCall) CustomTabOnly() *ListCall {
-    op.QueryOpts.Set("custom_tab_only", "true")
-    return op
+	return &Service{credential: cred}
 }
 
 // Create creates a custom tab.
+//
+// https://developers.docusign.com/esign-rest-api/reference/CustomTabs/CustomTabs/create
+//
 // SDK Method CustomTabs::create
-// https://docs.docusign.com/esign/restapi/CustomTabs/CustomTabs/create
-func (s *Service) Create(customTabs *model.TabMetadata) *CreateCall {
-    return &CreateCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "tab_definitions",
-            Payload: customTabs,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) Create(customTabs *model.TabMetadata) *CreateOp {
+	return &CreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "tab_definitions",
+		Payload:    customTabs,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// CreateCall implements DocuSign API SDK CustomTabs::create
-type CreateCall struct {
-    *esign.Call
+// CreateOp implements DocuSign API SDK CustomTabs::create
+type CreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *CreateOp) Do(ctx context.Context) (*model.TabMetadata, error) {
+	var res *model.TabMetadata
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *CreateCall) Do(ctx context.Context)  (*model.TabMetadata, error) {
-    var res *model.TabMetadata
-    return res, op.Call.Do(ctx, &res)
+// Delete deletes custom tab information.
+//
+// https://developers.docusign.com/esign-rest-api/reference/CustomTabs/CustomTabs/delete
+//
+// SDK Method CustomTabs::delete
+func (s *Service) Delete(customTabID string) *DeleteOp {
+	return &DeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
+// DeleteOp implements DocuSign API SDK CustomTabs::delete
+type DeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
+}
+
+// Get gets custom tab information.
+//
+// https://developers.docusign.com/esign-rest-api/reference/CustomTabs/CustomTabs/get
+//
+// SDK Method CustomTabs::get
+func (s *Service) Get(customTabID string) *GetOp {
+	return &GetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// GetOp implements DocuSign API SDK CustomTabs::get
+type GetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *GetOp) Do(ctx context.Context) (*model.TabMetadata, error) {
+	var res *model.TabMetadata
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// List gets a list of all account tabs.
+//
+// https://developers.docusign.com/esign-rest-api/reference/CustomTabs/CustomTabs/list
+//
+// SDK Method CustomTabs::list
+func (s *Service) List() *ListOp {
+	return &ListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "tab_definitions",
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// ListOp implements DocuSign API SDK CustomTabs::list
+type ListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ListOp) Do(ctx context.Context) (*model.TabMetadataList, error) {
+	var res *model.TabMetadataList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// CustomTabOnly when set to **true**, only custom tabs are returned in the response.
+func (op *ListOp) CustomTabOnly() *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("custom_tab_only", "true")
+	}
+	return op
+}
+
+// Update updates custom tab information.
+//
+//
+//
+// https://developers.docusign.com/esign-rest-api/reference/CustomTabs/CustomTabs/update
+//
+// SDK Method CustomTabs::update
+func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *UpdateOp {
+	return &UpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
+		Payload:    customTabs,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// UpdateOp implements DocuSign API SDK CustomTabs::update
+type UpdateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *UpdateOp) Do(ctx context.Context) (*model.TabMetadata, error) {
+	var res *model.TabMetadata
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}

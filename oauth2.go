@@ -1,27 +1,27 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 package esign
 
-// oauth2.go contains definitions for Docusign's oauth2
+// oauth2.go contains definitions for DocuSign's oauth2
 // authorization scheme.  See the legacy package for
 // the previous authorization schemes.
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 	"sync"
-	"time"
-
-	"golang.org/x/net/context"
 
 	"github.com/jfcote87/ctxclient"
 	"github.com/jfcote87/oauth2"
+	"github.com/jfcote87/oauth2/jws"
 	"github.com/jfcote87/oauth2/jwt"
 )
 
@@ -31,8 +31,8 @@ func (df demoFlag) endpoint() oauth2.Endpoint {
 	if df {
 		// Demo endpoints
 		return oauth2.Endpoint{
-			AuthURL:  "https://account.docusign-d.com/oauth/auth",
-			TokenURL: "https://account.docusign-d.com/oauth/token",
+			AuthURL:  "https://account-d.docusign.com/oauth/auth",
+			TokenURL: "https://account-d.docusign.com/oauth/token",
 		}
 	}
 	// Production endpoints
@@ -42,56 +42,58 @@ func (df demoFlag) endpoint() oauth2.Endpoint {
 	}
 }
 
-func (df demoFlag) tokenURL() string {
+func (df demoFlag) tokenURI() string {
 	if df {
-		return "https://account.docusign-d.com/oauth/token"
+		return "account-d.docusign.com"
 	}
-	return "https://account.docusign.com/oauth/token"
+	return "account.docusign.com"
 }
 
 func (df demoFlag) userInfoPath() string {
 	if df {
-		return "https://account.docusign-d.com"
+		return "https://account-d.docusign.com/oauth/userinfo"
 	}
-	return "https://account.docusign.com"
+	return "https://account.docusign.com/oauth/userinfo"
 }
 
-// Oauth2Config allows for 3-legged oauth via a code grant mechanism
-// see https://docs.docusign.com/esign/guide/authentication/oa2_auth_code.html
-type Oauth2Config struct {
-	// see https://docs.docusign.com/esign/guide/authentication/integrator_key.html
-	IntegratorKey string
+// OAuth2Config allows for 3-legged oauth via a code grant mechanism
+// see https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant
+type OAuth2Config struct {
+	// see "Create integrator key and configure settings" at
+	// https://developers.docusign.com/esign-rest-api/guides
+	IntegratorKey string `json:"integrator_key,omitempty"`
 	// Secret generated when setting up integration in DocuSign. Leave blank for
 	// implicit grant.
-	Secret string
+	Secret string `json:"secret,omitempty"`
 	// The redirect URI must exactly match one of those pre-registered for the
 	// integrator key. This determines where to redirect the user after they
 	// successfully authenticate.
-	RedirURL string
+	RedirURL string `json:"redir_url,omitempty"`
 	// DocuSign users may have more than one account.  If AccountID is
 	// not set then the user's default account will be used.
-	AccountID string
-	// CacheFunc is called after a new token is created.  The function
-	// will receive the new token and the associated UserInfo
-	CacheFunc func(context.Context, oauth2.Token, *UserInfo)
+	AccountID string `json:"account_id,omitempty"`
+	// if not nil, CacheFunc is called after a new token is created passing
+	// the newly created Token and UserInfo.
+	CacheFunc func(context.Context, oauth2.Token, UserInfo) `json:"cache_func,omitempty"`
 	// Prompt indicates whether the authentication server will prompt
 	// the user for re-authentication, even if they have an active login session.
-	Prompt bool
+	Prompt bool `json:"prompt,omitempty"`
 	// List of the end-user’s preferred languages, represented as a
 	// space-separated list of RFC5646 language tag values ordered by preference.
-	UIlocales []string
-	// Set to true to obtain an extended lifetime token
-	ExtendedLifetime bool
+	// Note: can no longer find in docusign documentation.
+	UIlocales []string `json:"u_ilocales,omitempty"`
+	// Set to true to obtain an extended lifetime token (i.e. contains refresh token)
+	ExtendedLifetime bool `json:"extended_lifetime,omitempty"`
 	// Use developer sandbox
-	IsDemo bool
+	IsDemo bool `json:"is_demo,omitempty"`
 	// determines client used for oauth2 token calls.  If
 	// nil, ctxclient.Default will be used.
-	ctxclient.Func
+	HTTPClientFunc ctxclient.Func
 }
 
 // codeGrantConfig creates an oauth2 config for refreshing
 // and generating a token.
-func (c *Oauth2Config) codeGrantConfig() *oauth2.Config {
+func (c *OAuth2Config) codeGrantConfig() *oauth2.Config {
 	scopes := []string{"signature"}
 	if c.ExtendedLifetime {
 		scopes = []string{"signature", "extended"}
@@ -102,18 +104,18 @@ func (c *Oauth2Config) codeGrantConfig() *oauth2.Config {
 		ClientSecret:   c.Secret,
 		Scopes:         scopes,
 		Endpoint:       demoFlag(c.IsDemo).endpoint(),
-		HTTPClientFunc: c.Func,
+		HTTPClientFunc: c.HTTPClientFunc,
 	}
 }
 
-// AuthURL returns a URL to OAuth 2.0 provider's consent page
-// that asks for permissions for the required scopes explicitly.
+// AuthURL returns a URL to DocuSign's OAuth 2.0 consent page with
+// all appropriate query parmeters for starting 3-legged OAuth2Flow.
 //
 // State is a token to protect the user from CSRF attacks. You must
 // always provide a non-zero string and validate that it matches the
 // the state query parameter on your redirect callback.
-func (c *Oauth2Config) AuthURL(state string) string {
-	cfg := c.codeGrantConfig()
+func (c *OAuth2Config) AuthURL(state string) string {
+	cfg := c.codeGrantConfig() // client not needed for this action
 	opts := make([]oauth2.AuthCodeOption, 0)
 	if c.Prompt {
 		opts = append(opts, oauth2.SetAuthURLParam("prompt", "login"))
@@ -121,9 +123,9 @@ func (c *Oauth2Config) AuthURL(state string) string {
 	if len(c.UIlocales) > 0 {
 		opts = append(opts, oauth2.SetAuthURLParam("ui_locales", strings.Join(c.UIlocales, " ")))
 	}
-	// https://docs.docusign.com/esign/guide/authentication/auth_server.html
-	// Docusign insists on Path escape for url (i.e. %20 not + for spaces)
-	return strings.Replace(cfg.AuthCodeURL(state, opts...), "+", "%20", -1)
+	// https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant#step-1-request-the-authorization-code
+	// DocuSign insists on Path escape for url (i.e. %20 not + for spaces)
+	return replacePlus(cfg.AuthCodeURL(state, opts...))
 }
 
 // Exchange converts an authorization code into a token.
@@ -133,16 +135,26 @@ func (c *Oauth2Config) AuthURL(state string) string {
 //
 // The code will be in the *http.Request.FormValue("code"). Before
 // calling Exchange, be sure to validate FormValue("state").
-func (c *Oauth2Config) Exchange(ctx context.Context, code string) (*Oauth2Credential, error) {
+func (c *OAuth2Config) Exchange(ctx context.Context, code string) (*OAuth2Credential, error) {
 	cfg := c.codeGrantConfig()
+	// oauth2 exchange
 	tk, err := cfg.Exchange(ctx, code)
 	if err != nil {
 		return nil, err
 	}
-	return c.Credential(tk, nil)
+	u, err := getUserInfoForToken(ctx, demoFlag(c.IsDemo).userInfoPath(), tk, cfg.HTTPClientFunc)
+	if err != nil {
+		return nil, err
+	}
+	if c.CacheFunc != nil {
+		c.CacheFunc(ctx, *tk, *u)
+	}
+	// create credential
+	return c.Credential(tk, u)
+
 }
 
-func (c *Oauth2Config) refresher() func(context.Context, *oauth2.Token) (*oauth2.Token, error) {
+func (c *OAuth2Config) refresher() func(context.Context, *oauth2.Token) (*oauth2.Token, error) {
 	cfg := c.codeGrantConfig()
 	return func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
 		if tk == nil || tk.RefreshToken == "" {
@@ -152,96 +164,120 @@ func (c *Oauth2Config) refresher() func(context.Context, *oauth2.Token) (*oauth2
 	}
 }
 
-// Credential returns an *Oauth2Credential using the passed oauth2.Token
+// Credential returns an *OAuth2Credential using the passed oauth2.Token
 // as the starting authorization token.
-func (c *Oauth2Config) Credential(tk *oauth2.Token, u *UserInfo) (*Oauth2Credential, error) {
+func (c *OAuth2Config) Credential(tk *oauth2.Token, u *UserInfo) (*OAuth2Credential, error) {
+	if c == nil {
+		return nil, errors.New("nil configuration")
+	}
 	if tk == nil {
 		return nil, errors.New("token may not be nil")
 	}
-	return &Oauth2Credential{
+	tokenIsValid := tk.Valid()
+	if !tokenIsValid && tk.RefreshToken == "" {
+		return nil, errors.New("empty refresh token")
+	}
+	var accountID = c.AccountID
+	var baseURI *url.URL
+	var err error
+	if tokenIsValid && u != nil {
+		if accountID, baseURI, err = u.getAccountID(accountID); err != nil {
+			return nil, err
+		}
+	}
+	return &OAuth2Credential{
 		accountID:   c.AccountID,
+		baseURI:     baseURI,
 		cachedToken: tk,
 		refresher:   c.refresher(),
 		cacheFunc:   c.CacheFunc,
 		isDemo:      demoFlag(c.IsDemo),
 		userInfo:    u,
-		Func:        c.Func,
+		Func:        c.HTTPClientFunc,
 	}, nil
 }
 
-// JWTConfig is used to create an Oauth2Credential based upon DocuSign's
+// JWTConfig is used to create an OAuth2Credential based upon DocuSign's
 // Service Integration Authentication.
 //
-// See https://docs.docusign.com/esign/guide/authentication/oa2_jwt.html
+// See https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken
 type JWTConfig struct {
-	// see https://docs.docusign.com/esign/guide/authentication/integrator_key.html
-	IntegratorKey string
+	// see https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken#prerequisites
+	IntegratorKey string `json:"integrator_key,omitempty"`
+	// Use developer sandbox
+	IsDemo bool `json:"is_demo,omitempty"`
 	// PEM encoding of an RSA Private Key.
-	// see https://docs.docusign.com/esign/guide/authentication/integrator_key.html#rsakeys
-	// for how to create a DocuSign private key.
-	PrivateKey string
-	KeyPairID  string
-	// APIUsername may be found on the Edit User page of the docusign admin site.
-	// Do not use the email address.
-	APIUsername string
-	// Expires optionally specifies how long the token is valid for. Docusign
-	// limits this to 1 hour regardless if the duration is greater than 1 hour.
-	Expires time.Duration
+	// see https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken#prerequisites
+	// for how to create RSA keys to the application.
+	PrivateKey string `json:"private_key,omitempty"`
+	KeyPairID  string `json:"key_pair_id,omitempty"`
 	// DocuSign users may have more than one account.  If AccountID is
 	// not set then the user's default account will be used.
-	AccountID string
-	// CacheFunc is called after a new token is created.  The function
-	// will receive the new token and the associate UserInfo
-	CacheFunc func(context.Context, oauth2.Token, *UserInfo)
-	// Use developer sandbox
-	IsDemo bool
-	// UserInfo may be set if available
-	UserInfo *UserInfo
-	// Func determines client used for oauth2 token calls.  If
-	// nil, the default client for docusign calls will be used.
-	ctxclient.Func
+	AccountID string `json:"account_id,omitempty"`
+	// (optional)Expires specifies how long the token will be valid. DocuSign
+	// limits this to 1 hour.  1 hour is assumed if left empty.
+	Expiration *jwt.ExpirationSetting `json:"expires,omitempty"`
+	// if not nil, CacheFunc is called after a new token is created passing
+	// the newly created Token and UserInfo.
+	CacheFunc func(context.Context, oauth2.Token, UserInfo) `json:"cache_func,omitempty"`
+	// HTTPClientFunc determines client used for oauth2 token calls.  If
+	// nil, ctxclient.DefaultClient will be used.
+	HTTPClientFunc ctxclient.Func
 }
 
-func (c *JWTConfig) jwtRefresher() func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
+// UserConsentURL creates a url allowing a user to consent to impersonation
+// https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken#step-1-request-the-authorization-code
+func (c *JWTConfig) UserConsentURL(redirectURL string) string {
+	q := make(url.Values)
+	q.Set("response_type", "code")
+	q.Set("scope", "signature impersonation")
+	q.Set("client_id", c.IntegratorKey)
+	q.Set("redirect_uri", redirectURL)
+	// docusign insists upon %20 not + in scope definition
+	return demoFlag(c.IsDemo).endpoint().AuthURL + "?" + replacePlus(q.Encode())
+}
+
+func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer) func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
 	cfg := &jwt.Config{
-		Subject:        c.APIUsername,
-		PrivateKey:     []byte(c.PrivateKey),
-		PrivateKeyID:   c.KeyPairID,
-		Email:          c.IntegratorKey,
-		Expires:        c.Expires,
+		Issuer:         c.IntegratorKey,
+		Signer:         signer,
+		Subject:        apiUserName,
+		Expiration:     c.Expiration,
 		Scopes:         []string{"signature", "impersonation"},
-		TokenURL:       demoFlag(c.IsDemo).tokenURL(),
-		HTTPClientFunc: c.Func,
+		Audience:       demoFlag(c.IsDemo).tokenURI(),
+		TokenURL:       demoFlag(c.IsDemo).endpoint().TokenURL,
+		HTTPClientFunc: c.HTTPClientFunc,
 	}
 	return func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
 		return cfg.Token(ctx)
 	}
 }
 
-// Credential returns an *Oauth2Credential using the passed oauth2.Token
-// as the starting authorization token.
-func (c *JWTConfig) Credential(tk *oauth2.Token) (*Oauth2Credential, error) {
-	if tk == nil {
-		return nil, errors.New("token may not be nil")
+// Credential returns an *OAuth2Credential.  The passed token will be refreshed
+// as needed.
+func (c *JWTConfig) Credential(apiUserName string, token *oauth2.Token, u *UserInfo) (*OAuth2Credential, error) {
+	signer, err := jws.RS256FromPEM([]byte(c.PrivateKey), c.KeyPairID)
+	if err != nil {
+		return nil, err
 	}
-	return &Oauth2Credential{
+	return &OAuth2Credential{
 		accountID:   c.AccountID,
-		cachedToken: tk,
-		refresher:   c.jwtRefresher(),
+		cachedToken: token,
+		refresher:   c.jwtRefresher(apiUserName, signer),
 		cacheFunc:   c.CacheFunc,
 		isDemo:      demoFlag(c.IsDemo),
-		userInfo:    c.UserInfo,
-		Func:        c.Func,
+		userInfo:    u,
+		Func:        c.HTTPClientFunc,
 	}, nil
 }
 
-// Oauth2Credential authorizes call requests via DocuSign's oauth2
-type Oauth2Credential struct {
+// OAuth2Credential authorizes op requests via DocuSign's oauth2 protocol.
+type OAuth2Credential struct {
 	accountID   string
-	baseURI     *url.URL // baseURI for calls not token
+	baseURI     *url.URL // baseURI for ops not token
 	cachedToken *oauth2.Token
 	refresher   func(context.Context, *oauth2.Token) (*oauth2.Token, error)
-	cacheFunc   func(context.Context, oauth2.Token, *UserInfo)
+	cacheFunc   func(context.Context, oauth2.Token, UserInfo)
 	userInfo    *UserInfo
 	isDemo      demoFlag
 	mu          sync.Mutex
@@ -250,7 +286,7 @@ type Oauth2Credential struct {
 
 // Authorize set the authorization header and completes request's url
 // with the users's baseURI and account id.
-func (cred *Oauth2Credential) Authorize(ctx context.Context, req *http.Request) error {
+func (cred *OAuth2Credential) Authorize(ctx context.Context, req *http.Request) error {
 	t, err := cred.Token(ctx)
 	if err != nil {
 		return err
@@ -261,9 +297,52 @@ func (cred *Oauth2Credential) Authorize(ctx context.Context, req *http.Request) 
 	return nil
 }
 
+// AuthDo set the authorization header and completes request's url
+// with the users's baseURI and account id before sending the request
+func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
+
+	t, err := cred.Token(ctx)
+	if err != nil {
+		if req.Body != nil {
+			req.Body.Close()
+		}
+		return nil, err
+	}
+	t.SetAuthHeader(req)
+	// finalize url
+	ResolveDSURL(req.URL, cred.baseURI.Host, cred.accountID)
+	res, err := cred.Func.Do(ctx, req)
+	return res, toResponseError(err)
+}
+
+// WithAccountID creates a copy the current credential with a new accountID.  An empty
+// accountID will use the user's default account. If the accountID is invalid for the user
+// an error will occur when authorizing and operation.  Check for a valid account using
+// *OAuth2Credential.UserInfo(ctx).
+func (cred *OAuth2Credential) WithAccountID(accountID string) *OAuth2Credential {
+	if cred == nil {
+		return nil
+	}
+
+	cred.mu.Lock()
+	defer cred.mu.Unlock()
+
+	return &OAuth2Credential{
+		accountID:   accountID,
+		baseURI:     cred.baseURI,
+		cachedToken: cred.cachedToken,
+		refresher:   cred.refresher,
+		cacheFunc:   cred.cacheFunc,
+		userInfo:    cred.userInfo,
+		isDemo:      cred.isDemo,
+		Func:        cred.Func,
+	}
+
+}
+
 // UserInfo returns user data returned from the /oauth/userinfo ednpoint.
-// See https://docs.docusign.com/esign/guide/authentication/userinfo.html
-func (cred *Oauth2Credential) UserInfo(ctx context.Context) (*UserInfo, error) {
+// See https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints
+func (cred *OAuth2Credential) UserInfo(ctx context.Context) (*UserInfo, error) {
 	cred.mu.Lock()
 	if cred.userInfo == nil {
 		cred.mu.Unlock() // release lock b/c Token locks
@@ -276,17 +355,17 @@ func (cred *Oauth2Credential) UserInfo(ctx context.Context) (*UserInfo, error) {
 	u := *cred.userInfo
 	cred.mu.Unlock()
 	return &u, nil
-
 }
 
 // Token checks where the cachedToken is valid.  If not it attempts to obtain
 // a new token via the refresher.  Next accountID and baseURI are updated if
-// blank, (see https://docs.docusign.com/esign/guide/authentication/userinfo.html).
-// If a new token was created, the cache function is passed the new token, the baseURI
-// and the accountID.
-func (cred *Oauth2Credential) Token(ctx context.Context) (*oauth2.Token, error) {
+// blank, (see https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints).
+func (cred *OAuth2Credential) Token(ctx context.Context) (*oauth2.Token, error) {
 	if ctx == nil {
 		return nil, errors.New("context may not be nil")
+	}
+	if cred == nil {
+		return nil, errors.New("nil credential")
 	}
 	var isNewToken bool
 	var err error
@@ -300,47 +379,57 @@ func (cred *Oauth2Credential) Token(ctx context.Context) (*oauth2.Token, error) 
 		}
 		isNewToken = true
 	}
-	// check for userInfo and set AccountID and BaseURI to resolve call urls
+	// check for userInfo and set AccountID and BaseURI to resolve op urls
 	if cred.userInfo == nil {
-		var u *UserInfo
-
-		// needed to use new credential due to
-		if err := (&Call{
-			Credential: &tokenCredential{cred.cachedToken, cred.Func},
-			Method:     "GET",
-			Path:       cred.isDemo.userInfoPath(),
-		}).Do(ctx, &u); err != nil {
+		cred.userInfo, err = getUserInfoForToken(ctx, cred.isDemo.userInfoPath(), cred.cachedToken, cred.Func)
+		if err != nil {
 			return nil, err
 		}
-		if cred.accountID, cred.baseURI, err = u.getAccountID(cred.accountID); err != nil {
-			return nil, err
-		}
-		cred.userInfo = u
-
-	} else if cred.baseURI == nil || cred.accountID == "" { // values may be blank if loading userinfo from cache
+	}
+	if cred.baseURI == nil || cred.accountID == "" { // values may be blank if loading userinfo from cache
 		if cred.accountID, cred.baseURI, err = cred.userInfo.getAccountID(cred.accountID); err != nil {
 			return nil, err
 		}
 	}
 	if isNewToken && cred.cacheFunc != nil {
-		cred.cacheFunc(ctx, *cred.cachedToken, cred.userInfo)
+		cred.cacheFunc(ctx, *cred.cachedToken, *cred.userInfo)
 	}
 	return cred.cachedToken, nil
 }
 
-// tokenCredential provides authorization for userInfo calls.
+func getUserInfoForToken(ctx context.Context, path string, tk *oauth2.Token, f ctxclient.Func) (*UserInfo, error) {
+	// needed to use token credential due to different host and path parameters for op
+	var u UserInfo
+	err := (&Op{
+		Credential: &tokenCredential{tk, f},
+		Method:     "GET",
+		Path:       path,
+	}).Do(ctx, &u)
+	return &u, err
+
+}
+
+// tokenCredential provides authorization for userInfo ops.
 type tokenCredential struct {
 	*oauth2.Token
 	ctxclient.Func
 }
 
-func (t *tokenCredential) Authorize(ctx context.Context, req *http.Request) error {
+func (t *tokenCredential) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
 	t.Token.SetAuthHeader(req)
-	return nil
+	res, err := t.Func.Do(ctx, req)
+	return res, toResponseError(err)
+}
+
+func toResponseError(err error) error {
+	if nsErr, ok := err.(*ctxclient.NotSuccess); ok {
+		return NewResponseError(nsErr.Body, nsErr.StatusCode)
+	}
+	return err
 }
 
 // UserInfo provides all account info for a specific user.  Data from
-// the /oauth/userinfo call is unmarshaled into this struct.
+// the /oauth/userinfo op is unmarshaled into this struct.
 type UserInfo struct {
 	APIUsername string            `json:"sub"`
 	Accounts    []UserInfoAccount `json:"accounts"`
@@ -363,7 +452,7 @@ type UserInfoAccount struct {
 // default account.
 func (u *UserInfo) getAccountID(id string) (string, *url.URL, error) {
 	if u == nil {
-		return "", nil, errors.New("UserInfo is nil")
+		return "", nil, errors.New("userInfo is nil")
 	}
 	for _, a := range u.Accounts {
 		if (id == "" && a.IsDefault) || id == a.AccountID {
@@ -373,4 +462,12 @@ func (u *UserInfo) getAccountID(id string) (string, *url.URL, error) {
 	}
 
 	return "", nil, fmt.Errorf("no account %s for %s", id, u.Email)
+}
+
+var expReplacePlusInScope = regexp.MustCompile(`[\?&]scope=([^\+&]*\+)+`)
+
+func replacePlus(s string) string {
+	return expReplacePlusInScope.ReplaceAllStringFunc(s, func(rstr string) string {
+		return strings.Replace(rstr, "+", "%20", -1)
+	})
 }

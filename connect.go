@@ -1,11 +1,11 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// connect.go contains definitions for Docusign's Connect
+// connect.go contains definitions for DocuSign's Connect
 // Service. see:
-// https://www.docusign.com/developer-center/api-overview#docusign-connect
+// https://developers.docusign.com/esign-rest-api/guides/connect
 // https://www.docusign.com/supportdocs/pdf/connect-guide.pdf
 
 package esign
@@ -21,17 +21,21 @@ type DSTime string
 
 // Time converts a DSTime value into a time.time.  On error or
 // unknown format, the zero value of time.Time is returned.
-func (d DSTime) Time() (tm time.Time) {
-	if strings.HasSuffix(string(d), "Z") {
-		tm, _ = time.Parse(time.RFC3339Nano, string(d))
-
-	} else {
-		tm, _ = time.Parse("2006-01-02T15:04:05.999999999", string(d))
+func (d *DSTime) Time() time.Time {
+	var tm time.Time
+	if d == nil {
+		return tm
 	}
+	s := string(*d)
+	if strings.HasSuffix(string(*d), "Z") {
+		tm, _ = time.Parse(time.RFC3339Nano, s)
+		return tm
+	}
+	tm, _ = time.Parse("2006-01-02T15:04:05.999999999", s)
 	return tm
 }
 
-// ConnectData is the top level struct for a Connect status message.
+// ConnectData is the top level definition of a Connect status message.
 type ConnectData struct {
 	EnvelopeStatus EnvelopeStatusXML `xml:"EnvelopeStatus" json:"envelopeStatus,omitempty"`
 	DocumentPdfs   []DocumentPdfXML  `xml:"DocumentPDFs>DocumentPDF" json:"documentPdfs,omitempty"`
@@ -39,17 +43,17 @@ type ConnectData struct {
 
 // EnvelopeStatusXML contains envelope information.
 type EnvelopeStatusXML struct {
-	TimeGenerated      DSTime               `xml:"TimeGenerated" json:"timeGenerated,omitempty"`
+	TimeGenerated      *DSTime              `xml:"TimeGenerated" json:"timeGenerated,omitempty"`
 	EnvelopeID         string               `xml:"EnvelopeID" json:"envelopeID,omitempty"`
 	Subject            string               `xml:"Subject" json:"subject,omitempty"`
 	UserName           string               `xml:"UserName" json:"userName,omitempty"`
 	Email              string               `xml:"Email" json:"email,omitempty"`
 	Status             string               `xml:"Status" json:"status,omitempty"`
-	Created            DSTime               `xml:"Created" json:"created,omitempty"`
-	Sent               DSTime               `xml:"Sent" json:"sent,omitempty"`
-	Delivered          DSTime               `xml:"Delivered" json:"delivered,omitempty"`
-	Signed             DSTime               `xml:"Signed" json:"signed,omitempty"`
-	Completed          DSTime               `xml:"Completed" json:"completed,omitempty"`
+	Created            *DSTime              `xml:"Created" json:"created,omitempty"`
+	Sent               *DSTime              `xml:"Sent" json:"sent,omitempty"`
+	Delivered          *DSTime              `xml:"Delivered" json:"delivered,omitempty"`
+	Signed             *DSTime              `xml:"Signed" json:"signed,omitempty"`
+	Completed          *DSTime              `xml:"Completed" json:"completed,omitempty"`
 	ACStatus           string               `xml:"ACStatus" json:"acStatus,omitempty"`
 	ACStatusDate       string               `xml:"ACStatusDate" json:"acStatusDate,omitempty"`
 	ACHolder           string               `xml:"ACHolder" json:"acHolder,omitempty"`
@@ -79,9 +83,9 @@ type RecipientStatusXML struct {
 	Email               string                 `xml:"Email" json:"email,omitempty"`
 	UserName            string                 `xml:"UserName" json:"userName,omitempty"`
 	RoutingOrder        string                 `xml:"RoutingOrder" json:"routingOrder,omitempty"`
-	Sent                DSTime                 `xml:"Sent" json:"sent,omitempty"`
-	Delivered           DSTime                 `xml:"Delivered" json:"delivered,omitempty"`
-	Signed              DSTime                 `xml:"Signed" json:"signed,omitempty"`
+	Sent                *DSTime                `xml:"Sent" json:"sent,omitempty"`
+	Delivered           *DSTime                `xml:"Delivered" json:"delivered,omitempty"`
+	Signed              *DSTime                `xml:"Signed" json:"signed,omitempty"`
 	DeclineReason       string                 `xml:"DeclineReason" json:"declineReason,omitempty"`
 	Status              string                 `xml:"Status" json:"status,omitempty"`
 	RecipientIPAddress  string                 `xml:"RecipientIPAddress" json:"recipientIPAdress,omitempty"`

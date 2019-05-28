@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,427 +7,409 @@
 
 // Package workspaces implements the DocuSign SDK
 // category Workspaces.
-// 
+//
 // Workspaces creation and management.
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/Workspaces
+// https://developers.docusign.com/esign/restapi/Workspaces
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/workspaces"
+//   )
+//   ...
+//   workspacesService := workspaces.New(esignCredential)
 package workspaces
 
 import (
-    "fmt"
-    "net/url"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"fmt"
+	"io"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign Workspaces Category API calls
+// Service implements DocuSign Workspaces Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a workspaces service using cred to authorize calls.
+// New initializes a workspaces service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
-// ListWorkspaceFilePages list File Pages
-// SDK Method Workspaces::listWorkspaceFilePages
-// https://docs.docusign.com/esign/restapi/Workspaces/WorkspaceItems/listFilePages
-func (s *Service) ListWorkspaceFilePages(fileID string, folderID string, workspaceID string) *ListWorkspaceFilePagesCall {
-    return &ListWorkspaceFilePagesCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "workspaces/{workspaceId}/folders/{folderId}/files/{fileId}/pages",
-            PathParameters: map[string]string{ 
-                "{fileId}": fileID,
-                "{folderId}": folderID,
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+// ItemsCreateFIle creates a workspace file.
+// If media is an io.ReadCloser, Do() will close media.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/createFIle
+//
+// SDK Method Workspaces::createWorkspaceFile
+func (s *Service) ItemsCreateFIle(folderID string, workspaceID string, media io.Reader, mimeType string) *ItemsCreateFIleOp {
+	return &ItemsCreateFIleOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files"}, "/"),
+		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListWorkspaceFilePagesCall implements DocuSign API SDK Workspaces::listWorkspaceFilePages
-type ListWorkspaceFilePagesCall struct {
-    *esign.Call
+// ItemsCreateFIleOp implements DocuSign API SDK Workspaces::createWorkspaceFile
+type ItemsCreateFIleOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ItemsCreateFIleOp) Do(ctx context.Context) (*model.WorkspaceItem, error) {
+	var res *model.WorkspaceItem
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *ListWorkspaceFilePagesCall) Do(ctx context.Context)  (*model.PageImages, error) {
-    var res *model.PageImages
-    return res, op.Call.Do(ctx, &res)
+// ItemsDeleteFolderItems deletes workspace one or more specific files/folders from the given folder or root.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/deleteFolderItems
+//
+// SDK Method Workspaces::deleteWorkspaceFolderItems
+func (s *Service) ItemsDeleteFolderItems(folderID string, workspaceID string, workspaceItemList *model.WorkspaceItemList) *ItemsDeleteFolderItemsOp {
+	return &ItemsDeleteFolderItemsOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID}, "/"),
+		Payload:    workspaceItemList,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// Count is the maximum number of results to be returned by this request.
-func (op *ListWorkspaceFilePagesCall) Count(val int) *ListWorkspaceFilePagesCall {
-    op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    return op
+// ItemsDeleteFolderItemsOp implements DocuSign API SDK Workspaces::deleteWorkspaceFolderItems
+type ItemsDeleteFolderItemsOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ItemsDeleteFolderItemsOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// Dpi number of dots per inch for the resulting image. The default if not used is 94. The range is 1-310.
-func (op *ListWorkspaceFilePagesCall) Dpi(val int) *ListWorkspaceFilePagesCall {
-    op.QueryOpts.Set("dpi", fmt.Sprintf("%d", val ))
-    return op
-}
-
-// MaxHeight sets the maximum height (in pixels) of the returned image.
-func (op *ListWorkspaceFilePagesCall) MaxHeight(val int) *ListWorkspaceFilePagesCall {
-    op.QueryOpts.Set("max_height", fmt.Sprintf("%d", val ))
-    return op
-}
-
-// MaxWidth sets the maximum width (in pixels) of the returned image.
-func (op *ListWorkspaceFilePagesCall) MaxWidth(val int) *ListWorkspaceFilePagesCall {
-    op.QueryOpts.Set("max_width", fmt.Sprintf("%d", val ))
-    return op
-}
-
-// StartPosition is the position within the total result set from which to start returning values. The value **thumbnail** may be used to return the page image.
-func (op *ListWorkspaceFilePagesCall) StartPosition(val int) *ListWorkspaceFilePagesCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
-}
-
-// GetWorkspaceFile get Workspace File
+// ItemsGetFile get Workspace File
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/getFile
+//
 // SDK Method Workspaces::getWorkspaceFile
-// https://docs.docusign.com/esign/restapi/Workspaces/WorkspaceItems/getFile
-func (s *Service) GetWorkspaceFile(fileID string, folderID string, workspaceID string) *GetWorkspaceFileCall {
-    return &GetWorkspaceFileCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "workspaces/{workspaceId}/folders/{folderId}/files/{fileId}",
-            PathParameters: map[string]string{ 
-                "{fileId}": fileID,
-                "{folderId}": folderID,
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) ItemsGetFile(fileID string, folderID string, workspaceID string) *ItemsGetFileOp {
+	return &ItemsGetFileOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files", fileID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetWorkspaceFileCall implements DocuSign API SDK Workspaces::getWorkspaceFile
-type GetWorkspaceFileCall struct {
-    *esign.Call
-}
+// ItemsGetFileOp implements DocuSign API SDK Workspaces::getWorkspaceFile
+type ItemsGetFileOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *GetWorkspaceFileCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
+// Do executes the op.  A nil context will return error.
+func (op *ItemsGetFileOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IsDownload when set to **true**, the Content-Disposition header is set in the response. The value of the header provides the filename of the file. Default is **false**.
-func (op *GetWorkspaceFileCall) IsDownload() *GetWorkspaceFileCall {
-    op.QueryOpts.Set("is_download", "true")
-    return op
+func (op *ItemsGetFileOp) IsDownload() *ItemsGetFileOp {
+	if op != nil {
+		op.QueryOpts.Set("is_download", "true")
+	}
+	return op
 }
 
 // PdfVersion when set to **true** the file returned as a PDF.
-func (op *GetWorkspaceFileCall) PdfVersion() *GetWorkspaceFileCall {
-    op.QueryOpts.Set("pdf_version", "true")
-    return op
+func (op *ItemsGetFileOp) PdfVersion() *ItemsGetFileOp {
+	if op != nil {
+		op.QueryOpts.Set("pdf_version", "true")
+	}
+	return op
 }
 
-// CreateWorkspaceFile creates a workspace file.
-// SDK Method Workspaces::createWorkspaceFile
-// https://docs.docusign.com/esign/restapi/Workspaces/WorkspaceItems/createFIle
-func (s *Service) CreateWorkspaceFile(folderID string, workspaceID string) *CreateWorkspaceFileCall {
-    return &CreateWorkspaceFileCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "workspaces/{workspaceId}/folders/{folderId}/files",
-            PathParameters: map[string]string{ 
-                "{folderId}": folderID,
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+// ItemsListFilePages list File Pages
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/listFilePages
+//
+// SDK Method Workspaces::listWorkspaceFilePages
+func (s *Service) ItemsListFilePages(fileID string, folderID string, workspaceID string) *ItemsListFilePagesOp {
+	return &ItemsListFilePagesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files", fileID, "pages"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// CreateWorkspaceFileCall implements DocuSign API SDK Workspaces::createWorkspaceFile
-type CreateWorkspaceFileCall struct {
-    *esign.Call
-}
+// ItemsListFilePagesOp implements DocuSign API SDK Workspaces::listWorkspaceFilePages
+type ItemsListFilePagesOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *CreateWorkspaceFileCall) Do(ctx context.Context)  (*model.WorkspaceItem, error) {
-    var res *model.WorkspaceItem
-    return res, op.Call.Do(ctx, &res)
-}
-
-// UpdateWorkspaceFile update Workspace File Metadata
-// SDK Method Workspaces::updateWorkspaceFile
-// https://docs.docusign.com/esign/restapi/Workspaces/WorkspaceItems/updateFile
-func (s *Service) UpdateWorkspaceFile(fileID string, folderID string, workspaceID string) *UpdateWorkspaceFileCall {
-    return &UpdateWorkspaceFileCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "workspaces/{workspaceId}/folders/{folderId}/files/{fileId}",
-            PathParameters: map[string]string{ 
-                "{fileId}": fileID,
-                "{folderId}": folderID,
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// UpdateWorkspaceFileCall implements DocuSign API SDK Workspaces::updateWorkspaceFile
-type UpdateWorkspaceFileCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *UpdateWorkspaceFileCall) Do(ctx context.Context)  (*model.WorkspaceItem, error) {
-    var res *model.WorkspaceItem
-    return res, op.Call.Do(ctx, &res)
-}
-
-// DeleteWorkspaceFolderItems deletes workspace one or more specific files/folders from the given folder or root.
-// SDK Method Workspaces::deleteWorkspaceFolderItems
-// https://docs.docusign.com/esign/restapi/Workspaces/WorkspaceItems/deleteFolderItems
-func (s *Service) DeleteWorkspaceFolderItems(folderID string, workspaceID string, workspaceItemList *model.WorkspaceItemList) *DeleteWorkspaceFolderItemsCall {
-    return &DeleteWorkspaceFolderItemsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "workspaces/{workspaceId}/folders/{folderId}",
-            PathParameters: map[string]string{ 
-                "{folderId}": folderID,
-                "{workspaceId}": workspaceID,
-            },
-            Payload: workspaceItemList,
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// DeleteWorkspaceFolderItemsCall implements DocuSign API SDK Workspaces::deleteWorkspaceFolderItems
-type DeleteWorkspaceFolderItemsCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *DeleteWorkspaceFolderItemsCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
-}
-
-// ListWorkspaceFolderItems list Workspace Folder Contents
-// SDK Method Workspaces::listWorkspaceFolderItems
-// https://docs.docusign.com/esign/restapi/Workspaces/WorkspaceItems/listFolderItems
-func (s *Service) ListWorkspaceFolderItems(folderID string, workspaceID string) *ListWorkspaceFolderItemsCall {
-    return &ListWorkspaceFolderItemsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "workspaces/{workspaceId}/folders/{folderId}",
-            PathParameters: map[string]string{ 
-                "{folderId}": folderID,
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// ListWorkspaceFolderItemsCall implements DocuSign API SDK Workspaces::listWorkspaceFolderItems
-type ListWorkspaceFolderItemsCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *ListWorkspaceFolderItemsCall) Do(ctx context.Context)  (*model.WorkspaceFolderContents, error) {
-    var res *model.WorkspaceFolderContents
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *ItemsListFilePagesOp) Do(ctx context.Context) (*model.PageImages, error) {
+	var res *model.PageImages
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count is the maximum number of results to be returned by this request.
-func (op *ListWorkspaceFolderItemsCall) Count(val int) *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    return op
+func (op *ItemsListFilePagesOp) Count(val int) *ItemsListFilePagesOp {
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
+}
+
+// Dpi number of dots per inch for the resulting image. The default if not used is 94. The range is 1-310.
+func (op *ItemsListFilePagesOp) Dpi(val int) *ItemsListFilePagesOp {
+	if op != nil {
+		op.QueryOpts.Set("dpi", fmt.Sprintf("%d", val))
+	}
+	return op
+}
+
+// MaxHeight sets the maximum height (in pixels) of the returned image.
+func (op *ItemsListFilePagesOp) MaxHeight(val int) *ItemsListFilePagesOp {
+	if op != nil {
+		op.QueryOpts.Set("max_height", fmt.Sprintf("%d", val))
+	}
+	return op
+}
+
+// MaxWidth sets the maximum width (in pixels) of the returned image.
+func (op *ItemsListFilePagesOp) MaxWidth(val int) *ItemsListFilePagesOp {
+	if op != nil {
+		op.QueryOpts.Set("max_width", fmt.Sprintf("%d", val))
+	}
+	return op
+}
+
+// StartPosition is the position within the total result set from which to start returning values. The value **thumbnail** may be used to return the page image.
+func (op *ItemsListFilePagesOp) StartPosition(val int) *ItemsListFilePagesOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
+}
+
+// ItemsListFolderItems list Workspace Folder Contents
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/listFolderItems
+//
+// SDK Method Workspaces::listWorkspaceFolderItems
+func (s *Service) ItemsListFolderItems(folderID string, workspaceID string) *ItemsListFolderItemsOp {
+	return &ItemsListFolderItemsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// ItemsListFolderItemsOp implements DocuSign API SDK Workspaces::listWorkspaceFolderItems
+type ItemsListFolderItemsOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ItemsListFolderItemsOp) Do(ctx context.Context) (*model.WorkspaceFolderContents, error) {
+	var res *model.WorkspaceFolderContents
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// Count is the maximum number of results to be returned by this request.
+func (op *ItemsListFolderItemsOp) Count(val int) *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // IncludeFiles when set to **true**, file information is returned in the response along with folder information. The default is **false**.
-func (op *ListWorkspaceFolderItemsCall) IncludeFiles() *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("include_files", "true")
-    return op
+func (op *ItemsListFolderItemsOp) IncludeFiles() *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("include_files", "true")
+	}
+	return op
 }
 
 // IncludeSubFolders when set to **true**, information about the sub-folders of the current folder is returned. The default is **false**.
-func (op *ListWorkspaceFolderItemsCall) IncludeSubFolders() *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("include_sub_folders", "true")
-    return op
+func (op *ItemsListFolderItemsOp) IncludeSubFolders() *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("include_sub_folders", "true")
+	}
+	return op
 }
 
 // IncludeThumbnails when set to **true**, thumbnails are returned as part of the response.  The default is **false**.
-func (op *ListWorkspaceFolderItemsCall) IncludeThumbnails() *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("include_thumbnails", "true")
-    return op
+func (op *ItemsListFolderItemsOp) IncludeThumbnails() *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("include_thumbnails", "true")
+	}
+	return op
 }
 
 // IncludeUserDetail set to **true** to return extended details about the user. The default is **false**.
-func (op *ListWorkspaceFolderItemsCall) IncludeUserDetail() *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("include_user_detail", "true")
-    return op
+func (op *ItemsListFolderItemsOp) IncludeUserDetail() *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("include_user_detail", "true")
+	}
+	return op
 }
 
 // StartPosition is the position within the total result set from which to start returning values.
-func (op *ListWorkspaceFolderItemsCall) StartPosition(val int) *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    return op
+func (op *ItemsListFolderItemsOp) StartPosition(val int) *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // WorkspaceUserID if set, then the results are filtered to those associated with the specified userId.
-func (op *ListWorkspaceFolderItemsCall) WorkspaceUserID(val string) *ListWorkspaceFolderItemsCall {
-    op.QueryOpts.Set("workspace_user_id", val)
-    return op
+func (op *ItemsListFolderItemsOp) WorkspaceUserID(val string) *ItemsListFolderItemsOp {
+	if op != nil {
+		op.QueryOpts.Set("workspace_user_id", val)
+	}
+	return op
 }
 
-// DeleteWorkspace delete Workspace
-// SDK Method Workspaces::deleteWorkspace
-// https://docs.docusign.com/esign/restapi/Workspaces/Workspaces/delete
-func (s *Service) DeleteWorkspace(workspaceID string) *DeleteWorkspaceCall {
-    return &DeleteWorkspaceCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "workspaces/{workspaceId}",
-            PathParameters: map[string]string{ 
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+// ItemsUpdateFile update Workspace File Metadata
+// If media is an io.ReadCloser, Do() will close media.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/updateFile
+//
+// SDK Method Workspaces::updateWorkspaceFile
+func (s *Service) ItemsUpdateFile(fileID string, folderID string, workspaceID string, media io.Reader, mimeType string) *ItemsUpdateFileOp {
+	return &ItemsUpdateFileOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files", fileID}, "/"),
+		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// DeleteWorkspaceCall implements DocuSign API SDK Workspaces::deleteWorkspace
-type DeleteWorkspaceCall struct {
-    *esign.Call
+// ItemsUpdateFileOp implements DocuSign API SDK Workspaces::updateWorkspaceFile
+type ItemsUpdateFileOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ItemsUpdateFileOp) Do(ctx context.Context) (*model.WorkspaceItem, error) {
+	var res *model.WorkspaceItem
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *DeleteWorkspaceCall) Do(ctx context.Context)  (*model.Workspace, error) {
-    var res *model.Workspace
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetWorkspace get Workspace
-// SDK Method Workspaces::getWorkspace
-// https://docs.docusign.com/esign/restapi/Workspaces/Workspaces/get
-func (s *Service) GetWorkspace(workspaceID string) *GetWorkspaceCall {
-    return &GetWorkspaceCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "workspaces/{workspaceId}",
-            PathParameters: map[string]string{ 
-                "{workspaceId}": workspaceID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// GetWorkspaceCall implements DocuSign API SDK Workspaces::getWorkspace
-type GetWorkspaceCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *GetWorkspaceCall) Do(ctx context.Context)  (*model.Workspace, error) {
-    var res *model.Workspace
-    return res, op.Call.Do(ctx, &res)
-}
-
-// ListWorkspaces list Workspaces
-// SDK Method Workspaces::listWorkspaces
-// https://docs.docusign.com/esign/restapi/Workspaces/Workspaces/list
-func (s *Service) ListWorkspaces() *ListWorkspacesCall {
-    return &ListWorkspacesCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "workspaces",
-            QueryOpts: make(url.Values),
-        },
-    }
-}
-
-// ListWorkspacesCall implements DocuSign API SDK Workspaces::listWorkspaces
-type ListWorkspacesCall struct {
-    *esign.Call
-}
-
-// Do executes the call.  A nil context will return error.
-func (op *ListWorkspacesCall) Do(ctx context.Context)  (*model.WorkspaceList, error) {
-    var res *model.WorkspaceList
-    return res, op.Call.Do(ctx, &res)
-}
-
-// CreateWorkspace create a Workspace
+// Create create a Workspace
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/create
+//
 // SDK Method Workspaces::createWorkspace
-// https://docs.docusign.com/esign/restapi/Workspaces/Workspaces/create
-func (s *Service) CreateWorkspace(workspaces *model.Workspace) *CreateWorkspaceCall {
-    return &CreateWorkspaceCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "POST",
-            Path: "workspaces",
-            Payload: workspaces,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) Create(workspaces *model.Workspace) *CreateOp {
+	return &CreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "workspaces",
+		Payload:    workspaces,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// CreateWorkspaceCall implements DocuSign API SDK Workspaces::createWorkspace
-type CreateWorkspaceCall struct {
-    *esign.Call
+// CreateOp implements DocuSign API SDK Workspaces::createWorkspace
+type CreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *CreateOp) Do(ctx context.Context) (*model.Workspace, error) {
+	var res *model.Workspace
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *CreateWorkspaceCall) Do(ctx context.Context)  (*model.Workspace, error) {
-    var res *model.Workspace
-    return res, op.Call.Do(ctx, &res)
+// Delete delete Workspace
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/delete
+//
+// SDK Method Workspaces::deleteWorkspace
+func (s *Service) Delete(workspaceID string) *DeleteOp {
+	return &DeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateWorkspace update Workspace
+// DeleteOp implements DocuSign API SDK Workspaces::deleteWorkspace
+type DeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DeleteOp) Do(ctx context.Context) (*model.Workspace, error) {
+	var res *model.Workspace
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// Get get Workspace
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/get
+//
+// SDK Method Workspaces::getWorkspace
+func (s *Service) Get(workspaceID string) *GetOp {
+	return &GetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// GetOp implements DocuSign API SDK Workspaces::getWorkspace
+type GetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *GetOp) Do(ctx context.Context) (*model.Workspace, error) {
+	var res *model.Workspace
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// List list Workspaces
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/list
+//
+// SDK Method Workspaces::listWorkspaces
+func (s *Service) List() *ListOp {
+	return &ListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "workspaces",
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// ListOp implements DocuSign API SDK Workspaces::listWorkspaces
+type ListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ListOp) Do(ctx context.Context) (*model.WorkspaceList, error) {
+	var res *model.WorkspaceList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// Update update Workspace
+//
+// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/update
+//
 // SDK Method Workspaces::updateWorkspace
-// https://docs.docusign.com/esign/restapi/Workspaces/Workspaces/update
-func (s *Service) UpdateWorkspace(workspaceID string, workspaces *model.Workspace) *UpdateWorkspaceCall {
-    return &UpdateWorkspaceCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "workspaces/{workspaceId}",
-            PathParameters: map[string]string{ 
-                "{workspaceId}": workspaceID,
-            },
-            Payload: workspaces,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) Update(workspaceID string, workspaces *model.Workspace) *UpdateOp {
+	return &UpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
+		Payload:    workspaces,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateWorkspaceCall implements DocuSign API SDK Workspaces::updateWorkspace
-type UpdateWorkspaceCall struct {
-    *esign.Call
-}
+// UpdateOp implements DocuSign API SDK Workspaces::updateWorkspace
+type UpdateOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdateWorkspaceCall) Do(ctx context.Context)  (*model.Workspace, error) {
-    var res *model.Workspace
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *UpdateOp) Do(ctx context.Context) (*model.Workspace, error) {
+	var res *model.Workspace
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

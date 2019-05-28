@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -10,14 +10,13 @@
 package legacy
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 
 	"github.com/jfcote87/ctxclient"
 	"github.com/jfcote87/esign"
 	"github.com/jfcote87/esign/model"
-
-	"golang.org/x/net/context"
 )
 
 // Documentation: https://docs.docusign.com/esign/
@@ -60,8 +59,8 @@ type OauthCredential struct {
 	ctxclient.Func
 }
 
-// Authorize update request with authorization parameters
-func (o OauthCredential) Authorize(ctx context.Context, req *http.Request) error {
+// AuthDo updates request with authorization headers, adds account to URL and sends request
+func (o OauthCredential) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
 	esign.ResolveDSURL(req.URL, getHost(o.IsDemoAccount, o.Host), o.AccountID)
 	var auth string
 	if o.TokenType == "" {
@@ -73,12 +72,17 @@ func (o OauthCredential) Authorize(ctx context.Context, req *http.Request) error
 	if o.OnBehalfOf != "" {
 		req.Header.Set("X-DocuSign-Act-As-User", o.OnBehalfOf)
 	}
-	return nil
+	res, err := o.Func.Do(ctx, req)
+	if nsErr, ok := err.(*ctxclient.NotSuccess); ok {
+		return nil, esign.NewResponseError(nsErr.Body, nsErr.StatusCode)
+	}
+	return res, err
+
 }
 
 // Revoke invalidates the token ensuring that an error will occur on an subsequent uses.
 func (o OauthCredential) Revoke(ctx context.Context) error {
-	c := &esign.Call{
+	c := &esign.Op{
 		Credential: o,
 		Method:     "POST",
 		Path:       "/oauth2/revoke",
@@ -114,7 +118,7 @@ type Config struct {
 // token does not have a expiration although it may be revoked
 // via OauthCredential.Revoke()
 func (c *Config) OauthCredential(ctx context.Context) (*OauthCredential, error) {
-	call := &esign.Call{
+	call := &esign.Op{
 		Credential: c,
 		Method:     "POST",
 		Path:       "/oauth2/token",
@@ -144,7 +148,7 @@ func (c *Config) OauthCredential(ctx context.Context) (*OauthCredential, error) 
 // OnBehalfOfCredential returns an *OauthCredential for the user name specied by nm.  oauthCred
 // must be a credential for a user with administrative rights on the account.
 func (o *OauthCredential) OnBehalfOfCredential(ctx context.Context, integratorKey, nm string) (*OauthCredential, error) {
-	call := &esign.Call{
+	call := &esign.Op{
 		Credential: o,
 		Method:     "POST",
 		Path:       "/oauth2/token",
@@ -170,8 +174,8 @@ func (o *OauthCredential) OnBehalfOfCredential(ctx context.Context, integratorKe
 	}, nil
 }
 
-// Authorize adds authorization headers to a rest request using user/password functionality.
-func (c Config) Authorize(ctx context.Context, req *http.Request) error {
+// AuthDo adds authorization headers, adds accountID to url and sends request
+func (c Config) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
 	esign.ResolveDSURL(req.URL, getHost(c.IsDemoAccount, c.Host), c.AccountID)
 	var onBehalfOf string
 	if c.OnBehalfOf != "" {
@@ -182,7 +186,12 @@ func (c Config) Authorize(ctx context.Context, req *http.Request) error {
 		c.Password + "</Password><IntegratorKey>" +
 		c.IntegratorKey + "</IntegratorKey></DocuSignCredentials>"
 	req.Header.Set("X-DocuSign-Authentication", authString)
-	return nil
+
+	res, err := c.Func.Do(ctx, req)
+	if nsErr, ok := err.(*ctxclient.NotSuccess); ok {
+		return nil, esign.NewResponseError(nsErr.Body, nsErr.StatusCode)
+	}
+	return res, err
 }
 
 func getHost(isDemo bool, host string) string {

@@ -1,4 +1,4 @@
-// Copyright 2017 James Cote and Liberty Fund, Inc.
+// Copyright 2019 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -7,217 +7,224 @@
 
 // Package diagnostics implements the DocuSign SDK
 // category Diagnostics.
-// 
+//
 // The Diagnostics category provides miscellaneous end points.
-// 
+//
 // They include:
 // * Requesting and managing the API call-logging feature. (Perfect for debugging your app!)
 // * Getting information on the API's resources and versions.
+//
 // Api documentation may be found at:
-// https://docs.docusign.com/esign/restapi/Diagnostics
+// https://developers.docusign.com/esign/restapi/Diagnostics
+// Usage example:
+//
+//   import (
+//       "github.com/jfcote87/esign"
+//       "github.com/jfcote87/esign/diagnostics"
+//   )
+//   ...
+//   diagnosticsService := diagnostics.New(esignCredential)
 package diagnostics
 
 import (
-    "net/url"
-    
-    "golang.org/x/net/context"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/model"
+	"context"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/model"
 )
 
-// Service generates DocuSign Diagnostics Category API calls
+// Service implements DocuSign Diagnostics Category API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
-// New initializes a diagnostics service using cred to authorize calls.
+// New initializes a diagnostics service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
-// DeleteRequestLogs deletes the request log files.
+// RequestLogsDelete deletes the request log files.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/RequestLogs/delete
+//
 // SDK Method Diagnostics::deleteRequestLogs
-// https://docs.docusign.com/esign/restapi/Diagnostics/RequestLogs/delete
-func (s *Service) DeleteRequestLogs() *DeleteRequestLogsCall {
-    return &DeleteRequestLogsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "DELETE",
-            Path: "/v2/diagnostics/request_logs",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RequestLogsDelete() *RequestLogsDeleteOp {
+	return &RequestLogsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "/v2/diagnostics/request_logs",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// DeleteRequestLogsCall implements DocuSign API SDK Diagnostics::deleteRequestLogs
-type DeleteRequestLogsCall struct {
-    *esign.Call
+// RequestLogsDeleteOp implements DocuSign API SDK Diagnostics::deleteRequestLogs
+type RequestLogsDeleteOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *RequestLogsDeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *DeleteRequestLogsCall) Do(ctx context.Context)  error {
-    
-    return op.Call.Do(ctx, nil)
-}
-
-// GetRequestLog gets a request logging log file.
+// RequestLogsGet gets a request logging log file.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/RequestLogs/get
+//
 // SDK Method Diagnostics::getRequestLog
-// https://docs.docusign.com/esign/restapi/Diagnostics/RequestLogs/get
-func (s *Service) GetRequestLog(requestLogID string) *GetRequestLogCall {
-    return &GetRequestLogCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2/diagnostics/request_logs/{requestLogId}",
-            PathParameters: map[string]string{ 
-                "{requestLogId}": requestLogID,
-            },
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RequestLogsGet(requestLogID string) *RequestLogsGetOp {
+	return &RequestLogsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"", "v2", "diagnostics", "request_logs", requestLogID}, "/"),
+		Accept:     "text/plain",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetRequestLogCall implements DocuSign API SDK Diagnostics::getRequestLog
-type GetRequestLogCall struct {
-    *esign.Call
+// RequestLogsGetOp implements DocuSign API SDK Diagnostics::getRequestLog
+type RequestLogsGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *RequestLogsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetRequestLogCall) Do(ctx context.Context)  (*esign.File, error) {
-    var res *esign.File
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetRequestLogSettings gets the API request logging settings.
+// RequestLogsGetSettings gets the API request logging settings.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/RequestLogs/getSettings
+//
 // SDK Method Diagnostics::getRequestLogSettings
-// https://docs.docusign.com/esign/restapi/Diagnostics/RequestLogs/getSettings
-func (s *Service) GetRequestLogSettings() *GetRequestLogSettingsCall {
-    return &GetRequestLogSettingsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2/diagnostics/settings",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RequestLogsGetSettings() *RequestLogsGetSettingsOp {
+	return &RequestLogsGetSettingsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2/diagnostics/settings",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetRequestLogSettingsCall implements DocuSign API SDK Diagnostics::getRequestLogSettings
-type GetRequestLogSettingsCall struct {
-    *esign.Call
+// RequestLogsGetSettingsOp implements DocuSign API SDK Diagnostics::getRequestLogSettings
+type RequestLogsGetSettingsOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *RequestLogsGetSettingsOp) Do(ctx context.Context) (*model.DiagnosticsSettingsInformation, error) {
+	var res *model.DiagnosticsSettingsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetRequestLogSettingsCall) Do(ctx context.Context)  (*model.DiagnosticsSettingsInformation, error) {
-    var res *model.DiagnosticsSettingsInformation
-    return res, op.Call.Do(ctx, &res)
-}
-
-// ListRequestLogs gets the API request logging log files.
+// RequestLogsList gets the API request logging log files.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/RequestLogs/list
+//
 // SDK Method Diagnostics::listRequestLogs
-// https://docs.docusign.com/esign/restapi/Diagnostics/RequestLogs/list
-func (s *Service) ListRequestLogs() *ListRequestLogsCall {
-    return &ListRequestLogsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2/diagnostics/request_logs",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RequestLogsList() *RequestLogsListOp {
+	return &RequestLogsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2/diagnostics/request_logs",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// ListRequestLogsCall implements DocuSign API SDK Diagnostics::listRequestLogs
-type ListRequestLogsCall struct {
-    *esign.Call
-}
+// RequestLogsListOp implements DocuSign API SDK Diagnostics::listRequestLogs
+type RequestLogsListOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *ListRequestLogsCall) Do(ctx context.Context)  (*model.APIRequestLogsResult, error) {
-    var res *model.APIRequestLogsResult
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *RequestLogsListOp) Do(ctx context.Context) (*model.APIRequestLogsResult, error) {
+	var res *model.APIRequestLogsResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Encoding set the call query parameter encoding
-func (op *ListRequestLogsCall) Encoding(val string) *ListRequestLogsCall {
-    op.QueryOpts.Set("encoding", val)
-    return op
+func (op *RequestLogsListOp) Encoding(val string) *RequestLogsListOp {
+	if op != nil {
+		op.QueryOpts.Set("encoding", val)
+	}
+	return op
 }
 
-// UpdateRequestLogSettings enables or disables API request logging for troubleshooting.
+// Zip returns a zip file containing log files by setting
+// the Accept header to application/zip
+//
+// **not included in swagger definition
+func (op *RequestLogsListOp) Zip(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	if op == nil {
+		return nil, esign.ErrNilOp
+	}
+	newOp := esign.Op(*op)
+	newOp.Accept = "application/zip"
+	return res, (&newOp).Do(ctx, &res)
+}
+
+// RequestLogsUpdateSettings enables or disables API request logging for troubleshooting.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/RequestLogs/updateSettings
+//
 // SDK Method Diagnostics::updateRequestLogSettings
-// https://docs.docusign.com/esign/restapi/Diagnostics/RequestLogs/updateSettings
-func (s *Service) UpdateRequestLogSettings(requestLogs *model.DiagnosticsSettingsInformation) *UpdateRequestLogSettingsCall {
-    return &UpdateRequestLogSettingsCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "PUT",
-            Path: "/v2/diagnostics/settings",
-            Payload: requestLogs,
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) RequestLogsUpdateSettings(requestLogs *model.DiagnosticsSettingsInformation) *RequestLogsUpdateSettingsOp {
+	return &RequestLogsUpdateSettingsOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "/v2/diagnostics/settings",
+		Payload:    requestLogs,
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// UpdateRequestLogSettingsCall implements DocuSign API SDK Diagnostics::updateRequestLogSettings
-type UpdateRequestLogSettingsCall struct {
-    *esign.Call
+// RequestLogsUpdateSettingsOp implements DocuSign API SDK Diagnostics::updateRequestLogSettings
+type RequestLogsUpdateSettingsOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *RequestLogsUpdateSettingsOp) Do(ctx context.Context) (*model.DiagnosticsSettingsInformation, error) {
+	var res *model.DiagnosticsSettingsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *UpdateRequestLogSettingsCall) Do(ctx context.Context)  (*model.DiagnosticsSettingsInformation, error) {
-    var res *model.DiagnosticsSettingsInformation
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetResources lists resources for REST version specified
+// ResourcesGet lists resources for REST version specified
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/Resources/get
+//
 // SDK Method Diagnostics::getResources
-// https://docs.docusign.com/esign/restapi/Diagnostics/Resources/get
-func (s *Service) GetResources() *GetResourcesCall {
-    return &GetResourcesCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/v2",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) ResourcesGet() *ResourcesGetOp {
+	return &ResourcesGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetResourcesCall implements DocuSign API SDK Diagnostics::getResources
-type GetResourcesCall struct {
-    *esign.Call
+// ResourcesGetOp implements DocuSign API SDK Diagnostics::getResources
+type ResourcesGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ResourcesGetOp) Do(ctx context.Context) (*model.ResourceInformation, error) {
+	var res *model.ResourceInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Do executes the call.  A nil context will return error.
-func (op *GetResourcesCall) Do(ctx context.Context)  (*model.ResourceInformation, error) {
-    var res *model.ResourceInformation
-    return res, op.Call.Do(ctx, &res)
-}
-
-// GetService retrieves the available REST API versions.
+// ServicesGet retrieves the available REST API versions.
+//
+// https://developers.docusign.com/esign-rest-api/reference/Diagnostics/Services/get
+//
 // SDK Method Diagnostics::getService
-// https://docs.docusign.com/esign/restapi/Diagnostics/Services/get
-func (s *Service) GetService() *GetServiceCall {
-    return &GetServiceCall{
-        &esign.Call{
-            Credential: s.credential,
-    		Method:  "GET",
-            Path: "/service_information",
-            QueryOpts: make(url.Values),
-        },
-    }
+func (s *Service) ServicesGet() *ServicesGetOp {
+	return &ServicesGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/service_information",
+		QueryOpts:  make(url.Values),
+	}
 }
 
-// GetServiceCall implements DocuSign API SDK Diagnostics::getService
-type GetServiceCall struct {
-    *esign.Call
-}
+// ServicesGetOp implements DocuSign API SDK Diagnostics::getService
+type ServicesGetOp esign.Op
 
-// Do executes the call.  A nil context will return error.
-func (op *GetServiceCall) Do(ctx context.Context)  (*model.ServiceInformation, error) {
-    var res *model.ServiceInformation
-    return res, op.Call.Do(ctx, &res)
+// Do executes the op.  A nil context will return error.
+func (op *ServicesGetOp) Do(ctx context.Context) (*model.ServiceInformation, error) {
+	var res *model.ServiceInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-
