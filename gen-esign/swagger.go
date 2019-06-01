@@ -95,7 +95,9 @@ func unmarshalOps(d *json.Decoder, path string) ([]Operation, error) {
 				return newOps, nil
 			}
 		}
-		tk, err = d.Token()
+		if err == nil {
+			tk, err = d.Token()
+		}
 	}
 	return nil, err
 }
@@ -259,7 +261,9 @@ func (ds *DefSlice) UnmarshalJSON(b []byte) error {
 		switch tx := tk.(type) {
 		case string:
 			def := Definition{ID: tx}
-			err = d.Decode(&def)
+			if err = d.Decode(&def); err != nil {
+				continue
+			}
 			*ds = append(*ds, def)
 		}
 		tk, err = d.Token()
@@ -324,7 +328,10 @@ func (f *FieldList) UnmarshalJSON(b []byte) error {
 		switch tx := tk.(type) {
 		case string:
 			fld := Field{Name: tx}
-			err = d.Decode(&fld)
+			tk, err = d.Token()
+			if err = d.Decode(&fld); err != nil {
+				continue
+			}
 			*f = append(*f, fld)
 		}
 		tk, err = d.Token()

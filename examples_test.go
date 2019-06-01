@@ -63,14 +63,16 @@ func ExampleJWTConfig() {
 		MIICWwIBAAKBgGeDMVfH1+RBI/JMPfrIJDmBWxJ/wGQRjPUm6Cu2aHXMqtOjK3+u
 		.........
 		ZS1NWRHL8r7hdJL8lQYZPfNqyYcW7C1RW3vWbCRGMA==
-		-----END RSA PRIVATE KEY-----`,
+		-----END RSFolderA PRIVATE KEY-----`,
 		AccountID: "c23357a7-4f00-47f5-8802-94d2b1fb9a29",
 		IsDemo:    true,
 	}
 
 	apiUserName := "78e5a047-f767-41f8-8dbd-10e3eed65c55"
 	credential, err := cfg.Credential(apiUserName, nil, nil)
-
+	if err != nil {
+		log.Fatalf("create credential error: %v", err)
+	}
 	fl, err := folders.New(credential).List().Do(ctx)
 	if err != nil {
 		log.Fatalf("Folder list error: %v", err)
