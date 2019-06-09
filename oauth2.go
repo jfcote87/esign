@@ -214,9 +214,10 @@ type JWTConfig struct {
 	// DocuSign users may have more than one account.  If AccountID is
 	// not set then the user's default account will be used.
 	AccountID string `json:"account_id,omitempty"`
-	// (optional)Expires specifies how long the token will be valid. DocuSign
-	// limits this to 1 hour.  1 hour is assumed if left empty.
-	Expiration *jwt.ExpirationSetting `json:"expires,omitempty"`
+	// Options can specify how long the token will be valid. DocuSign
+	// limits this to 1 hour.  1 hour is assumed if left empty.  Offsets
+	// for expiring token may also be used.  Do not set FormValues or Custom Claims.
+	Options *jwt.ConfigOptions `json:"expires,omitempty"`
 	// if not nil, CacheFunc is called after a new token is created passing
 	// the newly created Token and UserInfo.
 	CacheFunc func(context.Context, oauth2.Token, UserInfo) `json:"cache_func,omitempty"`
@@ -242,7 +243,7 @@ func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer) func(ctx
 		Issuer:         c.IntegratorKey,
 		Signer:         signer,
 		Subject:        apiUserName,
-		Expiration:     c.Expiration,
+		Options:        c.Options,
 		Scopes:         []string{"signature", "impersonation"},
 		Audience:       demoFlag(c.IsDemo).tokenURI(),
 		TokenURL:       demoFlag(c.IsDemo).endpoint().TokenURL,
