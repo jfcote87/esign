@@ -1,5 +1,7 @@
 # DocuSign eSignature RestApi v2 for Go
 
+[![GoDoc](https://godoc.org/github.com/jfcote87/esign?status.svg)](https://godoc.org/github.com/jfcote87/esign)
+
 esign provides Go packages for interacting with DocuSign's eSignature RestApi and
 has been created using the lastest published swagger definition.  
 
