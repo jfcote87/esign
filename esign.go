@@ -305,7 +305,7 @@ func ResolveDSURL(ref *url.URL, host string, accountID string) {
 	ref.Host = host
 
 	if strings.HasPrefix(ref.Path, "/") {
-		ref.Path = "/restapi/v2" + ref.Path
+		ref.Path = "/restapi" + ref.Path
 	} else {
 		ref.Path = "/restapi/v2/accounts/" + accountID + "/" + ref.Path
 	}
