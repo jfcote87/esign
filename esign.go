@@ -288,8 +288,10 @@ type UploadFile struct {
 
 // Close closes the io.Reader if an io.Closer.
 func (uf *UploadFile) Close() {
-	if closer, ok := uf.Reader.(io.Closer); ok {
-		closer.Close()
+	if uf != nil {
+		if closer, ok := uf.Reader.(io.Closer); ok {
+			closer.Close()
+		}	
 	}
 }
 
