@@ -88,7 +88,7 @@ type OAuth2Config struct {
 	IsDemo bool `json:"is_demo,omitempty"`
 	// determines client used for oauth2 token calls.  If
 	// nil, ctxclient.Default will be used.
-	HTTPClientFunc ctxclient.Func
+	HTTPClientFunc ctxclient.Func `json:"-"`
 }
 
 // codeGrantConfig creates an oauth2 config for refreshing
@@ -220,10 +220,10 @@ type JWTConfig struct {
 	Options *jwt.ConfigOptions `json:"expires,omitempty"`
 	// if not nil, CacheFunc is called after a new token is created passing
 	// the newly created Token and UserInfo.
-	CacheFunc func(context.Context, oauth2.Token, UserInfo) `json:"cache_func,omitempty"`
+	CacheFunc func(context.Context, oauth2.Token, UserInfo) `json:"-"`
 	// HTTPClientFunc determines client used for oauth2 token calls.  If
 	// nil, ctxclient.DefaultClient will be used.
-	HTTPClientFunc ctxclient.Func
+	HTTPClientFunc ctxclient.Func `json:"-"`
 }
 
 // UserConsentURL creates a url allowing a user to consent to impersonation
