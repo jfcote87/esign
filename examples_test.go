@@ -14,9 +14,9 @@ import (
 	"os"
 
 	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/envelopes"
-	"github.com/jfcote87/esign/folders"
-	"github.com/jfcote87/esign/model"
+	"github.com/jfcote87/esign/v2/envelopes"
+	"github.com/jfcote87/esign/v2/folders"
+	"github.com/jfcote87/esign/v2/model"
 )
 
 func ExampleOAuth2Config() {

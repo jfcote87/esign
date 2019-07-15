@@ -23,6 +23,34 @@ import (
 // ErrNilOp used to indicate a nil operation pointer
 var ErrNilOp = errors.New("nil operation")
 
+// VersionV21  indicates that the url will resolve
+// to /restapi/v2.1
+var VersionV21 = &APIVersion{Prefix: "v2.1"}
+
+// APIVersion defines the prefix used to resolve an operation's url.  If
+// nil or blank, "v2" is assumed.
+type APIVersion struct {
+	Prefix string
+}
+
+// ResolveDSURL updates the passed *url.URL's settings.
+// https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints#form-your-base-path
+func (v *APIVersion) ResolveDSURL(u *url.URL, host string, accountID string) *url.URL {
+	newURL := *u
+	newURL.Scheme = "https"
+	newURL.Host = host
+	var prefix = "v2"
+	if v != nil && v.Prefix != "" {
+		prefix = v.Prefix
+	}
+	if strings.HasPrefix(u.Path, "/") {
+		newURL.Path = "/restapi" + u.Path
+	} else {
+		newURL.Path = "/restapi/" + prefix + "/accounts/" + accountID + "/" + u.Path
+	}
+	return &newURL
+}
+
 // Credential adds an authorization header(s) for the http request,
 // resolves the http client and finalizes the url.  Credentials may
 // be created using the Oauth2Config and JWTConfig structs as well as
@@ -31,7 +59,7 @@ type Credential interface {
 	// AuthDo attaches an authorization header to a request, prepends
 	// account and user ids to url, and sends request.  This func must
 	// always close the request Body.
-	AuthDo(context.Context, *http.Request) (*http.Response, error)
+	AuthDo(context.Context, *http.Request, *APIVersion) (*http.Response, error)
 }
 
 // Op contains all needed information to perform a DocuSign operation.
@@ -54,11 +82,13 @@ type Op struct {
 	// Set Accept to a mimeType if response will
 	// not be application/json
 	Accept string
+	// Leave nil for v2
+	Version *APIVersion
 }
 
-type requestHandler interface {
-	Do(context.Context, *http.Request) (*http.Response, error)
-}
+//type requestHandler interface {
+//	Do(context.Context, *http.Request) (*http.Response, error)
+//}
 
 // ResponseError describes DocuSign's server error response.
 // https://developers.docusign.com/esign-rest-api/guides/status-and-error-codes#general-error-response-handling
@@ -203,7 +233,7 @@ func (op *Op) Do(ctx context.Context, result interface{}) error {
 		return err
 	}
 
-	res, err := op.Credential.AuthDo(ctx, req)
+	res, err := op.Credential.AuthDo(ctx, req, op.Version)
 	if err != nil {
 		return err
 	}
@@ -291,24 +321,11 @@ func (uf *UploadFile) Close() {
 	if uf != nil {
 		if closer, ok := uf.Reader.(io.Closer); ok {
 			closer.Close()
-		}	
+		}
 	}
 }
 
 // Valid ensures UploadFile.Reader is not nil.
 func (uf *UploadFile) Valid() bool {
 	return uf != nil && uf.Reader != nil
-}
-
-// ResolveDSURL updates the passed *url.URL's settings.
-// https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints#form-your-base-path
-func ResolveDSURL(ref *url.URL, host string, accountID string) {
-	ref.Scheme = "https"
-	ref.Host = host
-
-	if strings.HasPrefix(ref.Path, "/") {
-		ref.Path = "/restapi" + ref.Path
-	} else {
-		ref.Path = "/restapi/v2/accounts/" + accountID + "/" + ref.Path
-	}
 }

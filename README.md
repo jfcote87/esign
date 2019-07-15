@@ -3,7 +3,12 @@
 [![GoDoc](https://godoc.org/github.com/jfcote87/esign?status.svg)](https://godoc.org/github.com/jfcote87/esign)
 
 esign provides Go packages for interacting with DocuSign's eSignature RestApi and
-has been created using the lastest published swagger definition.  
+has been created using the lastest published swagger definition.
+
+Definitions for call payloads and return values are found in the v2/model/model.go file.  Docusign
+has split the API into major categories, and each category has a corresponding package in the
+v2 directory.  When the v2.1 Swagger/OpenAPI definition, a v2.1 directory will be added with
+packages for each category and a model package.
 
 The package requires Go 1.7 or above and has been tested with Go 1.9-1.12.
 

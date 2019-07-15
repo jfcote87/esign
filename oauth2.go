@@ -285,23 +285,9 @@ type OAuth2Credential struct {
 	ctxclient.Func
 }
 
-// Authorize set the authorization header and completes request's url
-// with the users's baseURI and account id.
-func (cred *OAuth2Credential) Authorize(ctx context.Context, req *http.Request) error {
-	t, err := cred.Token(ctx)
-	if err != nil {
-		return err
-	}
-	t.SetAuthHeader(req)
-	// finalize url
-	ResolveDSURL(req.URL, cred.baseURI.Host, cred.accountID)
-	return nil
-}
-
 // AuthDo set the authorization header and completes request's url
 // with the users's baseURI and account id before sending the request
-func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
-
+func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request, v *APIVersion) (*http.Response, error) {
 	t, err := cred.Token(ctx)
 	if err != nil {
 		if req.Body != nil {
@@ -309,10 +295,17 @@ func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request) (*h
 		}
 		return nil, err
 	}
-	t.SetAuthHeader(req)
+	r2 := *req
+	h := make(http.Header)
+	for k, v := range req.Header {
+		h[k] = v
+	}
+	r2.Header = h
+
+	t.SetAuthHeader(&r2)
 	// finalize url
-	ResolveDSURL(req.URL, cred.baseURI.Host, cred.accountID)
-	res, err := cred.Func.Do(ctx, req)
+	r2.URL = v.ResolveDSURL(req.URL, cred.baseURI.Host, cred.accountID)
+	res, err := cred.Func.Do(ctx, &r2)
 	return res, toResponseError(err)
 }
 
@@ -416,7 +409,7 @@ type tokenCredential struct {
 	ctxclient.Func
 }
 
-func (t *tokenCredential) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
+func (t *tokenCredential) AuthDo(ctx context.Context, req *http.Request, v *APIVersion) (*http.Response, error) {
 	t.Token.SetAuthHeader(req)
 	res, err := t.Func.Do(ctx, req)
 	return res, toResponseError(err)

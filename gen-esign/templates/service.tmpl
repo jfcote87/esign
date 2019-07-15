@@ -10,17 +10,17 @@
 // {{range .Comments}}
 // {{.}}{{end}}
 //
-// Api documentation may be found at:
-// https://developers.docusign.com/esign/restapi/{{.Service}}
+// {{$versionDef := .VersionDef}}{{$verPrefix := .VersionPrefix}}{{$docPrefix := .DocPrefix}}{{if .AddDocLinks}}Service Api documentation may be found at:
+// https://developers.docusign.com/esign/esign-rest-api/{{$docPrefix}}reference/{{.Service}}{{end}}
 // Usage example:
 //
 //   import (
 //       "{{.Directory}}"
-//       "{{.Directory}}/{{.Package}}"
+//       "{{.Directory}}/{{$docPrefix := .DocPrefix}}/{{.Package}}"
 //   )
 //   ...
 //   {{.Package}}Service := {{.Package}}.New(esignCredential)
-package {{.Package}}
+package {{.Package}} // import "github.com/jfcote87/esign/v2/{{.Package}}"
 
 import ({{range .Packages}}
     {{.}}{{end}}
@@ -36,7 +36,7 @@ func New(cred esign.Credential) *Service {
     return &Service{credential: cred}
 }
 
-{{ range .Operations }}{{range .CommentLines .FuncName .HasUploads .IsMediaUpload}}// {{.}}
+{{ range .Operations }}{{range .CommentLines .FuncName $docPrefix .HasUploads .IsMediaUpload}}// {{.}}
 {{end}}func (s *Service) {{.FuncName}}({{range $i, $p := .PathParams}}{{if $i}}, {{end}}{{$p.GoName}} string{{end}}{{if .OpPayload}}{{if len .PathParams}}, {{end}}{{if .IsMediaUpload}}media io.Reader, mimeType string{{else}}{{.OpPayload.GoName}} {{.OpPayload.Type}}{{end}}{{end}}{{if .HasUploads}}, uploads ...*esign.UploadFile{{end}}) *{{.FuncName}}Op {
     return &{{.FuncName}}Op{
         Credential: s.credential,
@@ -45,7 +45,8 @@ func New(cred esign.Credential) *Service {
         {{if .OpPayload}}Payload: {{if .IsMediaUpload}}&esign.UploadFile{ Reader: media, ContentType: mimeType }{{else}}{{.OpPayload.GoName}}{{end}},
         {{end}}{{if .HasUploads}}Files: uploads,
         {{end}}{{if len .Produces}}Accept: "{{.Accepts}}",
-        {{end}}QueryOpts: make(url.Values),
+        {{end}}QueryOpts: make(url.Values),{{if $versionDef}}
+        Version: {{$versionDef}},{{end}}
     }
 }
 

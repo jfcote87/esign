@@ -16,7 +16,7 @@ import (
 
 	"github.com/jfcote87/ctxclient"
 	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/model"
+	"github.com/jfcote87/esign/v2/model"
 )
 
 // Documentation: https://docs.docusign.com/esign/
@@ -60,24 +60,30 @@ type OauthCredential struct {
 }
 
 // AuthDo updates request with authorization headers, adds account to URL and sends request
-func (o OauthCredential) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
-	esign.ResolveDSURL(req.URL, getHost(o.IsDemoAccount, o.Host), o.AccountID)
+func (o OauthCredential) AuthDo(ctx context.Context, req *http.Request, v *esign.APIVersion) (*http.Response, error) {
+	r2 := *req
+	r2.URL = v.ResolveDSURL(req.URL, getHost(o.IsDemoAccount, o.Host), o.AccountID)
+
+	h := make(http.Header)
+	for k, v := range req.Header {
+		h[k] = v
+	}
 	var auth string
 	if o.TokenType == "" {
 		auth = "bearer " + o.AccessToken
 	} else {
 		auth = o.TokenType + " " + o.AccessToken
 	}
-	req.Header.Set("Authorization", auth)
+	h.Set("Authorization", auth)
 	if o.OnBehalfOf != "" {
-		req.Header.Set("X-DocuSign-Act-As-User", o.OnBehalfOf)
+		h.Set("X-DocuSign-Act-As-User", o.OnBehalfOf)
 	}
-	res, err := o.Func.Do(ctx, req)
+	r2.Header = h
+	res, err := o.Func.Do(ctx, &r2)
 	if nsErr, ok := err.(*ctxclient.NotSuccess); ok {
 		return nil, esign.NewResponseError(nsErr.Body, nsErr.StatusCode)
 	}
 	return res, err
-
 }
 
 // Revoke invalidates the token ensuring that an error will occur on an subsequent uses.
@@ -175,8 +181,13 @@ func (o *OauthCredential) OnBehalfOfCredential(ctx context.Context, integratorKe
 }
 
 // AuthDo adds authorization headers, adds accountID to url and sends request
-func (c Config) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
-	esign.ResolveDSURL(req.URL, getHost(c.IsDemoAccount, c.Host), c.AccountID)
+func (c Config) AuthDo(ctx context.Context, req *http.Request, v *esign.APIVersion) (*http.Response, error) {
+	r2 := *req
+	r2.URL = v.ResolveDSURL(req.URL, getHost(c.IsDemoAccount, c.Host), c.AccountID)
+	h := make(http.Header)
+	for k, v := range req.Header {
+		h[k] = v
+	}
 	var onBehalfOf string
 	if c.OnBehalfOf != "" {
 		onBehalfOf = "<SendOnBehalfOf>" + c.OnBehalfOf + "</SendOnBehalfOf>"
@@ -185,9 +196,9 @@ func (c Config) AuthDo(ctx context.Context, req *http.Request) (*http.Response, 
 		"<Username>" + c.UserName + "</Username><Password>" +
 		c.Password + "</Password><IntegratorKey>" +
 		c.IntegratorKey + "</IntegratorKey></DocuSignCredentials>"
-	req.Header.Set("X-DocuSign-Authentication", authString)
-
-	res, err := c.Func.Do(ctx, req)
+	h.Set("X-DocuSign-Authentication", authString)
+	r2.Header = h
+	res, err := c.Func.Do(ctx, &r2)
 	if nsErr, ok := err.(*ctxclient.NotSuccess); ok {
 		return nil, esign.NewResponseError(nsErr.Body, nsErr.StatusCode)
 	}

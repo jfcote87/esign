@@ -10,8 +10,8 @@
 // OpenAPI (swagger) file.
 //
 // Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference
-package model{{$defMap := .DefMap}}{{$fldOverrides := .FldOverrides}}
+// https://developers.docusign.com/esign-rest-api/{{$docPrefix := .DocPrefix}}{{$docPrefix}}referencereference
+package model // import "github.com/jfcote87/esign/v2/model"{{$defMap := .DefMap}}{{$fldOverrides := .FldOverrides}}
 
 import (
     "fmt"
@@ -37,6 +37,41 @@ func (d DSBool) MarshalJSON() ([]byte, error) {
 		return []byte(`"true"`), nil
 	}
 	return []byte(`"false"`), nil
+}
+
+// TabRequired used for the required tab field.  As this field defaults to
+// true, a new type was required.  Set to true or false using the REQUIRED
+// enums.
+type TabRequired int
+
+const (
+	REQUIRED_DEFAULT TabRequired = 0
+	REQUIRED_FALSE   TabRequired = 1
+	REQUIRED_TRUE    TabRequired = 2
+)
+
+// MarshalJSON outputs "true" or "false" for TabRequired field
+func (r TabRequired) MarshalJSON() ([]byte, error) {
+	var b DSBool = (r != REQUIRED_FALSE)
+	return b.MarshalJSON()
+}
+
+// UnmarshalJSON checks for "True" or "true"
+func (r *TabRequired) UnmarshalJSON(b []byte) error {
+	var dsbool DSBool
+	if err := (&dsbool).UnmarshalJSON(b); err != nil {
+		return err
+	}
+	*r = REQUIRED_FALSE
+	if dsbool {
+		*r = REQUIRED_TRUE
+	}
+	return nil
+}
+
+// IsRequired declares whether the tab is required
+func (r TabRequired) IsRequired() bool {
+	return (r != REQUIRED_FALSE)
 }
 
 {{ range .Definitions }}{{if len .CommentLines}}{{ range .CommentLines}}

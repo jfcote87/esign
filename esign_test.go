@@ -24,8 +24,8 @@ import (
 
 	"github.com/jfcote87/ctxclient"
 	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/folders"
-	"github.com/jfcote87/esign/templates"
+	"github.com/jfcote87/esign/v2/folders"
+	"github.com/jfcote87/esign/v2/templates"
 	"github.com/jfcote87/oauth2"
 	"github.com/jfcote87/testutils"
 )
@@ -37,9 +37,8 @@ type TestCred struct {
 	ctxclient.Func
 }
 
-func (t *TestCred) AuthDo(ctx context.Context, req *http.Request) (*http.Response, error) {
-	esign.ResolveDSURL(req.URL, t.host, t.acctID)
-	req.URL.Scheme = t.scheme
+func (t *TestCred) AuthDo(ctx context.Context, req *http.Request, v *esign.APIVersion) (*http.Response, error) {
+	req.URL = v.ResolveDSURL(req.URL, t.host, t.acctID)
 
 	req.Header.Set("Authorization", "TESTAUTH")
 	res, err := t.Func.Do(ctx, req)
@@ -62,34 +61,34 @@ func TestOp_Do(t *testing.T) {
 	var jsonResponse = []byte(`{"a": "val", "b": 9, "c": "X"}`)
 	testTransport.Add(
 		&testutils.RequestTester{ // test 0
-			Path:     "/restapi/v2/accounts/1234/do/test0/testvar1/go",
+			Path:     "/restapi/v2.1/accounts/1234/do/test0/testvar1/go",
 			Auth:     "TESTAUTH",
 			Method:   "GET",
 			Response: testutils.MakeResponse(200, nil, nil),
 		},
 		&testutils.RequestTester{ // test 1
-			Path:     "/restapi/noaccount/test1/go",
+			Path:     "/restapi/v2/noaccount/test1/go",
 			Auth:     "TESTAUTH",
 			Method:   "GET",
 			Query:    "a=B&c=D",
 			Response: testutils.MakeResponse(200, nil, nil),
 		},
 		&testutils.RequestTester{ // test 2
-			Path:     "/restapi/noaccount/test2/go",
+			Path:     "/restapi/v2/noaccount/test2/go",
 			Auth:     "TESTAUTH",
 			Method:   "POST",
 			Payload:  []byte("a=B&c=D"),
 			Response: testutils.MakeResponse(200, nil, nil),
 		},
 		&testutils.RequestTester{ // test 3
-			Path:     "/restapi/noaccount/test3/go",
+			Path:     "/restapi/v2/noaccount/test3/go",
 			Auth:     "TESTAUTH",
 			Method:   "POST",
 			Payload:  []byte("{\"a\":\"String\",\"b\":9}\n"),
 			Response: testutils.MakeResponse(200, nil, nil),
 		},
 		&testutils.RequestTester{ // test 4
-			Path:     "/restapi/noaccount/test4/go",
+			Path:     "/restapi/v2/noaccount/test4/go",
 			Auth:     "TESTAUTH",
 			Method:   "POST",
 			Payload:  []byte("0123456789"),
@@ -118,23 +117,24 @@ func TestOp_Do(t *testing.T) {
 			Path:       strings.Join([]string{"do", "test0", "testvar1", "go"}, "/"),
 			QueryOpts:  make(url.Values),
 			Method:     "GET",
+			Version:    &esign.APIVersion{Prefix: "v2.1"},
 		},
 		{
 			Credential: cx,
-			Path:       "/noaccount/test1/go",
+			Path:       "/v2/noaccount/test1/go",
 			QueryOpts:  url.Values{"a": {"B"}, "c": {"D"}},
 			Method:     "GET",
 		},
 		{
 			Credential: cx,
-			Path:       "/noaccount/test2/go",
+			Path:       "/v2/noaccount/test2/go",
 			QueryOpts:  make(url.Values),
 			Method:     "POST",
 			Payload:    url.Values{"a": {"B"}, "c": {"D"}},
 		},
 		{
 			Credential: cx,
-			Path:       "/noaccount/test3/go",
+			Path:       "/v2/noaccount/test3/go",
 			QueryOpts:  make(url.Values),
 			Method:     "POST",
 			Payload: map[string]interface{}{
@@ -143,7 +143,7 @@ func TestOp_Do(t *testing.T) {
 		},
 		{
 			Credential: cx,
-			Path:       "/noaccount/test4/go",
+			Path:       "/v2/noaccount/test4/go",
 			QueryOpts:  make(url.Values),
 			Method:     "POST",
 			Payload: &esign.UploadFile{
@@ -462,7 +462,6 @@ func TestOp_FilesClosed(t *testing.T) {
 func TestOp_Do_ContextCancel(t *testing.T) {
 	cx, testTransport := getTestCredentialClientTransport()
 	ctx, cancelFunc := context.WithCancel(context.Background())
-	//_ = cancelFunc
 	// First run without context cancel for baseline
 	op := &esign.Op{
 		Credential: cx,
@@ -498,11 +497,6 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 	if err := op.Do(ctx, &result); err == nil || err.Error() != "context canceled" {
 		t.Errorf("expected context canceled; got %v", err)
 	}
-
-	//if !body.IsClosed() {
-	//	t.Errorf("context cancel failed to close response body")
-	//}
-
 }
 
 func getTestCredentialClientTransport() (esign.Credential, *testutils.Transport) {

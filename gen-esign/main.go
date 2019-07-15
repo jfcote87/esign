@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"go/build"
 	"log"
 	"os"
 	"os/exec"
@@ -29,20 +28,35 @@ const (
 
 var (
 	basePkg     = flag.String("basepkg", "github.com/jfcote87/esign", "root package in gopath")
-	baseDir     = flag.String("gopath", fmt.Sprintf("%s/src", build.Default.GOPATH), "GOPATH src directory")
+	baseDir     = flag.String("src", ".", "src directory")
 	templDir    = flag.String("template", "gen-esign/templates", "directory containing output templates.")
 	buildFlag   = flag.Bool("build", false, "Compile generated packages.")
 	swaggerFile = flag.String("swagger_file", "gen-esign/esignature.rest.swagger.json", "If non-empty, the path to a local file on disk containing the API to generate. Exclusive with setting --api.")
 	skipFormat  = flag.Bool("skip_format", false, "skip gofmt command")
+	version     = flag.String("version", "v2", "API Version - defaults to v2")
+	docprefix   = flag.String("docprefix", "v2/", "documentation prefix")
 )
 
 // main program
 func main() {
+	flag.Parse()
+
+	err := os.Chdir(*baseDir)
+	if err != nil {
+		log.Fatalf("unable to set directory to %s: %v", *baseDir, err)
+	}
+	if !strings.HasPrefix(*baseDir, "/") {
+		if *baseDir, err = os.Getwd(); err != nil {
+			log.Fatalf("unable to retrieve working diretory: %v", err)
+		}
+	}
+	if err == nil && strings.HasPrefix(*baseDir, "/") {
+		*baseDir, err = os.Getwd()
+	}
 	doc, err := getDocument()
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-
 	// Put the Definitions (structs) in order
 	sort.Sort(doc.Definitions)
 	defMap := make(map[string]Definition)
@@ -60,7 +74,7 @@ func main() {
 	}
 	// create templates
 	if !strings.HasPrefix(*templDir, "/") {
-		*templDir = path.Join(*baseDir, *basePkg, *templDir)
+		*templDir = path.Join(*baseDir, *templDir)
 	}
 	genTemplates, err := template.ParseFiles(path.Join(*templDir, "service.tmpl"), path.Join(*templDir, "/model.tmpl"))
 	if err != nil {
@@ -82,6 +96,9 @@ func main() {
 		if op.Service == "" {
 			log.Printf("No service specified: %s", op.OperationID)
 			continue
+		}
+		if newServiceName, ok := ServiceNameOverride[op.Service]; ok {
+			op.Service = newServiceName
 		}
 		if !OperationSkipList[op.OperationID] {
 			if overrideService, ok := serviceOverrides[op.OperationID]; ok {
@@ -109,9 +126,6 @@ func main() {
 
 // getDocument loads the swagger def file and applies overrides
 func getDocument() (*Document, error) {
-	if err := os.Chdir(getEsignDir()); err != nil {
-		log.Fatalf("unable to chdir to %s: %v", getEsignDir(), err)
-	}
 	// Open swagger file and parse
 	f, err := os.Open(*swaggerFile)
 	if err != nil {
@@ -159,15 +173,19 @@ func doModel(modelTempl *template.Template, defList []Definition, defMap map[str
 	fldOverrides := GetFieldOverrides()
 	tabDefs := TabDefs(defMap, fldOverrides)
 	var data = struct {
-		Definitions  []Definition
-		DefMap       map[string]Definition
-		FldOverrides map[string]map[string]string
-		CustomCode   string
+		Definitions   []Definition
+		DefMap        map[string]Definition
+		FldOverrides  map[string]map[string]string
+		CustomCode    string
+		DocPrefix     string
+		VersionPrefix string
 	}{
-		Definitions:  append(tabDefs, defList...), // Prepend tab definitions
-		DefMap:       defMap,
-		FldOverrides: fldOverrides,
-		CustomCode:   CustomCode,
+		Definitions:   append(tabDefs, defList...), // Prepend tab definitions
+		DefMap:        defMap,
+		FldOverrides:  fldOverrides,
+		CustomCode:    CustomCode,
+		DocPrefix:     *docprefix,
+		VersionPrefix: *version,
 	}
 	return modelTempl.Execute(f, data)
 }
@@ -191,8 +209,7 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 	packageName := strings.ToLower(serviceName)
 	comments := strings.Split(strings.TrimRight(description, "\n"), "\n")
 	if packageName == "uncategorized" {
-		packageName = "future"
-		comments = append(comments, "Future calls may change or move to other packages.")
+		comments = append(comments, "Uncategorized calls may change or move to other packages.")
 	}
 	f, err := makePackageFile(packageName)
 	if err != nil {
@@ -217,19 +234,26 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 		})
 	}
 	var data = struct {
-		Service    string
-		Package    string
-		Directory  string
-		Operations []ExtOperation
-		Comments   []string
-		Packages   []string
+		Service       string
+		Package       string
+		Directory     string
+		Operations    []ExtOperation
+		Comments      []string
+		Packages      []string
+		DocPrefix     string
+		VersionPrefix string
+		VersionDef    string
+		AddDocLinks   bool
 	}{
-		Service:    serviceName,
-		Package:    packageName,
-		Directory:  *basePkg,
-		Operations: extOps,
-		Comments:   comments,
-		Packages:   []string{`"context"`, `"net/url"`},
+		Service:       serviceName,
+		Package:       packageName,
+		Directory:     *basePkg,
+		Operations:    extOps,
+		Comments:      comments,
+		Packages:      []string{`"context"`, `"net/url"`},
+		DocPrefix:     *docprefix,
+		VersionPrefix: *version,
+		AddDocLinks:   (serviceName != "Uncategorized"),
 	}
 	importMap := make(map[string]bool)
 	for _, op := range extOps {
@@ -265,7 +289,7 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 	data.Packages = append(data.Packages,
 		"",
 		"\""+*basePkg+"\"",
-		"\""+*basePkg+"/model\"")
+		"\""+*basePkg+"/"+*version+"/model\"")
 
 	defer func() {
 		f.Close()
@@ -277,11 +301,16 @@ func doPackage(resTempl *template.Template, serviceName, description string, ops
 }
 
 func getEsignDir() string {
-	return path.Join(*baseDir, *basePkg)
+	p := path.Join(*baseDir, *version)
+	if strings.HasPrefix(p, *version) {
+		p = "./" + p
+	}
+	return p
 }
 
 func makePackageFile(packageName string) (*os.File, error) {
 	pkgDir := getEsignDir() + "/" + packageName
+
 	if err := os.Chdir(pkgDir); err != nil {
 		if os.IsNotExist(err) {
 			if err = os.Mkdir(pkgDir, 0755); err == nil {

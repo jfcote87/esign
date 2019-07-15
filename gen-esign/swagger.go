@@ -179,7 +179,7 @@ func getGoFieldType(f Field) string {
 			fldType = "int"
 		}
 	case "boolean":
-		fldType = "DSBool"
+		fldType = "bool"
 	case "number":
 		fldType = "float64"
 	case "object":
@@ -267,6 +267,7 @@ func (ds *DefSlice) UnmarshalJSON(b []byte) error {
 			*ds = append(*ds, def)
 		}
 		tk, err = d.Token()
+
 	}
 	if err != io.EOF {
 		return err
@@ -322,22 +323,13 @@ type FieldList []Field
 // converts it to a slice and adding the key as the
 // Name.
 func (f *FieldList) UnmarshalJSON(b []byte) error {
-	d := json.NewDecoder(bytes.NewReader(b))
-	tk, err := d.Token()
-	for err == nil {
-		switch tx := tk.(type) {
-		case string:
-			fld := Field{Name: tx}
-			tk, err = d.Token()
-			if err = d.Decode(&fld); err != nil {
-				continue
-			}
-			*f = append(*f, fld)
-		}
-		tk, err = d.Token()
-	}
-	if err != io.EOF {
+	var xmap = make(map[string]Field)
+	if err := json.Unmarshal(b, &xmap); err != nil {
 		return err
+	}
+	for k, v := range xmap {
+		v.Name = k
+		*f = append(*f, v)
 	}
 	return nil
 }
@@ -371,10 +363,12 @@ func (o Operation) Accepts() string {
 }
 
 // CommentLines returns a list of comments to annotate the operation.
-func (o Operation) CommentLines(funcName string, hasFileUploads bool, isMediaUpload bool) []string {
+func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUploads bool, isMediaUpload bool) []string {
 
 	comments := strings.Split(o.Summary, "\n")
 	tspace := " "
+	uncatFlag := (o.Service == "Uncategorized")
+
 	if len(comments[0]) > 0 {
 		if strings.HasPrefix(comments[0], "A ") || strings.HasPrefix(comments[0], "An ") || strings.HasPrefix(comments[0], "The ") {
 			tspace = " is "
@@ -386,12 +380,20 @@ func (o Operation) CommentLines(funcName string, hasFileUploads bool, isMediaUpl
 		if isMediaUpload {
 			comments = append(comments, "If media is an io.ReadCloser, Do() will close media.")
 		}
-		if len(o.Tags) > 0 {
-			comments = append(comments, "", "https://developers.docusign.com/esign-rest-api/reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method)
+		if uncatFlag {
+			comments = append(comments, "operation is uncategorized and subject to change.")
+		} else {
+			if len(o.Tags) > 0 {
+				comments = append(comments, "", "https://developers.docusign.com/esign-rest-api/"+docPrefix+"reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method)
+			}
+			if o.InSDK {
+				comments = append(comments, "", "SDK Method "+o.SDK())
+			}
 		}
-		if o.InSDK {
-			comments = append(comments, "", "SDK Method "+o.SDK())
-		}
+		return comments
+	}
+	if uncatFlag {
+		comments[0] = funcName + "is uncategorized and subject to change"
 		return comments
 	}
 	if o.InSDK {

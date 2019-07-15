@@ -197,20 +197,28 @@ func TestOAuth2Config_Refresh(t *testing.T) {
 		t.Fatalf("token and userinfo should be cached; got savedToken is nil %v and savedUserInfo is nil %v", (savedToken == nil), (savedUserInfo == nil))
 	}
 
+	testTransport.Add(&testutils.RequestTester{
+		Path:   "/restapi/v2/accounts/" + u.Accounts[0].AccountID + "/abc/def",
+		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
+		Host:   "gotest.docusign.net",
+	}, &testutils.RequestTester{
+		Path:   "/restapi/v2.1/accounts/" + u.Accounts[0].AccountID + "/abc/def",
+		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
+		Host:   "gotest.docusign.net",
+	})
 	req, _ := http.NewRequest("GET", "abc/def", nil)
-	if err = ocr.Authorize(ctx, req); err != nil {
-		t.Fatalf("expected authorization success; got %v", err)
+	if res, err := ocr.AuthDo(ctx, req, nil); err != nil {
+		_ = res
+		t.Errorf("%v", err)
+	} else {
+		res.Body.Close()
 	}
-
-	expectedPath := "/restapi/v2/accounts/" + u.Accounts[0].AccountID + "/abc/def"
-	if (req.URL.Scheme+"://"+req.URL.Host) != u.Accounts[0].BaseURI ||
-		req.URL.Path != expectedPath ||
-		req.Header.Get("Authorization") != "Bearer ISSUED_ACCESS_TOKEN" {
-		t.Errorf("expected host: %s path: %s  authorization: %s; got host: %s path: %s auth: %s",
-			u.Accounts[0].BaseURI, expectedPath, "Bearer ISSUED_ACCESS_TOKEN",
-			req.URL.Host, req.URL.Path, req.Header.Get("Authorization"))
+	req, _ = http.NewRequest("GET", "abc/def", nil)
+	if res, err := ocr.AuthDo(ctx, req, esign.VersionV21); err != nil {
+		t.Errorf("%v", err)
+	} else {
+		res.Body.Close()
 	}
-
 }
 
 func TestJWTConfig(t *testing.T) {
@@ -288,25 +296,31 @@ ZhC2gm1mAAZF9SBYwxTJ7vIcXRWi8uOB6yM7QQhuUpduK236a1lJZao=
 
 	testTransport.Add(userinfoResponseTest)
 
-	req, _ := http.NewRequest("GET", "abc/def", nil)
-	if err = ocr.Authorize(ctx, req); err != nil {
-		t.Fatalf("expected authorization success; got %v", err)
-	}
 	u, err := ocr.UserInfo(ctx)
 	if err != nil {
 		t.Errorf("userinf error: %v", err)
 	}
 
-	expectedPath := "/restapi/v2/accounts/" + u.Accounts[0].AccountID + "/abc/def"
-	if (req.URL.Scheme+"://"+req.URL.Host) != u.Accounts[0].BaseURI ||
-		req.URL.Path != expectedPath ||
-		req.Header.Get("Authorization") != "Bearer ISSUED_ACCESS_TOKEN" {
-		t.Errorf("expected host: %s path: %s  authorization: %s; got host: %s path: %s auth: %s",
-			u.Accounts[0].BaseURI, expectedPath, "Bearer ISSUED_ACCESS_TOKEN",
-			req.URL.Host, req.URL.Path, req.Header.Get("Authorization"))
+	testTransport.Add(&testutils.RequestTester{
+		Path:   "/restapi/v2/accounts/" + u.Accounts[0].AccountID + "/abc/def",
+		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
+		Host:   "gotest.docusign.net",
+	}, &testutils.RequestTester{
+		Path:   "/restapi/v2.1/accounts/" + u.Accounts[0].AccountID + "/abc/def",
+		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
+		Host:   "gotest.docusign.net",
+	})
+	req, _ := http.NewRequest("GET", "abc/def", nil)
+	if res, err := ocr.AuthDo(ctx, req, nil); err != nil {
+		_ = res
+		t.Errorf("%v", err)
+	} else {
+		res.Body.Close()
 	}
-}
-
-func TestOAuth2Credential_WithAccountID(t *testing.T) {
-
+	req, _ = http.NewRequest("GET", "abc/def", nil)
+	if res, err := ocr.AuthDo(ctx, req, esign.VersionV21); err != nil {
+		t.Errorf("%v", err)
+	} else {
+		res.Body.Close()
+	}
 }
