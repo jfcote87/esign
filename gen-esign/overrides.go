@@ -80,6 +80,15 @@ func IsUploadFilesOperation(opID string) bool {
 // or corrections.
 func GetFieldOverrides() map[string]map[string]string {
 	return map[string]map[string]string{
+		"witness": {
+			"offlineAttributes": "interface{}",
+		},
+		"newAccountDefinition": {
+			"socialAccountInformation": "*SocialAccountInformation",
+		},
+		"userSocialIdResult": {
+			"socialAccountInformation": "[]SocialAccountInformation",
+		},
 		"AccountWatermarks": {
 			"imageBase64": "[]byte",
 		},
@@ -1275,6 +1284,9 @@ func TabDefs(defMap map[string]Definition, overrides map[string]map[string]strin
 		"title",
 		"view",
 		"zip",
+		"commentThread",
+		"smartSection",
+		"polyLineOverlay",
 	}
 
 	// list of types of tabs

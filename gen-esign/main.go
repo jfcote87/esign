@@ -31,10 +31,10 @@ var (
 	baseDir     = flag.String("src", ".", "src directory")
 	templDir    = flag.String("template", "gen-esign/templates", "directory containing output templates.")
 	buildFlag   = flag.Bool("build", false, "Compile generated packages.")
-	swaggerFile = flag.String("swagger_file", "gen-esign/esignature.rest.swagger.json", "If non-empty, the path to a local file on disk containing the API to generate. Exclusive with setting --api.")
+	swaggerFile = flag.String("swagger_file", "gen-esign/esignature.rest.swagger-v2.1.json", "If non-empty, the path to a local file on disk containing the API to generate. Exclusive with setting --api.")
 	skipFormat  = flag.Bool("skip_format", false, "skip gofmt command")
-	version     = flag.String("version", "v2", "API Version - defaults to v2")
-	docprefix   = flag.String("docprefix", "v2/", "documentation prefix")
+	version     = flag.String("version", "v2.1", "API Version - defaults to v2")
+	docprefix   = flag.String("docprefix", "v2.1/", "documentation prefix")
 )
 
 // main program
