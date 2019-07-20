@@ -524,6 +524,16 @@ func TestGeneratedOpss(t *testing.T) {
 	if !ok {
 		t.Skip()
 	}
+	f, err := os.Open(jwtConfigJSON)
+	if err != nil {
+		t.Fatalf("%s open: %v", jwtConfigJSON, err)
+	}
+	var cfg *esign.JWTConfig
+	if err = json.NewDecoder(f).Decode(&cfg); err != nil {
+		f.Close()
+		t.Fatalf("%v", err)
+	}
+	f.Close()
 	jwtAPIUserName, ok := os.LookupEnv("DOCUSIGN_JWTAPIUser")
 	if !ok {
 		t.Skip()
@@ -549,16 +559,6 @@ func TestGeneratedOpss(t *testing.T) {
 		}
 	}
 
-	f, err := os.Open(jwtConfigJSON)
-	if err != nil {
-		t.Fatalf("%s open: %v", jwtConfigJSON, err)
-	}
-	var cfg *esign.JWTConfig
-	if err = json.NewDecoder(f).Decode(&cfg); err != nil {
-		f.Close()
-		t.Fatalf("%v", err)
-	}
-	f.Close()
 	cfg.CacheFunc = cacheFunc
 	var tk *oauth2.Token
 	var uInfo *esign.UserInfo
