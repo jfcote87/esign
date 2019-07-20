@@ -72,6 +72,7 @@ func main() {
 		}
 		structName = def.Name
 	}
+
 	// create templates
 	if !strings.HasPrefix(*templDir, "/") {
 		*templDir = path.Join(*baseDir, *templDir)
@@ -171,7 +172,7 @@ func doModel(modelTempl *template.Template, defList []Definition, defMap map[str
 	}()
 	// get field overrides and tab overrides
 	fldOverrides := GetFieldOverrides()
-	tabDefs := TabDefs(defMap, fldOverrides)
+	tabDefs := V21TabDefs(defMap, fldOverrides)
 	var data = struct {
 		Definitions   []Definition
 		DefMap        map[string]Definition

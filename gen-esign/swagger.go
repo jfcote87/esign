@@ -677,8 +677,15 @@ func ToGoNameLC(name string) string {
 	return strings.ToLower(nm[0:1]) + nm[1:]
 }
 
+var registeredGoNames = map[string]bool{
+	"TabGuidedForm": true,
+}
+
 // ToGoName translates a swagger name which can be underscored or camel cased to a name that golint likes
 func ToGoName(name string) string {
+	if _, ok := registeredGoNames[name]; ok {
+		return name
+	}
 	var out []string
 	for _, w := range split(name) {
 		uw := strings.ToUpper(w)

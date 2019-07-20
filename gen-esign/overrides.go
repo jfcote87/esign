@@ -1284,9 +1284,6 @@ func TabDefs(defMap map[string]Definition, overrides map[string]map[string]strin
 		"title",
 		"view",
 		"zip",
-		"commentThread",
-		"smartSection",
-		"polyLineOverlay",
 	}
 
 	// list of types of tabs
@@ -1356,15 +1353,23 @@ func TabDefs(defMap map[string]Definition, overrides map[string]map[string]strin
 		},
 		"Style": {
 			"bold",
+			"boldMetadata",
 			"font",
+			"fontMetadata",
 			"fontColor",
+			"fontColorMetadata",
 			"fontSize",
+			"fontSizeMetadata",
 			"italic",
+			"italicMetadata",
 			"name",
+			"nameMetadata",
 			"underline",
+			"underlineMetadata",
 		},
 		"Value": {
 			"value",
+			"valueMetadata",
 		},
 	}
 	// loop thru each tab definition
@@ -1443,6 +1448,247 @@ func TabDefs(defMap map[string]Definition, overrides map[string]map[string]strin
 	return results
 }
 
+// V21TabDefs creates a list definitions for embedded tab structs from the defMap parameter.
+// overrides is updated with new override entries to allow tab definitions to generate.
+func V21TabDefs(defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
+	// list of tab objects
+	var tabObjects = []string{
+		"approve",
+		"checkbox",
+		"company",
+		"dateSigned",
+		"date",
+		"decline",
+		"emailAddress",
+		"email",
+		"envelopeId",
+		"firstName",
+		"formulaTab",
+		"fullName",
+		"initialHere",
+		"lastName",
+		"list",
+		"notarize",
+		"note",
+		"number",
+		"radioGroup",
+		"signerAttachment",
+		"signHere",
+		"ssn",
+		"text",
+		"tabGroup",
+		"title",
+		"view",
+		"zip",
+		"commentThread",
+		"smartSection",
+		"polyLineOverlay",
+	}
+
+	// list of types of tabs
+	tabDefs := map[string]Definition{
+		"Base": {
+			ID:          "TabBase",
+			Name:        "TabBase",
+			Type:        "Object",
+			Description: "contains common fields for all tabs",
+			Summary:     "contains common fields for all tabs",
+			Category:    "",
+		},
+		"GuidedForm": {
+			ID:          "TabGuidedForm",
+			Name:        "TabGuidedForm",
+			Type:        "Object",
+			Description: "contains common fields for all text box tabs",
+			Summary:     "contains common fields for all text box tabs",
+			Category:    "",
+		},
+		"Position": {
+			ID:          "TabPosition",
+			Name:        "TabPosition",
+			Type:        "Object",
+			Description: "contains common fields for all tabs that can position themselves on document",
+			Summary:     "contains common fields for all tabs that can position themselves on document",
+			Category:    "",
+		},
+		"Style": {
+			ID:          "TabStyle",
+			Name:        "TabStyle",
+			Type:        "Object",
+			Description: "contains common fields for all tabs that can set a display style",
+			Summary:     "contains common fields for all tabs that can set a display style",
+			Category:    "",
+		},
+		"Value": {
+			ID:          "TabValue",
+			Name:        "TabValue",
+			Type:        "Object",
+			Description: "add Value() func to tab",
+			Summary:     "add Value() func to tab",
+			Category:    "",
+		},
+	}
+	// list of fields for each tab type
+	tabFields := map[string][]string{
+		"Base": {
+			"conditionalParentLabel",
+			"conditionalParentLabelMetadata",
+			"conditionalParentValue",
+			"conditionalParentValueMetadata",
+			"documentId",
+			"documentIdMetadata",
+			"recipientId",
+			"recipientIdMetadata",
+			"recipientIdGuid",
+			"recipientIdGuidMetadata",
+			"tabGroupLabels",
+			"tabGroupLabelsMetadata",
+			"tabType",
+			"tabTypeMetadata",
+		},
+		"GuidedForm": {
+			"formOrder",
+			"formOrderMetadata",
+			"formPageLabel",
+			"formPageLabelMetadata",
+			"formPageNumber",
+			"formPageNumberMetadata",
+		},
+		"Position": {
+			"anchorCaseSensitive",
+			"anchorCaseSensitiveMetadata",
+			"anchorHorizontalAlignment",
+			"anchorHorizontalAlignmentMetadata",
+			"anchorIgnoreIfNotPresent",
+			"anchorIgnoreIfNotPresentMetadata",
+			"anchorMatchWholeWord",
+			"anchorMatchWholeWordMetadata",
+			"anchorString",
+			"anchorStringMetadata",
+			"anchorTabProcessorVersion",
+			"anchorTabProcessorVersionMetadata",
+			"anchorUnits",
+			"anchorUnitsMetadata",
+			"anchorXOffset",
+			"anchorXOffsetMetadata",
+			"anchorYOffset",
+			"anchorYOffsetMetadata",
+			"customTabId",
+			"customTabIdMetadata",
+			"errorDetails",
+			"mergeField",
+			"pageNumber",
+			"pageNumberMetadata",
+			"status",
+			"statusMetadata",
+			"tabId",
+			"tabIdMetadata",
+			"tabLabel",
+			"tabLabelMetadata",
+			"tabOrder",
+			"tabOrderMetadata",
+			"templateLocked",
+			"templateLockedMetadata",
+			"templateRequired",
+			"templateRequiredMetadata",
+			"xPosition",
+			"xPositionMetadata",
+			"yPosition",
+			"yPositionMetadata",
+		},
+		"Style": {
+			"bold",
+			"font",
+			"fontColor",
+			"fontSize",
+			"italic",
+			"name",
+			"underline",
+		},
+		"Value": {
+			"value",
+		},
+	}
+	// loop thru each tab definition
+	for _, tabname := range tabObjects {
+		dx := defMap["#/definitions/"+tabname]
+		// create map of fields for easy lookup
+		xmap := make(map[string]bool)
+		// NOTE:  add tabLabel to notary and name to view.
+		//This seems to be an error  in swagger definition.
+		// TODO: remove when fixed in swagger file
+		if tabname == "notarize" {
+			xmap["tabLabel"] = true
+		}
+		if tabname == "view" {
+			xmap["name"] = true
+		}
+		if tabname == "radioGroup" {
+			xmap["tabGroupLabels"] = true
+			xmap["tabGroupLabelsMetadata"] = true
+		}
+
+		for _, f := range dx.Fields {
+			xmap[f.Name] = true
+		}
+		// Get Overrides for this tab definition
+		defOverrides, ok := overrides[dx.ID]
+		if !ok {
+			defOverrides = make(map[string]string)
+			overrides[dx.ID] = defOverrides
+		}
+		memberOf := make([]string, 0) // tab types for this tab
+		// Loop thru each tab type
+		for _, nm := range []string{"Base", "GuidedForm", "Position", "Style", "Value"} {
+			// check for match by checking for existence of each field
+			isType := true
+			for _, s := range tabFields[nm] {
+				if isType = xmap[s]; !isType {
+					break
+				}
+			}
+			// if match, mark override for each field
+			if isType {
+				for _, f := range tabFields[nm] {
+					// Definition.StructFields() will know to skip
+					// outputting this field for the type def
+					defOverrides[f] = "-"
+				}
+				memberOf = append(memberOf, "Tab"+nm)
+			}
+		}
+		// create override.  Definition.StructFields will know to output
+		// these embedded types.
+		if len(memberOf) > 0 {
+			defOverrides["TABS"] = strings.Join(memberOf, ",")
+		}
+	}
+
+	// Get field definitions for embedded types.  Assume that
+	// the Text tab meets all definitions so copy appropriate field
+	// from its definition
+	txtDef := defMap["#/definitions/text"]
+	xmap := make(map[string]Field)
+	for _, f := range txtDef.Fields {
+		xmap[f.Name] = f
+
+	}
+	results := make([]Definition, 0)
+	for _, tabDefName := range []string{"Base", "GuidedForm", "Position", "Style", "Value"} {
+		ndef := tabDefs[tabDefName]
+		for _, s := range tabFields[tabDefName] {
+			fx, ok := xmap[s]
+			if ok {
+				ndef.Fields = append(ndef.Fields, fx)
+			}
+		}
+		results = append(results, ndef)
+
+	}
+	// return list of embedded tab definitions
+	return results
+}
+
 // CustomCode is lines of code to append to model.go
 const CustomCode = `// GetTabValues returns a NameValue list of all entry tabs
 func GetTabValues(tabs Tabs) []NameValue {
@@ -1477,6 +1723,9 @@ func GetTabValues(tabs Tabs) []NameValue {
 		results = append(results, NameValue{Name: v.TabLabel, OriginalValue: v.OriginalValue, Value: v.Value})
 	}
 	for _, v := range tabs.TextTabs {
+		results = append(results, NameValue{Name: v.TabLabel, OriginalValue: v.OriginalValue, Value: v.Value})
+	}
+	for _, v := range tabs.ZipTabs {
 		results = append(results, NameValue{Name: v.TabLabel, OriginalValue: v.OriginalValue, Value: v.Value})
 	}
 	return results
