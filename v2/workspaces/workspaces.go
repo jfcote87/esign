@@ -11,12 +11,13 @@
 // Workspaces creation and management.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Workspaces
+// https://developers.docusign.com/esign-rest-api/v2/reference/Workspaces
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//workspaces"
+//       "github.com/jfcote87/esign/v2/workspaces"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   workspacesService := workspaces.New(esignCredential)

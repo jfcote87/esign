@@ -15,12 +15,13 @@
 // * Retrieve and update payment information.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2.1/reference/Billing
+// https://developers.docusign.com/esign-rest-api/reference/Billing
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//billing"
+//       "github.com/jfcote87/esign/v2.1/billing"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   billingService := billing.New(esignCredential)
@@ -48,7 +49,7 @@ func New(cred esign.Credential) *Service {
 
 // PlansGet get the billing plan details.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/BillingPlans/get
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/get
 //
 // SDK Method Billing::getBillingPlan
 func (s *Service) PlansGet(billingPlanID string) *PlansGetOp {
@@ -57,6 +58,7 @@ func (s *Service) PlansGet(billingPlanID string) *PlansGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "billing_plans", billingPlanID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -71,7 +73,7 @@ func (op *PlansGetOp) Do(ctx context.Context) (*model.BillingPlanResponse, error
 
 // PlansGetAccountPlan get Account Billing Plan
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/BillingPlans/getAccountPlan
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/getAccountPlan
 //
 // SDK Method Billing::getPlan
 func (s *Service) PlansGetAccountPlan() *PlansGetAccountPlanOp {
@@ -80,6 +82,7 @@ func (s *Service) PlansGetAccountPlan() *PlansGetAccountPlanOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/billing_plan",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -118,7 +121,7 @@ func (op *PlansGetAccountPlanOp) IncludeSuccessorPlans() *PlansGetAccountPlanOp 
 
 // PlansGetCreditCard get credit card information
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/BillingPlans/getCreditCard
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/getCreditCard
 //
 // SDK Method Billing::getCreditCardInfo
 func (s *Service) PlansGetCreditCard() *PlansGetCreditCardOp {
@@ -127,6 +130,7 @@ func (s *Service) PlansGetCreditCard() *PlansGetCreditCardOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/billing_plan/credit_card",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -141,7 +145,7 @@ func (op *PlansGetCreditCardOp) Do(ctx context.Context) (*model.CreditCardInform
 
 // PlansList gets the list of available billing plans.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/BillingPlans/list
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/list
 //
 // SDK Method Billing::listBillingPlans
 func (s *Service) PlansList() *PlansListOp {
@@ -150,6 +154,7 @@ func (s *Service) PlansList() *PlansListOp {
 		Method:     "GET",
 		Path:       "/v2.1/billing_plans",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -164,7 +169,7 @@ func (op *PlansListOp) Do(ctx context.Context) (*model.BillingPlansResponse, err
 
 // PlansPurchaseEnvelopes reserverd: Purchase additional envelopes.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/BillingPlans/purchaseEnvelopes
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/purchaseEnvelopes
 //
 // SDK Method Billing::purchaseEnvelopes
 func (s *Service) PlansPurchaseEnvelopes(purchasedEnvelopesInformation *model.PurchasedEnvelopesInformation) *PlansPurchaseEnvelopesOp {
@@ -174,6 +179,7 @@ func (s *Service) PlansPurchaseEnvelopes(purchasedEnvelopesInformation *model.Pu
 		Path:       "/v2.1/accounts/{accountId}/billing_plan/purchased_envelopes",
 		Payload:    purchasedEnvelopesInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -187,7 +193,7 @@ func (op *PlansPurchaseEnvelopesOp) Do(ctx context.Context) error {
 
 // PlansUpdate updates the account billing plan.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/BillingPlans/update
+// https://developers.docusign.com/esign-rest-api/reference/Billing/BillingPlans/update
 //
 // SDK Method Billing::updatePlan
 func (s *Service) PlansUpdate(billingPlanInformation *model.BillingPlanInformation) *PlansUpdateOp {
@@ -197,6 +203,7 @@ func (s *Service) PlansUpdate(billingPlanInformation *model.BillingPlanInformati
 		Path:       "/v2.1/accounts/{accountId}/billing_plan",
 		Payload:    billingPlanInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -219,7 +226,7 @@ func (op *PlansUpdateOp) PreviewBillingPlan() *PlansUpdateOp {
 
 // InvoicesGet retrieves a billing invoice.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/Invoices/get
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Invoices/get
 //
 // SDK Method Billing::getInvoice
 func (s *Service) InvoicesGet(invoiceID string) *InvoicesGetOp {
@@ -228,6 +235,7 @@ func (s *Service) InvoicesGet(invoiceID string) *InvoicesGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "billing_invoices", invoiceID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -256,7 +264,7 @@ func (op *InvoicesGetOp) PDF(ctx context.Context) (*esign.Download, error) {
 
 // InvoicesList get a List of Billing Invoices
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/Invoices/list
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Invoices/list
 //
 // SDK Method Billing::listInvoices
 func (s *Service) InvoicesList() *InvoicesListOp {
@@ -265,6 +273,7 @@ func (s *Service) InvoicesList() *InvoicesListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/billing_invoices",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -295,7 +304,7 @@ func (op *InvoicesListOp) ToDate(val time.Time) *InvoicesListOp {
 
 // InvoicesListPastDue get a list of past due invoices.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/Invoices/listPastDue
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Invoices/listPastDue
 //
 // SDK Method Billing::listInvoicesPastDue
 func (s *Service) InvoicesListPastDue() *InvoicesListPastDueOp {
@@ -304,6 +313,7 @@ func (s *Service) InvoicesListPastDue() *InvoicesListPastDueOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/billing_invoices_past_due",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -318,7 +328,7 @@ func (op *InvoicesListPastDueOp) Do(ctx context.Context) (*model.BillingInvoices
 
 // PaymentsCreate posts a payment to a past due invoice.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/Payments/create
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Payments/create
 //
 // SDK Method Billing::makePayment
 func (s *Service) PaymentsCreate(billingPaymentRequest *model.BillingPaymentRequest) *PaymentsCreateOp {
@@ -328,6 +338,7 @@ func (s *Service) PaymentsCreate(billingPaymentRequest *model.BillingPaymentRequ
 		Path:       "/v2.1/accounts/{accountId}/billing_payments",
 		Payload:    billingPaymentRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -342,7 +353,7 @@ func (op *PaymentsCreateOp) Do(ctx context.Context) (*model.BillingPaymentRespon
 
 // PaymentsGet gets billing payment information for a specific payment.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/Payments/get
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Payments/get
 //
 // SDK Method Billing::getPayment
 func (s *Service) PaymentsGet(paymentID string) *PaymentsGetOp {
@@ -351,6 +362,7 @@ func (s *Service) PaymentsGet(paymentID string) *PaymentsGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "billing_payments", paymentID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -365,7 +377,7 @@ func (op *PaymentsGetOp) Do(ctx context.Context) (*model.BillingPaymentItem, err
 
 // PaymentsList gets payment information for one or more payments.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Billing/Payments/list
+// https://developers.docusign.com/esign-rest-api/reference/Billing/Payments/list
 //
 // SDK Method Billing::listPayments
 func (s *Service) PaymentsList() *PaymentsListOp {
@@ -374,6 +386,7 @@ func (s *Service) PaymentsList() *PaymentsListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/billing_payments",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

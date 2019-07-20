@@ -16,7 +16,8 @@
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//uncategorized"
+//       "github.com/jfcote87/esign/v2.1/uncategorized"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   uncategorizedService := uncategorized.New(esignCredential)
@@ -49,6 +50,7 @@ func (s *Service) CommentsCreateEnvelopeComments(envelopeID string, commentsPubl
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "comments"}, "/"),
 		Payload:    commentsPublish,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -69,6 +71,7 @@ func (s *Service) CommentsGet(envelopeID string) *CommentsGetOp {
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "comments", "transcript"}, "/"),
 		Accept:     "application/pdf",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -97,6 +100,7 @@ func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, envelop
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -116,6 +120,7 @@ func (s *Service) EnvelopeDocumentHTMLDefinitionsGet(documentID string, envelope
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -136,6 +141,7 @@ func (s *Service) EnvelopeDocumentTabsCreateDocumentTabs(documentID string, enve
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateRecipientTabs,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -156,6 +162,7 @@ func (s *Service) EnvelopeDocumentTabsDeleteDocumentTabs(documentID string, enve
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateRecipientTabs,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -176,6 +183,7 @@ func (s *Service) EnvelopeDocumentTabsUpdateDocumentTabs(documentID string, enve
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateRecipientTabs,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -195,6 +203,7 @@ func (s *Service) EnvelopeHTMLDefinitionsList(envelopeID string) *EnvelopeHTMLDe
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -214,6 +223,7 @@ func (s *Service) EnvelopePurgeConfigurationGetEnvelopePurgeConfiguration() *Env
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/settings/envelope_purge_configuration",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -234,6 +244,7 @@ func (s *Service) EnvelopePurgeConfigurationUpdateEnvelopePurgeConfiguration(env
 		Path:       "/v2.1/accounts/{accountId}/settings/envelope_purge_configuration",
 		Payload:    envelopePurgeConfiguration,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -254,6 +265,7 @@ func (s *Service) EnvelopeTransferRulesCreateEnvelopeTransferRules(envelopeTrans
 		Path:       "/v2.1/accounts/{accountId}/envelopes/transfer_rules",
 		Payload:    envelopeTransferRuleRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -273,6 +285,7 @@ func (s *Service) EnvelopeTransferRulesDeleteEnvelopeTransferRules(envelopeTrans
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", "transfer_rules", envelopeTransferRuleID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -291,6 +304,7 @@ func (s *Service) EnvelopeTransferRulesGetEnvelopeTransferRules() *EnvelopeTrans
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/envelopes/transfer_rules",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -327,6 +341,7 @@ func (s *Service) EnvelopeTransferRulesUpdateEnvelopeTransferRule(envelopeTransf
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", "transfer_rules", envelopeTransferRuleID}, "/"),
 		Payload:    envelopeTransferRule,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -347,6 +362,7 @@ func (s *Service) EnvelopeTransferRulesUpdateEnvelopeTransferRules(envelopeTrans
 		Path:       "/v2.1/accounts/{accountId}/envelopes/transfer_rules",
 		Payload:    envelopeTransferRules,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -367,6 +383,7 @@ func (s *Service) EnvelopeViewsCreateEnvelopeRecipientPreview(envelopeID string,
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "recipient_preview"}, "/"),
 		Payload:    recipientPreviewRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -387,6 +404,7 @@ func (s *Service) EnvelopeViewsCreateTemplateRecipientPreview(templateID string,
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "views", "recipient_preview"}, "/"),
 		Payload:    recipientPreviewRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -406,6 +424,7 @@ func (s *Service) NotificationDefaultsGetNotificationDefaults() *NotificationDef
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/settings/notification_defaults",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -426,6 +445,7 @@ func (s *Service) NotificationDefaultsUpdateNotificationDefaults(notificationDef
 		Path:       "/v2.1/accounts/{accountId}/settings/notification_defaults",
 		Payload:    notificationDefaults,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -446,6 +466,7 @@ func (s *Service) ResponsiveHTMLPreviewCreate(envelopeID string, documentHTMLDef
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -465,6 +486,7 @@ func (s *Service) TemplateDocumentHTMLDefinitionsList(documentID string, templat
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -485,6 +507,7 @@ func (s *Service) TemplateDocumentResponsiveHTMLPreviewCreate(documentID string,
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -506,6 +529,7 @@ func (s *Service) TemplateDocumentTabsCreateTemplateDocumentTabs(documentID stri
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -526,6 +550,7 @@ func (s *Service) TemplateDocumentTabsDeleteTemplateDocumentTabs(documentID stri
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -546,6 +571,7 @@ func (s *Service) TemplateDocumentTabsUpdateTemplateDocumentTabs(documentID stri
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -565,6 +591,7 @@ func (s *Service) TemplateHTMLDefinitionsList(templateID string) *TemplateHTMLDe
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -585,6 +612,7 @@ func (s *Service) TemplateResponsiveHTMLPreviewCreate(templateID string, documen
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

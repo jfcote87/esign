@@ -10,17 +10,18 @@
 // {{range .Comments}}
 // {{.}}{{end}}
 //
-// {{$versionDef := .VersionDef}}{{$verPrefix := .VersionPrefix}}{{$docPrefix := .DocPrefix}}{{if .AddDocLinks}}Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/{{$docPrefix}}reference/{{.Service}}{{end}}
+// {{$callVersion := .CallVersion}}{{$verPrefix := .VersionID}}{{$docPrefix := .DocPrefix}}{{if .AddDocLinks}}Service Api documentation may be found at:
+// https://developers.docusign.com/esign-rest-api/{{$docPrefix}}reference/{{.Service}}{{end}}
 // Usage example:
 //
 //   import (
 //       "{{.Directory}}"
-//       "{{.Directory}}/{{$docPrefix := .DocPrefix}}/{{.Package}}"
+//       "{{.Directory}}/{{$verPrefix}}/{{.Package}}"
+//       "{{.Directory}}/{{$verPrefix}}/model"
 //   )
 //   ...
 //   {{.Package}}Service := {{.Package}}.New(esignCredential)
-package {{.Package}} // import "github.com/jfcote87/esign/v2.1/{{.Package}}"
+package {{.Package}} // import "github.com/jfcote87/esign/{{$verPrefix}}/{{.Package}}"
 
 import ({{range .Packages}}
     {{.}}{{end}}
@@ -45,8 +46,8 @@ func New(cred esign.Credential) *Service {
         {{if .OpPayload}}Payload: {{if .IsMediaUpload}}&esign.UploadFile{ Reader: media, ContentType: mimeType }{{else}}{{.OpPayload.GoName}}{{end}},
         {{end}}{{if .HasUploads}}Files: uploads,
         {{end}}{{if len .Produces}}Accept: "{{.Accepts}}",
-        {{end}}QueryOpts: make(url.Values),{{if $versionDef}}
-        Version: {{$versionDef}},{{end}}
+        {{end}}QueryOpts: make(url.Values),{{if $callVersion}}
+        Version: {{$callVersion}},{{end}}
     }
 }
 

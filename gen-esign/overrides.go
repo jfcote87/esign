@@ -1252,9 +1252,20 @@ func GetDownloadAdditions(opID string) []DownloadAddition {
 	return nil
 }
 
-// TabDefs creates a list definitions for embedded tab structs from the defMap parameter.
+// TabDefs return a list of embeded tab structs based upon the version
+func TabDefs(version string, defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
+	switch version {
+	case "v2":
+		return TabDefsV2(defMap, overrides)
+	case "v2.1":
+		return TabDefsV21(defMap, overrides)
+	}
+	return make([]Definition, 0, 0)
+}
+
+// TabDefsV2 creates a list definitions for embedded tab structs from the defMap parameter.
 // overrides is updated with new override entries to allow tab definitions to generate.
-func TabDefs(defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
+func TabDefsV2(defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
 	// list of tab objects
 	var tabObjects = []string{
 		"approve",
@@ -1353,23 +1364,15 @@ func TabDefs(defMap map[string]Definition, overrides map[string]map[string]strin
 		},
 		"Style": {
 			"bold",
-			"boldMetadata",
 			"font",
-			"fontMetadata",
 			"fontColor",
-			"fontColorMetadata",
 			"fontSize",
-			"fontSizeMetadata",
 			"italic",
-			"italicMetadata",
 			"name",
-			"nameMetadata",
 			"underline",
-			"underlineMetadata",
 		},
 		"Value": {
 			"value",
-			"valueMetadata",
 		},
 	}
 	// loop thru each tab definition
@@ -1448,9 +1451,9 @@ func TabDefs(defMap map[string]Definition, overrides map[string]map[string]strin
 	return results
 }
 
-// V21TabDefs creates a list definitions for embedded tab structs from the defMap parameter.
+// TabDefsV21 creates a list definitions for embedded tab structs from the defMap parameter.
 // overrides is updated with new override entries to allow tab definitions to generate.
-func V21TabDefs(defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
+func TabDefsV21(defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
 	// list of tab objects
 	var tabObjects = []string{
 		"approve",
@@ -1598,15 +1601,23 @@ func V21TabDefs(defMap map[string]Definition, overrides map[string]map[string]st
 		},
 		"Style": {
 			"bold",
+			"boldMetadata",
 			"font",
+			"fontMetadata",
 			"fontColor",
+			"fontColorMetadata",
 			"fontSize",
+			"fontSizeMetadata",
 			"italic",
+			"italicMetadata",
 			"name",
+			"nameMetadata",
 			"underline",
+			"underlineMetadata",
 		},
 		"Value": {
 			"value",
+			"valueMetadata",
 		},
 	}
 	// loop thru each tab definition
@@ -1637,6 +1648,15 @@ func V21TabDefs(defMap map[string]Definition, overrides map[string]map[string]st
 			defOverrides = make(map[string]string)
 			overrides[dx.ID] = defOverrides
 		}
+		// NOTE: in v2.1 swagger files, these are listed as strings.
+		// TODO: Check for fix in future
+		if xmap["width"] {
+			defOverrides["width"] = "int32"
+		}
+		if xmap["height"] {
+			defOverrides["height"] = "int32"
+		}
+
 		memberOf := make([]string, 0) // tab types for this tab
 		// Loop thru each tab type
 		for _, nm := range []string{"Base", "GuidedForm", "Position", "Style", "Value"} {

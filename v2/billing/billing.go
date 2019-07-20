@@ -15,12 +15,13 @@
 // * Retrieve and update payment information.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Billing
+// https://developers.docusign.com/esign-rest-api/v2/reference/Billing
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//billing"
+//       "github.com/jfcote87/esign/v2/billing"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   billingService := billing.New(esignCredential)

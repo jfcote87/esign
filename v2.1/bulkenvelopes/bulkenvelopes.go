@@ -11,12 +11,13 @@
 // Use the BulkEnvelopes category to manage the sending of envelopes to multiple recipients.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2.1/reference/BulkEnvelopes
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//bulkenvelopes"
+//       "github.com/jfcote87/esign/v2.1/bulkenvelopes"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   bulkenvelopesService := bulkenvelopes.New(esignCredential)
@@ -44,7 +45,7 @@ func New(cred esign.Credential) *Service {
 
 // Get gets the status of a specified bulk send operation.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/BulkEnvelopes/BulkEnvelopes/get
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/get
 //
 // SDK Method BulkEnvelopes::get
 func (s *Service) Get(batchID string) *GetOp {
@@ -53,6 +54,7 @@ func (s *Service) Get(batchID string) *GetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "bulk_envelopes", batchID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -98,7 +100,7 @@ func (op *GetOp) StartPosition(val int) *GetOp {
 
 // List gets status information about bulk recipient batches.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/BulkEnvelopes/BulkEnvelopes/list
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/list
 //
 // SDK Method BulkEnvelopes::list
 func (s *Service) List() *ListOp {
@@ -107,6 +109,7 @@ func (s *Service) List() *ListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/bulk_envelopes",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -152,7 +155,7 @@ func (op *ListOp) StartPosition(val int) *ListOp {
 
 // RecipientsDelete deletes the bulk recipient file from an envelope.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/BulkEnvelopes/EnvelopeBulkRecipients/delete
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/delete
 //
 // SDK Method BulkEnvelopes::deleteRecipients
 func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *RecipientsDeleteOp {
@@ -161,6 +164,7 @@ func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *Recip
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -175,7 +179,7 @@ func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipientsUpda
 
 // RecipientsList gets the bulk recipient file from an envelope.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/BulkEnvelopes/EnvelopeBulkRecipients/list
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/list
 //
 // SDK Method BulkEnvelopes::getRecipients
 func (s *Service) RecipientsList(envelopeID string, recipientID string) *RecipientsListOp {
@@ -184,6 +188,7 @@ func (s *Service) RecipientsList(envelopeID string, recipientID string) *Recipie
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -214,7 +219,7 @@ func (op *RecipientsListOp) StartPosition(val int) *RecipientsListOp {
 
 // RecipientsUpdate adds or replaces envelope bulk recipients.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/BulkEnvelopes/EnvelopeBulkRecipients/update
+// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/update
 //
 // SDK Method BulkEnvelopes::updateRecipients
 func (s *Service) RecipientsUpdate(envelopeID string, recipientID string, bulkRecipientsRequest *model.BulkRecipientsRequest) *RecipientsUpdateOp {
@@ -224,6 +229,7 @@ func (s *Service) RecipientsUpdate(envelopeID string, recipientID string, bulkRe
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		Payload:    bulkRecipientsRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

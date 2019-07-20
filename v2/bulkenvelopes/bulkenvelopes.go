@@ -11,12 +11,13 @@
 // Use the BulkEnvelopes category to manage the sending of envelopes to multiple recipients.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/BulkEnvelopes
+// https://developers.docusign.com/esign-rest-api/v2/reference/BulkEnvelopes
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//bulkenvelopes"
+//       "github.com/jfcote87/esign/v2/bulkenvelopes"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   bulkenvelopesService := bulkenvelopes.New(esignCredential)

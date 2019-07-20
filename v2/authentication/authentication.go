@@ -15,12 +15,13 @@
 // * Getting and revoking OAuth tokens.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Authentication
+// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//authentication"
+//       "github.com/jfcote87/esign/v2/authentication"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   authenticationService := authentication.New(esignCredential)

@@ -28,12 +28,13 @@
 // * Requesting that an event be re-published to the listener.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Connect
+// https://developers.docusign.com/esign-rest-api/v2/reference/Connect
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//connect"
+//       "github.com/jfcote87/esign/v2/connect"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   connectService := connect.New(esignCredential)

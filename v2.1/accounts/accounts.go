@@ -18,12 +18,13 @@
 // The Account category also includes end points for listing the recipient names associated with an email address that was used by the account. For example, a single email address is often shared by mulitple members of a family.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2.1/reference/Accounts
+// https://developers.docusign.com/esign-rest-api/reference/Accounts
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//accounts"
+//       "github.com/jfcote87/esign/v2.1/accounts"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   accountsService := accounts.New(esignCredential)
@@ -52,7 +53,7 @@ func New(cred esign.Credential) *Service {
 
 // BrandsCreate creates one or more brand profiles for an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/create
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create
 //
 // SDK Method Accounts::createBrand
 func (s *Service) BrandsCreate(brand *model.Brand) *BrandsCreateOp {
@@ -62,6 +63,7 @@ func (s *Service) BrandsCreate(brand *model.Brand) *BrandsCreateOp {
 		Path:       "/v2.1/accounts/{accountId}/brands",
 		Payload:    brand,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -76,7 +78,7 @@ func (op *BrandsCreateOp) Do(ctx context.Context) (*model.BrandsResponse, error)
 
 // BrandsDelete deletes a brand.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/delete
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/delete
 //
 // SDK Method Accounts::deleteBrand
 func (s *Service) BrandsDelete(brandID string) *BrandsDeleteOp {
@@ -85,6 +87,7 @@ func (s *Service) BrandsDelete(brandID string) *BrandsDeleteOp {
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -98,7 +101,7 @@ func (op *BrandsDeleteOp) Do(ctx context.Context) error {
 
 // BrandsDeleteList deletes one or more brand profiles.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/deleteList
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/deleteList
 //
 // SDK Method Accounts::deleteBrands
 func (s *Service) BrandsDeleteList(brandsRequest *model.BrandsRequest) *BrandsDeleteListOp {
@@ -108,6 +111,7 @@ func (s *Service) BrandsDeleteList(brandsRequest *model.BrandsRequest) *BrandsDe
 		Path:       "/v2.1/accounts/{accountId}/brands",
 		Payload:    brandsRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -122,7 +126,7 @@ func (op *BrandsDeleteListOp) Do(ctx context.Context) (*model.BrandsResponse, er
 
 // BrandsDeleteLogo deletes a brand logo.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/deleteLogo
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/deleteLogo
 //
 // SDK Method Accounts::deleteBrandLogoByType
 func (s *Service) BrandsDeleteLogo(brandID string, logoType string) *BrandsDeleteLogoOp {
@@ -131,6 +135,7 @@ func (s *Service) BrandsDeleteLogo(brandID string, logoType string) *BrandsDelet
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "logos", logoType}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -144,7 +149,7 @@ func (op *BrandsDeleteLogoOp) Do(ctx context.Context) error {
 
 // BrandsGet gets information about a brand.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/get
 //
 // SDK Method Accounts::getBrand
 func (s *Service) BrandsGet(brandID string) *BrandsGetOp {
@@ -153,6 +158,7 @@ func (s *Service) BrandsGet(brandID string) *BrandsGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -183,7 +189,7 @@ func (op *BrandsGetOp) IncludeLogos() *BrandsGetOp {
 
 // BrandsGetExportFile export a brand.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/getExportFile
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/getExportFile
 //
 // SDK Method Accounts::getBrandExportFile
 func (s *Service) BrandsGetExportFile(brandID string) *BrandsGetExportFileOp {
@@ -192,6 +198,7 @@ func (s *Service) BrandsGetExportFile(brandID string) *BrandsGetExportFileOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "file"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -206,7 +213,7 @@ func (op *BrandsGetExportFileOp) Do(ctx context.Context) (*esign.Download, error
 
 // BrandsGetLogo gets a brand logo.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/getLogo
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/getLogo
 //
 // SDK Method Accounts::getBrandLogoByType
 func (s *Service) BrandsGetLogo(brandID string, logoType string) *BrandsGetLogoOp {
@@ -216,6 +223,7 @@ func (s *Service) BrandsGetLogo(brandID string, logoType string) *BrandsGetLogoO
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "logos", logoType}, "/"),
 		Accept:     "image/png",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -230,7 +238,7 @@ func (op *BrandsGetLogoOp) Do(ctx context.Context) (*esign.Download, error) {
 
 // BrandsGetResource returns a branding resource file.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/getResource
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/getResource
 //
 // SDK Method Accounts::getBrandResourcesByContentType
 func (s *Service) BrandsGetResource(brandID string, resourceContentType string) *BrandsGetResourceOp {
@@ -239,6 +247,7 @@ func (s *Service) BrandsGetResource(brandID string, resourceContentType string) 
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "resources", resourceContentType}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -269,7 +278,7 @@ func (op *BrandsGetResourceOp) ReturnMaster() *BrandsGetResourceOp {
 
 // BrandsList gets a list of brands.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/list
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/list
 //
 // SDK Method Accounts::listBrands
 func (s *Service) BrandsList() *BrandsListOp {
@@ -278,6 +287,7 @@ func (s *Service) BrandsList() *BrandsListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/brands",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -308,7 +318,7 @@ func (op *BrandsListOp) IncludeLogos() *BrandsListOp {
 
 // BrandsListResources returns metadata about the branding resources for an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/listResources
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/listResources
 //
 // SDK Method Accounts::getBrandResources
 func (s *Service) BrandsListResources(brandID string) *BrandsListResourcesOp {
@@ -317,6 +327,7 @@ func (s *Service) BrandsListResources(brandID string) *BrandsListResourcesOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "resources"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -331,7 +342,7 @@ func (op *BrandsListResourcesOp) Do(ctx context.Context) (*model.BrandResourcesL
 
 // BrandsUpdate updates an existing brand.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/update
 //
 // SDK Method Accounts::updateBrand
 func (s *Service) BrandsUpdate(brandID string, brand *model.Brand) *BrandsUpdateOp {
@@ -341,6 +352,7 @@ func (s *Service) BrandsUpdate(brandID string, brand *model.Brand) *BrandsUpdate
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID}, "/"),
 		Payload:    brand,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -355,7 +367,7 @@ func (op *BrandsUpdateOp) Do(ctx context.Context) (*model.Brand, error) {
 
 // BrandsUpdateLogo updates a brand logo.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/updateLogo
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/updateLogo
 //
 // SDK Method Accounts::updateBrandLogoByType
 func (s *Service) BrandsUpdateLogo(brandID string, logoType string, logoFileBytes []byte) *BrandsUpdateLogoOp {
@@ -365,6 +377,7 @@ func (s *Service) BrandsUpdateLogo(brandID string, logoType string, logoFileByte
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "logos", logoType}, "/"),
 		Payload:    logoFileBytes,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -379,7 +392,7 @@ func (op *BrandsUpdateLogoOp) Do(ctx context.Context) error {
 // BrandsUpdateResource updates a branding resource file.
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountBrands/updateResource
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/updateResource
 //
 // SDK Method Accounts::updateBrandResourcesByContentType
 func (s *Service) BrandsUpdateResource(brandID string, resourceContentType string, media io.Reader, mimeType string) *BrandsUpdateResourceOp {
@@ -389,6 +402,7 @@ func (s *Service) BrandsUpdateResource(brandID string, resourceContentType strin
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "resources", resourceContentType}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -403,7 +417,7 @@ func (op *BrandsUpdateResourceOp) Do(ctx context.Context) (*model.BrandResources
 
 // ConsumerDisclosuresGet gets the Electronic Record and Signature Disclosure.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountConsumerDisclosures/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountConsumerDisclosures/get
 //
 // SDK Method Accounts::getConsumerDisclosure
 func (s *Service) ConsumerDisclosuresGet(langCode string) *ConsumerDisclosuresGetOp {
@@ -412,6 +426,7 @@ func (s *Service) ConsumerDisclosuresGet(langCode string) *ConsumerDisclosuresGe
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "consumer_disclosure", langCode}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -426,7 +441,7 @@ func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisc
 
 // ConsumerDisclosuresGetDefault gets the Electronic Record and Signature Disclosure for the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountConsumerDisclosures/getDefault
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountConsumerDisclosures/getDefault
 //
 // SDK Method Accounts::getConsumerDisclosureDefault
 func (s *Service) ConsumerDisclosuresGetDefault() *ConsumerDisclosuresGetDefaultOp {
@@ -435,6 +450,7 @@ func (s *Service) ConsumerDisclosuresGetDefault() *ConsumerDisclosuresGetDefault
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/consumer_disclosure",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -459,7 +475,7 @@ func (op *ConsumerDisclosuresGetDefaultOp) LangCode(val string) *ConsumerDisclos
 
 // ConsumerDisclosuresUpdate update Consumer Disclosure.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountConsumerDisclosures/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountConsumerDisclosures/update
 //
 // SDK Method Accounts::updateConsumerDisclosure
 func (s *Service) ConsumerDisclosuresUpdate(langCode string, envelopeConsumerDisclosures *model.ConsumerDisclosure) *ConsumerDisclosuresUpdateOp {
@@ -469,6 +485,7 @@ func (s *Service) ConsumerDisclosuresUpdate(langCode string, envelopeConsumerDis
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "consumer_disclosure", langCode}, "/"),
 		Payload:    envelopeConsumerDisclosures,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -491,7 +508,7 @@ func (op *ConsumerDisclosuresUpdateOp) IncludeMetadata(val string) *ConsumerDisc
 
 // CustomFieldsCreate creates an acount custom field.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountCustomFields/create
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/create
 //
 // SDK Method Accounts::createCustomField
 func (s *Service) CustomFieldsCreate(customField *model.CustomField) *CustomFieldsCreateOp {
@@ -501,6 +518,7 @@ func (s *Service) CustomFieldsCreate(customField *model.CustomField) *CustomFiel
 		Path:       "/v2.1/accounts/{accountId}/custom_fields",
 		Payload:    customField,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -523,7 +541,7 @@ func (op *CustomFieldsCreateOp) ApplyToTemplates() *CustomFieldsCreateOp {
 
 // CustomFieldsDelete delete an existing account custom field.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountCustomFields/delete
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/delete
 //
 // SDK Method Accounts::deleteCustomField
 func (s *Service) CustomFieldsDelete(customFieldID string) *CustomFieldsDeleteOp {
@@ -532,6 +550,7 @@ func (s *Service) CustomFieldsDelete(customFieldID string) *CustomFieldsDeleteOp
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "custom_fields", customFieldID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -553,7 +572,7 @@ func (op *CustomFieldsDeleteOp) ApplyToTemplates() *CustomFieldsDeleteOp {
 
 // CustomFieldsList gets a list of custom fields associated with the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountCustomFields/list
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/list
 //
 // SDK Method Accounts::listCustomFields
 func (s *Service) CustomFieldsList() *CustomFieldsListOp {
@@ -562,6 +581,7 @@ func (s *Service) CustomFieldsList() *CustomFieldsListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/custom_fields",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -576,7 +596,7 @@ func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, erro
 
 // CustomFieldsUpdate updates an existing account custom field.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountCustomFields/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/update
 //
 // SDK Method Accounts::updateCustomField
 func (s *Service) CustomFieldsUpdate(customFieldID string, customField *model.CustomField) *CustomFieldsUpdateOp {
@@ -586,6 +606,7 @@ func (s *Service) CustomFieldsUpdate(customFieldID string, customField *model.Cu
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "custom_fields", customFieldID}, "/"),
 		Payload:    customField,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -608,7 +629,7 @@ func (op *CustomFieldsUpdateOp) ApplyToTemplates() *CustomFieldsUpdateOp {
 
 // PasswordRulesGet get the password rules
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPasswordRules/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPasswordRules/get
 //
 // SDK Method Accounts::getAccountPasswordRules
 func (s *Service) PasswordRulesGet() *PasswordRulesGetOp {
@@ -617,6 +638,7 @@ func (s *Service) PasswordRulesGet() *PasswordRulesGetOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/settings/password_rules",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -631,7 +653,7 @@ func (op *PasswordRulesGetOp) Do(ctx context.Context) (*model.AccountPasswordRul
 
 // PasswordRulesGetForUser get membership account password rules
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPasswordRules/getForUser
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPasswordRules/getForUser
 //
 // SDK Method Accounts::getPasswordRules
 func (s *Service) PasswordRulesGetForUser() *PasswordRulesGetForUserOp {
@@ -640,6 +662,7 @@ func (s *Service) PasswordRulesGetForUser() *PasswordRulesGetForUserOp {
 		Method:     "GET",
 		Path:       "/v2.1/current_user/password_rules",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -654,7 +677,7 @@ func (op *PasswordRulesGetForUserOp) Do(ctx context.Context) (*model.UserPasswor
 
 // PasswordRulesUpdate update the password rules
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPasswordRules/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPasswordRules/update
 //
 // SDK Method Accounts::updateAccountPasswordRules
 func (s *Service) PasswordRulesUpdate(accountPasswordRules *model.AccountPasswordRules) *PasswordRulesUpdateOp {
@@ -664,6 +687,7 @@ func (s *Service) PasswordRulesUpdate(accountPasswordRules *model.AccountPasswor
 		Path:       "/v2.1/accounts/{accountId}/settings/password_rules",
 		Payload:    accountPasswordRules,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -678,7 +702,7 @@ func (op *PasswordRulesUpdateOp) Do(ctx context.Context) (*model.AccountPassword
 
 // PermissionProfilesCreate creates a new permission profile for an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPermissionProfiles/create
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/create
 //
 // SDK Method Accounts::createPermissionProfile
 func (s *Service) PermissionProfilesCreate(accountPermissionProfiles *model.PermissionProfile) *PermissionProfilesCreateOp {
@@ -688,6 +712,7 @@ func (s *Service) PermissionProfilesCreate(accountPermissionProfiles *model.Perm
 		Path:       "/v2.1/accounts/{accountId}/permission_profiles",
 		Payload:    accountPermissionProfiles,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -710,7 +735,7 @@ func (op *PermissionProfilesCreateOp) Include(val ...string) *PermissionProfiles
 
 // PermissionProfilesDelete deletes a permission profile from an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPermissionProfiles/delete
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/delete
 //
 // SDK Method Accounts::deletePermissionProfile
 func (s *Service) PermissionProfilesDelete(permissionProfileID string) *PermissionProfilesDeleteOp {
@@ -719,6 +744,7 @@ func (s *Service) PermissionProfilesDelete(permissionProfileID string) *Permissi
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "permission_profiles", permissionProfileID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -732,7 +758,7 @@ func (op *PermissionProfilesDeleteOp) Do(ctx context.Context) error {
 
 // PermissionProfilesGet returns a permission profile for an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPermissionProfiles/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/get
 //
 // SDK Method Accounts::getPermissionProfile
 func (s *Service) PermissionProfilesGet(permissionProfileID string) *PermissionProfilesGetOp {
@@ -741,6 +767,7 @@ func (s *Service) PermissionProfilesGet(permissionProfileID string) *PermissionP
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "permission_profiles", permissionProfileID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -763,7 +790,7 @@ func (op *PermissionProfilesGetOp) Include(val ...string) *PermissionProfilesGet
 
 // PermissionProfilesList gets a list of permission profiles.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPermissionProfiles/list
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/list
 //
 // SDK Method Accounts::listPermissions
 func (s *Service) PermissionProfilesList() *PermissionProfilesListOp {
@@ -772,6 +799,7 @@ func (s *Service) PermissionProfilesList() *PermissionProfilesListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/permission_profiles",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -801,7 +829,7 @@ func (op *PermissionProfilesListOp) Include(val string) *PermissionProfilesListO
 
 // PermissionProfilesUpdate updates a permission profile.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountPermissionProfiles/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update
 //
 // SDK Method Accounts::updatePermissionProfile
 func (s *Service) PermissionProfilesUpdate(permissionProfileID string, accountPermissionProfiles *model.PermissionProfile) *PermissionProfilesUpdateOp {
@@ -811,6 +839,7 @@ func (s *Service) PermissionProfilesUpdate(permissionProfileID string, accountPe
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "permission_profiles", permissionProfileID}, "/"),
 		Payload:    accountPermissionProfiles,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -833,7 +862,7 @@ func (op *PermissionProfilesUpdateOp) Include(val ...string) *PermissionProfiles
 
 // SignatureProvidersList returns Account available signature providers for specified account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountSignatureProviders/list
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountSignatureProviders/list
 //
 // SDK Method Accounts::listSignatureProviders
 func (s *Service) SignatureProvidersList() *SignatureProvidersListOp {
@@ -842,6 +871,7 @@ func (s *Service) SignatureProvidersList() *SignatureProvidersListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/signatureProviders",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -856,7 +886,7 @@ func (op *SignatureProvidersListOp) Do(ctx context.Context) (*model.AccountSigna
 
 // TabSettingsGet returns tab settings list for specified account
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountTabSettings/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountTabSettings/get
 //
 // SDK Method Accounts::getAccountTabSettings
 func (s *Service) TabSettingsGet() *TabSettingsGetOp {
@@ -865,6 +895,7 @@ func (s *Service) TabSettingsGet() *TabSettingsGetOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/settings/tabs",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -879,7 +910,7 @@ func (op *TabSettingsGetOp) Do(ctx context.Context) (*model.TabAccountSettings, 
 
 // TabSettingsUpdate modifies tab settings for specified account
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountTabSettings/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountTabSettings/update
 //
 // SDK Method Accounts::updateAccountTabSettings
 func (s *Service) TabSettingsUpdate(accountTabSettings *model.TabAccountSettings) *TabSettingsUpdateOp {
@@ -889,6 +920,7 @@ func (s *Service) TabSettingsUpdate(accountTabSettings *model.TabAccountSettings
 		Path:       "/v2.1/accounts/{accountId}/settings/tabs",
 		Payload:    accountTabSettings,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -903,7 +935,7 @@ func (op *TabSettingsUpdateOp) Do(ctx context.Context) (*model.TabAccountSetting
 
 // WatermarksGet get watermark information.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountWatermarks/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountWatermarks/get
 //
 // SDK Method Accounts::getWatermark
 func (s *Service) WatermarksGet() *WatermarksGetOp {
@@ -912,6 +944,7 @@ func (s *Service) WatermarksGet() *WatermarksGetOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/watermark",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -926,7 +959,7 @@ func (op *WatermarksGetOp) Do(ctx context.Context) (*model.Watermark, error) {
 
 // WatermarksPreview get watermark preview.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountWatermarks/preview
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountWatermarks/preview
 //
 // SDK Method Accounts::getWatermarkPreview
 func (s *Service) WatermarksPreview(accountWatermarks *model.Watermark) *WatermarksPreviewOp {
@@ -936,6 +969,7 @@ func (s *Service) WatermarksPreview(accountWatermarks *model.Watermark) *Waterma
 		Path:       "/v2.1/accounts/{accountId}/watermark/preview",
 		Payload:    accountWatermarks,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -950,7 +984,7 @@ func (op *WatermarksPreviewOp) Do(ctx context.Context) (*model.Watermark, error)
 
 // WatermarksUpdate update watermark information.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/AccountWatermarks/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountWatermarks/update
 //
 // SDK Method Accounts::updateWatermark
 func (s *Service) WatermarksUpdate(accountWatermarks *model.Watermark) *WatermarksUpdateOp {
@@ -960,6 +994,7 @@ func (s *Service) WatermarksUpdate(accountWatermarks *model.Watermark) *Watermar
 		Path:       "/v2.1/accounts/{accountId}/watermark",
 		Payload:    accountWatermarks,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -974,7 +1009,7 @@ func (op *WatermarksUpdateOp) Do(ctx context.Context) (*model.Watermark, error) 
 
 // Create creates new accounts.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/create
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/create
 //
 // SDK Method Accounts::create
 func (s *Service) Create(newAccountDefinition *model.NewAccountDefinition) *CreateOp {
@@ -984,6 +1019,7 @@ func (s *Service) Create(newAccountDefinition *model.NewAccountDefinition) *Crea
 		Path:       "/v2.1/accounts",
 		Payload:    newAccountDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1006,7 +1042,7 @@ func (op *CreateOp) PreviewBillingPlan() *CreateOp {
 
 // Delete deletes the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/delete
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/delete
 //
 // SDK Method Accounts::delete
 func (s *Service) Delete() *DeleteOp {
@@ -1015,6 +1051,7 @@ func (s *Service) Delete() *DeleteOp {
 		Method:     "DELETE",
 		Path:       "/v2.1/accounts/{accountId}",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1028,7 +1065,7 @@ func (op *DeleteOp) Do(ctx context.Context) error {
 
 // DeleteCaptiveRecipient deletes the signature for one or more captive recipient records.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/deleteCaptiveRecipient
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/deleteCaptiveRecipient
 //
 // SDK Method Accounts::deleteCaptiveRecipient
 func (s *Service) DeleteCaptiveRecipient(recipientPart string, captiveRecipientInformation *model.CaptiveRecipientInformation) *DeleteCaptiveRecipientOp {
@@ -1038,6 +1075,7 @@ func (s *Service) DeleteCaptiveRecipient(recipientPart string, captiveRecipientI
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "captive_recipients", recipientPart}, "/"),
 		Payload:    captiveRecipientInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1052,7 +1090,7 @@ func (op *DeleteCaptiveRecipientOp) Do(ctx context.Context) (*model.CaptiveRecip
 
 // Get retrieves the account information for the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/get
 //
 // SDK Method Accounts::GetAccountInformation
 func (s *Service) Get() *GetOp {
@@ -1061,6 +1099,7 @@ func (s *Service) Get() *GetOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1083,7 +1122,7 @@ func (op *GetOp) IncludeAccountSettings() *GetOp {
 
 // GetBillingCharges gets list of recurring and usage charges for the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/getBillingCharges
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/getBillingCharges
 //
 // SDK Method Accounts::getBillingCharges
 func (s *Service) GetBillingCharges() *GetBillingChargesOp {
@@ -1092,6 +1131,7 @@ func (s *Service) GetBillingCharges() *GetBillingChargesOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/billing_charges",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1118,7 +1158,7 @@ func (op *GetBillingChargesOp) IncludeCharges(val string) *GetBillingChargesOp {
 
 // GetProvisioning retrieves the account provisioning information for the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/getProvisioning
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/getProvisioning
 //
 // SDK Method Accounts::getProvisioning
 func (s *Service) GetProvisioning() *GetProvisioningOp {
@@ -1127,6 +1167,7 @@ func (s *Service) GetProvisioning() *GetProvisioningOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/provisioning",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1141,7 +1182,7 @@ func (op *GetProvisioningOp) Do(ctx context.Context) (*model.ProvisioningInforma
 
 // ListRecipientNamesByEmail gets recipient names associated with an email address.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/listRecipientNamesByEmail
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listRecipientNamesByEmail
 //
 // SDK Method Accounts::listRecipientNamesByEmail
 func (s *Service) ListRecipientNamesByEmail() *ListRecipientNamesByEmailOp {
@@ -1150,6 +1191,7 @@ func (s *Service) ListRecipientNamesByEmail() *ListRecipientNamesByEmailOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/recipient_names",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1172,7 +1214,7 @@ func (op *ListRecipientNamesByEmailOp) Email(val string) *ListRecipientNamesByEm
 
 // ListSettings gets account settings information.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/listSettings
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listSettings
 //
 // SDK Method Accounts::listSettings
 func (s *Service) ListSettings() *ListSettingsOp {
@@ -1181,6 +1223,7 @@ func (s *Service) ListSettings() *ListSettingsOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/settings",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1195,7 +1238,7 @@ func (op *ListSettingsOp) Do(ctx context.Context) (*model.AccountSettingsInforma
 
 // ListSharedAccess reserved: Gets the shared item status for one or more users.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/listSharedAccess
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listSharedAccess
 //
 // SDK Method Accounts::listSharedAccess
 func (s *Service) ListSharedAccess() *ListSharedAccessOp {
@@ -1204,6 +1247,7 @@ func (s *Service) ListSharedAccess() *ListSharedAccessOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/shared_access",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1301,7 +1345,7 @@ func (op *ListSharedAccessOp) UserIds(val ...string) *ListSharedAccessOp {
 
 // ListSupportedLanguages list supported languages for the recipient language setting
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/listSupportedLanguages
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listSupportedLanguages
 //
 // SDK Method Accounts::getSupportedLanguages
 func (s *Service) ListSupportedLanguages() *ListSupportedLanguagesOp {
@@ -1310,6 +1354,7 @@ func (s *Service) ListSupportedLanguages() *ListSupportedLanguagesOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/supported_languages",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1324,7 +1369,7 @@ func (op *ListSupportedLanguagesOp) Do(ctx context.Context) (*model.SupportedLan
 
 // ListUnsupportedFileTypes gets a list of unsupported file types.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/listUnsupportedFileTypes
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listUnsupportedFileTypes
 //
 // SDK Method Accounts::listUnsupportedFileTypes
 func (s *Service) ListUnsupportedFileTypes() *ListUnsupportedFileTypesOp {
@@ -1333,6 +1378,7 @@ func (s *Service) ListUnsupportedFileTypes() *ListUnsupportedFileTypesOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/unsupported_file_types",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1347,7 +1393,7 @@ func (op *ListUnsupportedFileTypesOp) Do(ctx context.Context) (*model.FileTypeLi
 
 // UpdateSettings updates the account settings for an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/updateSettings
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/updateSettings
 //
 // SDK Method Accounts::updateSettings
 func (s *Service) UpdateSettings(accountSettingsInformation *model.AccountSettingsInformation) *UpdateSettingsOp {
@@ -1357,6 +1403,7 @@ func (s *Service) UpdateSettings(accountSettingsInformation *model.AccountSettin
 		Path:       "/v2.1/accounts/{accountId}/settings",
 		Payload:    accountSettingsInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1370,7 +1417,7 @@ func (op *UpdateSettingsOp) Do(ctx context.Context) error {
 
 // UpdateSharedAccess reserved: Sets the shared access information for users.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/Accounts/updateSharedAccess
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/updateSharedAccess
 //
 // SDK Method Accounts::updateSharedAccess
 func (s *Service) UpdateSharedAccess(accountSharedAccess *model.AccountSharedAccess) *UpdateSharedAccessOp {
@@ -1380,6 +1427,7 @@ func (s *Service) UpdateSharedAccess(accountSharedAccess *model.AccountSharedAcc
 		Path:       "/v2.1/accounts/{accountId}/shared_access",
 		Payload:    accountSharedAccess,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1421,7 +1469,7 @@ func (op *UpdateSharedAccessOp) UserIds(val ...string) *UpdateSharedAccessOp {
 
 // ENoteConfigurationsDelete deletes configuration information for the eNote eOriginal integration.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/ENoteConfigurations/delete
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/ENoteConfigurations/delete
 //
 // SDK Method Accounts::deleteENoteConfiguration
 func (s *Service) ENoteConfigurationsDelete() *ENoteConfigurationsDeleteOp {
@@ -1430,6 +1478,7 @@ func (s *Service) ENoteConfigurationsDelete() *ENoteConfigurationsDeleteOp {
 		Method:     "DELETE",
 		Path:       "/v2.1/accounts/{accountId}/settings/enote_configuration",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1443,7 +1492,7 @@ func (op *ENoteConfigurationsDeleteOp) Do(ctx context.Context) error {
 
 // ENoteConfigurationsGet returns the configuration information for the eNote eOriginal integration.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/ENoteConfigurations/get
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/ENoteConfigurations/get
 //
 // SDK Method Accounts::getENoteConfiguration
 func (s *Service) ENoteConfigurationsGet() *ENoteConfigurationsGetOp {
@@ -1452,6 +1501,7 @@ func (s *Service) ENoteConfigurationsGet() *ENoteConfigurationsGetOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/settings/enote_configuration",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1466,7 +1516,7 @@ func (op *ENoteConfigurationsGetOp) Do(ctx context.Context) (*model.ENoteConfigu
 
 // ENoteConfigurationsUpdate updates configuration information for the eNote eOriginal integration.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/ENoteConfigurations/update
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/ENoteConfigurations/update
 //
 // SDK Method Accounts::updateENoteConfiguration
 func (s *Service) ENoteConfigurationsUpdate(eNoteConfigurations *model.ENoteConfiguration) *ENoteConfigurationsUpdateOp {
@@ -1476,6 +1526,7 @@ func (s *Service) ENoteConfigurationsUpdate(eNoteConfigurations *model.ENoteConf
 		Path:       "/v2.1/accounts/{accountId}/settings/enote_configuration",
 		Payload:    eNoteConfigurations,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1490,7 +1541,7 @@ func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context) (*model.ENoteConf
 
 // PaymentGatewayAccountsList list payment gateway account information
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/PaymentGatewayAccounts/list
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/PaymentGatewayAccounts/list
 //
 // SDK Method Accounts::getAllPaymentGatewayAccounts
 func (s *Service) PaymentGatewayAccountsList() *PaymentGatewayAccountsListOp {
@@ -1499,6 +1550,7 @@ func (s *Service) PaymentGatewayAccountsList() *PaymentGatewayAccountsListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/payment_gateway_accounts",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1520,6 +1572,7 @@ func (s *Service) SealProvidersList() *SealProvidersListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/seals",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -1534,7 +1587,7 @@ func (op *SealProvidersListOp) Do(ctx context.Context) (*model.AccountSeals, err
 
 // IdentityVerificationsList retrieves the list of identity verification workflows available to an account
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Accounts/IdentityVerifications/list
+// https://developers.docusign.com/esign-rest-api/reference/Accounts/IdentityVerifications/list
 //
 // SDK Method Accounts::getAccountIdentityVerification
 func (s *Service) IdentityVerificationsList() *IdentityVerificationsListOp {
@@ -1543,6 +1596,7 @@ func (s *Service) IdentityVerificationsList() *IdentityVerificationsListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/identity_verification",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

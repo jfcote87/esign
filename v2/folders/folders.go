@@ -13,12 +13,13 @@
 // You can list the folder contents and move envelopes between folders.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Folders
+// https://developers.docusign.com/esign-rest-api/v2/reference/Folders
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//folders"
+//       "github.com/jfcote87/esign/v2/folders"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   foldersService := folders.New(esignCredential)

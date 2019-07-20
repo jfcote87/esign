@@ -18,12 +18,13 @@
 // * Add and delete the intials and signature images for a user.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2.1/reference/Users
+// https://developers.docusign.com/esign-rest-api/reference/Users
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//users"
+//       "github.com/jfcote87/esign/v2.1/users"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   usersService := users.New(esignCredential)
@@ -52,7 +53,7 @@ func New(cred esign.Credential) *Service {
 
 // ContactsCreate imports multiple new contacts into the contacts collection from CSV, JSON, or XML (based on content type).
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Contacts/create
+// https://developers.docusign.com/esign-rest-api/reference/Users/Contacts/create
 //
 // SDK Method Users::postContacts
 func (s *Service) ContactsCreate(contactModRequest *model.ContactModRequest) *ContactsCreateOp {
@@ -62,6 +63,7 @@ func (s *Service) ContactsCreate(contactModRequest *model.ContactModRequest) *Co
 		Path:       "/v2.1/accounts/{accountId}/contacts",
 		Payload:    contactModRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -76,7 +78,7 @@ func (op *ContactsCreateOp) Do(ctx context.Context) (*model.ContactUpdateRespons
 
 // ContactsDelete replaces a particular contact associated with an account for the DocuSign service.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Contacts/delete
+// https://developers.docusign.com/esign-rest-api/reference/Users/Contacts/delete
 //
 // SDK Method Users::deleteContactWithId
 func (s *Service) ContactsDelete(contactID string) *ContactsDeleteOp {
@@ -85,6 +87,7 @@ func (s *Service) ContactsDelete(contactID string) *ContactsDeleteOp {
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "contacts", contactID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -99,7 +102,7 @@ func (op *ContactsDeleteOp) Do(ctx context.Context) (*model.ContactUpdateRespons
 
 // ContactsDeleteList delete contacts associated with an account for the DocuSign service.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Contacts/deleteList
+// https://developers.docusign.com/esign-rest-api/reference/Users/Contacts/deleteList
 //
 // SDK Method Users::deleteContacts
 func (s *Service) ContactsDeleteList(contactModRequest *model.ContactModRequest) *ContactsDeleteListOp {
@@ -109,6 +112,7 @@ func (s *Service) ContactsDeleteList(contactModRequest *model.ContactModRequest)
 		Path:       "/v2.1/accounts/{accountId}/contacts",
 		Payload:    contactModRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -123,7 +127,7 @@ func (op *ContactsDeleteListOp) Do(ctx context.Context) (*model.ContactUpdateRes
 
 // ContactsGet gets a particular contact associated with the user's account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Contacts/get
+// https://developers.docusign.com/esign-rest-api/reference/Users/Contacts/get
 //
 // SDK Method Users::getContactById
 func (s *Service) ContactsGet(contactID string) *ContactsGetOp {
@@ -132,6 +136,7 @@ func (s *Service) ContactsGet(contactID string) *ContactsGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "contacts", contactID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -154,7 +159,7 @@ func (op *ContactsGetOp) CloudProvider(val string) *ContactsGetOp {
 
 // ContactsUpdate replaces contacts associated with an account for the DocuSign service.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Contacts/update
+// https://developers.docusign.com/esign-rest-api/reference/Users/Contacts/update
 //
 // SDK Method Users::putContacts
 func (s *Service) ContactsUpdate(contactModRequest *model.ContactModRequest) *ContactsUpdateOp {
@@ -164,6 +169,7 @@ func (s *Service) ContactsUpdate(contactModRequest *model.ContactModRequest) *Co
 		Path:       "/v2.1/accounts/{accountId}/contacts",
 		Payload:    contactModRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -178,7 +184,7 @@ func (op *ContactsUpdateOp) Do(ctx context.Context) (*model.ContactUpdateRespons
 
 // CustomSettingsDelete deletes custom user settings for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserCustomSettings/delete
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserCustomSettings/delete
 //
 // SDK Method Users::deleteCustomSettings
 func (s *Service) CustomSettingsDelete(userID string, userCustomSettings *model.CustomSettingsInformation) *CustomSettingsDeleteOp {
@@ -188,6 +194,7 @@ func (s *Service) CustomSettingsDelete(userID string, userCustomSettings *model.
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "custom_settings"}, "/"),
 		Payload:    userCustomSettings,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -202,7 +209,7 @@ func (op *CustomSettingsDeleteOp) Do(ctx context.Context) (*model.CustomSettings
 
 // CustomSettingsList retrieves the custom user settings for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserCustomSettings/list
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserCustomSettings/list
 //
 // SDK Method Users::listCustomSettings
 func (s *Service) CustomSettingsList(userID string) *CustomSettingsListOp {
@@ -211,6 +218,7 @@ func (s *Service) CustomSettingsList(userID string) *CustomSettingsListOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "custom_settings"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -225,7 +233,7 @@ func (op *CustomSettingsListOp) Do(ctx context.Context) (*model.CustomSettingsIn
 
 // CustomSettingsUpdate adds or updates custom user settings for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserCustomSettings/update
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserCustomSettings/update
 //
 // SDK Method Users::updateCustomSettings
 func (s *Service) CustomSettingsUpdate(userID string, userCustomSettings *model.CustomSettingsInformation) *CustomSettingsUpdateOp {
@@ -235,6 +243,7 @@ func (s *Service) CustomSettingsUpdate(userID string, userCustomSettings *model.
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "custom_settings"}, "/"),
 		Payload:    userCustomSettings,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -249,7 +258,7 @@ func (op *CustomSettingsUpdateOp) Do(ctx context.Context) (*model.CustomSettings
 
 // ProfilesGet retrieves the user profile for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserProfiles/get
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserProfiles/get
 //
 // SDK Method Users::getProfile
 func (s *Service) ProfilesGet(userID string) *ProfilesGetOp {
@@ -258,6 +267,7 @@ func (s *Service) ProfilesGet(userID string) *ProfilesGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -272,7 +282,7 @@ func (op *ProfilesGetOp) Do(ctx context.Context) (*model.UserProfile, error) {
 
 // ProfilesUpdate updates the user profile information for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserProfiles/update
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserProfiles/update
 //
 // SDK Method Users::updateProfile
 func (s *Service) ProfilesUpdate(userID string, userProfiles *model.UserProfile) *ProfilesUpdateOp {
@@ -282,6 +292,7 @@ func (s *Service) ProfilesUpdate(userID string, userProfiles *model.UserProfile)
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile"}, "/"),
 		Payload:    userProfiles,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -296,7 +307,7 @@ func (op *ProfilesUpdateOp) Do(ctx context.Context) error {
 // SignaturesCreate adds user Signature and initials images to a Signature.
 // If any uploads[x].Reader is an io.ReadCloser(s), Do() will always close Reader.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/create
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/create
 //
 // SDK Method Users::createSignatures
 func (s *Service) SignaturesCreate(userID string, userSignaturesInformation *model.UserSignaturesInformation, uploads ...*esign.UploadFile) *SignaturesCreateOp {
@@ -307,6 +318,7 @@ func (s *Service) SignaturesCreate(userID string, userSignaturesInformation *mod
 		Payload:    userSignaturesInformation,
 		Files:      uploads,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -321,7 +333,7 @@ func (op *SignaturesCreateOp) Do(ctx context.Context) (*model.UserSignaturesInfo
 
 // SignaturesDelete removes removes signature information for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/delete
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/delete
 //
 // SDK Method Users::deleteSignature
 func (s *Service) SignaturesDelete(signatureID string, userID string) *SignaturesDeleteOp {
@@ -330,6 +342,7 @@ func (s *Service) SignaturesDelete(signatureID string, userID string) *Signature
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -343,7 +356,7 @@ func (op *SignaturesDeleteOp) Do(ctx context.Context) error {
 
 // SignaturesDeleteImage deletes the user initials image or the  user signature image for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/deleteImage
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/deleteImage
 //
 // SDK Method Users::deleteSignatureImage
 func (s *Service) SignaturesDeleteImage(imageType string, signatureID string, userID string) *SignaturesDeleteImageOp {
@@ -352,6 +365,7 @@ func (s *Service) SignaturesDeleteImage(imageType string, signatureID string, us
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID, imageType}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -366,7 +380,7 @@ func (op *SignaturesDeleteImageOp) Do(ctx context.Context) (*model.UserSignature
 
 // SignaturesGet gets the user signature information for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/get
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/get
 //
 // SDK Method Users::getSignature
 func (s *Service) SignaturesGet(signatureID string, userID string) *SignaturesGetOp {
@@ -375,6 +389,7 @@ func (s *Service) SignaturesGet(signatureID string, userID string) *SignaturesGe
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -389,7 +404,7 @@ func (op *SignaturesGetOp) Do(ctx context.Context) (*model.UserSignature, error)
 
 // SignaturesGetImage retrieves the user initials image or the  user signature image for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/getImage
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/getImage
 //
 // SDK Method Users::getSignatureImage
 func (s *Service) SignaturesGetImage(imageType string, signatureID string, userID string) *SignaturesGetImageOp {
@@ -399,6 +414,7 @@ func (s *Service) SignaturesGetImage(imageType string, signatureID string, userI
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID, imageType}, "/"),
 		Accept:     "image/gif",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -421,7 +437,7 @@ func (op *SignaturesGetImageOp) IncludeChrome() *SignaturesGetImageOp {
 
 // SignaturesList retrieves a list of user signature definitions for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/list
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/list
 //
 // SDK Method Users::listSignatures
 func (s *Service) SignaturesList(userID string) *SignaturesListOp {
@@ -430,6 +446,7 @@ func (s *Service) SignaturesList(userID string) *SignaturesListOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -452,7 +469,7 @@ func (op *SignaturesListOp) StampType(val string) *SignaturesListOp {
 
 // SignaturesUpdate updates the user signature for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/update
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/update
 //
 // SDK Method Users::updateSignature
 func (s *Service) SignaturesUpdate(signatureID string, userID string, userSignatureDefinition *model.UserSignatureDefinition) *SignaturesUpdateOp {
@@ -462,6 +479,7 @@ func (s *Service) SignaturesUpdate(signatureID string, userID string, userSignat
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID}, "/"),
 		Payload:    userSignatureDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -485,7 +503,7 @@ func (op *SignaturesUpdateOp) CloseExistingSignature() *SignaturesUpdateOp {
 // SignaturesUpdateImage updates the user signature image or user initials image for the specified user.
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/updateImage
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/updateImage
 //
 // SDK Method Users::updateSignatureImage
 func (s *Service) SignaturesUpdateImage(imageType string, signatureID string, userID string, media io.Reader, mimeType string) *SignaturesUpdateImageOp {
@@ -495,6 +513,7 @@ func (s *Service) SignaturesUpdateImage(imageType string, signatureID string, us
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID, imageType}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -517,7 +536,7 @@ func (op *SignaturesUpdateImageOp) TransparentPng(val string) *SignaturesUpdateI
 
 // SignaturesUpdateList adds/updates a user signature.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/UserSignatures/updateList
+// https://developers.docusign.com/esign-rest-api/reference/Users/UserSignatures/updateList
 //
 // SDK Method Users::updateSignatures
 func (s *Service) SignaturesUpdateList(userID string, userSignaturesInformation *model.UserSignaturesInformation) *SignaturesUpdateListOp {
@@ -527,6 +546,7 @@ func (s *Service) SignaturesUpdateList(userID string, userSignaturesInformation 
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures"}, "/"),
 		Payload:    userSignaturesInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -541,7 +561,7 @@ func (op *SignaturesUpdateListOp) Do(ctx context.Context) (*model.UserSignatures
 
 // Create adds new users to the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/create
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/create
 //
 // SDK Method Users::create
 func (s *Service) Create(newUsersDefinition *model.NewUsersDefinition) *CreateOp {
@@ -551,6 +571,7 @@ func (s *Service) Create(newUsersDefinition *model.NewUsersDefinition) *CreateOp
 		Path:       "/v2.1/accounts/{accountId}/users",
 		Payload:    newUsersDefinition,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -565,7 +586,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.NewUsersSummary, error) {
 
 // Delete removes users account privileges.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/delete
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/delete
 //
 // SDK Method Users::delete
 func (s *Service) Delete(userInfoList *model.UserInfoList) *DeleteOp {
@@ -575,6 +596,7 @@ func (s *Service) Delete(userInfoList *model.UserInfoList) *DeleteOp {
 		Path:       "/v2.1/accounts/{accountId}/users",
 		Payload:    userInfoList,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -597,7 +619,7 @@ func (op *DeleteOp) Delete(val string) *DeleteOp {
 
 // DeleteProfileImage deletes the user profile image for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/deleteProfileImage
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/deleteProfileImage
 //
 // SDK Method Users::deleteProfileImage
 func (s *Service) DeleteProfileImage(userID string) *DeleteProfileImageOp {
@@ -606,6 +628,7 @@ func (s *Service) DeleteProfileImage(userID string) *DeleteProfileImageOp {
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile", "image"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -619,7 +642,7 @@ func (op *DeleteProfileImageOp) Do(ctx context.Context) error {
 
 // Get gets the user information for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/get
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/get
 //
 // SDK Method Users::getInformation
 func (s *Service) Get(userID string) *GetOp {
@@ -628,6 +651,7 @@ func (s *Service) Get(userID string) *GetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -658,7 +682,7 @@ func (op *GetOp) Email(val string) *GetOp {
 
 // GetProfileImage retrieves the user profile image for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/getProfileImage
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/getProfileImage
 //
 // SDK Method Users::getProfileImage
 func (s *Service) GetProfileImage(userID string) *GetProfileImageOp {
@@ -668,6 +692,7 @@ func (s *Service) GetProfileImage(userID string) *GetProfileImageOp {
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile", "image"}, "/"),
 		Accept:     "image/gif",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -690,7 +715,7 @@ func (op *GetProfileImageOp) Encoding(val string) *GetProfileImageOp {
 
 // GetSettings gets the user account settings for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/getSettings
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/getSettings
 //
 // SDK Method Users::getSettings
 func (s *Service) GetSettings(userID string) *GetSettingsOp {
@@ -699,6 +724,7 @@ func (s *Service) GetSettings(userID string) *GetSettingsOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "settings"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -713,7 +739,7 @@ func (op *GetSettingsOp) Do(ctx context.Context) (*model.UserSettingsInformation
 
 // List retrieves the list of users for the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/list
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/list
 //
 // SDK Method Users::list
 func (s *Service) List() *ListOp {
@@ -722,6 +748,7 @@ func (s *Service) List() *ListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/users",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -830,7 +857,7 @@ func (op *ListOp) UserNameSubstring(val string) *ListOp {
 
 // Update updates user information for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/update
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/update
 //
 // SDK Method Users::updateUser
 func (s *Service) Update(userID string, users *model.UserInformation) *UpdateOp {
@@ -840,6 +867,7 @@ func (s *Service) Update(userID string, users *model.UserInformation) *UpdateOp 
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID}, "/"),
 		Payload:    users,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -854,7 +882,7 @@ func (op *UpdateOp) Do(ctx context.Context) (*model.UserInformation, error) {
 
 // UpdateList change one or more user in the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/updateList
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/updateList
 //
 // SDK Method Users::updateUsers
 func (s *Service) UpdateList(userInformationList *model.UserInformationList) *UpdateListOp {
@@ -864,6 +892,7 @@ func (s *Service) UpdateList(userInformationList *model.UserInformationList) *Up
 		Path:       "/v2.1/accounts/{accountId}/users",
 		Payload:    userInformationList,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -879,7 +908,7 @@ func (op *UpdateListOp) Do(ctx context.Context) (*model.UserInformationList, err
 // UpdateProfileImage updates the user profile image for a specified user.
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/updateProfileImage
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/updateProfileImage
 //
 // SDK Method Users::updateProfileImage
 func (s *Service) UpdateProfileImage(userID string, media io.Reader, mimeType string) *UpdateProfileImageOp {
@@ -889,6 +918,7 @@ func (s *Service) UpdateProfileImage(userID string, media io.Reader, mimeType st
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile", "image"}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -902,7 +932,7 @@ func (op *UpdateProfileImageOp) Do(ctx context.Context) error {
 
 // UpdateSettings updates the user account settings for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Users/Users/updateSettings
+// https://developers.docusign.com/esign-rest-api/reference/Users/Users/updateSettings
 //
 // SDK Method Users::updateSettings
 func (s *Service) UpdateSettings(userID string, userSettingsInformation *model.UserSettingsInformation) *UpdateSettingsOp {
@@ -912,6 +942,7 @@ func (s *Service) UpdateSettings(userID string, userSettingsInformation *model.U
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "settings"}, "/"),
 		Payload:    userSettingsInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

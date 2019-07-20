@@ -15,6 +15,7 @@ import (
 	"io"
 	"math"
 	"regexp"
+	"sort"
 	"strings"
 	"unicode"
 )
@@ -331,6 +332,7 @@ func (f *FieldList) UnmarshalJSON(b []byte) error {
 		v.Name = k
 		*f = append(*f, v)
 	}
+	sort.Slice(*f, func(i, j int) bool { return (*f)[i].Name < (*f)[j].Name })
 	return nil
 }
 

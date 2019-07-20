@@ -17,12 +17,13 @@
 // * Manage the brand information associated with a group.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2.1/reference/UserGroups
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//usergroups"
+//       "github.com/jfcote87/esign/v2.1/usergroups"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   usergroupsService := usergroups.New(esignCredential)
@@ -50,7 +51,7 @@ func New(cred esign.Credential) *Service {
 
 // GroupBrandsDelete deletes brand information from the requested group.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/GroupBrands/delete
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupBrands/delete
 //
 // SDK Method UserGroups::deleteBrands
 func (s *Service) GroupBrandsDelete(groupID string, brandsRequest *model.BrandsRequest) *GroupBrandsDeleteOp {
@@ -60,6 +61,7 @@ func (s *Service) GroupBrandsDelete(groupID string, brandsRequest *model.BrandsR
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "brands"}, "/"),
 		Payload:    brandsRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -75,7 +77,7 @@ func (op *GroupBrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, e
 // GroupBrandsGet gets group brand ID Information.
 //
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/GroupBrands/get
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupBrands/get
 //
 // SDK Method UserGroups::getBrands
 func (s *Service) GroupBrandsGet(groupID string) *GroupBrandsGetOp {
@@ -84,6 +86,7 @@ func (s *Service) GroupBrandsGet(groupID string) *GroupBrandsGetOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "brands"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -98,7 +101,7 @@ func (op *GroupBrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, erro
 
 // GroupBrandsUpdate adds group brand ID information to a group.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/GroupBrands/update
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupBrands/update
 //
 // SDK Method UserGroups::updateBrands
 func (s *Service) GroupBrandsUpdate(groupID string, brandsRequest *model.BrandsRequest) *GroupBrandsUpdateOp {
@@ -108,6 +111,7 @@ func (s *Service) GroupBrandsUpdate(groupID string, brandsRequest *model.BrandsR
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "brands"}, "/"),
 		Payload:    brandsRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -122,7 +126,7 @@ func (op *GroupBrandsUpdateOp) Do(ctx context.Context) (*model.BrandsResponse, e
 
 // GroupUsersDelete deletes one or more users from a group
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/GroupUsers/delete
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupUsers/delete
 //
 // SDK Method UserGroups::deleteGroupUsers
 func (s *Service) GroupUsersDelete(groupID string, userInfoList *model.UserInfoList) *GroupUsersDeleteOp {
@@ -132,6 +136,7 @@ func (s *Service) GroupUsersDelete(groupID string, userInfoList *model.UserInfoL
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "users"}, "/"),
 		Payload:    userInfoList,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -146,7 +151,7 @@ func (op *GroupUsersDeleteOp) Do(ctx context.Context) (*model.UsersResponse, err
 
 // GroupUsersList gets a list of users in a group.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/GroupUsers/list
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupUsers/list
 //
 // SDK Method UserGroups::listGroupUsers
 func (s *Service) GroupUsersList(groupID string) *GroupUsersListOp {
@@ -155,6 +160,7 @@ func (s *Service) GroupUsersList(groupID string) *GroupUsersListOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "users"}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -185,7 +191,7 @@ func (op *GroupUsersListOp) StartPosition(val int) *GroupUsersListOp {
 
 // GroupUsersUpdate adds one or more users to an existing group.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/GroupUsers/update
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupUsers/update
 //
 // SDK Method UserGroups::updateGroupUsers
 func (s *Service) GroupUsersUpdate(groupID string, userInfoList *model.UserInfoList) *GroupUsersUpdateOp {
@@ -195,6 +201,7 @@ func (s *Service) GroupUsersUpdate(groupID string, userInfoList *model.UserInfoL
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "users"}, "/"),
 		Payload:    userInfoList,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -209,7 +216,7 @@ func (op *GroupUsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, err
 
 // GroupsCreate creates one or more groups for the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/Groups/create
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/create
 //
 // SDK Method UserGroups::createGroups
 func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
@@ -219,6 +226,7 @@ func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
 		Path:       "/v2.1/accounts/{accountId}/groups",
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -233,7 +241,7 @@ func (op *GroupsCreateOp) Do(ctx context.Context) (*model.GroupInformation, erro
 
 // GroupsDelete deletes an existing user group.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/Groups/delete
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/delete
 //
 // SDK Method UserGroups::deleteGroups
 func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
@@ -243,6 +251,7 @@ func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
 		Path:       "/v2.1/accounts/{accountId}/groups",
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -257,7 +266,7 @@ func (op *GroupsDeleteOp) Do(ctx context.Context) (*model.GroupInformation, erro
 
 // GroupsList gets information about groups associated with the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/Groups/list
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/list
 //
 // SDK Method UserGroups::listGroups
 func (s *Service) GroupsList() *GroupsListOp {
@@ -266,6 +275,7 @@ func (s *Service) GroupsList() *GroupsListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/groups",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -320,7 +330,7 @@ func (op *GroupsListOp) StartPosition(val int) *GroupsListOp {
 
 // GroupsUpdate updates the group information for a group.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/UserGroups/Groups/update
+// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update
 //
 // SDK Method UserGroups::updateGroups
 func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {
@@ -330,6 +340,7 @@ func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {
 		Path:       "/v2.1/accounts/{accountId}/groups",
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

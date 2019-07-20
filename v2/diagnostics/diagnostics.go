@@ -15,12 +15,13 @@
 // * Getting information on the API's resources and versions.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Diagnostics
+// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//diagnostics"
+//       "github.com/jfcote87/esign/v2/diagnostics"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   diagnosticsService := diagnostics.New(esignCredential)

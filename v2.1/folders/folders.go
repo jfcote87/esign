@@ -13,12 +13,13 @@
 // You can list the folder contents and move envelopes between folders.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2.1/reference/Folders
+// https://developers.docusign.com/esign-rest-api/reference/Folders
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//folders"
+//       "github.com/jfcote87/esign/v2.1/folders"
+//       "github.com/jfcote87/esign/v2.1/model"
 //   )
 //   ...
 //   foldersService := folders.New(esignCredential)
@@ -47,7 +48,7 @@ func New(cred esign.Credential) *Service {
 
 // List gets a list of the folders for the account.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Folders/Folders/list
+// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/list
 //
 // SDK Method Folders::list
 func (s *Service) List() *ListOp {
@@ -56,6 +57,7 @@ func (s *Service) List() *ListOp {
 		Method:     "GET",
 		Path:       "/v2.1/accounts/{accountId}/folders",
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -119,7 +121,7 @@ func (op *ListOp) UserFilter(val string) *ListOp {
 
 // ListItems gets a list of the envelopes in the specified folder.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Folders/Folders/listItems
+// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/listItems
 //
 // SDK Method Folders::listItems
 func (s *Service) ListItems(folderID string) *ListItemsOp {
@@ -128,6 +130,7 @@ func (s *Service) ListItems(folderID string) *ListItemsOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "folders", folderID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -206,7 +209,7 @@ func (op *ListItemsOp) ToDate(val time.Time) *ListItemsOp {
 
 // MoveEnvelopes moves an envelope from its current folder to the specified folder.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Folders/Folders/moveEnvelopes
+// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/moveEnvelopes
 //
 // SDK Method Folders::moveEnvelopes
 func (s *Service) MoveEnvelopes(folderID string, foldersRequest *model.FoldersRequest) *MoveEnvelopesOp {
@@ -216,6 +219,7 @@ func (s *Service) MoveEnvelopes(folderID string, foldersRequest *model.FoldersRe
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "folders", folderID}, "/"),
 		Payload:    foldersRequest,
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 
@@ -230,7 +234,7 @@ func (op *MoveEnvelopesOp) Do(ctx context.Context) (*model.FoldersResponse, erro
 
 // Search gets a list of envelopes in folders matching the specified criteria.
 //
-// https://developers.docusign.com/esign-rest-api/v2.1/reference/Folders/Folders/search
+// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/search
 //
 // SDK Method Folders::search
 func (s *Service) Search(searchFolderID string) *SearchOp {
@@ -239,6 +243,7 @@ func (s *Service) Search(searchFolderID string) *SearchOp {
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "search_folders", searchFolderID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
 	}
 }
 

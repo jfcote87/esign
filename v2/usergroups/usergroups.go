@@ -17,12 +17,13 @@
 // * Manage the brand information associated with a group.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/UserGroups
+// https://developers.docusign.com/esign-rest-api/v2/reference/UserGroups
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//usergroups"
+//       "github.com/jfcote87/esign/v2/usergroups"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   usergroupsService := usergroups.New(esignCredential)

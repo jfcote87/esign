@@ -13,12 +13,13 @@
 // This category enables custom tabs to be managed programmatically, including creation, deletion, etc.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/CustomTabs
+// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//customtabs"
+//       "github.com/jfcote87/esign/v2/customtabs"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   customtabsService := customtabs.New(esignCredential)

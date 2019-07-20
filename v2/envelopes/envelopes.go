@@ -15,12 +15,13 @@
 // To create and send envelopes, see the [Envelopes resource](Envelopes).
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/Envelopes
+// https://developers.docusign.com/esign-rest-api/v2/reference/Envelopes
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//envelopes"
+//       "github.com/jfcote87/esign/v2/envelopes"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   envelopesService := envelopes.New(esignCredential)

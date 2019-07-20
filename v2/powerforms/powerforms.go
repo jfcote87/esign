@@ -11,12 +11,13 @@
 // The PowerForms category enables PowerForms to be created and managed.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign/esign-rest-api/v2/reference/PowerForms
+// https://developers.docusign.com/esign-rest-api/v2/reference/PowerForms
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//powerforms"
+//       "github.com/jfcote87/esign/v2/powerforms"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   powerformsService := powerforms.New(esignCredential)

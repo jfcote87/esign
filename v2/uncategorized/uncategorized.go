@@ -16,7 +16,8 @@
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//uncategorized"
+//       "github.com/jfcote87/esign/v2/uncategorized"
+//       "github.com/jfcote87/esign/v2/model"
 //   )
 //   ...
 //   uncategorizedService := uncategorized.New(esignCredential)
