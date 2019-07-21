@@ -25,12 +25,19 @@ var ErrNilOp = errors.New("nil operation")
 
 // VersionV21  indicates that the url will resolve
 // to /restapi/v2.1
-var VersionV21 = &APIVersion{Prefix: "v2.1"}
+var VersionV21 = &APIVersion{Version: "v2.1"}
+
+// ClickV1 defines url replacement for clickraps api
+var ClickV1 = &APIVersion{
+	Version: "v1",
+	Prefix:  "clickapi",
+}
 
 // APIVersion defines the prefix used to resolve an operation's url.  If
 // nil or blank, "v2" is assumed.
 type APIVersion struct {
-	Prefix string
+	Version string
+	Prefix  string
 }
 
 // ResolveDSURL updates the passed *url.URL's settings.
@@ -39,14 +46,20 @@ func (v *APIVersion) ResolveDSURL(u *url.URL, host string, accountID string) *ur
 	newURL := *u
 	newURL.Scheme = "https"
 	newURL.Host = host
-	var prefix = "v2"
-	if v != nil && v.Prefix != "" {
-		prefix = v.Prefix
+	var prefix = "/restapi"
+	var version = "/v2" // default is v2 restapi
+	if v != nil {
+		if v.Prefix != "" {
+			prefix = "/" + v.Prefix
+		}
+		if v.Version != "" {
+			version = "/" + v.Version
+		}
 	}
 	if strings.HasPrefix(u.Path, "/") {
-		newURL.Path = "/restapi" + u.Path
+		newURL.Path = prefix + u.Path
 	} else {
-		newURL.Path = "/restapi/" + prefix + "/accounts/" + accountID + "/" + u.Path
+		newURL.Path = prefix + version + "/accounts/" + accountID + "/" + u.Path
 	}
 	return &newURL
 }

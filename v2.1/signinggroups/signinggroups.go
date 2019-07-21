@@ -53,7 +53,7 @@ func (s *Service) UsersDelete(signingGroupID string, signingGroupUsers *model.Si
 	return &UsersDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "signing_groups", signingGroupID, "users"}, "/"),
+		Path:       strings.Join([]string{"signing_groups", signingGroupID, "users"}, "/"),
 		Payload:    signingGroupUsers,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -78,7 +78,7 @@ func (s *Service) UsersList(signingGroupID string) *UsersListOp {
 	return &UsersListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "signing_groups", signingGroupID, "users"}, "/"),
+		Path:       strings.Join([]string{"signing_groups", signingGroupID, "users"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -102,7 +102,7 @@ func (s *Service) UsersUpdate(signingGroupID string, signingGroupUsers *model.Si
 	return &UsersUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "signing_groups", signingGroupID, "users"}, "/"),
+		Path:       strings.Join([]string{"signing_groups", signingGroupID, "users"}, "/"),
 		Payload:    signingGroupUsers,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -127,7 +127,7 @@ func (s *Service) Create(signingGroupInformation *model.SigningGroupInformation)
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/signing_groups",
+		Path:       "signing_groups",
 		Payload:    signingGroupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -152,7 +152,7 @@ func (s *Service) Delete(signingGroupInformation *model.SigningGroupInformation)
 	return &DeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/signing_groups",
+		Path:       "signing_groups",
 		Payload:    signingGroupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -177,7 +177,7 @@ func (s *Service) Get(signingGroupID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "signing_groups", signingGroupID}, "/"),
+		Path:       strings.Join([]string{"signing_groups", signingGroupID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -201,7 +201,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/signing_groups",
+		Path:       "signing_groups",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -241,7 +241,7 @@ func (s *Service) Update(signingGroupID string, signingGroups *model.SigningGrou
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "signing_groups", signingGroupID}, "/"),
+		Path:       strings.Join([]string{"signing_groups", signingGroupID}, "/"),
 		Payload:    signingGroups,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -266,7 +266,7 @@ func (s *Service) UpdateList(signingGroupInformation *model.SigningGroupInformat
 	return &UpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/signing_groups",
+		Path:       "signing_groups",
 		Payload:    signingGroupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

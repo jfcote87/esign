@@ -28,17 +28,10 @@ import (
 type demoFlag bool
 
 func (df demoFlag) endpoint() oauth2.Endpoint {
-	if df {
-		// Demo endpoints
-		return oauth2.Endpoint{
-			AuthURL:  "https://account-d.docusign.com/oauth/auth",
-			TokenURL: "https://account-d.docusign.com/oauth/token",
-		}
-	}
-	// Production endpoints
+	// endpoints
 	return oauth2.Endpoint{
-		AuthURL:  "https://account.docusign.com/oauth/auth",
-		TokenURL: "https://account.docusign.com/oauth/token",
+		AuthURL:  "https://" + df.tokenURI() + "/oauth/auth",
+		TokenURL: "https://" + df.tokenURI() + "/oauth/token",
 	}
 }
 
@@ -49,11 +42,15 @@ func (df demoFlag) tokenURI() string {
 	return "account.docusign.com"
 }
 
-func (df demoFlag) userInfoPath() string {
-	if df {
-		return "https://account-d.docusign.com/oauth/userinfo"
-	}
-	return "https://account.docusign.com/oauth/userinfo"
+func (df demoFlag) getUserInfoForToken(ctx context.Context, f ctxclient.Func, tk *oauth2.Token) (*UserInfo, error) {
+	// needed to use token credential due to different host and path parameters for op
+	var u *UserInfo
+	err := (&Op{
+		Credential: &tokenCredential{tk, f},
+		Method:     "GET",
+		Path:       "https://" + df.tokenURI() + "/oauth/userinfo",
+	}).Do(ctx, &u)
+	return u, err
 }
 
 // OAuth2Config allows for 3-legged oauth via a code grant mechanism
@@ -142,7 +139,7 @@ func (c *OAuth2Config) Exchange(ctx context.Context, code string) (*OAuth2Creden
 	if err != nil {
 		return nil, err
 	}
-	u, err := getUserInfoForToken(ctx, demoFlag(c.IsDemo).userInfoPath(), tk, cfg.HTTPClientFunc)
+	u, err := demoFlag(c.IsDemo).getUserInfoForToken(ctx, cfg.HTTPClientFunc, tk)
 	if err != nil {
 		return nil, err
 	}
@@ -310,28 +307,21 @@ func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request, v *
 }
 
 // WithAccountID creates a copy the current credential with a new accountID.  An empty
-// accountID will use the user's default account. If the accountID is invalid for the user
-// an error will occur when authorizing and operation.  Check for a valid account using
+// accountID indicates the user's default account. If the accountID is invalid for the user
+// an error will occur when authorizing an operation.  Check for valid account using
 // *OAuth2Credential.UserInfo(ctx).
 func (cred *OAuth2Credential) WithAccountID(accountID string) *OAuth2Credential {
 	if cred == nil {
 		return nil
 	}
-
+	var mu sync.Mutex
 	cred.mu.Lock()
-	defer cred.mu.Unlock()
-
-	return &OAuth2Credential{
-		accountID:   accountID,
-		baseURI:     cred.baseURI,
-		cachedToken: cred.cachedToken,
-		refresher:   cred.refresher,
-		cacheFunc:   cred.cacheFunc,
-		userInfo:    cred.userInfo,
-		isDemo:      cred.isDemo,
-		Func:        cred.Func,
-	}
-
+	c := *cred
+	c.mu = mu
+	cred.mu.Unlock()
+	c.baseURI = nil
+	c.accountID = accountID
+	return &c
 }
 
 // UserInfo returns user data returned from the /oauth/userinfo ednpoint.
@@ -361,46 +351,65 @@ func (cred *OAuth2Credential) Token(ctx context.Context) (*oauth2.Token, error) 
 	if cred == nil {
 		return nil, errors.New("nil credential")
 	}
-	var isNewToken bool
+	var updateCache bool
 	var err error
 	// lock credential during validation and possible update
 	cred.mu.Lock()
 	defer cred.mu.Unlock()
 
 	if !cred.cachedToken.Valid() {
+		if cred.refresher == nil {
+			return nil, errors.New("no refresher function for invalid/expired token")
+		}
 		if cred.cachedToken, err = cred.refresher(ctx, cred.cachedToken); err != nil {
 			return nil, err
 		}
-		isNewToken = true
+		updateCache = (cred.cacheFunc != nil)
 	}
 	// check for userInfo and set AccountID and BaseURI to resolve op urls
 	if cred.userInfo == nil {
-		cred.userInfo, err = getUserInfoForToken(ctx, cred.isDemo.userInfoPath(), cred.cachedToken, cred.Func)
+		cred.userInfo, err = cred.isDemo.getUserInfoForToken(ctx, cred.Func, cred.cachedToken)
 		if err != nil {
 			return nil, err
 		}
+		updateCache = (cred.cacheFunc != nil)
 	}
 	if cred.baseURI == nil || cred.accountID == "" { // values may be blank if loading userinfo from cache
 		if cred.accountID, cred.baseURI, err = cred.userInfo.getAccountID(cred.accountID); err != nil {
 			return nil, err
 		}
 	}
-	if isNewToken && cred.cacheFunc != nil {
+	if updateCache {
 		cred.cacheFunc(ctx, *cred.cachedToken, *cred.userInfo)
 	}
 	return cred.cachedToken, nil
 }
 
-func getUserInfoForToken(ctx context.Context, path string, tk *oauth2.Token, f ctxclient.Func) (*UserInfo, error) {
-	// needed to use token credential due to different host and path parameters for op
-	var u UserInfo
-	err := (&Op{
-		Credential: &tokenCredential{tk, f},
-		Method:     "GET",
-		Path:       path,
-	}).Do(ctx, &u)
-	return &u, err
+// SetClientFunc safely replaces the ctxclient.Func for the credential
+func (cred *OAuth2Credential) SetClientFunc(f ctxclient.Func) *OAuth2Credential {
+	cred.mu.Lock()
+	cred.Func = f
+	cred.mu.Unlock()
+	return cred
+}
 
+// SetCacheFunc safely replaces the caching function for the credential
+func (cred *OAuth2Credential) SetCacheFunc(f func(context.Context, oauth2.Token, UserInfo)) *OAuth2Credential {
+	cred.mu.Lock()
+	cred.cacheFunc = f
+	cred.mu.Unlock()
+	return cred
+}
+
+// TokenCredential create a static credential without refresh capabilities.  When
+// the token expires, ops will receive a 401 error,
+func TokenCredential(accessToken string, isDemo bool) *OAuth2Credential {
+	return &OAuth2Credential{
+		cachedToken: &oauth2.Token{
+			AccessToken: accessToken,
+		},
+		isDemo: demoFlag(isDemo),
+	}
 }
 
 // tokenCredential provides authorization for userInfo ops.
@@ -454,7 +463,6 @@ func (u *UserInfo) getAccountID(id string) (string, *url.URL, error) {
 			return a.AccountID, ux, err
 		}
 	}
-
 	return "", nil, fmt.Errorf("no account %s for %s", id, u.Email)
 }
 

@@ -58,7 +58,7 @@ func (s *Service) GroupBrandsDelete(groupID string, brandsRequest *model.BrandsR
 	return &GroupBrandsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "brands"}, "/"),
+		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
 		Payload:    brandsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -84,7 +84,7 @@ func (s *Service) GroupBrandsGet(groupID string) *GroupBrandsGetOp {
 	return &GroupBrandsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "brands"}, "/"),
+		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -108,7 +108,7 @@ func (s *Service) GroupBrandsUpdate(groupID string, brandsRequest *model.BrandsR
 	return &GroupBrandsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "brands"}, "/"),
+		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
 		Payload:    brandsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -133,7 +133,7 @@ func (s *Service) GroupUsersDelete(groupID string, userInfoList *model.UserInfoL
 	return &GroupUsersDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "users"}, "/"),
+		Path:       strings.Join([]string{"groups", groupID, "users"}, "/"),
 		Payload:    userInfoList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -158,7 +158,7 @@ func (s *Service) GroupUsersList(groupID string) *GroupUsersListOp {
 	return &GroupUsersListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "users"}, "/"),
+		Path:       strings.Join([]string{"groups", groupID, "users"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -198,7 +198,7 @@ func (s *Service) GroupUsersUpdate(groupID string, userInfoList *model.UserInfoL
 	return &GroupUsersUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "groups", groupID, "users"}, "/"),
+		Path:       strings.Join([]string{"groups", groupID, "users"}, "/"),
 		Payload:    userInfoList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -223,7 +223,7 @@ func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
 	return &GroupsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/groups",
+		Path:       "groups",
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -248,7 +248,7 @@ func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
 	return &GroupsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/groups",
+		Path:       "groups",
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -273,7 +273,7 @@ func (s *Service) GroupsList() *GroupsListOp {
 	return &GroupsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/groups",
+		Path:       "groups",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -337,7 +337,7 @@ func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {
 	return &GroupsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/groups",
+		Path:       "groups",
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

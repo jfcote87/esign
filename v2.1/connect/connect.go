@@ -71,7 +71,7 @@ func (s *Service) ConfigurationsCreate(connectConfigurations *model.ConnectCusto
 	return &ConfigurationsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/connect",
+		Path:       "connect",
 		Payload:    connectConfigurations,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -96,7 +96,7 @@ func (s *Service) ConfigurationsDelete(connectID string) *ConfigurationsDeleteOp
 	return &ConfigurationsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", connectID}, "/"),
+		Path:       strings.Join([]string{"connect", connectID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -119,7 +119,7 @@ func (s *Service) ConfigurationsGet(connectID string) *ConfigurationsGetOp {
 	return &ConfigurationsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", connectID}, "/"),
+		Path:       strings.Join([]string{"connect", connectID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -143,7 +143,7 @@ func (s *Service) ConfigurationsList() *ConfigurationsListOp {
 	return &ConfigurationsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/connect",
+		Path:       "connect",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -167,7 +167,7 @@ func (s *Service) ConfigurationsListUsers(connectID string) *ConfigurationsListU
 	return &ConfigurationsListUsersOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", connectID, "users"}, "/"),
+		Path:       strings.Join([]string{"connect", connectID, "users"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -247,7 +247,7 @@ func (s *Service) ConfigurationsUpdate(connectConfigurations *model.ConnectCusto
 	return &ConfigurationsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/connect",
+		Path:       "connect",
 		Payload:    connectConfigurations,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -272,7 +272,7 @@ func (s *Service) EventsDelete(logID string) *EventsDeleteOp {
 	return &EventsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", "logs", logID}, "/"),
+		Path:       strings.Join([]string{"connect", "logs", logID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -295,7 +295,7 @@ func (s *Service) EventsDeleteFailure(failureID string) *EventsDeleteFailureOp {
 	return &EventsDeleteFailureOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", "failures", failureID}, "/"),
+		Path:       strings.Join([]string{"connect", "failures", failureID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -318,7 +318,7 @@ func (s *Service) EventsDeleteList() *EventsDeleteListOp {
 	return &EventsDeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/connect/logs",
+		Path:       "connect/logs",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -341,7 +341,7 @@ func (s *Service) EventsGet(logID string) *EventsGetOp {
 	return &EventsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", "logs", logID}, "/"),
+		Path:       strings.Join([]string{"connect", "logs", logID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -373,7 +373,7 @@ func (s *Service) EventsList() *EventsListOp {
 	return &EventsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/connect/logs",
+		Path:       "connect/logs",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -415,7 +415,7 @@ func (s *Service) EventsListFailures() *EventsListFailuresOp {
 	return &EventsListFailuresOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/connect/failures",
+		Path:       "connect/failures",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -458,7 +458,7 @@ func (s *Service) EventsRetryForEnvelope(envelopeID string, media io.Reader, mim
 	return &EventsRetryForEnvelopeOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "connect", "envelopes", envelopeID, "retry_queue"}, "/"),
+		Path:       strings.Join([]string{"connect", "envelopes", envelopeID, "retry_queue"}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -483,7 +483,7 @@ func (s *Service) EventsRetryForEnvelopes(connectFailureFilter *model.ConnectFai
 	return &EventsRetryForEnvelopesOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/connect/envelopes/retry_queue",
+		Path:       "connect/envelopes/retry_queue",
 		Payload:    connectFailureFilter,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

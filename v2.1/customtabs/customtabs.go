@@ -53,7 +53,7 @@ func (s *Service) Create(customTabs *model.TabMetadata) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/tab_definitions",
+		Path:       "tab_definitions",
 		Payload:    customTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -78,7 +78,7 @@ func (s *Service) Delete(customTabID string) *DeleteOp {
 	return &DeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "tab_definitions", customTabID}, "/"),
+		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -101,7 +101,7 @@ func (s *Service) Get(customTabID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "tab_definitions", customTabID}, "/"),
+		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -125,7 +125,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/tab_definitions",
+		Path:       "tab_definitions",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -159,7 +159,7 @@ func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *Upd
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "tab_definitions", customTabID}, "/"),
+		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
 		Payload:    customTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

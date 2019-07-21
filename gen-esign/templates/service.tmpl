@@ -42,7 +42,7 @@ func New(cred esign.Credential) *Service {
     return &{{.FuncName}}Op{
         Credential: s.credential,
         Method:  "{{.HTTPMethod}}",
-        Path: {{.OpPath2 .PathParams}},
+        Path: {{.OpPath2 $verPrefix .PathParams}},
         {{if .OpPayload}}Payload: {{if .IsMediaUpload}}&esign.UploadFile{ Reader: media, ContentType: mimeType }{{else}}{{.OpPayload.GoName}}{{end}},
         {{end}}{{if .HasUploads}}Files: uploads,
         {{end}}{{if len .Produces}}Accept: "{{.Accepts}}",

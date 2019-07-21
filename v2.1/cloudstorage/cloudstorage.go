@@ -54,7 +54,7 @@ func (s *Service) List(folderID string, serviceID string, userID string) *ListOp
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage", serviceID, "folders", folderID}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage", serviceID, "folders", folderID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -147,7 +147,7 @@ func (s *Service) ListFolders(serviceID string, userID string) *ListFoldersOp {
 	return &ListFoldersOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage", serviceID, "folders"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage", serviceID, "folders"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -232,7 +232,7 @@ func (s *Service) ProvidersCreate(userID string, cloudStorageProviders *model.Cl
 	return &ProvidersCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage"}, "/"),
 		Payload:    cloudStorageProviders,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -257,7 +257,7 @@ func (s *Service) ProvidersDelete(serviceID string, userID string) *ProvidersDel
 	return &ProvidersDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage", serviceID}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage", serviceID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -281,7 +281,7 @@ func (s *Service) ProvidersDeleteList(userID string, cloudStorageProviders *mode
 	return &ProvidersDeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage"}, "/"),
 		Payload:    cloudStorageProviders,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -306,7 +306,7 @@ func (s *Service) ProvidersGet(serviceID string, userID string) *ProvidersGetOp 
 	return &ProvidersGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage", serviceID}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage", serviceID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -340,7 +340,7 @@ func (s *Service) ProvidersList(userID string) *ProvidersListOp {
 	return &ProvidersListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "cloud_storage"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "cloud_storage"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

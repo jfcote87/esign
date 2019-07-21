@@ -11,7 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
+	"io/ioutil"
 	"mime"
 	"mime/multipart"
 	"net/http"
@@ -24,8 +24,8 @@ import (
 
 	"github.com/jfcote87/ctxclient"
 	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/folders"
-	"github.com/jfcote87/esign/v2/templates"
+	"github.com/jfcote87/esign/v2.1/folders"
+	"github.com/jfcote87/esign/v2.1/templates"
 	"github.com/jfcote87/oauth2"
 	"github.com/jfcote87/testutils"
 )
@@ -117,7 +117,7 @@ func TestOp_Do(t *testing.T) {
 			Path:       strings.Join([]string{"do", "test0", "testvar1", "go"}, "/"),
 			QueryOpts:  make(url.Values),
 			Method:     "GET",
-			Version:    &esign.APIVersion{Prefix: "v2.1"},
+			Version:    esign.VersionV21,
 		},
 		{
 			Credential: cx,
@@ -519,75 +519,33 @@ type TokenCache struct {
 	User  *esign.UserInfo `json:"user_info"`
 }
 
-func TestGeneratedOpss(t *testing.T) {
-	jwtConfigJSON, ok := os.LookupEnv("DOCUSIGN_JWTConfig")
-	if !ok {
+// TestGenerateOps creates an OAuth2Credential using environment
+// variables DOCUSIGN_Token DOCUSIGN_AcccountID and or
+// DOCUSIGN_JWTConfig and DOCUSIGN_JWTAPIUser.  If neither of these
+// variables are set, skip the test.
+func TestGeneratedOps(t *testing.T) {
+	cred, err := getLocalCredential()
+	if err != nil {
+		t.Errorf("%v", err)
+		return
+	}
+	if cred == nil {
 		t.Skip()
 	}
-	f, err := os.Open(jwtConfigJSON)
-	if err != nil {
-		t.Fatalf("%s open: %v", jwtConfigJSON, err)
-	}
-	var cfg *esign.JWTConfig
-	if err = json.NewDecoder(f).Decode(&cfg); err != nil {
-		f.Close()
-		t.Fatalf("%v", err)
-	}
-	f.Close()
-	jwtAPIUserName, ok := os.LookupEnv("DOCUSIGN_JWTAPIUser")
-	if !ok {
-		t.Skip()
-	}
-	var cacheFunc func(context.Context, oauth2.Token, esign.UserInfo)
-	var tokenCache *TokenCache
-	if jwtConfigCache, ok := os.LookupEnv("DOCUSIGN_CachedToken"); ok {
-		cacheFunc = func(ctx context.Context, tk oauth2.Token, ui esign.UserInfo) {
-			f, err := os.Create(jwtConfigCache)
-			if err != nil {
-				return
-			}
-			json.NewEncoder(f).Encode(TokenCache{&tk, &ui})
-			f.Close()
-		}
-		fr, err := os.Open(jwtConfigCache)
-		if err == nil {
-			if err := json.NewDecoder(fr).Decode(&tokenCache); err != nil {
-				t.Errorf("decode token cache %s: %v", jwtConfigCache, err)
-				tokenCache = nil
-			}
-			fr.Close()
-		}
-	}
-
-	cfg.CacheFunc = cacheFunc
-	var tk *oauth2.Token
-	var uInfo *esign.UserInfo
-	if tokenCache != nil {
-		uInfo = tokenCache.User
-		tk = tokenCache.Token
-	}
-	cred, err := cfg.Credential(jwtAPIUserName, tk, uInfo)
-	if err != nil {
-		log.Fatalf("jwt credential: %v", err)
-	}
-
-	u, err := cred.UserInfo(context.Background())
-	if err != nil {
-		t.Fatalf("Userinfo: %v", err)
-	}
-	_ = u
-
+	ctx := context.Background()
+	// Read throught  all folders
 	sv := folders.New(cred)
-	l, err := sv.List().Do(context.Background())
+	l, err := sv.List().Do(ctx)
 	if err != nil {
 		t.Errorf("List: %v", err)
+		return
 	}
 	if len(l.Folders) < 1 {
 		t.Errorf("expecting multiple folders")
 	}
 
+	// Read through all templates
 	svT := templates.New(cred)
-
 	tList, err := svT.List().Do(context.Background())
 	if err != nil {
 		t.Errorf("Template List: %v", err)
@@ -600,7 +558,31 @@ func TestGeneratedOpss(t *testing.T) {
 			t.Errorf("unable to open template %s: %v", tmpl.Name, err)
 			continue
 		}
-		t.Logf("Got: %s", tx.EnvelopeTemplateDefinition.TemplateID)
-
+		t.Logf("Got: %s", tx.TemplateID)
 	}
+}
+
+func getLocalCredential() (*esign.OAuth2Credential, error) {
+	if tk, ok := os.LookupEnv("DOCUSIGN_Token"); ok {
+		acctID, _ := os.LookupEnv("DOCUSIGN_AccountID")
+		return esign.TokenCredential(tk, true).WithAccountID(acctID), nil
+	}
+
+	if jwtConfigJSON, ok := os.LookupEnv("DOCUSIGN_JWTConfig"); ok {
+		jwtAPIUserName, ok := os.LookupEnv("DOCUSIGN_JWTAPIUser")
+		if !ok {
+			return nil, fmt.Errorf("expected DOCUSIGN_JWTAPIUser environment variable with DOCUSIGN_JWTConfig=%s", jwtConfigJSON)
+		}
+
+		buffer, err := ioutil.ReadFile(jwtConfigJSON)
+		if err != nil {
+			return nil, fmt.Errorf("%s open: %v", jwtConfigJSON, err)
+		}
+		var cfg *esign.JWTConfig
+		if err = json.Unmarshal(buffer, &cfg); err != nil {
+			return nil, fmt.Errorf("%v", err)
+		}
+		return cfg.Credential(jwtAPIUserName, nil, nil)
+	}
+	return nil, nil
 }

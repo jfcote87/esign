@@ -52,7 +52,7 @@ func (s *Service) Get(batchID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "bulk_envelopes", batchID}, "/"),
+		Path:       strings.Join([]string{"bulk_envelopes", batchID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -107,7 +107,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/bulk_envelopes",
+		Path:       "bulk_envelopes",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -162,7 +162,7 @@ func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *Recip
 	return &RecipientsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -186,7 +186,7 @@ func (s *Service) RecipientsList(envelopeID string, recipientID string) *Recipie
 	return &RecipientsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -226,7 +226,7 @@ func (s *Service) RecipientsUpdate(envelopeID string, recipientID string, bulkRe
 	return &RecipientsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		Payload:    bulkRecipientsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

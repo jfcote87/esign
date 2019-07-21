@@ -60,7 +60,7 @@ func (s *Service) ContactsCreate(contactModRequest *model.ContactModRequest) *Co
 	return &ContactsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/contacts",
+		Path:       "contacts",
 		Payload:    contactModRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -85,7 +85,7 @@ func (s *Service) ContactsDelete(contactID string) *ContactsDeleteOp {
 	return &ContactsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "contacts", contactID}, "/"),
+		Path:       strings.Join([]string{"contacts", contactID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -109,7 +109,7 @@ func (s *Service) ContactsDeleteList(contactModRequest *model.ContactModRequest)
 	return &ContactsDeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/contacts",
+		Path:       "contacts",
 		Payload:    contactModRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -134,7 +134,7 @@ func (s *Service) ContactsGet(contactID string) *ContactsGetOp {
 	return &ContactsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "contacts", contactID}, "/"),
+		Path:       strings.Join([]string{"contacts", contactID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -166,7 +166,7 @@ func (s *Service) ContactsUpdate(contactModRequest *model.ContactModRequest) *Co
 	return &ContactsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/contacts",
+		Path:       "contacts",
 		Payload:    contactModRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -191,7 +191,7 @@ func (s *Service) CustomSettingsDelete(userID string, userCustomSettings *model.
 	return &CustomSettingsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "custom_settings"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "custom_settings"}, "/"),
 		Payload:    userCustomSettings,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -216,7 +216,7 @@ func (s *Service) CustomSettingsList(userID string) *CustomSettingsListOp {
 	return &CustomSettingsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "custom_settings"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "custom_settings"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -240,7 +240,7 @@ func (s *Service) CustomSettingsUpdate(userID string, userCustomSettings *model.
 	return &CustomSettingsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "custom_settings"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "custom_settings"}, "/"),
 		Payload:    userCustomSettings,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -265,7 +265,7 @@ func (s *Service) ProfilesGet(userID string) *ProfilesGetOp {
 	return &ProfilesGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "profile"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -289,7 +289,7 @@ func (s *Service) ProfilesUpdate(userID string, userProfiles *model.UserProfile)
 	return &ProfilesUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "profile"}, "/"),
 		Payload:    userProfiles,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -314,7 +314,7 @@ func (s *Service) SignaturesCreate(userID string, userSignaturesInformation *mod
 	return &SignaturesCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures"}, "/"),
 		Payload:    userSignaturesInformation,
 		Files:      uploads,
 		QueryOpts:  make(url.Values),
@@ -340,7 +340,7 @@ func (s *Service) SignaturesDelete(signatureID string, userID string) *Signature
 	return &SignaturesDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures", signatureID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -363,7 +363,7 @@ func (s *Service) SignaturesDeleteImage(imageType string, signatureID string, us
 	return &SignaturesDeleteImageOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID, imageType}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures", signatureID, imageType}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -387,7 +387,7 @@ func (s *Service) SignaturesGet(signatureID string, userID string) *SignaturesGe
 	return &SignaturesGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures", signatureID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -411,7 +411,7 @@ func (s *Service) SignaturesGetImage(imageType string, signatureID string, userI
 	return &SignaturesGetImageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID, imageType}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures", signatureID, imageType}, "/"),
 		Accept:     "image/gif",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -444,7 +444,7 @@ func (s *Service) SignaturesList(userID string) *SignaturesListOp {
 	return &SignaturesListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -476,7 +476,7 @@ func (s *Service) SignaturesUpdate(signatureID string, userID string, userSignat
 	return &SignaturesUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures", signatureID}, "/"),
 		Payload:    userSignatureDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -510,7 +510,7 @@ func (s *Service) SignaturesUpdateImage(imageType string, signatureID string, us
 	return &SignaturesUpdateImageOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures", signatureID, imageType}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures", signatureID, imageType}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -543,7 +543,7 @@ func (s *Service) SignaturesUpdateList(userID string, userSignaturesInformation 
 	return &SignaturesUpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "signatures"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "signatures"}, "/"),
 		Payload:    userSignaturesInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -568,7 +568,7 @@ func (s *Service) Create(newUsersDefinition *model.NewUsersDefinition) *CreateOp
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/users",
+		Path:       "users",
 		Payload:    newUsersDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -593,7 +593,7 @@ func (s *Service) Delete(userInfoList *model.UserInfoList) *DeleteOp {
 	return &DeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/users",
+		Path:       "users",
 		Payload:    userInfoList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -626,7 +626,7 @@ func (s *Service) DeleteProfileImage(userID string) *DeleteProfileImageOp {
 	return &DeleteProfileImageOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile", "image"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "profile", "image"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -649,7 +649,7 @@ func (s *Service) Get(userID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID}, "/"),
+		Path:       strings.Join([]string{"users", userID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -689,7 +689,7 @@ func (s *Service) GetProfileImage(userID string) *GetProfileImageOp {
 	return &GetProfileImageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile", "image"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "profile", "image"}, "/"),
 		Accept:     "image/gif",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -722,7 +722,7 @@ func (s *Service) GetSettings(userID string) *GetSettingsOp {
 	return &GetSettingsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "settings"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "settings"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -746,7 +746,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/users",
+		Path:       "users",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -864,7 +864,7 @@ func (s *Service) Update(userID string, users *model.UserInformation) *UpdateOp 
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID}, "/"),
+		Path:       strings.Join([]string{"users", userID}, "/"),
 		Payload:    users,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -889,7 +889,7 @@ func (s *Service) UpdateList(userInformationList *model.UserInformationList) *Up
 	return &UpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/users",
+		Path:       "users",
 		Payload:    userInformationList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -915,7 +915,7 @@ func (s *Service) UpdateProfileImage(userID string, media io.Reader, mimeType st
 	return &UpdateProfileImageOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "profile", "image"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "profile", "image"}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -939,7 +939,7 @@ func (s *Service) UpdateSettings(userID string, userSettingsInformation *model.U
 	return &UpdateSettingsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "users", userID, "settings"}, "/"),
+		Path:       strings.Join([]string{"users", userID, "settings"}, "/"),
 		Payload:    userSettingsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

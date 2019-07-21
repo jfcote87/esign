@@ -47,7 +47,7 @@ func (s *Service) CommentsCreateEnvelopeComments(envelopeID string, commentsPubl
 	return &CommentsCreateEnvelopeCommentsOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "comments"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "comments"}, "/"),
 		Payload:    commentsPublish,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -68,7 +68,7 @@ func (s *Service) CommentsGet(envelopeID string) *CommentsGetOp {
 	return &CommentsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "comments", "transcript"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "comments", "transcript"}, "/"),
 		Accept:     "application/pdf",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -97,7 +97,7 @@ func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, envelop
 	return &DocumentResponsiveHTMLPreviewCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "responsive_html_preview"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -118,7 +118,7 @@ func (s *Service) EnvelopeDocumentHTMLDefinitionsGet(documentID string, envelope
 	return &EnvelopeDocumentHTMLDefinitionsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "html_definitions"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -138,7 +138,7 @@ func (s *Service) EnvelopeDocumentTabsCreateDocumentTabs(documentID string, enve
 	return &EnvelopeDocumentTabsCreateDocumentTabsOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateRecipientTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -159,7 +159,7 @@ func (s *Service) EnvelopeDocumentTabsDeleteDocumentTabs(documentID string, enve
 	return &EnvelopeDocumentTabsDeleteDocumentTabsOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateRecipientTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -180,7 +180,7 @@ func (s *Service) EnvelopeDocumentTabsUpdateDocumentTabs(documentID string, enve
 	return &EnvelopeDocumentTabsUpdateDocumentTabsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateRecipientTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -201,7 +201,7 @@ func (s *Service) EnvelopeHTMLDefinitionsList(envelopeID string) *EnvelopeHTMLDe
 	return &EnvelopeHTMLDefinitionsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "html_definitions"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -221,7 +221,7 @@ func (s *Service) EnvelopePurgeConfigurationGetEnvelopePurgeConfiguration() *Env
 	return &EnvelopePurgeConfigurationGetEnvelopePurgeConfigurationOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/settings/envelope_purge_configuration",
+		Path:       "settings/envelope_purge_configuration",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -241,7 +241,7 @@ func (s *Service) EnvelopePurgeConfigurationUpdateEnvelopePurgeConfiguration(env
 	return &EnvelopePurgeConfigurationUpdateEnvelopePurgeConfigurationOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/settings/envelope_purge_configuration",
+		Path:       "settings/envelope_purge_configuration",
 		Payload:    envelopePurgeConfiguration,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -262,7 +262,7 @@ func (s *Service) EnvelopeTransferRulesCreateEnvelopeTransferRules(envelopeTrans
 	return &EnvelopeTransferRulesCreateEnvelopeTransferRulesOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/envelopes/transfer_rules",
+		Path:       "envelopes/transfer_rules",
 		Payload:    envelopeTransferRuleRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -283,7 +283,7 @@ func (s *Service) EnvelopeTransferRulesDeleteEnvelopeTransferRules(envelopeTrans
 	return &EnvelopeTransferRulesDeleteEnvelopeTransferRulesOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", "transfer_rules", envelopeTransferRuleID}, "/"),
+		Path:       strings.Join([]string{"envelopes", "transfer_rules", envelopeTransferRuleID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -302,7 +302,7 @@ func (s *Service) EnvelopeTransferRulesGetEnvelopeTransferRules() *EnvelopeTrans
 	return &EnvelopeTransferRulesGetEnvelopeTransferRulesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/envelopes/transfer_rules",
+		Path:       "envelopes/transfer_rules",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -338,7 +338,7 @@ func (s *Service) EnvelopeTransferRulesUpdateEnvelopeTransferRule(envelopeTransf
 	return &EnvelopeTransferRulesUpdateEnvelopeTransferRuleOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", "transfer_rules", envelopeTransferRuleID}, "/"),
+		Path:       strings.Join([]string{"envelopes", "transfer_rules", envelopeTransferRuleID}, "/"),
 		Payload:    envelopeTransferRule,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -359,7 +359,7 @@ func (s *Service) EnvelopeTransferRulesUpdateEnvelopeTransferRules(envelopeTrans
 	return &EnvelopeTransferRulesUpdateEnvelopeTransferRulesOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/envelopes/transfer_rules",
+		Path:       "envelopes/transfer_rules",
 		Payload:    envelopeTransferRules,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -380,7 +380,7 @@ func (s *Service) EnvelopeViewsCreateEnvelopeRecipientPreview(envelopeID string,
 	return &EnvelopeViewsCreateEnvelopeRecipientPreviewOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "recipient_preview"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "views", "recipient_preview"}, "/"),
 		Payload:    recipientPreviewRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -401,7 +401,7 @@ func (s *Service) EnvelopeViewsCreateTemplateRecipientPreview(templateID string,
 	return &EnvelopeViewsCreateTemplateRecipientPreviewOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "views", "recipient_preview"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "views", "recipient_preview"}, "/"),
 		Payload:    recipientPreviewRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -422,7 +422,7 @@ func (s *Service) NotificationDefaultsGetNotificationDefaults() *NotificationDef
 	return &NotificationDefaultsGetNotificationDefaultsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/settings/notification_defaults",
+		Path:       "settings/notification_defaults",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -442,7 +442,7 @@ func (s *Service) NotificationDefaultsUpdateNotificationDefaults(notificationDef
 	return &NotificationDefaultsUpdateNotificationDefaultsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/settings/notification_defaults",
+		Path:       "settings/notification_defaults",
 		Payload:    notificationDefaults,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -463,7 +463,7 @@ func (s *Service) ResponsiveHTMLPreviewCreate(envelopeID string, documentHTMLDef
 	return &ResponsiveHTMLPreviewCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "responsive_html_preview"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -484,7 +484,7 @@ func (s *Service) TemplateDocumentHTMLDefinitionsList(documentID string, templat
 	return &TemplateDocumentHTMLDefinitionsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "html_definitions"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -504,7 +504,7 @@ func (s *Service) TemplateDocumentResponsiveHTMLPreviewCreate(documentID string,
 	return &TemplateDocumentResponsiveHTMLPreviewCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "responsive_html_preview"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -526,7 +526,7 @@ func (s *Service) TemplateDocumentTabsCreateTemplateDocumentTabs(documentID stri
 	return &TemplateDocumentTabsCreateTemplateDocumentTabsOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -547,7 +547,7 @@ func (s *Service) TemplateDocumentTabsDeleteTemplateDocumentTabs(documentID stri
 	return &TemplateDocumentTabsDeleteTemplateDocumentTabsOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -568,7 +568,7 @@ func (s *Service) TemplateDocumentTabsUpdateTemplateDocumentTabs(documentID stri
 	return &TemplateDocumentTabsUpdateTemplateDocumentTabsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -589,7 +589,7 @@ func (s *Service) TemplateHTMLDefinitionsList(templateID string) *TemplateHTMLDe
 	return &TemplateHTMLDefinitionsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "html_definitions"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "html_definitions"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -609,7 +609,7 @@ func (s *Service) TemplateResponsiveHTMLPreviewCreate(templateID string, documen
 	return &TemplateResponsiveHTMLPreviewCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "responsive_html_preview"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

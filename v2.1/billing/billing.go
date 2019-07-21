@@ -80,7 +80,7 @@ func (s *Service) PlansGetAccountPlan() *PlansGetAccountPlanOp {
 	return &PlansGetAccountPlanOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/billing_plan",
+		Path:       "billing_plan",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -128,7 +128,7 @@ func (s *Service) PlansGetCreditCard() *PlansGetCreditCardOp {
 	return &PlansGetCreditCardOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/billing_plan/credit_card",
+		Path:       "billing_plan/credit_card",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -176,7 +176,7 @@ func (s *Service) PlansPurchaseEnvelopes(purchasedEnvelopesInformation *model.Pu
 	return &PlansPurchaseEnvelopesOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/billing_plan/purchased_envelopes",
+		Path:       "billing_plan/purchased_envelopes",
 		Payload:    purchasedEnvelopesInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -200,7 +200,7 @@ func (s *Service) PlansUpdate(billingPlanInformation *model.BillingPlanInformati
 	return &PlansUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/billing_plan",
+		Path:       "billing_plan",
 		Payload:    billingPlanInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -233,7 +233,7 @@ func (s *Service) InvoicesGet(invoiceID string) *InvoicesGetOp {
 	return &InvoicesGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "billing_invoices", invoiceID}, "/"),
+		Path:       strings.Join([]string{"billing_invoices", invoiceID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -271,7 +271,7 @@ func (s *Service) InvoicesList() *InvoicesListOp {
 	return &InvoicesListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/billing_invoices",
+		Path:       "billing_invoices",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -311,7 +311,7 @@ func (s *Service) InvoicesListPastDue() *InvoicesListPastDueOp {
 	return &InvoicesListPastDueOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/billing_invoices_past_due",
+		Path:       "billing_invoices_past_due",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -335,7 +335,7 @@ func (s *Service) PaymentsCreate(billingPaymentRequest *model.BillingPaymentRequ
 	return &PaymentsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/billing_payments",
+		Path:       "billing_payments",
 		Payload:    billingPaymentRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -360,7 +360,7 @@ func (s *Service) PaymentsGet(paymentID string) *PaymentsGetOp {
 	return &PaymentsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "billing_payments", paymentID}, "/"),
+		Path:       strings.Join([]string{"billing_payments", paymentID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -384,7 +384,7 @@ func (s *Service) PaymentsList() *PaymentsListOp {
 	return &PaymentsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/billing_payments",
+		Path:       "billing_payments",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

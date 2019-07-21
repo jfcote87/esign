@@ -61,7 +61,7 @@ func (s *Service) BulkRecipientsDelete(recipientID string, templateID string) *B
 	return &BulkRecipientsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -85,7 +85,7 @@ func (s *Service) BulkRecipientsList(recipientID string, templateID string) *Bul
 	return &BulkRecipientsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -125,7 +125,7 @@ func (s *Service) BulkRecipientsUpdate(recipientID string, templateID string, bu
 	return &BulkRecipientsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
 		Payload:    bulkRecipientsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -150,7 +150,7 @@ func (s *Service) CustomFieldsCreate(templateID string, templateCustomFields *mo
 	return &CustomFieldsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		Payload:    templateCustomFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -175,7 +175,7 @@ func (s *Service) CustomFieldsDelete(templateID string, templateCustomFields *mo
 	return &CustomFieldsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		Payload:    templateCustomFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -200,7 +200,7 @@ func (s *Service) CustomFieldsList(templateID string) *CustomFieldsListOp {
 	return &CustomFieldsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -224,7 +224,7 @@ func (s *Service) CustomFieldsUpdate(templateID string, templateCustomFields *mo
 	return &CustomFieldsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		Payload:    templateCustomFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -249,7 +249,7 @@ func (s *Service) DocumentFieldsCreate(documentID string, templateID string, tem
 	return &DocumentFieldsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		Payload:    templateDocumentFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -274,7 +274,7 @@ func (s *Service) DocumentFieldsDelete(documentID string, templateID string, tem
 	return &DocumentFieldsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		Payload:    templateDocumentFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -299,7 +299,7 @@ func (s *Service) DocumentFieldsList(documentID string, templateID string) *Docu
 	return &DocumentFieldsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -323,7 +323,7 @@ func (s *Service) DocumentFieldsUpdate(documentID string, templateID string, tem
 	return &DocumentFieldsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		Payload:    templateDocumentFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -348,7 +348,7 @@ func (s *Service) DocumentTabsGet(documentID string, templateID string) *Documen
 	return &DocumentTabsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -382,7 +382,7 @@ func (s *Service) DocumentTabsGetByPage(documentID string, pageNumber string, te
 	return &DocumentTabsGetByPageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "pages", pageNumber, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "tabs"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -406,7 +406,7 @@ func (s *Service) DocumentsDelete(templateID string, envelopeDefinition *model.E
 	return &DocumentsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
 		Payload:    envelopeDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -431,7 +431,7 @@ func (s *Service) DocumentsGet(documentID string, templateID string) *DocumentsG
 	return &DocumentsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID}, "/"),
 		Accept:     "application/pdf",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -472,7 +472,7 @@ func (s *Service) DocumentsList(templateID string) *DocumentsListOp {
 	return &DocumentsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -504,7 +504,7 @@ func (s *Service) DocumentsUpdate(documentID string, templateID string, envelope
 	return &DocumentsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID}, "/"),
 		Payload:    envelopeDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -537,7 +537,7 @@ func (s *Service) DocumentsUpdateList(templateID string, envelopeDefinition *mod
 	return &DocumentsUpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
 		Payload:    envelopeDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -562,7 +562,7 @@ func (s *Service) LocksCreate(templateID string, lockRequest *model.LockRequest)
 	return &LocksCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "lock"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		Payload:    lockRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -587,7 +587,7 @@ func (s *Service) LocksDelete(templateID string, lockRequest *model.LockRequest)
 	return &LocksDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "lock"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		Payload:    lockRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -612,7 +612,7 @@ func (s *Service) LocksGet(templateID string) *LocksGetOp {
 	return &LocksGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "lock"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -636,7 +636,7 @@ func (s *Service) LocksUpdate(templateID string, lockRequest *model.LockRequest)
 	return &LocksUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "lock"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		Payload:    lockRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -661,7 +661,7 @@ func (s *Service) RecipientTabsCreate(recipientID string, templateID string, tem
 	return &RecipientTabsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -686,7 +686,7 @@ func (s *Service) RecipientTabsDelete(recipientID string, templateID string, tem
 	return &RecipientTabsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -711,7 +711,7 @@ func (s *Service) RecipientTabsList(recipientID string, templateID string) *Reci
 	return &RecipientTabsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -751,7 +751,7 @@ func (s *Service) RecipientTabsUpdate(recipientID string, templateID string, tem
 	return &RecipientTabsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -776,7 +776,7 @@ func (s *Service) RecipientsCreate(templateID string, templateRecipients *model.
 	return &RecipientsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		Payload:    templateRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -809,7 +809,7 @@ func (s *Service) RecipientsDelete(recipientID string, templateID string, templa
 	return &RecipientsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID}, "/"),
 		Payload:    templateRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -834,7 +834,7 @@ func (s *Service) RecipientsDeleteList(templateID string, templateRecipients *mo
 	return &RecipientsDeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		Payload:    templateRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -859,7 +859,7 @@ func (s *Service) RecipientsList(templateID string) *RecipientsListOp {
 	return &RecipientsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -907,7 +907,7 @@ func (s *Service) RecipientsUpdate(templateID string, templateRecipients *model.
 	return &RecipientsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		Payload:    templateRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -940,7 +940,7 @@ func (s *Service) ViewsCreateEdit(templateID string, returnURLRequest *model.Ret
 	return &ViewsCreateEditOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "views", "edit"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "views", "edit"}, "/"),
 		Payload:    returnURLRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -966,7 +966,7 @@ func (s *Service) Create(templates *model.EnvelopeTemplate, uploads ...*esign.Up
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/templates",
+		Path:       "templates",
 		Payload:    templates,
 		Files:      uploads,
 		QueryOpts:  make(url.Values),
@@ -992,7 +992,7 @@ func (s *Service) DeleteDocumentPage(documentID string, pageNumber string, templ
 	return &DeleteDocumentPageOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "pages", pageNumber}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber}, "/"),
 		Payload:    pageRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1016,7 +1016,7 @@ func (s *Service) DeleteGroupShare(templateID string, templatePart string, group
 	return &DeleteGroupShareOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, templatePart}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1041,7 +1041,7 @@ func (s *Service) Get(templateID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID}, "/"),
+		Path:       strings.Join([]string{"templates", templateID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1080,7 +1080,7 @@ func (s *Service) GetDocumentPageImage(documentID string, pageNumber string, tem
 	return &GetDocumentPageImageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
 		Accept:     "image/png",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1137,7 +1137,7 @@ func (s *Service) GetNotificationSettings(templateID string) *GetNotificationSet
 	return &GetNotificationSettingsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "notification"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "notification"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1161,7 +1161,7 @@ func (s *Service) GetPageImages(documentID string, templateID string) *GetPageIm
 	return &GetPageImagesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "pages"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1241,7 +1241,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/templates",
+		Path:       "templates",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1485,7 +1485,7 @@ func (s *Service) RotateDocumentPage(documentID string, pageNumber string, templ
 	return &RotateDocumentPageOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
 		Payload:    pageRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1509,7 +1509,7 @@ func (s *Service) Update(templateID string, templates *model.EnvelopeTemplate) *
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID}, "/"),
+		Path:       strings.Join([]string{"templates", templateID}, "/"),
 		Payload:    templates,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1534,7 +1534,7 @@ func (s *Service) UpdateGroupShare(templateID string, templatePart string, group
 	return &UpdateGroupShareOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, templatePart}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
 		Payload:    groups,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1559,7 +1559,7 @@ func (s *Service) UpdateNotificationSettings(templateID string, templateNotifica
 	return &UpdateNotificationSettingsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "notification"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "notification"}, "/"),
 		Payload:    templateNotificationRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

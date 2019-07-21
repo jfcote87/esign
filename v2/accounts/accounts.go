@@ -1008,7 +1008,7 @@ func (s *Service) Delete() *DeleteOp {
 	return &DeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "",
+		Path:       "/v2/accounts/{accountId}",
 		QueryOpts:  make(url.Values),
 	}
 }
@@ -1054,7 +1054,7 @@ func (s *Service) Get() *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "",
+		Path:       "/v2/accounts/{accountId}",
 		QueryOpts:  make(url.Values),
 	}
 }

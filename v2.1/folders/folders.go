@@ -55,7 +55,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/folders",
+		Path:       "folders",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -128,7 +128,7 @@ func (s *Service) ListItems(folderID string) *ListItemsOp {
 	return &ListItemsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "folders", folderID}, "/"),
+		Path:       strings.Join([]string{"folders", folderID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -216,7 +216,7 @@ func (s *Service) MoveEnvelopes(folderID string, foldersRequest *model.FoldersRe
 	return &MoveEnvelopesOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "folders", folderID}, "/"),
+		Path:       strings.Join([]string{"folders", folderID}, "/"),
 		Payload:    foldersRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -241,7 +241,7 @@ func (s *Service) Search(searchFolderID string) *SearchOp {
 	return &SearchOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "search_folders", searchFolderID}, "/"),
+		Path:       strings.Join([]string{"search_folders", searchFolderID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

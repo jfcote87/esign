@@ -54,7 +54,7 @@ func (s *Service) ItemsCreateFIle(folderID string, workspaceID string, media io.
 	return &ItemsCreateFIleOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID, "folders", folderID, "files"}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files"}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -79,7 +79,7 @@ func (s *Service) ItemsDeleteFolderItems(folderID string, workspaceID string, wo
 	return &ItemsDeleteFolderItemsOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID, "folders", folderID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID}, "/"),
 		Payload:    workspaceItemList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -103,7 +103,7 @@ func (s *Service) ItemsGetFile(fileID string, folderID string, workspaceID strin
 	return &ItemsGetFileOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID, "folders", folderID, "files", fileID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files", fileID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -143,7 +143,7 @@ func (s *Service) ItemsListFilePages(fileID string, folderID string, workspaceID
 	return &ItemsListFilePagesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID, "folders", folderID, "files", fileID, "pages"}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files", fileID, "pages"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -207,7 +207,7 @@ func (s *Service) ItemsListFolderItems(folderID string, workspaceID string) *Ite
 	return &ItemsListFolderItemsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID, "folders", folderID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -288,7 +288,7 @@ func (s *Service) ItemsUpdateFile(fileID string, folderID string, workspaceID st
 	return &ItemsUpdateFileOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID, "folders", folderID, "files", fileID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID, "folders", folderID, "files", fileID}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -313,7 +313,7 @@ func (s *Service) Create(workspaces *model.Workspace) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/workspaces",
+		Path:       "workspaces",
 		Payload:    workspaces,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -338,7 +338,7 @@ func (s *Service) Delete(workspaceID string) *DeleteOp {
 	return &DeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -362,7 +362,7 @@ func (s *Service) Get(workspaceID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -386,7 +386,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/workspaces",
+		Path:       "workspaces",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -410,7 +410,7 @@ func (s *Service) Update(workspaceID string, workspaces *model.Workspace) *Updat
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "workspaces", workspaceID}, "/"),
+		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
 		Payload:    workspaces,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

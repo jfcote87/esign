@@ -53,7 +53,7 @@ func (s *Service) DataList(powerFormID string) *DataListOp {
 	return &DataListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "powerforms", powerFormID, "form_data"}, "/"),
+		Path:       strings.Join([]string{"powerforms", powerFormID, "form_data"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -108,7 +108,7 @@ func (s *Service) Create(powerForms *model.PowerForm) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/powerforms",
+		Path:       "powerforms",
 		Payload:    powerForms,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -133,7 +133,7 @@ func (s *Service) Delete(powerFormID string) *DeleteOp {
 	return &DeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "powerforms", powerFormID}, "/"),
+		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -156,7 +156,7 @@ func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *Delete
 	return &DeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/powerforms",
+		Path:       "powerforms",
 		Payload:    powerFormsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -181,7 +181,7 @@ func (s *Service) Get(powerFormID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "powerforms", powerFormID}, "/"),
+		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -205,7 +205,7 @@ func (s *Service) List() *ListOp {
 	return &ListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/powerforms",
+		Path:       "powerforms",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -276,7 +276,7 @@ func (s *Service) ListSenders() *ListSendersOp {
 	return &ListSendersOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/powerforms/senders",
+		Path:       "powerforms/senders",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -308,7 +308,7 @@ func (s *Service) Update(powerFormID string, powerForms *model.PowerForm) *Updat
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "powerforms", powerFormID}, "/"),
+		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
 		Payload:    powerForms,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

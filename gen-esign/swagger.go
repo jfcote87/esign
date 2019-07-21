@@ -409,19 +409,21 @@ func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUpload
 
 // OpPath removes the accountId prefix for the op path.  Allows
 // for credential to fill in.
-func (o Operation) OpPath() string {
-	if strings.HasPrefix(o.Path, "/v2/accounts/{accountId}") {
-		if len(o.Path) < 25 {
+func (o Operation) OpPath(ver string) string {
+	stdPrefix := "/" + ver + "/accounts/{accountId}/"
+	stdPrefixLen := len(stdPrefix)
+	if strings.HasPrefix(o.Path, stdPrefix) { //o.Path, "/" + ver + "/accounts/{accountId}") {
+		if len(o.Path) < stdPrefixLen {
 			return ""
 		}
-		return o.Path[25:]
+		return o.Path[stdPrefixLen:]
 	}
 	return o.Path
 }
 
 // OpPath2 creates a replacement string
-func (o Operation) OpPath2(p []PathParam) string {
-	path := o.OpPath()
+func (o Operation) OpPath2(ver string, p []PathParam) string {
+	path := o.OpPath(ver)
 	if len(p) > 0 {
 		parts := make([]string, 0)
 		for _, part := range strings.Split(path, "/") {

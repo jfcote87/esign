@@ -60,7 +60,7 @@ func (s *Service) BrandsCreate(brand *model.Brand) *BrandsCreateOp {
 	return &BrandsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/brands",
+		Path:       "brands",
 		Payload:    brand,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -85,7 +85,7 @@ func (s *Service) BrandsDelete(brandID string) *BrandsDeleteOp {
 	return &BrandsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID}, "/"),
+		Path:       strings.Join([]string{"brands", brandID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -108,7 +108,7 @@ func (s *Service) BrandsDeleteList(brandsRequest *model.BrandsRequest) *BrandsDe
 	return &BrandsDeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/brands",
+		Path:       "brands",
 		Payload:    brandsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -133,7 +133,7 @@ func (s *Service) BrandsDeleteLogo(brandID string, logoType string) *BrandsDelet
 	return &BrandsDeleteLogoOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "logos", logoType}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "logos", logoType}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -156,7 +156,7 @@ func (s *Service) BrandsGet(brandID string) *BrandsGetOp {
 	return &BrandsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID}, "/"),
+		Path:       strings.Join([]string{"brands", brandID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -196,7 +196,7 @@ func (s *Service) BrandsGetExportFile(brandID string) *BrandsGetExportFileOp {
 	return &BrandsGetExportFileOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "file"}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "file"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -220,7 +220,7 @@ func (s *Service) BrandsGetLogo(brandID string, logoType string) *BrandsGetLogoO
 	return &BrandsGetLogoOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "logos", logoType}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "logos", logoType}, "/"),
 		Accept:     "image/png",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -245,7 +245,7 @@ func (s *Service) BrandsGetResource(brandID string, resourceContentType string) 
 	return &BrandsGetResourceOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "resources", resourceContentType}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "resources", resourceContentType}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -285,7 +285,7 @@ func (s *Service) BrandsList() *BrandsListOp {
 	return &BrandsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/brands",
+		Path:       "brands",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -325,7 +325,7 @@ func (s *Service) BrandsListResources(brandID string) *BrandsListResourcesOp {
 	return &BrandsListResourcesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "resources"}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "resources"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -349,7 +349,7 @@ func (s *Service) BrandsUpdate(brandID string, brand *model.Brand) *BrandsUpdate
 	return &BrandsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID}, "/"),
+		Path:       strings.Join([]string{"brands", brandID}, "/"),
 		Payload:    brand,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -374,7 +374,7 @@ func (s *Service) BrandsUpdateLogo(brandID string, logoType string, logoFileByte
 	return &BrandsUpdateLogoOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "logos", logoType}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "logos", logoType}, "/"),
 		Payload:    logoFileBytes,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -399,7 +399,7 @@ func (s *Service) BrandsUpdateResource(brandID string, resourceContentType strin
 	return &BrandsUpdateResourceOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "brands", brandID, "resources", resourceContentType}, "/"),
+		Path:       strings.Join([]string{"brands", brandID, "resources", resourceContentType}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -424,7 +424,7 @@ func (s *Service) ConsumerDisclosuresGet(langCode string) *ConsumerDisclosuresGe
 	return &ConsumerDisclosuresGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "consumer_disclosure", langCode}, "/"),
+		Path:       strings.Join([]string{"consumer_disclosure", langCode}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -448,7 +448,7 @@ func (s *Service) ConsumerDisclosuresGetDefault() *ConsumerDisclosuresGetDefault
 	return &ConsumerDisclosuresGetDefaultOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/consumer_disclosure",
+		Path:       "consumer_disclosure",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -482,7 +482,7 @@ func (s *Service) ConsumerDisclosuresUpdate(langCode string, envelopeConsumerDis
 	return &ConsumerDisclosuresUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "consumer_disclosure", langCode}, "/"),
+		Path:       strings.Join([]string{"consumer_disclosure", langCode}, "/"),
 		Payload:    envelopeConsumerDisclosures,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -515,7 +515,7 @@ func (s *Service) CustomFieldsCreate(customField *model.CustomField) *CustomFiel
 	return &CustomFieldsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/custom_fields",
+		Path:       "custom_fields",
 		Payload:    customField,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -548,7 +548,7 @@ func (s *Service) CustomFieldsDelete(customFieldID string) *CustomFieldsDeleteOp
 	return &CustomFieldsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "custom_fields", customFieldID}, "/"),
+		Path:       strings.Join([]string{"custom_fields", customFieldID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -579,7 +579,7 @@ func (s *Service) CustomFieldsList() *CustomFieldsListOp {
 	return &CustomFieldsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/custom_fields",
+		Path:       "custom_fields",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -603,7 +603,7 @@ func (s *Service) CustomFieldsUpdate(customFieldID string, customField *model.Cu
 	return &CustomFieldsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "custom_fields", customFieldID}, "/"),
+		Path:       strings.Join([]string{"custom_fields", customFieldID}, "/"),
 		Payload:    customField,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -636,7 +636,7 @@ func (s *Service) PasswordRulesGet() *PasswordRulesGetOp {
 	return &PasswordRulesGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/settings/password_rules",
+		Path:       "settings/password_rules",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -684,7 +684,7 @@ func (s *Service) PasswordRulesUpdate(accountPasswordRules *model.AccountPasswor
 	return &PasswordRulesUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/settings/password_rules",
+		Path:       "settings/password_rules",
 		Payload:    accountPasswordRules,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -709,7 +709,7 @@ func (s *Service) PermissionProfilesCreate(accountPermissionProfiles *model.Perm
 	return &PermissionProfilesCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/permission_profiles",
+		Path:       "permission_profiles",
 		Payload:    accountPermissionProfiles,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -742,7 +742,7 @@ func (s *Service) PermissionProfilesDelete(permissionProfileID string) *Permissi
 	return &PermissionProfilesDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "permission_profiles", permissionProfileID}, "/"),
+		Path:       strings.Join([]string{"permission_profiles", permissionProfileID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -765,7 +765,7 @@ func (s *Service) PermissionProfilesGet(permissionProfileID string) *PermissionP
 	return &PermissionProfilesGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "permission_profiles", permissionProfileID}, "/"),
+		Path:       strings.Join([]string{"permission_profiles", permissionProfileID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -797,7 +797,7 @@ func (s *Service) PermissionProfilesList() *PermissionProfilesListOp {
 	return &PermissionProfilesListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/permission_profiles",
+		Path:       "permission_profiles",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -836,7 +836,7 @@ func (s *Service) PermissionProfilesUpdate(permissionProfileID string, accountPe
 	return &PermissionProfilesUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "permission_profiles", permissionProfileID}, "/"),
+		Path:       strings.Join([]string{"permission_profiles", permissionProfileID}, "/"),
 		Payload:    accountPermissionProfiles,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -869,7 +869,7 @@ func (s *Service) SignatureProvidersList() *SignatureProvidersListOp {
 	return &SignatureProvidersListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/signatureProviders",
+		Path:       "signatureProviders",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -893,7 +893,7 @@ func (s *Service) TabSettingsGet() *TabSettingsGetOp {
 	return &TabSettingsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/settings/tabs",
+		Path:       "settings/tabs",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -917,7 +917,7 @@ func (s *Service) TabSettingsUpdate(accountTabSettings *model.TabAccountSettings
 	return &TabSettingsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/settings/tabs",
+		Path:       "settings/tabs",
 		Payload:    accountTabSettings,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -942,7 +942,7 @@ func (s *Service) WatermarksGet() *WatermarksGetOp {
 	return &WatermarksGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/watermark",
+		Path:       "watermark",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -966,7 +966,7 @@ func (s *Service) WatermarksPreview(accountWatermarks *model.Watermark) *Waterma
 	return &WatermarksPreviewOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/watermark/preview",
+		Path:       "watermark/preview",
 		Payload:    accountWatermarks,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -991,7 +991,7 @@ func (s *Service) WatermarksUpdate(accountWatermarks *model.Watermark) *Watermar
 	return &WatermarksUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/watermark",
+		Path:       "watermark",
 		Payload:    accountWatermarks,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1072,7 +1072,7 @@ func (s *Service) DeleteCaptiveRecipient(recipientPart string, captiveRecipientI
 	return &DeleteCaptiveRecipientOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "captive_recipients", recipientPart}, "/"),
+		Path:       strings.Join([]string{"captive_recipients", recipientPart}, "/"),
 		Payload:    captiveRecipientInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1129,7 +1129,7 @@ func (s *Service) GetBillingCharges() *GetBillingChargesOp {
 	return &GetBillingChargesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/billing_charges",
+		Path:       "billing_charges",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1189,7 +1189,7 @@ func (s *Service) ListRecipientNamesByEmail() *ListRecipientNamesByEmailOp {
 	return &ListRecipientNamesByEmailOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/recipient_names",
+		Path:       "recipient_names",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1221,7 +1221,7 @@ func (s *Service) ListSettings() *ListSettingsOp {
 	return &ListSettingsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/settings",
+		Path:       "settings",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1245,7 +1245,7 @@ func (s *Service) ListSharedAccess() *ListSharedAccessOp {
 	return &ListSharedAccessOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/shared_access",
+		Path:       "shared_access",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1352,7 +1352,7 @@ func (s *Service) ListSupportedLanguages() *ListSupportedLanguagesOp {
 	return &ListSupportedLanguagesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/supported_languages",
+		Path:       "supported_languages",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1376,7 +1376,7 @@ func (s *Service) ListUnsupportedFileTypes() *ListUnsupportedFileTypesOp {
 	return &ListUnsupportedFileTypesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/unsupported_file_types",
+		Path:       "unsupported_file_types",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1400,7 +1400,7 @@ func (s *Service) UpdateSettings(accountSettingsInformation *model.AccountSettin
 	return &UpdateSettingsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/settings",
+		Path:       "settings",
 		Payload:    accountSettingsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1424,7 +1424,7 @@ func (s *Service) UpdateSharedAccess(accountSharedAccess *model.AccountSharedAcc
 	return &UpdateSharedAccessOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/shared_access",
+		Path:       "shared_access",
 		Payload:    accountSharedAccess,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1476,7 +1476,7 @@ func (s *Service) ENoteConfigurationsDelete() *ENoteConfigurationsDeleteOp {
 	return &ENoteConfigurationsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       "/v2.1/accounts/{accountId}/settings/enote_configuration",
+		Path:       "settings/enote_configuration",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1499,7 +1499,7 @@ func (s *Service) ENoteConfigurationsGet() *ENoteConfigurationsGetOp {
 	return &ENoteConfigurationsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/settings/enote_configuration",
+		Path:       "settings/enote_configuration",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1523,7 +1523,7 @@ func (s *Service) ENoteConfigurationsUpdate(eNoteConfigurations *model.ENoteConf
 	return &ENoteConfigurationsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/settings/enote_configuration",
+		Path:       "settings/enote_configuration",
 		Payload:    eNoteConfigurations,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1548,7 +1548,7 @@ func (s *Service) PaymentGatewayAccountsList() *PaymentGatewayAccountsListOp {
 	return &PaymentGatewayAccountsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/payment_gateway_accounts",
+		Path:       "payment_gateway_accounts",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1570,7 +1570,7 @@ func (s *Service) SealProvidersList() *SealProvidersListOp {
 	return &SealProvidersListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/seals",
+		Path:       "seals",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1594,7 +1594,7 @@ func (s *Service) IdentityVerificationsList() *IdentityVerificationsListOp {
 	return &IdentityVerificationsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/identity_verification",
+		Path:       "identity_verification",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

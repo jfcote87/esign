@@ -59,7 +59,7 @@ func (s *Service) ChunkedUploadsCommit(chunkedUploadID string, media io.Reader, 
 	return &ChunkedUploadsCommitOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "chunked_uploads", chunkedUploadID}, "/"),
+		Path:       strings.Join([]string{"chunked_uploads", chunkedUploadID}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -92,7 +92,7 @@ func (s *Service) ChunkedUploadsCreate(chunkedUploadRequest *model.ChunkedUpload
 	return &ChunkedUploadsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/chunked_uploads",
+		Path:       "chunked_uploads",
 		Payload:    chunkedUploadRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -117,7 +117,7 @@ func (s *Service) ChunkedUploadsDelete(chunkedUploadID string) *ChunkedUploadsDe
 	return &ChunkedUploadsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "chunked_uploads", chunkedUploadID}, "/"),
+		Path:       strings.Join([]string{"chunked_uploads", chunkedUploadID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -141,7 +141,7 @@ func (s *Service) ChunkedUploadsGet(chunkedUploadID string) *ChunkedUploadsGetOp
 	return &ChunkedUploadsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "chunked_uploads", chunkedUploadID}, "/"),
+		Path:       strings.Join([]string{"chunked_uploads", chunkedUploadID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -173,7 +173,7 @@ func (s *Service) ChunkedUploadsUpdate(chunkedUploadID string, chunkedUploadPart
 	return &ChunkedUploadsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "chunked_uploads", chunkedUploadID, chunkedUploadPartSeq}, "/"),
+		Path:       strings.Join([]string{"chunked_uploads", chunkedUploadID, chunkedUploadPartSeq}, "/"),
 		Payload:    chunkedUploadRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -198,7 +198,7 @@ func (s *Service) AttachmentsCreate(envelopeID string, envelopeAttachmentsReques
 	return &AttachmentsCreateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "attachments"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "attachments"}, "/"),
 		Payload:    envelopeAttachmentsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -223,7 +223,7 @@ func (s *Service) AttachmentsDelete(envelopeID string, envelopeAttachmentsReques
 	return &AttachmentsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "attachments"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "attachments"}, "/"),
 		Payload:    envelopeAttachmentsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -248,7 +248,7 @@ func (s *Service) AttachmentsGet(attachmentID string, envelopeID string) *Attach
 	return &AttachmentsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "attachments", attachmentID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "attachments", attachmentID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -272,7 +272,7 @@ func (s *Service) AttachmentsList(envelopeID string) *AttachmentsListOp {
 	return &AttachmentsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "attachments"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "attachments"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -296,7 +296,7 @@ func (s *Service) AttachmentsUpdate(attachmentID string, envelopeID string, atta
 	return &AttachmentsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "attachments", attachmentID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "attachments", attachmentID}, "/"),
 		Payload:    attachment,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -321,7 +321,7 @@ func (s *Service) ConsumerDisclosuresGet(envelopeID string, langCode string, rec
 	return &ConsumerDisclosuresGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "consumer_disclosure", langCode}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "consumer_disclosure", langCode}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -353,7 +353,7 @@ func (s *Service) ConsumerDisclosuresGetDefault(envelopeID string, recipientID s
 	return &ConsumerDisclosuresGetDefaultOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "consumer_disclosure"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "consumer_disclosure"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -385,7 +385,7 @@ func (s *Service) CustomFieldsCreate(envelopeID string, envelopeCustomFields *mo
 	return &CustomFieldsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "custom_fields"}, "/"),
 		Payload:    envelopeCustomFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -410,7 +410,7 @@ func (s *Service) CustomFieldsDelete(envelopeID string, envelopeCustomFields *mo
 	return &CustomFieldsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "custom_fields"}, "/"),
 		Payload:    envelopeCustomFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -435,7 +435,7 @@ func (s *Service) CustomFieldsList(envelopeID string) *CustomFieldsListOp {
 	return &CustomFieldsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "custom_fields"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -459,7 +459,7 @@ func (s *Service) CustomFieldsUpdate(envelopeID string, envelopeCustomFields *mo
 	return &CustomFieldsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "custom_fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "custom_fields"}, "/"),
 		Payload:    envelopeCustomFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -484,7 +484,7 @@ func (s *Service) DocumentFieldsCreate(documentID string, envelopeID string, env
 	return &DocumentFieldsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
 		Payload:    envelopeDocumentFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -509,7 +509,7 @@ func (s *Service) DocumentFieldsDelete(documentID string, envelopeID string, env
 	return &DocumentFieldsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
 		Payload:    envelopeDocumentFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -534,7 +534,7 @@ func (s *Service) DocumentFieldsList(documentID string, envelopeID string) *Docu
 	return &DocumentFieldsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -558,7 +558,7 @@ func (s *Service) DocumentFieldsUpdate(documentID string, envelopeID string, env
 	return &DocumentFieldsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "fields"}, "/"),
 		Payload:    envelopeDocumentFields,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -583,7 +583,7 @@ func (s *Service) DocumentTabsGet(documentID string, envelopeID string) *Documen
 	return &DocumentTabsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "tabs"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -619,7 +619,7 @@ func (s *Service) DocumentTabsGetByPage(documentID string, envelopeID string, pa
 	return &DocumentTabsGetByPageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "pages", pageNumber, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "pages", pageNumber, "tabs"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -643,7 +643,7 @@ func (s *Service) DocumentVisibilityGet(envelopeID string, recipientID string) *
 	return &DocumentVisibilityGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "document_visibility"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "document_visibility"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -667,7 +667,7 @@ func (s *Service) DocumentVisibilityUpdate(envelopeID string, recipientID string
 	return &DocumentVisibilityUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "document_visibility"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "document_visibility"}, "/"),
 		Payload:    envelopeDocumentVisibility,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -692,7 +692,7 @@ func (s *Service) DocumentVisibilityUpdateList(envelopeID string, envelopeDocume
 	return &DocumentVisibilityUpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", "document_visibility"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", "document_visibility"}, "/"),
 		Payload:    envelopeDocumentVisibility,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -717,7 +717,7 @@ func (s *Service) DocumentsDelete(envelopeID string, envelopeDefinition *model.E
 	return &DocumentsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents"}, "/"),
 		Payload:    envelopeDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -742,7 +742,7 @@ func (s *Service) DocumentsGet(documentID string, envelopeID string) *DocumentsG
 	return &DocumentsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID}, "/"),
 		Accept:     "application/pdf",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -839,7 +839,7 @@ func (s *Service) DocumentsList(envelopeID string) *DocumentsListOp {
 	return &DocumentsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -904,7 +904,7 @@ func (s *Service) DocumentsUpdate(documentID string, envelopeID string, media io
 	return &DocumentsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -929,7 +929,7 @@ func (s *Service) DocumentsUpdateList(envelopeID string, envelopeDefinition *mod
 	return &DocumentsUpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents"}, "/"),
 		Payload:    envelopeDefinition,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -954,7 +954,7 @@ func (s *Service) EmailSettingsCreate(envelopeID string, envelopeEmailSettings *
 	return &EmailSettingsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "email_settings"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "email_settings"}, "/"),
 		Payload:    envelopeEmailSettings,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -979,7 +979,7 @@ func (s *Service) EmailSettingsDelete(envelopeID string) *EmailSettingsDeleteOp 
 	return &EmailSettingsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "email_settings"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "email_settings"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1003,7 +1003,7 @@ func (s *Service) EmailSettingsGet(envelopeID string) *EmailSettingsGetOp {
 	return &EmailSettingsGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "email_settings"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "email_settings"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1027,7 +1027,7 @@ func (s *Service) EmailSettingsUpdate(envelopeID string, envelopeEmailSettings *
 	return &EmailSettingsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "email_settings"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "email_settings"}, "/"),
 		Payload:    envelopeEmailSettings,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1052,7 +1052,7 @@ func (s *Service) FormDataGet(envelopeID string) *FormDataGetOp {
 	return &FormDataGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "form_data"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "form_data"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1076,7 +1076,7 @@ func (s *Service) LocksCreate(envelopeID string, lockRequest *model.LockRequest)
 	return &LocksCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "lock"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "lock"}, "/"),
 		Payload:    lockRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1101,7 +1101,7 @@ func (s *Service) LocksDelete(envelopeID string) *LocksDeleteOp {
 	return &LocksDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "lock"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "lock"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1125,7 +1125,7 @@ func (s *Service) LocksGet(envelopeID string) *LocksGetOp {
 	return &LocksGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "lock"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "lock"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1149,7 +1149,7 @@ func (s *Service) LocksUpdate(envelopeID string, lockRequest *model.LockRequest)
 	return &LocksUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "lock"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "lock"}, "/"),
 		Payload:    lockRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1174,7 +1174,7 @@ func (s *Service) RecipientTabsCreate(envelopeID string, recipientID string, env
 	return &RecipientTabsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    envelopeRecipientTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1199,7 +1199,7 @@ func (s *Service) RecipientTabsDelete(envelopeID string, recipientID string, env
 	return &RecipientTabsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    envelopeRecipientTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1224,7 +1224,7 @@ func (s *Service) RecipientTabsList(envelopeID string, recipientID string) *Reci
 	return &RecipientTabsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1266,7 +1266,7 @@ func (s *Service) RecipientTabsUpdate(envelopeID string, recipientID string, env
 	return &RecipientTabsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    envelopeRecipientTabs,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1291,7 +1291,7 @@ func (s *Service) RecipientsCreate(envelopeID string, envelopeRecipients *model.
 	return &RecipientsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients"}, "/"),
 		Payload:    envelopeRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1324,7 +1324,7 @@ func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *Recip
 	return &RecipientsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1348,7 +1348,7 @@ func (s *Service) RecipientsDeleteList(envelopeID string, envelopeRecipients *mo
 	return &RecipientsDeleteListOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients"}, "/"),
 		Payload:    envelopeRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1373,7 +1373,7 @@ func (s *Service) RecipientsList(envelopeID string) *RecipientsListOp {
 	return &RecipientsListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1429,7 +1429,7 @@ func (s *Service) RecipientsUpdate(envelopeID string, envelopeRecipients *model.
 	return &RecipientsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients"}, "/"),
 		Payload:    envelopeRecipients,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1478,7 +1478,7 @@ func (s *Service) TemplatesApply(envelopeID string, documentTemplateList *model.
 	return &TemplatesApplyOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "templates"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "templates"}, "/"),
 		Payload:    documentTemplateList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1503,7 +1503,7 @@ func (s *Service) TemplatesApplyToDocument(documentID string, envelopeID string,
 	return &TemplatesApplyToDocumentOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "templates"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "templates"}, "/"),
 		Payload:    documentTemplateList,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1528,7 +1528,7 @@ func (s *Service) TemplatesDelete(documentID string, envelopeID string, template
 	return &TemplatesDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "templates", templateID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "templates", templateID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1551,7 +1551,7 @@ func (s *Service) TemplatesList(envelopeID string) *TemplatesListOp {
 	return &TemplatesListOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "templates"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "templates"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1583,7 +1583,7 @@ func (s *Service) TemplatesListByDocument(documentID string, envelopeID string) 
 	return &TemplatesListByDocumentOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "templates"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "templates"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1619,7 +1619,7 @@ func (s *Service) ViewsCreateConsole(consoleViewRequest *model.ConsoleViewReques
 	return &ViewsCreateConsoleOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/views/console",
+		Path:       "views/console",
 		Payload:    consoleViewRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1644,7 +1644,7 @@ func (s *Service) ViewsCreateCorrect(envelopeID string, correctViewRequest *mode
 	return &ViewsCreateCorrectOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "correct"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "views", "correct"}, "/"),
 		Payload:    correctViewRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1669,7 +1669,7 @@ func (s *Service) ViewsCreateEdit(envelopeID string, returnURLRequest *model.Ret
 	return &ViewsCreateEditOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "edit"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "views", "edit"}, "/"),
 		Payload:    returnURLRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1694,7 +1694,7 @@ func (s *Service) ViewsCreateRecipient(envelopeID string, recipientViewRequest *
 	return &ViewsCreateRecipientOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "recipient"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "views", "recipient"}, "/"),
 		Payload:    recipientViewRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1719,7 +1719,7 @@ func (s *Service) ViewsCreateSender(envelopeID string, returnURLRequest *model.R
 	return &ViewsCreateSenderOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "sender"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "views", "sender"}, "/"),
 		Payload:    returnURLRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1745,7 +1745,7 @@ func (s *Service) Create(envelopeDefinition *model.EnvelopeDefinition, uploads .
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       "/v2.1/accounts/{accountId}/envelopes",
+		Path:       "envelopes",
 		Payload:    envelopeDefinition,
 		Files:      uploads,
 		QueryOpts:  make(url.Values),
@@ -1805,7 +1805,7 @@ func (s *Service) DeleteDocumentPage(documentID string, envelopeID string, pageN
 	return &DeleteDocumentPageOp{
 		Credential: s.credential,
 		Method:     "DELETE",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "pages", pageNumber}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "pages", pageNumber}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1828,7 +1828,7 @@ func (s *Service) Get(envelopeID string) *GetOp {
 	return &GetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1878,7 +1878,7 @@ func (s *Service) GetNotificationSettings(envelopeID string) *GetNotificationSet
 	return &GetNotificationSettingsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "notification"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "notification"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1902,7 +1902,7 @@ func (s *Service) GetPageImage(documentID string, envelopeID string, pageNumber 
 	return &GetPageImageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
 		Accept:     "image/png",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1959,7 +1959,7 @@ func (s *Service) GetPageImages(documentID string, envelopeID string) *GetPageIm
 	return &GetPageImagesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "pages"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "pages"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -2039,7 +2039,7 @@ func (s *Service) GetRecipientInitialsImage(envelopeID string, recipientID strin
 	return &GetRecipientInitialsImageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "initials_image"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "initials_image"}, "/"),
 		Accept:     "image/gif",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2072,7 +2072,7 @@ func (s *Service) GetRecipientSignature(envelopeID string, recipientID string) *
 	return &GetRecipientSignatureOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "signature"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "signature"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -2096,7 +2096,7 @@ func (s *Service) GetRecipientSignatureImage(envelopeID string, recipientID stri
 	return &GetRecipientSignatureImageOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "signature_image"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "signature_image"}, "/"),
 		Accept:     "image/gif",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2129,7 +2129,7 @@ func (s *Service) ListAuditEvents(envelopeID string) *ListAuditEventsOp {
 	return &ListAuditEventsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "audit_events"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "audit_events"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -2153,7 +2153,7 @@ func (s *Service) ListStatus(envelopeIdsRequest *model.EnvelopeIdsRequest) *List
 	return &ListStatusOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       "/v2.1/accounts/{accountId}/envelopes/status",
+		Path:       "envelopes/status",
 		Payload:    envelopeIdsRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2333,7 +2333,7 @@ func (s *Service) ListStatusChanges() *ListStatusChangesOp {
 	return &ListStatusChangesOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       "/v2.1/accounts/{accountId}/envelopes",
+		Path:       "envelopes",
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -2708,7 +2708,7 @@ func (s *Service) RotateDocumentPage(documentID string, envelopeID string, pageN
 	return &RotateDocumentPageOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
 		Payload:    pageRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2732,7 +2732,7 @@ func (s *Service) Update(envelopeID string, envelopes *model.Envelope) *UpdateOp
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID}, "/"),
 		Payload:    envelopes,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2773,7 +2773,7 @@ func (s *Service) UpdateNotificationSettings(envelopeID string, envelopeNotifica
 	return &UpdateNotificationSettingsOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "notification"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "notification"}, "/"),
 		Payload:    envelopeNotificationRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2799,7 +2799,7 @@ func (s *Service) UpdateRecipientInitialsImage(envelopeID string, recipientID st
 	return &UpdateRecipientInitialsImageOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "initials_image"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "initials_image"}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2824,7 +2824,7 @@ func (s *Service) UpdateRecipientSignatureImage(envelopeID string, recipientID s
 	return &UpdateRecipientSignatureImageOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "recipients", recipientID, "signature_image"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "recipients", recipientID, "signature_image"}, "/"),
 		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2848,7 +2848,7 @@ func (s *Service) TemplateDocumentVisibilityGet(recipientID string, templateID s
 	return &TemplateDocumentVisibilityGetOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -2872,7 +2872,7 @@ func (s *Service) TemplateDocumentVisibilityUpdate(recipientID string, templateI
 	return &TemplateDocumentVisibilityUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
 		Payload:    templateDocumentVisibility,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2897,7 +2897,7 @@ func (s *Service) TemplateDocumentVisibilityUpdateList(templateID string, templa
 	return &TemplateDocumentVisibilityUpdateListOp{
 		Credential: s.credential,
 		Method:     "PUT",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "templates", templateID, "recipients", "document_visibility"}, "/"),
+		Path:       strings.Join([]string{"templates", templateID, "recipients", "document_visibility"}, "/"),
 		Payload:    templateDocumentVisibility,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -2966,7 +2966,7 @@ func (s *Service) ViewsCreateSharedRecipient(envelopeID string, recipientViewReq
 	return &ViewsCreateSharedRecipientOp{
 		Credential: s.credential,
 		Method:     "POST",
-		Path:       strings.Join([]string{"", "v2.1", "accounts", "{accountId}", "envelopes", envelopeID, "views", "shared"}, "/"),
+		Path:       strings.Join([]string{"envelopes", envelopeID, "views", "shared"}, "/"),
 		Payload:    recipientViewRequest,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,

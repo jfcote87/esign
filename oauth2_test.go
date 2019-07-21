@@ -324,3 +324,66 @@ ZhC2gm1mAAZF9SBYwxTJ7vIcXRWi8uOB6yM7QQhuUpduK236a1lJZao=
 		res.Body.Close()
 	}
 }
+
+func TestTokenCredential(t *testing.T) {
+	ctx := context.Background()
+	testTransport := &testutils.Transport{}
+	cred := esign.TokenCredential("ABCDEF", true).
+		SetClientFunc(func(ctx context.Context) (*http.Client, error) {
+			return &http.Client{Transport: testTransport}, nil
+		})
+	testOp := &esign.Op{
+		Credential: cred,
+		Method:     "GET",
+		Path:       "testcmd",
+	}
+	_ = testOp
+	expectedAuthHeader := http.Header{
+		"Authorization": []string{"Bearer ABCDEF"},
+	}
+	testTransport.Add(
+		&testutils.RequestTester{
+			Path:     "/oauth/userinfo",
+			Header:   expectedAuthHeader,
+			Response: testutils.MakeResponse(400, []byte("invalid token"), nil),
+		},
+		&testutils.RequestTester{
+			Path:     "/oauth/userinfo",
+			Header:   expectedAuthHeader,
+			Response: testutils.MakeResponse(200, []byte(userInfoSuccessResponse), nil),
+		},
+		&testutils.RequestTester{
+			Path:     "/restapi/v2/accounts/fe0b61a3-3b9b-cafe-b7be-4592af32aa9b/testcmd",
+			Header:   expectedAuthHeader,
+			Response: testutils.MakeResponse(200, []byte("{}"), nil),
+		},
+		&testutils.RequestTester{
+			Path:     "/restapi/v2/accounts/abcd61a3-3b9b-cafe-b7be-4592af32aa9b/testcmd",
+			Header:   expectedAuthHeader,
+			Response: testutils.MakeResponse(200, []byte("{}"), nil),
+		},
+	)
+	// check for userinfo fail
+	switch err := testOp.Do(ctx, nil).(type) {
+	case nil:
+		t.Errorf("invalid token expected 400 status; got success")
+		return
+	case *esign.ResponseError:
+	default:
+		t.Errorf("%v", err)
+		return
+	}
+
+	if err := testOp.Do(ctx, nil); err != nil {
+		t.Errorf("%v", err)
+	}
+	testOp.Credential = cred.WithAccountID("BAD_ACCT")
+	if err := testOp.Do(ctx, nil); err == nil || err.Error() != "no account BAD_ACCT for susan.smart@example.com" {
+		t.Errorf("expected no account BAD_ACCT; got %v", err)
+		return
+	}
+	testOp.Credential = cred.WithAccountID("abcd61a3-3b9b-cafe-b7be-4592af32aa9b")
+	if err := testOp.Do(ctx, nil); err != nil {
+		t.Errorf("expected success; got %v", err)
+	}
+}
