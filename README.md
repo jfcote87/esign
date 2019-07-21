@@ -1,18 +1,22 @@
-# DocuSign eSignature RestApi v2 for Go
+# DocuSign eSignature RestApi v2 and v2.1(Beta) for Go
 
 [![GoDoc](https://godoc.org/github.com/jfcote87/esign?status.svg)](https://godoc.org/github.com/jfcote87/esign)
 
 esign provides Go packages for interacting with DocuSign's eSignature RestApi and
 has been created using the lastest published swagger definition.
-
-Definitions for call payloads and return values are found in the v2/model/model.go file.  Docusign
-has split the API into major categories, and each category has a corresponding package in the
-v2 directory.  When the v2.1 Swagger/OpenAPI definition, a v2.1 directory will be added with
-packages for each category and a model package.
+Definitions for call payloads and return values are found in  {VERSIONID}/model/model.go file.  
+Docusign has split the API into major categories, and each category has a corresponding package 
+in the v2 and v2.1 directory.  
 
 The package requires Go 1.7 or above and has been tested with Go 1.9-1.12.
 
 The previous package github.com/jfcote87/docusign is now deprecated.
+
+## Announcements
+
+eSignature v2.1 is now in beta release.  Changes may still be made to future releases.
+
+Click API will be release soon.
 
 ## Resources
 
