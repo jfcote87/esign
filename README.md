@@ -14,9 +14,7 @@ The previous package github.com/jfcote87/docusign is now deprecated.
 
 ## Announcements
 
-eSignature v2.1 is now in beta release.  Changes may still be made to future releases.
-
-Click API will be release soon.
+eSignature v2.1 and [click api](https://developers.docusign.com/click-api) are now available.
 
 ## Resources
 
@@ -57,6 +55,10 @@ executed via a Do(context.Context) function.  A context must be passwed for all 
 Create envelope
 
 ```go
+    import "github.com/jfcote87/esign"
+    import "github.com/jfcote87/esign/v2/envelope"
+    import "github.com/jfcote87/esign/v2/model"
+
     sv := envelopes.New(credential)
 
     f1, err := ioutil.ReadFile("letter.pdf")
@@ -145,4 +147,17 @@ Create envelope
         },
     }
     envSummary, err := sv.Create(env).Do(context.Background())
+```
+
+## Testing
+
+To test the package with your DocuSign Sandbox, obtain a token from
+the [DocuSign OAuth2 Generator](https://developers.docusign.com/oauth-token-generator)
+prior to running go test.  Set the environment variable DOCUSIGN_Token
+to the generated access token and run go test.  This will read through
+a list of user folders and all templates.
+
+```sh
+$ export DOCUSIGN_Token=eyJ0eXAiO...
+$ go test
 ```

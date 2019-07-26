@@ -48,7 +48,7 @@ func New(cred esign.Credential) *Service {
 
 // RequestLogsDelete deletes the request log files.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/RequestLogs/delete
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/requestlogs/delete
 //
 // SDK Method Diagnostics::deleteRequestLogs
 func (s *Service) RequestLogsDelete() *RequestLogsDeleteOp {
@@ -70,7 +70,7 @@ func (op *RequestLogsDeleteOp) Do(ctx context.Context) error {
 
 // RequestLogsGet gets a request logging log file.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/RequestLogs/get
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/requestlogs/get
 //
 // SDK Method Diagnostics::getRequestLog
 func (s *Service) RequestLogsGet(requestLogID string) *RequestLogsGetOp {
@@ -94,7 +94,7 @@ func (op *RequestLogsGetOp) Do(ctx context.Context) (*esign.Download, error) {
 
 // RequestLogsGetSettings gets the API request logging settings.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/RequestLogs/getSettings
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/requestlogs/getsettings
 //
 // SDK Method Diagnostics::getRequestLogSettings
 func (s *Service) RequestLogsGetSettings() *RequestLogsGetSettingsOp {
@@ -117,7 +117,7 @@ func (op *RequestLogsGetSettingsOp) Do(ctx context.Context) (*model.DiagnosticsS
 
 // RequestLogsList gets the API request logging log files.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/RequestLogs/list
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/requestlogs/list
 //
 // SDK Method Diagnostics::listRequestLogs
 func (s *Service) RequestLogsList() *RequestLogsListOp {
@@ -162,7 +162,7 @@ func (op *RequestLogsListOp) Zip(ctx context.Context) (*esign.Download, error) {
 
 // RequestLogsUpdateSettings enables or disables API request logging for troubleshooting.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/RequestLogs/updateSettings
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/requestlogs/updatesettings
 //
 // SDK Method Diagnostics::updateRequestLogSettings
 func (s *Service) RequestLogsUpdateSettings(requestLogs *model.DiagnosticsSettingsInformation) *RequestLogsUpdateSettingsOp {
@@ -186,7 +186,7 @@ func (op *RequestLogsUpdateSettingsOp) Do(ctx context.Context) (*model.Diagnosti
 
 // ResourcesGet lists resources for REST version specified
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/Resources/get
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/resources/get
 //
 // SDK Method Diagnostics::getResources
 func (s *Service) ResourcesGet() *ResourcesGetOp {
@@ -209,7 +209,7 @@ func (op *ResourcesGetOp) Do(ctx context.Context) (*model.ResourceInformation, e
 
 // ServicesGet retrieves the available REST API versions.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Diagnostics/Services/get
+// https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/services/get
 //
 // SDK Method Diagnostics::getService
 func (s *Service) ServicesGet() *ServicesGetOp {

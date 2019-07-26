@@ -386,7 +386,7 @@ func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUpload
 			comments = append(comments, "operation is uncategorized and subject to change.")
 		} else {
 			if len(o.Tags) > 0 {
-				comments = append(comments, "", "https://developers.docusign.com/esign-rest-api/"+docPrefix+"reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method)
+				comments = append(comments, "", "https://developers.docusign.com/esign-rest-api/"+strings.ToLower(docPrefix+"reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method))
 			}
 			if o.InSDK {
 				comments = append(comments, "", "SDK Method "+o.SDK())

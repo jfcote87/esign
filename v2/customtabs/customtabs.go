@@ -46,7 +46,7 @@ func New(cred esign.Credential) *Service {
 
 // Create creates a custom tab.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs/CustomTabs/create
+// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/create
 //
 // SDK Method CustomTabs::create
 func (s *Service) Create(customTabs *model.TabMetadata) *CreateOp {
@@ -70,7 +70,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.TabMetadata, error) {
 
 // Delete deletes custom tab information.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs/CustomTabs/delete
+// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/delete
 //
 // SDK Method CustomTabs::delete
 func (s *Service) Delete(customTabID string) *DeleteOp {
@@ -92,7 +92,7 @@ func (op *DeleteOp) Do(ctx context.Context) error {
 
 // Get gets custom tab information.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs/CustomTabs/get
+// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/get
 //
 // SDK Method CustomTabs::get
 func (s *Service) Get(customTabID string) *GetOp {
@@ -115,7 +115,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.TabMetadata, error) {
 
 // List gets a list of all account tabs.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs/CustomTabs/list
+// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/list
 //
 // SDK Method CustomTabs::list
 func (s *Service) List() *ListOp {
@@ -148,7 +148,7 @@ func (op *ListOp) CustomTabOnly() *ListOp {
 //
 //
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs/CustomTabs/update
+// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/update
 //
 // SDK Method CustomTabs::update
 func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *UpdateOp {

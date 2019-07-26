@@ -47,7 +47,7 @@ func New(cred esign.Credential) *Service {
 
 // List gets a list of all the items from the specified cloud storage provider.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorage/list
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorage/list
 //
 // SDK Method CloudStorage::list
 func (s *Service) List(folderID string, serviceID string, userID string) *ListOp {
@@ -140,7 +140,7 @@ func (op *ListOp) StartPosition(val int) *ListOp {
 
 // ListFolders retrieves a list of all the items in a specified folder from the specified cloud storage provider.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorage/listFolders
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorage/listfolders
 //
 // SDK Method CloudStorage::listFolders
 func (s *Service) ListFolders(serviceID string, userID string) *ListFoldersOp {
@@ -225,7 +225,7 @@ func (op *ListFoldersOp) StartPosition(val int) *ListFoldersOp {
 
 // ProvidersCreate configures the redirect URL information  for one or more cloud storage providers for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorageProviders/create
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorageproviders/create
 //
 // SDK Method CloudStorage::createProvider
 func (s *Service) ProvidersCreate(userID string, cloudStorageProviders *model.CloudStorageProviders) *ProvidersCreateOp {
@@ -250,7 +250,7 @@ func (op *ProvidersCreateOp) Do(ctx context.Context) (*model.CloudStorageProvide
 
 // ProvidersDelete deletes the user authentication information for the specified cloud storage provider.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorageProviders/delete
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorageproviders/delete
 //
 // SDK Method CloudStorage::deleteProvider
 func (s *Service) ProvidersDelete(serviceID string, userID string) *ProvidersDeleteOp {
@@ -274,7 +274,7 @@ func (op *ProvidersDeleteOp) Do(ctx context.Context) (*model.CloudStorageProvide
 
 // ProvidersDeleteList deletes the user authentication information for one or more cloud storage providers.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorageProviders/deleteList
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorageproviders/deletelist
 //
 // SDK Method CloudStorage::deleteProviders
 func (s *Service) ProvidersDeleteList(userID string, cloudStorageProviders *model.CloudStorageProviders) *ProvidersDeleteListOp {
@@ -299,7 +299,7 @@ func (op *ProvidersDeleteListOp) Do(ctx context.Context) (*model.CloudStoragePro
 
 // ProvidersGet gets the specified Cloud Storage Provider configuration for the User.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorageProviders/get
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorageproviders/get
 //
 // SDK Method CloudStorage::getProvider
 func (s *Service) ProvidersGet(serviceID string, userID string) *ProvidersGetOp {
@@ -333,7 +333,7 @@ func (op *ProvidersGetOp) RedirectURL(val string) *ProvidersGetOp {
 
 // ProvidersList get the Cloud Storage Provider configuration for the specified user.
 //
-// https://developers.docusign.com/esign-rest-api/reference/CloudStorage/CloudStorageProviders/list
+// https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorageproviders/list
 //
 // SDK Method CloudStorage::listProviders
 func (s *Service) ProvidersList(userID string) *ProvidersListOp {

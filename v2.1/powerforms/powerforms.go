@@ -46,7 +46,7 @@ func New(cred esign.Credential) *Service {
 
 // DataList returns the data that users entered in a PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerFormData/list
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerformdata/list
 //
 // SDK Method PowerForms::getPowerFormData
 func (s *Service) DataList(powerFormID string) *DataListOp {
@@ -101,7 +101,7 @@ func (op *DataListOp) ToDate(val time.Time) *DataListOp {
 
 // Create creates a new PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/create
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/create
 //
 // SDK Method PowerForms::createPowerForm
 func (s *Service) Create(powerForms *model.PowerForm) *CreateOp {
@@ -126,7 +126,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, error) {
 
 // Delete deletes a PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/delete
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/delete
 //
 // SDK Method PowerForms::deletePowerForm
 func (s *Service) Delete(powerFormID string) *DeleteOp {
@@ -149,7 +149,7 @@ func (op *DeleteOp) Do(ctx context.Context) error {
 
 // DeleteList deletes one or more PowerForms.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/deleteList
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/deletelist
 //
 // SDK Method PowerForms::deletePowerForms
 func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *DeleteListOp {
@@ -174,7 +174,7 @@ func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, erro
 
 // Get returns a single PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/get
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/get
 //
 // SDK Method PowerForms::getPowerForm
 func (s *Service) Get(powerFormID string) *GetOp {
@@ -198,7 +198,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, error) {
 
 // List returns a list of PowerForms.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/list
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/list
 //
 // SDK Method PowerForms::listPowerForms
 func (s *Service) List() *ListOp {
@@ -269,7 +269,7 @@ func (op *ListOp) ToDate(val time.Time) *ListOp {
 
 // ListSenders gets PowerForm senders.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/listSenders
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/listsenders
 //
 // SDK Method PowerForms::listPowerFormSenders
 func (s *Service) ListSenders() *ListSendersOp {
@@ -301,7 +301,7 @@ func (op *ListSendersOp) StartPosition(val int) *ListSendersOp {
 
 // Update updates an existing PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms/PowerForms/update
+// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/update
 //
 // SDK Method PowerForms::updatePowerForm
 func (s *Service) Update(powerFormID string, powerForms *model.PowerForm) *UpdateOp {

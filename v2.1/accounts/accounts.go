@@ -53,7 +53,7 @@ func New(cred esign.Credential) *Service {
 
 // BrandsCreate creates one or more brand profiles for an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/create
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/create
 //
 // SDK Method Accounts::createBrand
 func (s *Service) BrandsCreate(brand *model.Brand) *BrandsCreateOp {
@@ -78,7 +78,7 @@ func (op *BrandsCreateOp) Do(ctx context.Context) (*model.BrandsResponse, error)
 
 // BrandsDelete deletes a brand.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/delete
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/delete
 //
 // SDK Method Accounts::deleteBrand
 func (s *Service) BrandsDelete(brandID string) *BrandsDeleteOp {
@@ -101,7 +101,7 @@ func (op *BrandsDeleteOp) Do(ctx context.Context) error {
 
 // BrandsDeleteList deletes one or more brand profiles.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/deleteList
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/deletelist
 //
 // SDK Method Accounts::deleteBrands
 func (s *Service) BrandsDeleteList(brandsRequest *model.BrandsRequest) *BrandsDeleteListOp {
@@ -126,7 +126,7 @@ func (op *BrandsDeleteListOp) Do(ctx context.Context) (*model.BrandsResponse, er
 
 // BrandsDeleteLogo deletes a brand logo.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/deleteLogo
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/deletelogo
 //
 // SDK Method Accounts::deleteBrandLogoByType
 func (s *Service) BrandsDeleteLogo(brandID string, logoType string) *BrandsDeleteLogoOp {
@@ -149,7 +149,7 @@ func (op *BrandsDeleteLogoOp) Do(ctx context.Context) error {
 
 // BrandsGet gets information about a brand.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/get
 //
 // SDK Method Accounts::getBrand
 func (s *Service) BrandsGet(brandID string) *BrandsGetOp {
@@ -189,7 +189,7 @@ func (op *BrandsGetOp) IncludeLogos() *BrandsGetOp {
 
 // BrandsGetExportFile export a brand.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/getExportFile
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/getexportfile
 //
 // SDK Method Accounts::getBrandExportFile
 func (s *Service) BrandsGetExportFile(brandID string) *BrandsGetExportFileOp {
@@ -213,7 +213,7 @@ func (op *BrandsGetExportFileOp) Do(ctx context.Context) (*esign.Download, error
 
 // BrandsGetLogo gets a brand logo.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/getLogo
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/getlogo
 //
 // SDK Method Accounts::getBrandLogoByType
 func (s *Service) BrandsGetLogo(brandID string, logoType string) *BrandsGetLogoOp {
@@ -238,7 +238,7 @@ func (op *BrandsGetLogoOp) Do(ctx context.Context) (*esign.Download, error) {
 
 // BrandsGetResource returns a branding resource file.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/getResource
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/getresource
 //
 // SDK Method Accounts::getBrandResourcesByContentType
 func (s *Service) BrandsGetResource(brandID string, resourceContentType string) *BrandsGetResourceOp {
@@ -278,7 +278,7 @@ func (op *BrandsGetResourceOp) ReturnMaster() *BrandsGetResourceOp {
 
 // BrandsList gets a list of brands.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/list
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/list
 //
 // SDK Method Accounts::listBrands
 func (s *Service) BrandsList() *BrandsListOp {
@@ -318,7 +318,7 @@ func (op *BrandsListOp) IncludeLogos() *BrandsListOp {
 
 // BrandsListResources returns metadata about the branding resources for an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/listResources
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/listresources
 //
 // SDK Method Accounts::getBrandResources
 func (s *Service) BrandsListResources(brandID string) *BrandsListResourcesOp {
@@ -342,7 +342,7 @@ func (op *BrandsListResourcesOp) Do(ctx context.Context) (*model.BrandResourcesL
 
 // BrandsUpdate updates an existing brand.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/update
 //
 // SDK Method Accounts::updateBrand
 func (s *Service) BrandsUpdate(brandID string, brand *model.Brand) *BrandsUpdateOp {
@@ -367,7 +367,7 @@ func (op *BrandsUpdateOp) Do(ctx context.Context) (*model.Brand, error) {
 
 // BrandsUpdateLogo updates a brand logo.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/updateLogo
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/updatelogo
 //
 // SDK Method Accounts::updateBrandLogoByType
 func (s *Service) BrandsUpdateLogo(brandID string, logoType string, logoFileBytes []byte) *BrandsUpdateLogoOp {
@@ -392,7 +392,7 @@ func (op *BrandsUpdateLogoOp) Do(ctx context.Context) error {
 // BrandsUpdateResource updates a branding resource file.
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountBrands/updateResource
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountbrands/updateresource
 //
 // SDK Method Accounts::updateBrandResourcesByContentType
 func (s *Service) BrandsUpdateResource(brandID string, resourceContentType string, media io.Reader, mimeType string) *BrandsUpdateResourceOp {
@@ -417,7 +417,7 @@ func (op *BrandsUpdateResourceOp) Do(ctx context.Context) (*model.BrandResources
 
 // ConsumerDisclosuresGet gets the Electronic Record and Signature Disclosure.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountConsumerDisclosures/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountconsumerdisclosures/get
 //
 // SDK Method Accounts::getConsumerDisclosure
 func (s *Service) ConsumerDisclosuresGet(langCode string) *ConsumerDisclosuresGetOp {
@@ -441,7 +441,7 @@ func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisc
 
 // ConsumerDisclosuresGetDefault gets the Electronic Record and Signature Disclosure for the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountConsumerDisclosures/getDefault
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountconsumerdisclosures/getdefault
 //
 // SDK Method Accounts::getConsumerDisclosureDefault
 func (s *Service) ConsumerDisclosuresGetDefault() *ConsumerDisclosuresGetDefaultOp {
@@ -475,7 +475,7 @@ func (op *ConsumerDisclosuresGetDefaultOp) LangCode(val string) *ConsumerDisclos
 
 // ConsumerDisclosuresUpdate update Consumer Disclosure.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountConsumerDisclosures/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountconsumerdisclosures/update
 //
 // SDK Method Accounts::updateConsumerDisclosure
 func (s *Service) ConsumerDisclosuresUpdate(langCode string, envelopeConsumerDisclosures *model.ConsumerDisclosure) *ConsumerDisclosuresUpdateOp {
@@ -508,7 +508,7 @@ func (op *ConsumerDisclosuresUpdateOp) IncludeMetadata(val string) *ConsumerDisc
 
 // CustomFieldsCreate creates an acount custom field.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/create
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountcustomfields/create
 //
 // SDK Method Accounts::createCustomField
 func (s *Service) CustomFieldsCreate(customField *model.CustomField) *CustomFieldsCreateOp {
@@ -541,7 +541,7 @@ func (op *CustomFieldsCreateOp) ApplyToTemplates() *CustomFieldsCreateOp {
 
 // CustomFieldsDelete delete an existing account custom field.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/delete
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountcustomfields/delete
 //
 // SDK Method Accounts::deleteCustomField
 func (s *Service) CustomFieldsDelete(customFieldID string) *CustomFieldsDeleteOp {
@@ -572,7 +572,7 @@ func (op *CustomFieldsDeleteOp) ApplyToTemplates() *CustomFieldsDeleteOp {
 
 // CustomFieldsList gets a list of custom fields associated with the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/list
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountcustomfields/list
 //
 // SDK Method Accounts::listCustomFields
 func (s *Service) CustomFieldsList() *CustomFieldsListOp {
@@ -596,7 +596,7 @@ func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, erro
 
 // CustomFieldsUpdate updates an existing account custom field.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountCustomFields/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountcustomfields/update
 //
 // SDK Method Accounts::updateCustomField
 func (s *Service) CustomFieldsUpdate(customFieldID string, customField *model.CustomField) *CustomFieldsUpdateOp {
@@ -629,7 +629,7 @@ func (op *CustomFieldsUpdateOp) ApplyToTemplates() *CustomFieldsUpdateOp {
 
 // PasswordRulesGet get the password rules
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPasswordRules/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpasswordrules/get
 //
 // SDK Method Accounts::getAccountPasswordRules
 func (s *Service) PasswordRulesGet() *PasswordRulesGetOp {
@@ -653,7 +653,7 @@ func (op *PasswordRulesGetOp) Do(ctx context.Context) (*model.AccountPasswordRul
 
 // PasswordRulesGetForUser get membership account password rules
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPasswordRules/getForUser
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpasswordrules/getforuser
 //
 // SDK Method Accounts::getPasswordRules
 func (s *Service) PasswordRulesGetForUser() *PasswordRulesGetForUserOp {
@@ -677,7 +677,7 @@ func (op *PasswordRulesGetForUserOp) Do(ctx context.Context) (*model.UserPasswor
 
 // PasswordRulesUpdate update the password rules
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPasswordRules/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpasswordrules/update
 //
 // SDK Method Accounts::updateAccountPasswordRules
 func (s *Service) PasswordRulesUpdate(accountPasswordRules *model.AccountPasswordRules) *PasswordRulesUpdateOp {
@@ -702,7 +702,7 @@ func (op *PasswordRulesUpdateOp) Do(ctx context.Context) (*model.AccountPassword
 
 // PermissionProfilesCreate creates a new permission profile for an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/create
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpermissionprofiles/create
 //
 // SDK Method Accounts::createPermissionProfile
 func (s *Service) PermissionProfilesCreate(accountPermissionProfiles *model.PermissionProfile) *PermissionProfilesCreateOp {
@@ -735,7 +735,7 @@ func (op *PermissionProfilesCreateOp) Include(val ...string) *PermissionProfiles
 
 // PermissionProfilesDelete deletes a permission profile from an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/delete
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpermissionprofiles/delete
 //
 // SDK Method Accounts::deletePermissionProfile
 func (s *Service) PermissionProfilesDelete(permissionProfileID string) *PermissionProfilesDeleteOp {
@@ -758,7 +758,7 @@ func (op *PermissionProfilesDeleteOp) Do(ctx context.Context) error {
 
 // PermissionProfilesGet returns a permission profile for an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpermissionprofiles/get
 //
 // SDK Method Accounts::getPermissionProfile
 func (s *Service) PermissionProfilesGet(permissionProfileID string) *PermissionProfilesGetOp {
@@ -790,7 +790,7 @@ func (op *PermissionProfilesGetOp) Include(val ...string) *PermissionProfilesGet
 
 // PermissionProfilesList gets a list of permission profiles.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/list
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpermissionprofiles/list
 //
 // SDK Method Accounts::listPermissions
 func (s *Service) PermissionProfilesList() *PermissionProfilesListOp {
@@ -829,7 +829,7 @@ func (op *PermissionProfilesListOp) Include(val string) *PermissionProfilesListO
 
 // PermissionProfilesUpdate updates a permission profile.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountPermissionProfiles/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountpermissionprofiles/update
 //
 // SDK Method Accounts::updatePermissionProfile
 func (s *Service) PermissionProfilesUpdate(permissionProfileID string, accountPermissionProfiles *model.PermissionProfile) *PermissionProfilesUpdateOp {
@@ -862,7 +862,7 @@ func (op *PermissionProfilesUpdateOp) Include(val ...string) *PermissionProfiles
 
 // SignatureProvidersList returns Account available signature providers for specified account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountSignatureProviders/list
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountsignatureproviders/list
 //
 // SDK Method Accounts::listSignatureProviders
 func (s *Service) SignatureProvidersList() *SignatureProvidersListOp {
@@ -886,7 +886,7 @@ func (op *SignatureProvidersListOp) Do(ctx context.Context) (*model.AccountSigna
 
 // TabSettingsGet returns tab settings list for specified account
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountTabSettings/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounttabsettings/get
 //
 // SDK Method Accounts::getAccountTabSettings
 func (s *Service) TabSettingsGet() *TabSettingsGetOp {
@@ -910,7 +910,7 @@ func (op *TabSettingsGetOp) Do(ctx context.Context) (*model.TabAccountSettings, 
 
 // TabSettingsUpdate modifies tab settings for specified account
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountTabSettings/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounttabsettings/update
 //
 // SDK Method Accounts::updateAccountTabSettings
 func (s *Service) TabSettingsUpdate(accountTabSettings *model.TabAccountSettings) *TabSettingsUpdateOp {
@@ -935,7 +935,7 @@ func (op *TabSettingsUpdateOp) Do(ctx context.Context) (*model.TabAccountSetting
 
 // WatermarksGet get watermark information.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountWatermarks/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountwatermarks/get
 //
 // SDK Method Accounts::getWatermark
 func (s *Service) WatermarksGet() *WatermarksGetOp {
@@ -959,7 +959,7 @@ func (op *WatermarksGetOp) Do(ctx context.Context) (*model.Watermark, error) {
 
 // WatermarksPreview get watermark preview.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountWatermarks/preview
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountwatermarks/preview
 //
 // SDK Method Accounts::getWatermarkPreview
 func (s *Service) WatermarksPreview(accountWatermarks *model.Watermark) *WatermarksPreviewOp {
@@ -984,7 +984,7 @@ func (op *WatermarksPreviewOp) Do(ctx context.Context) (*model.Watermark, error)
 
 // WatermarksUpdate update watermark information.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/AccountWatermarks/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accountwatermarks/update
 //
 // SDK Method Accounts::updateWatermark
 func (s *Service) WatermarksUpdate(accountWatermarks *model.Watermark) *WatermarksUpdateOp {
@@ -1009,7 +1009,7 @@ func (op *WatermarksUpdateOp) Do(ctx context.Context) (*model.Watermark, error) 
 
 // Create creates new accounts.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/create
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/create
 //
 // SDK Method Accounts::create
 func (s *Service) Create(newAccountDefinition *model.NewAccountDefinition) *CreateOp {
@@ -1042,7 +1042,7 @@ func (op *CreateOp) PreviewBillingPlan() *CreateOp {
 
 // Delete deletes the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/delete
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/delete
 //
 // SDK Method Accounts::delete
 func (s *Service) Delete() *DeleteOp {
@@ -1065,7 +1065,7 @@ func (op *DeleteOp) Do(ctx context.Context) error {
 
 // DeleteCaptiveRecipient deletes the signature for one or more captive recipient records.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/deleteCaptiveRecipient
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/deletecaptiverecipient
 //
 // SDK Method Accounts::deleteCaptiveRecipient
 func (s *Service) DeleteCaptiveRecipient(recipientPart string, captiveRecipientInformation *model.CaptiveRecipientInformation) *DeleteCaptiveRecipientOp {
@@ -1090,7 +1090,7 @@ func (op *DeleteCaptiveRecipientOp) Do(ctx context.Context) (*model.CaptiveRecip
 
 // Get retrieves the account information for the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/get
 //
 // SDK Method Accounts::GetAccountInformation
 func (s *Service) Get() *GetOp {
@@ -1122,7 +1122,7 @@ func (op *GetOp) IncludeAccountSettings() *GetOp {
 
 // GetBillingCharges gets list of recurring and usage charges for the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/getBillingCharges
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/getbillingcharges
 //
 // SDK Method Accounts::getBillingCharges
 func (s *Service) GetBillingCharges() *GetBillingChargesOp {
@@ -1158,7 +1158,7 @@ func (op *GetBillingChargesOp) IncludeCharges(val string) *GetBillingChargesOp {
 
 // GetProvisioning retrieves the account provisioning information for the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/getProvisioning
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/getprovisioning
 //
 // SDK Method Accounts::getProvisioning
 func (s *Service) GetProvisioning() *GetProvisioningOp {
@@ -1182,7 +1182,7 @@ func (op *GetProvisioningOp) Do(ctx context.Context) (*model.ProvisioningInforma
 
 // ListRecipientNamesByEmail gets recipient names associated with an email address.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listRecipientNamesByEmail
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/listrecipientnamesbyemail
 //
 // SDK Method Accounts::listRecipientNamesByEmail
 func (s *Service) ListRecipientNamesByEmail() *ListRecipientNamesByEmailOp {
@@ -1214,7 +1214,7 @@ func (op *ListRecipientNamesByEmailOp) Email(val string) *ListRecipientNamesByEm
 
 // ListSettings gets account settings information.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listSettings
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/listsettings
 //
 // SDK Method Accounts::listSettings
 func (s *Service) ListSettings() *ListSettingsOp {
@@ -1238,7 +1238,7 @@ func (op *ListSettingsOp) Do(ctx context.Context) (*model.AccountSettingsInforma
 
 // ListSharedAccess reserved: Gets the shared item status for one or more users.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listSharedAccess
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/listsharedaccess
 //
 // SDK Method Accounts::listSharedAccess
 func (s *Service) ListSharedAccess() *ListSharedAccessOp {
@@ -1345,7 +1345,7 @@ func (op *ListSharedAccessOp) UserIds(val ...string) *ListSharedAccessOp {
 
 // ListSupportedLanguages list supported languages for the recipient language setting
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listSupportedLanguages
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/listsupportedlanguages
 //
 // SDK Method Accounts::getSupportedLanguages
 func (s *Service) ListSupportedLanguages() *ListSupportedLanguagesOp {
@@ -1369,7 +1369,7 @@ func (op *ListSupportedLanguagesOp) Do(ctx context.Context) (*model.SupportedLan
 
 // ListUnsupportedFileTypes gets a list of unsupported file types.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/listUnsupportedFileTypes
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/listunsupportedfiletypes
 //
 // SDK Method Accounts::listUnsupportedFileTypes
 func (s *Service) ListUnsupportedFileTypes() *ListUnsupportedFileTypesOp {
@@ -1393,7 +1393,7 @@ func (op *ListUnsupportedFileTypesOp) Do(ctx context.Context) (*model.FileTypeLi
 
 // UpdateSettings updates the account settings for an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/updateSettings
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/updatesettings
 //
 // SDK Method Accounts::updateSettings
 func (s *Service) UpdateSettings(accountSettingsInformation *model.AccountSettingsInformation) *UpdateSettingsOp {
@@ -1417,7 +1417,7 @@ func (op *UpdateSettingsOp) Do(ctx context.Context) error {
 
 // UpdateSharedAccess reserved: Sets the shared access information for users.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/Accounts/updateSharedAccess
+// https://developers.docusign.com/esign-rest-api/reference/accounts/accounts/updatesharedaccess
 //
 // SDK Method Accounts::updateSharedAccess
 func (s *Service) UpdateSharedAccess(accountSharedAccess *model.AccountSharedAccess) *UpdateSharedAccessOp {
@@ -1469,7 +1469,7 @@ func (op *UpdateSharedAccessOp) UserIds(val ...string) *UpdateSharedAccessOp {
 
 // ENoteConfigurationsDelete deletes configuration information for the eNote eOriginal integration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/ENoteConfigurations/delete
+// https://developers.docusign.com/esign-rest-api/reference/accounts/enoteconfigurations/delete
 //
 // SDK Method Accounts::deleteENoteConfiguration
 func (s *Service) ENoteConfigurationsDelete() *ENoteConfigurationsDeleteOp {
@@ -1492,7 +1492,7 @@ func (op *ENoteConfigurationsDeleteOp) Do(ctx context.Context) error {
 
 // ENoteConfigurationsGet returns the configuration information for the eNote eOriginal integration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/ENoteConfigurations/get
+// https://developers.docusign.com/esign-rest-api/reference/accounts/enoteconfigurations/get
 //
 // SDK Method Accounts::getENoteConfiguration
 func (s *Service) ENoteConfigurationsGet() *ENoteConfigurationsGetOp {
@@ -1516,7 +1516,7 @@ func (op *ENoteConfigurationsGetOp) Do(ctx context.Context) (*model.ENoteConfigu
 
 // ENoteConfigurationsUpdate updates configuration information for the eNote eOriginal integration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/ENoteConfigurations/update
+// https://developers.docusign.com/esign-rest-api/reference/accounts/enoteconfigurations/update
 //
 // SDK Method Accounts::updateENoteConfiguration
 func (s *Service) ENoteConfigurationsUpdate(eNoteConfigurations *model.ENoteConfiguration) *ENoteConfigurationsUpdateOp {
@@ -1541,7 +1541,7 @@ func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context) (*model.ENoteConf
 
 // PaymentGatewayAccountsList list payment gateway account information
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/PaymentGatewayAccounts/list
+// https://developers.docusign.com/esign-rest-api/reference/accounts/paymentgatewayaccounts/list
 //
 // SDK Method Accounts::getAllPaymentGatewayAccounts
 func (s *Service) PaymentGatewayAccountsList() *PaymentGatewayAccountsListOp {
@@ -1587,7 +1587,7 @@ func (op *SealProvidersListOp) Do(ctx context.Context) (*model.AccountSeals, err
 
 // IdentityVerificationsList retrieves the list of identity verification workflows available to an account
 //
-// https://developers.docusign.com/esign-rest-api/reference/Accounts/IdentityVerifications/list
+// https://developers.docusign.com/esign-rest-api/reference/accounts/identityverifications/list
 //
 // SDK Method Accounts::getAccountIdentityVerification
 func (s *Service) IdentityVerificationsList() *IdentityVerificationsListOp {

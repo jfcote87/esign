@@ -51,7 +51,7 @@ func New(cred esign.Credential) *Service {
 
 // GroupBrandsDelete deletes brand information from the requested group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupBrands/delete
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/delete
 //
 // SDK Method UserGroups::deleteBrands
 func (s *Service) GroupBrandsDelete(groupID string, brandsRequest *model.BrandsRequest) *GroupBrandsDeleteOp {
@@ -77,7 +77,7 @@ func (op *GroupBrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, e
 // GroupBrandsGet gets group brand ID Information.
 //
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupBrands/get
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/get
 //
 // SDK Method UserGroups::getBrands
 func (s *Service) GroupBrandsGet(groupID string) *GroupBrandsGetOp {
@@ -101,7 +101,7 @@ func (op *GroupBrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, erro
 
 // GroupBrandsUpdate adds group brand ID information to a group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupBrands/update
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/update
 //
 // SDK Method UserGroups::updateBrands
 func (s *Service) GroupBrandsUpdate(groupID string, brandsRequest *model.BrandsRequest) *GroupBrandsUpdateOp {
@@ -126,7 +126,7 @@ func (op *GroupBrandsUpdateOp) Do(ctx context.Context) (*model.BrandsResponse, e
 
 // GroupUsersDelete deletes one or more users from a group
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupUsers/delete
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupusers/delete
 //
 // SDK Method UserGroups::deleteGroupUsers
 func (s *Service) GroupUsersDelete(groupID string, userInfoList *model.UserInfoList) *GroupUsersDeleteOp {
@@ -151,7 +151,7 @@ func (op *GroupUsersDeleteOp) Do(ctx context.Context) (*model.UsersResponse, err
 
 // GroupUsersList gets a list of users in a group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupUsers/list
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupusers/list
 //
 // SDK Method UserGroups::listGroupUsers
 func (s *Service) GroupUsersList(groupID string) *GroupUsersListOp {
@@ -191,7 +191,7 @@ func (op *GroupUsersListOp) StartPosition(val int) *GroupUsersListOp {
 
 // GroupUsersUpdate adds one or more users to an existing group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/GroupUsers/update
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupusers/update
 //
 // SDK Method UserGroups::updateGroupUsers
 func (s *Service) GroupUsersUpdate(groupID string, userInfoList *model.UserInfoList) *GroupUsersUpdateOp {
@@ -216,7 +216,7 @@ func (op *GroupUsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, err
 
 // GroupsCreate creates one or more groups for the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/create
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/create
 //
 // SDK Method UserGroups::createGroups
 func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
@@ -241,7 +241,7 @@ func (op *GroupsCreateOp) Do(ctx context.Context) (*model.GroupInformation, erro
 
 // GroupsDelete deletes an existing user group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/delete
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/delete
 //
 // SDK Method UserGroups::deleteGroups
 func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
@@ -266,7 +266,7 @@ func (op *GroupsDeleteOp) Do(ctx context.Context) (*model.GroupInformation, erro
 
 // GroupsList gets information about groups associated with the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/list
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/list
 //
 // SDK Method UserGroups::listGroups
 func (s *Service) GroupsList() *GroupsListOp {
@@ -330,7 +330,7 @@ func (op *GroupsListOp) StartPosition(val int) *GroupsListOp {
 
 // GroupsUpdate updates the group information for a group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/UserGroups/Groups/update
+// https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/update
 //
 // SDK Method UserGroups::updateGroups
 func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {

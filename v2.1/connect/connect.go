@@ -64,7 +64,7 @@ func New(cred esign.Credential) *Service {
 
 // ConfigurationsCreate creates a connect configuration for the specified account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectConfigurations/create
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/create
 //
 // SDK Method Connect::createConfiguration
 func (s *Service) ConfigurationsCreate(connectConfigurations *model.ConnectCustomConfiguration) *ConfigurationsCreateOp {
@@ -89,7 +89,7 @@ func (op *ConfigurationsCreateOp) Do(ctx context.Context) (*model.ConnectCustomC
 
 // ConfigurationsDelete deletes the specified connect configuration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectConfigurations/delete
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/delete
 //
 // SDK Method Connect::deleteConfiguration
 func (s *Service) ConfigurationsDelete(connectID string) *ConfigurationsDeleteOp {
@@ -112,7 +112,7 @@ func (op *ConfigurationsDeleteOp) Do(ctx context.Context) error {
 
 // ConfigurationsGet get information on a Connect Configuration
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectConfigurations/get
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/get
 //
 // SDK Method Connect::getConfiguration
 func (s *Service) ConfigurationsGet(connectID string) *ConfigurationsGetOp {
@@ -136,7 +136,7 @@ func (op *ConfigurationsGetOp) Do(ctx context.Context) (*model.ConnectConfigResu
 
 // ConfigurationsList get Connect Configuration Information
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectConfigurations/list
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/list
 //
 // SDK Method Connect::listConfigurations
 func (s *Service) ConfigurationsList() *ConfigurationsListOp {
@@ -160,7 +160,7 @@ func (op *ConfigurationsListOp) Do(ctx context.Context) (*model.ConnectConfigRes
 
 // ConfigurationsListUsers returns users from the configured Connect service.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectConfigurations/listUsers
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/listusers
 //
 // SDK Method Connect::connectUsers
 func (s *Service) ConfigurationsListUsers(connectID string) *ConfigurationsListUsersOp {
@@ -240,7 +240,7 @@ func (op *ConfigurationsListUsersOp) UserNameSubstring(val string) *Configuratio
 
 // ConfigurationsUpdate updates a specified Connect configuration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectConfigurations/update
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/update
 //
 // SDK Method Connect::updateConfiguration
 func (s *Service) ConfigurationsUpdate(connectConfigurations *model.ConnectCustomConfiguration) *ConfigurationsUpdateOp {
@@ -265,7 +265,7 @@ func (op *ConfigurationsUpdateOp) Do(ctx context.Context) (*model.ConnectCustomC
 
 // EventsDelete deletes a specified Connect log entry.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/delete
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/delete
 //
 // SDK Method Connect::deleteEventLog
 func (s *Service) EventsDelete(logID string) *EventsDeleteOp {
@@ -288,7 +288,7 @@ func (op *EventsDeleteOp) Do(ctx context.Context) error {
 
 // EventsDeleteFailure deletes a Connect failure log entry.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/deleteFailure
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/deletefailure
 //
 // SDK Method Connect::deleteEventFailureLog
 func (s *Service) EventsDeleteFailure(failureID string) *EventsDeleteFailureOp {
@@ -311,7 +311,7 @@ func (op *EventsDeleteFailureOp) Do(ctx context.Context) error {
 
 // EventsDeleteList gets a list of Connect log entries.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/deleteList
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/deletelist
 //
 // SDK Method Connect::deleteEventLogs
 func (s *Service) EventsDeleteList() *EventsDeleteListOp {
@@ -334,7 +334,7 @@ func (op *EventsDeleteListOp) Do(ctx context.Context) error {
 
 // EventsGet get the specified Connect log entry.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/get
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/get
 //
 // SDK Method Connect::getEventLog
 func (s *Service) EventsGet(logID string) *EventsGetOp {
@@ -366,7 +366,7 @@ func (op *EventsGetOp) AdditionalInfo() *EventsGetOp {
 
 // EventsList gets the Connect log.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/list
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/list
 //
 // SDK Method Connect::listEventLogs
 func (s *Service) EventsList() *EventsListOp {
@@ -408,7 +408,7 @@ func (op *EventsListOp) ToDate(val time.Time) *EventsListOp {
 
 // EventsListFailures gets the Connect failure log information.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/listFailures
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/listfailures
 //
 // SDK Method Connect::listEventFailureLogs
 func (s *Service) EventsListFailures() *EventsListFailuresOp {
@@ -451,7 +451,7 @@ func (op *EventsListFailuresOp) ToDate(val time.Time) *EventsListFailuresOp {
 // EventsRetryForEnvelope republishes Connect information for the specified envelope.
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/retryForEnvelope
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/retryforenvelope
 //
 // SDK Method Connect::retryEventForEnvelope
 func (s *Service) EventsRetryForEnvelope(envelopeID string, media io.Reader, mimeType string) *EventsRetryForEnvelopeOp {
@@ -476,7 +476,7 @@ func (op *EventsRetryForEnvelopeOp) Do(ctx context.Context) (*model.ConnectFailu
 
 // EventsRetryForEnvelopes republishes Connect information for multiple envelopes.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Connect/ConnectEvents/retryForEnvelopes
+// https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/retryforenvelopes
 //
 // SDK Method Connect::retryEventForEnvelopes
 func (s *Service) EventsRetryForEnvelopes(connectFailureFilter *model.ConnectFailureFilter) *EventsRetryForEnvelopesOp {

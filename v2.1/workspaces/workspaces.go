@@ -47,7 +47,7 @@ func New(cred esign.Credential) *Service {
 // ItemsCreateFIle creates a workspace file.
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/createFIle
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/createfile
 //
 // SDK Method Workspaces::createWorkspaceFile
 func (s *Service) ItemsCreateFIle(folderID string, workspaceID string, media io.Reader, mimeType string) *ItemsCreateFIleOp {
@@ -72,7 +72,7 @@ func (op *ItemsCreateFIleOp) Do(ctx context.Context) (*model.WorkspaceItem, erro
 
 // ItemsDeleteFolderItems deletes workspace one or more specific files/folders from the given folder or root.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/deleteFolderItems
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/deletefolderitems
 //
 // SDK Method Workspaces::deleteWorkspaceFolderItems
 func (s *Service) ItemsDeleteFolderItems(folderID string, workspaceID string, workspaceItemList *model.WorkspaceItemList) *ItemsDeleteFolderItemsOp {
@@ -96,7 +96,7 @@ func (op *ItemsDeleteFolderItemsOp) Do(ctx context.Context) error {
 
 // ItemsGetFile get Workspace File
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/getFile
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/getfile
 //
 // SDK Method Workspaces::getWorkspaceFile
 func (s *Service) ItemsGetFile(fileID string, folderID string, workspaceID string) *ItemsGetFileOp {
@@ -136,7 +136,7 @@ func (op *ItemsGetFileOp) PdfVersion() *ItemsGetFileOp {
 
 // ItemsListFilePages list File Pages
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/listFilePages
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/listfilepages
 //
 // SDK Method Workspaces::listWorkspaceFilePages
 func (s *Service) ItemsListFilePages(fileID string, folderID string, workspaceID string) *ItemsListFilePagesOp {
@@ -200,7 +200,7 @@ func (op *ItemsListFilePagesOp) StartPosition(val int) *ItemsListFilePagesOp {
 
 // ItemsListFolderItems list Workspace Folder Contents
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/listFolderItems
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/listfolderitems
 //
 // SDK Method Workspaces::listWorkspaceFolderItems
 func (s *Service) ItemsListFolderItems(folderID string, workspaceID string) *ItemsListFolderItemsOp {
@@ -281,7 +281,7 @@ func (op *ItemsListFolderItemsOp) WorkspaceUserID(val string) *ItemsListFolderIt
 // ItemsUpdateFile update Workspace File Metadata
 // If media is an io.ReadCloser, Do() will close media.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/WorkspaceItems/updateFile
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/updatefile
 //
 // SDK Method Workspaces::updateWorkspaceFile
 func (s *Service) ItemsUpdateFile(fileID string, folderID string, workspaceID string, media io.Reader, mimeType string) *ItemsUpdateFileOp {
@@ -306,7 +306,7 @@ func (op *ItemsUpdateFileOp) Do(ctx context.Context) (*model.WorkspaceItem, erro
 
 // Create create a Workspace
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/create
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/create
 //
 // SDK Method Workspaces::createWorkspace
 func (s *Service) Create(workspaces *model.Workspace) *CreateOp {
@@ -331,7 +331,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.Workspace, error) {
 
 // Delete delete Workspace
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/delete
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/delete
 //
 // SDK Method Workspaces::deleteWorkspace
 func (s *Service) Delete(workspaceID string) *DeleteOp {
@@ -355,7 +355,7 @@ func (op *DeleteOp) Do(ctx context.Context) (*model.Workspace, error) {
 
 // Get get Workspace
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/get
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/get
 //
 // SDK Method Workspaces::getWorkspace
 func (s *Service) Get(workspaceID string) *GetOp {
@@ -379,7 +379,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.Workspace, error) {
 
 // List list Workspaces
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/list
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/list
 //
 // SDK Method Workspaces::listWorkspaces
 func (s *Service) List() *ListOp {
@@ -403,7 +403,7 @@ func (op *ListOp) Do(ctx context.Context) (*model.WorkspaceList, error) {
 
 // Update update Workspace
 //
-// https://developers.docusign.com/esign-rest-api/reference/Workspaces/Workspaces/update
+// https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/update
 //
 // SDK Method Workspaces::updateWorkspace
 func (s *Service) Update(workspaceID string, workspaces *model.Workspace) *UpdateOp {

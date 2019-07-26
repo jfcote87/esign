@@ -46,7 +46,7 @@ func New(cred esign.Credential) *Service {
 
 // UsersDelete deletes  one or more members from a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroupUsers/delete
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroupusers/delete
 //
 // SDK Method SigningGroups::deleteUsers
 func (s *Service) UsersDelete(signingGroupID string, signingGroupUsers *model.SigningGroupUsers) *UsersDeleteOp {
@@ -71,7 +71,7 @@ func (op *UsersDeleteOp) Do(ctx context.Context) (*model.SigningGroupUsers, erro
 
 // UsersList gets a list of members in a Signing Group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroupUsers/list
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroupusers/list
 //
 // SDK Method SigningGroups::listUsers
 func (s *Service) UsersList(signingGroupID string) *UsersListOp {
@@ -95,7 +95,7 @@ func (op *UsersListOp) Do(ctx context.Context) (*model.SigningGroupUsers, error)
 
 // UsersUpdate adds members to a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroupUsers/update
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroupusers/update
 //
 // SDK Method SigningGroups::updateUsers
 func (s *Service) UsersUpdate(signingGroupID string, signingGroupUsers *model.SigningGroupUsers) *UsersUpdateOp {
@@ -120,7 +120,7 @@ func (op *UsersUpdateOp) Do(ctx context.Context) (*model.SigningGroupUsers, erro
 
 // Create creates a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroups/create
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/create
 //
 // SDK Method SigningGroups::createList
 func (s *Service) Create(signingGroupInformation *model.SigningGroupInformation) *CreateOp {
@@ -145,7 +145,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.SigningGroupInformation, err
 
 // Delete deletes one or more signing groups.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroups/delete
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/delete
 //
 // SDK Method SigningGroups::deleteList
 func (s *Service) Delete(signingGroupInformation *model.SigningGroupInformation) *DeleteOp {
@@ -170,7 +170,7 @@ func (op *DeleteOp) Do(ctx context.Context) (*model.SigningGroupInformation, err
 
 // Get gets information about a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroups/get
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/get
 //
 // SDK Method SigningGroups::get
 func (s *Service) Get(signingGroupID string) *GetOp {
@@ -194,7 +194,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.SigningGroup, error) {
 
 // List gets a list of the Signing Groups in an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroups/list
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/list
 //
 // SDK Method SigningGroups::list
 func (s *Service) List() *ListOp {
@@ -234,7 +234,7 @@ func (op *ListOp) IncludeUsers() *ListOp {
 
 // Update updates a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroups/update
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/update
 //
 // SDK Method SigningGroups::update
 func (s *Service) Update(signingGroupID string, signingGroups *model.SigningGroup) *UpdateOp {
@@ -259,7 +259,7 @@ func (op *UpdateOp) Do(ctx context.Context) (*model.SigningGroup, error) {
 
 // UpdateList updates signing group names.
 //
-// https://developers.docusign.com/esign-rest-api/reference/SigningGroups/SigningGroups/updateList
+// https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/updatelist
 //
 // SDK Method SigningGroups::updateList
 func (s *Service) UpdateList(signingGroupInformation *model.SigningGroupInformation) *UpdateListOp {

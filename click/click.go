@@ -3,8 +3,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package click implements DocuSign's click api. Api documentation
-// for these functions may be found at:
+// Package click implements DocuSign's click api. Credtials used for this api
+// must be initialized with a scop of click.manageApi documentation for these
+// functions may be found at:
 // https://docs.docusign.com/esign/guide/authentication/legacy_auth.htmlpackage
 package click // import "github.com/jfcote87/esign/click"
 

@@ -48,7 +48,7 @@ func New(cred esign.Credential) *Service {
 
 // List gets a list of the folders for the account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/list
+// https://developers.docusign.com/esign-rest-api/reference/folders/folders/list
 //
 // SDK Method Folders::list
 func (s *Service) List() *ListOp {
@@ -121,7 +121,7 @@ func (op *ListOp) UserFilter(val string) *ListOp {
 
 // ListItems gets a list of the envelopes in the specified folder.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/listItems
+// https://developers.docusign.com/esign-rest-api/reference/folders/folders/listitems
 //
 // SDK Method Folders::listItems
 func (s *Service) ListItems(folderID string) *ListItemsOp {
@@ -209,7 +209,7 @@ func (op *ListItemsOp) ToDate(val time.Time) *ListItemsOp {
 
 // MoveEnvelopes moves an envelope from its current folder to the specified folder.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/moveEnvelopes
+// https://developers.docusign.com/esign-rest-api/reference/folders/folders/moveenvelopes
 //
 // SDK Method Folders::moveEnvelopes
 func (s *Service) MoveEnvelopes(folderID string, foldersRequest *model.FoldersRequest) *MoveEnvelopesOp {
@@ -234,7 +234,7 @@ func (op *MoveEnvelopesOp) Do(ctx context.Context) (*model.FoldersResponse, erro
 
 // Search gets a list of envelopes in folders matching the specified criteria.
 //
-// https://developers.docusign.com/esign-rest-api/reference/Folders/Folders/search
+// https://developers.docusign.com/esign-rest-api/reference/folders/folders/search
 //
 // SDK Method Folders::search
 func (s *Service) Search(searchFolderID string) *SearchOp {

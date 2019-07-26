@@ -48,7 +48,7 @@ func New(cred esign.Credential) *Service {
 
 // Login gets login information for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication/Authentication/login
+// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/authentication/login
 //
 // SDK Method Authentication::login
 func (s *Service) Login() *LoginOp {
@@ -108,7 +108,7 @@ func (op *LoginOp) LoginSettings(val string) *LoginOp {
 
 // UpdatePassword updates the password for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication/Authentication/updatePassword
+// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/authentication/updatepassword
 //
 // SDK Method Authentication::updatePassword
 func (s *Service) UpdatePassword(loginPart string, userPasswordInformation *model.UserPasswordInformation) *UpdatePasswordOp {
@@ -131,7 +131,7 @@ func (op *UpdatePasswordOp) Do(ctx context.Context) error {
 
 // UserSocialAccountLoginsDelete deletes user's social account.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication/UserSocialAccountLogins/delete
+// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/delete
 //
 // SDK Method Authentication::deleteSocialLogin
 func (s *Service) UserSocialAccountLoginsDelete(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UserSocialAccountLoginsDeleteOp {
@@ -154,7 +154,7 @@ func (op *UserSocialAccountLoginsDeleteOp) Do(ctx context.Context) error {
 
 // UserSocialAccountLoginsList gets a list of a user's social accounts.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication/UserSocialAccountLogins/list
+// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/list
 //
 // SDK Method Authentication::listSocialLogins
 func (s *Service) UserSocialAccountLoginsList(userID string) *UserSocialAccountLoginsListOp {
@@ -177,7 +177,7 @@ func (op *UserSocialAccountLoginsListOp) Do(ctx context.Context) (*model.UserSoc
 
 // UserSocialAccountLoginsUpdate adds social account for a user.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication/UserSocialAccountLogins/update
+// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/update
 //
 // SDK Method Authentication::updateSocialLogin
 func (s *Service) UserSocialAccountLoginsUpdate(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UserSocialAccountLoginsUpdateOp {

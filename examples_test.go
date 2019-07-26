@@ -138,6 +138,21 @@ func getCredential(ctx context.Context, apiUser string) (*esign.OAuth2Credential
 
 }
 
+func ExampleTokenCredential() {
+	// retrieve token frm DocuSign OAuthGenerator
+	// https://developers.docusign.com/oauth-token-generator
+	// or generate or
+	var accessToken = `eyJ0eXAiOiJNVCIsImF...`
+	credential := esign.TokenCredential(accessToken, true)
+	fl, err := folders.New(credential).List().Do(context.Background())
+	if err != nil {
+		log.Fatalf("Folder list error: %v", err)
+	}
+	for _, fld := range fl.Folders {
+		fmt.Printf("%s: %s", fld.Name, fld.FolderID)
+	}
+}
+
 func Example_create_envelope() {
 	ctx := context.TODO()
 	apiUserID := "78e5a047-f767-41f8-8dbd-10e3eed65c55"

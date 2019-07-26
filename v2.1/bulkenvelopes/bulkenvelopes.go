@@ -45,7 +45,7 @@ func New(cred esign.Credential) *Service {
 
 // Get gets the status of a specified bulk send operation.
 //
-// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/get
+// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulkenvelopes/get
 //
 // SDK Method BulkEnvelopes::get
 func (s *Service) Get(batchID string) *GetOp {
@@ -100,7 +100,7 @@ func (op *GetOp) StartPosition(val int) *GetOp {
 
 // List gets status information about bulk recipient batches.
 //
-// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/BulkEnvelopes/list
+// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulkenvelopes/list
 //
 // SDK Method BulkEnvelopes::list
 func (s *Service) List() *ListOp {
@@ -155,7 +155,7 @@ func (op *ListOp) StartPosition(val int) *ListOp {
 
 // RecipientsDelete deletes the bulk recipient file from an envelope.
 //
-// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/delete
+// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/envelopebulkrecipients/delete
 //
 // SDK Method BulkEnvelopes::deleteRecipients
 func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *RecipientsDeleteOp {
@@ -179,7 +179,7 @@ func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipientsUpda
 
 // RecipientsList gets the bulk recipient file from an envelope.
 //
-// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/list
+// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/envelopebulkrecipients/list
 //
 // SDK Method BulkEnvelopes::getRecipients
 func (s *Service) RecipientsList(envelopeID string, recipientID string) *RecipientsListOp {
@@ -219,7 +219,7 @@ func (op *RecipientsListOp) StartPosition(val int) *RecipientsListOp {
 
 // RecipientsUpdate adds or replaces envelope bulk recipients.
 //
-// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes/EnvelopeBulkRecipients/update
+// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/envelopebulkrecipients/update
 //
 // SDK Method BulkEnvelopes::updateRecipients
 func (s *Service) RecipientsUpdate(envelopeID string, recipientID string, bulkRecipientsRequest *model.BulkRecipientsRequest) *RecipientsUpdateOp {
