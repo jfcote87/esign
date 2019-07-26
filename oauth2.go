@@ -90,11 +90,7 @@ type OAuth2Config struct {
 
 // codeGrantConfig creates an oauth2 config for refreshing
 // and generating a token.
-func (c *OAuth2Config) codeGrantConfig() *oauth2.Config {
-	scopes := []string{"signature"}
-	if c.ExtendedLifetime {
-		scopes = []string{"signature", "extended"}
-	}
+func (c *OAuth2Config) codeGrantConfig(scopes ...string) *oauth2.Config {
 	return &oauth2.Config{
 		RedirectURL:    c.RedirURL,
 		ClientID:       c.IntegratorKey,
@@ -105,14 +101,31 @@ func (c *OAuth2Config) codeGrantConfig() *oauth2.Config {
 	}
 }
 
+func addUnique(scopes []string, scope string) []string {
+	for _, val := range scopes {
+		if val == scope {
+			return scopes
+		}
+	}
+	return append(scopes, scope)
+}
+
 // AuthURL returns a URL to DocuSign's OAuth 2.0 consent page with
 // all appropriate query parmeters for starting 3-legged OAuth2Flow.
+//
+// If scopes are empty, {"signature"} is assumed.
 //
 // State is a token to protect the user from CSRF attacks. You must
 // always provide a non-zero string and validate that it matches the
 // the state query parameter on your redirect callback.
-func (c *OAuth2Config) AuthURL(state string) string {
-	cfg := c.codeGrantConfig() // client not needed for this action
+func (c *OAuth2Config) AuthURL(state string, scopes ...string) string {
+	if len(scopes) == 0 {
+		scopes = []string{"signature"}
+	}
+	if c.ExtendedLifetime {
+		scopes = addUnique(scopes, "extended")
+	}
+	cfg := c.codeGrantConfig(scopes...)
 	opts := make([]oauth2.AuthCodeOption, 0)
 	if c.Prompt {
 		opts = append(opts, oauth2.SetAuthURLParam("prompt", "login"))
@@ -133,7 +146,7 @@ func (c *OAuth2Config) AuthURL(state string) string {
 // The code will be in the *http.Request.FormValue("code"). Before
 // calling Exchange, be sure to validate FormValue("state").
 func (c *OAuth2Config) Exchange(ctx context.Context, code string) (*OAuth2Credential, error) {
-	cfg := c.codeGrantConfig()
+	cfg := c.codeGrantConfig() // scopes are not passed in this step
 	// oauth2 exchange
 	tk, err := cfg.Exchange(ctx, code)
 	if err != nil {
@@ -152,7 +165,7 @@ func (c *OAuth2Config) Exchange(ctx context.Context, code string) (*OAuth2Creden
 }
 
 func (c *OAuth2Config) refresher() func(context.Context, *oauth2.Token) (*oauth2.Token, error) {
-	cfg := c.codeGrantConfig()
+	cfg := c.codeGrantConfig() // scopes are not passed in this step
 	return func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
 		if tk == nil || tk.RefreshToken == "" {
 			return nil, errors.New("codeGrantRefresher: empty refresh token")
@@ -224,24 +237,33 @@ type JWTConfig struct {
 }
 
 // UserConsentURL creates a url allowing a user to consent to impersonation
-// https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-jsonwebtoken#step-1-request-the-authorization-code
-func (c *JWTConfig) UserConsentURL(redirectURL string) string {
-	q := make(url.Values)
-	q.Set("response_type", "code")
-	q.Set("scope", "signature impersonation")
-	q.Set("client_id", c.IntegratorKey)
-	q.Set("redirect_uri", redirectURL)
+// https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
+func (c *JWTConfig) UserConsentURL(redirectURL string, scopes ...string) string {
+	scopeValue := "signature impersonation"
+	if len(scopes) > 0 {
+		scopeValue = strings.Join(addUnique(scopes, "impersonation"), " ")
+	}
 	// docusign insists upon %20 not + in scope definition
-	return demoFlag(c.IsDemo).endpoint().AuthURL + "?" + replacePlus(q.Encode())
+	return demoFlag(c.IsDemo).endpoint().AuthURL + "?" + replacePlus(url.Values{
+		"response_type": {"code"},
+		"scope":         {scopeValue},
+		"client_id":     {c.IntegratorKey},
+		"redirect_uri":  {redirectURL},
+	}.Encode())
 }
 
-func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer) func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
+func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer, scopes ...string) func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
+	if len(scopes) == 0 {
+		scopes = []string{"signature", "impersonation"}
+	} else {
+		scopes = addUnique(scopes, "impersonation")
+	}
 	cfg := &jwt.Config{
 		Issuer:         c.IntegratorKey,
 		Signer:         signer,
 		Subject:        apiUserName,
 		Options:        c.Options,
-		Scopes:         []string{"signature", "impersonation"},
+		Scopes:         scopes,
 		Audience:       demoFlag(c.IsDemo).tokenURI(),
 		TokenURL:       demoFlag(c.IsDemo).endpoint().TokenURL,
 		HTTPClientFunc: c.HTTPClientFunc,
@@ -252,8 +274,8 @@ func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer) func(ctx
 }
 
 // Credential returns an *OAuth2Credential.  The passed token will be refreshed
-// as needed.
-func (c *JWTConfig) Credential(apiUserName string, token *oauth2.Token, u *UserInfo) (*OAuth2Credential, error) {
+// as needed.  If no scopes listed, signature is assumed.
+func (c *JWTConfig) Credential(apiUserName string, token *oauth2.Token, u *UserInfo, scopes ...string) (*OAuth2Credential, error) {
 	signer, err := jws.RS256FromPEM([]byte(c.PrivateKey), c.KeyPairID)
 	if err != nil {
 		return nil, err
@@ -261,7 +283,7 @@ func (c *JWTConfig) Credential(apiUserName string, token *oauth2.Token, u *UserI
 	return &OAuth2Credential{
 		accountID:   c.AccountID,
 		cachedToken: token,
-		refresher:   c.jwtRefresher(apiUserName, signer),
+		refresher:   c.jwtRefresher(apiUserName, signer, scopes...),
 		cacheFunc:   c.CacheFunc,
 		isDemo:      demoFlag(c.IsDemo),
 		userInfo:    u,

@@ -64,7 +64,8 @@ func TestOuauth2Config_AuthURL(t *testing.T) {
 	authURL := cfg.AuthURL("STATE")
 	expectedURL := "https://account-d.docusign.com/oauth/auth?client_id=KEY&redirect_uri=https%3A%2F%2Fwww.example.com%2Ftoken&response_type=code&scope=signature&state=STATE"
 	if authURL != expectedURL {
-		t.Fatalf("expected %s; got %s", expectedURL, authURL)
+		t.Errorf("expected %s; got %s", expectedURL, authURL)
+		return
 	}
 
 	// check for %20 replacement
@@ -74,7 +75,22 @@ func TestOuauth2Config_AuthURL(t *testing.T) {
 	authURL = cfg.AuthURL("STATE")
 	expectedURL = "https://account-d.docusign.com/oauth/auth?client_id=KEY&prompt=login&redirect_uri=https%3A%2F%2Fwww.example.com%2Ftoken&response_type=code&scope=signature%20extended&state=STATE&ui_locales=en-us"
 	if authURL != expectedURL {
-		t.Fatalf("expected %s; got %s", expectedURL, authURL)
+		t.Errorf("expected %s; got %s", expectedURL, authURL)
+		return
+	}
+
+	cfg.UIlocales = nil
+	cfg.Prompt = false
+	authURL = cfg.AuthURL("STATE", "ASCOPE", "extended")
+	expectedURL = "https://account-d.docusign.com/oauth/auth?client_id=KEY&redirect_uri=https%3A%2F%2Fwww.example.com%2Ftoken&response_type=code&scope=ASCOPE%20extended&state=STATE"
+	if authURL != expectedURL {
+		t.Errorf("expected %s; got %s", expectedURL, authURL)
+		return
+	}
+	authURL = cfg.AuthURL("STATE", "ASCOPE")
+	if authURL != expectedURL {
+		t.Errorf("expected %s; got %s", expectedURL, authURL)
+		return
 	}
 }
 

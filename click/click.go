@@ -179,7 +179,7 @@ func (s *Service) GetAgreements(clickwrapID string) *GetAgreementsOp {
 	return &GetAgreementsOp{
 		Credential: s.credential,
 		Method:     "GET",
-		Path:       strings.Join([]string{"clickwrap", clickwrapID, "users"}, "/"),
+		Path:       strings.Join([]string{"clickwraps", clickwrapID, "users"}, "/"),
 		QueryOpts:  make(url.Values),
 		Version:    clickV1,
 	}
