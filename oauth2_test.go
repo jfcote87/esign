@@ -403,3 +403,33 @@ func TestTokenCredential(t *testing.T) {
 		t.Errorf("expected success; got %v", err)
 	}
 }
+
+func TestJWTExternalAdminConsentURL(t *testing.T) {
+	jwtCfg := esign.JWTConfig{
+		IntegratorKey: "INT_KEY",
+		IsDemo:        false,
+	}
+	// invalid authType
+	_, err := jwtCfg.ExternalAdminConsentURL("https://www.example.com", "a", "", false)
+	if err == nil {
+		t.Errorf("expected error; got success")
+	}
+	// scopes empty
+	_, err = jwtCfg.ExternalAdminConsentURL("https://www.example.com", "code", "STATE", false)
+	if err == nil {
+		t.Errorf("expected error; got success")
+	}
+
+	authURL, _ := jwtCfg.ExternalAdminConsentURL("https://www.example.com", "code", "STATE", false, "signature", "impersonation")
+	expectedURL := "https://account.docusign.com/oauth/auth?admin_consent_scope=signature%20impersonation&client_id=INT_KEY&redirect_uri=https%3A%2F%2Fwww.example.com&response_type=code&scope=openid&state=STATE"
+	if authURL != expectedURL {
+		t.Errorf("expected %s; got %s", expectedURL, authURL)
+		return
+	}
+	authURL, _ = jwtCfg.ExternalAdminConsentURL("https://www.example.com", "token", "STATE", true, "signature", "impersonation")
+	expectedURL = "https://account.docusign.com/oauth/auth?admin_consent_scope=signature%20impersonation&client_id=INT_KEY&prompt=login&redirect_uri=https%3A%2F%2Fwww.example.com&response_type=token&scope=openid&state=STATE"
+	if authURL != expectedURL {
+		t.Errorf("expected %s; got %s", expectedURL, authURL)
+		return
+	}
+}

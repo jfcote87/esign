@@ -252,6 +252,62 @@ func (c *JWTConfig) UserConsentURL(redirectURL string, scopes ...string) string 
 	}.Encode())
 }
 
+// ExternalAdminConsentURL creates a url for beginning external admin consent workflow. See
+// https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#admin-consent-for-external-applications
+// for details.
+//
+// redirectURL is the URI to which DocuSign will redirect the browser after authorization has been granted by the extneral organization's
+// admin.  The redirect URI must exactly match one of those pre-registered for the Integrator Key in your DocuSign account.
+//
+// authType may be either  code (Authorization Code grant) or token (implicit grant).
+//
+// state holds an optional value that is returned with the authorization code.
+//
+// prompt determines whether the user is prompted for re-authentication, even with an active login session.
+//
+// scopes permissions being requested for the application from each user in the organization.  Valid values are
+//   signature — allows your application to create and send envelopes, and obtain links for starting signing sessions.
+//   extended — issues your application a refresh token that can be used any number of times (Authorization Code flow only).
+//   impersonation — allows your application to access a user’s account and act on their behalf via JWT authentication.
+func (c *JWTConfig) ExternalAdminConsentURL(redirectURL, authType, state string, prompt bool, scopes ...string) (string, error) {
+	if authType != "code" && authType != "token" {
+		return "", fmt.Errorf("invalid authType %s, must be code or token", authType)
+	}
+	if len(scopes) == 0 {
+		return "", fmt.Errorf("at least one scope must be specified")
+	}
+	v := url.Values{
+		"scope":               {"openid"},
+		"client_id":           {c.IntegratorKey},
+		"response_type":       {authType},
+		"redirect_uri":        {redirectURL},
+		"admin_consent_scope": {strings.Join(scopes, " ")},
+	}
+	if state > "" {
+		v.Set("state", state)
+	}
+	if prompt {
+		v.Set("prompt", "login")
+	}
+	query := replacePlus(v.Encode())
+	return "https://" + demoFlag(c.IsDemo).tokenURI() + "/oauth/auth?" + query, nil
+}
+
+// AdminConsentResponse is the response sent to the redirect url of and external admin
+// consent
+// https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#admin-consent-for-external-applications
+type AdminConsentResponse struct {
+	Issuer    string   `json:"iss"`       // domain of integration key
+	Audience  string   `json:"aud"`       // the integrator key (also known as client ID) of the application
+	ExpiresAt int64    `json:"exp"`       // the datetime when the ID token will expire, in Unix epoch format
+	IssuedAt  int64    `json:"iat"`       // the datetime when the ID token was issued, in Unix epoch format
+	Subject   string   `json:"sub"`       //  user ID of the admin granting consent for the organization users
+	SiteID    int64    `json:"siteid"`    // identifies the docusign server used.
+	AuthTime  string   `json:"auth_time"` // The unix epoch datetime when the ID token was created.
+	AMR       []string `json:"amr"`       // how the user authenticated
+	COID      []string `json:"coid"`      //  list of organization IDs for the organizations whose admin has granted consent
+}
+
 func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer, scopes ...string) func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
 	if len(scopes) == 0 {
 		scopes = []string{"signature", "impersonation"}
@@ -488,7 +544,7 @@ func (u *UserInfo) getAccountID(id string) (string, *url.URL, error) {
 	return "", nil, fmt.Errorf("no account %s for %s", id, u.Email)
 }
 
-var expReplacePlusInScope = regexp.MustCompile(`[\?&]scope=([^\+&]*\+)+`)
+var expReplacePlusInScope = regexp.MustCompile(`[\?&_]scope=([^\+&]*\+)+`)
 
 func replacePlus(s string) string {
 	return expReplacePlusInScope.ReplaceAllStringFunc(s, func(rstr string) string {
