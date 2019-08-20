@@ -392,13 +392,18 @@ func (cred *OAuth2Credential) WithAccountID(accountID string) *OAuth2Credential 
 	if cred == nil {
 		return nil
 	}
-	var mu sync.Mutex
 	cred.mu.Lock()
-	c := *cred
-	c.mu = mu
+	c := OAuth2Credential{
+		accountID:   accountID,
+		baseURI:     nil,
+		cachedToken: cred.cachedToken,
+		refresher:   cred.refresher,
+		cacheFunc:   cred.cacheFunc,
+		userInfo:    cred.userInfo,
+		isDemo:      cred.isDemo,
+		Func:        cred.Func,
+	}
 	cred.mu.Unlock()
-	c.baseURI = nil
-	c.accountID = accountID
 	return &c
 }
 
