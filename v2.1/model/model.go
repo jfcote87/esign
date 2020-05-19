@@ -3098,7 +3098,7 @@ type Approve struct {
 	// Metadata that indicates whether the `fontSize` property is editable.
 	FontSizeMetadata *PropertyMetadata `json:"fontSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the information in the tab is italic.
@@ -3116,7 +3116,7 @@ type Approve struct {
 	// Metadata that indicates whether the `underline` property is editable.
 	UnderlineMetadata *PropertyMetadata `json:"underlineMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -4321,7 +4321,7 @@ type Checkbox struct {
 	TabPosition
 	TabStyle
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the signer cannot change the data of the custom tab.
@@ -4350,7 +4350,7 @@ type Checkbox struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -4570,7 +4570,7 @@ type CommentThread struct {
 	// Metadata that indicates whether the `fontSize` property is editable.
 	FontSizeMetadata *PropertyMetadata `json:"fontSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the information in the tab is italic.
@@ -4590,7 +4590,7 @@ type CommentThread struct {
 	// Metadata that indicates whether the `underline` property is editable.
 	UnderlineMetadata *PropertyMetadata `json:"underlineMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -4621,7 +4621,7 @@ type Company struct {
 	// Metadata that indicates whether the `disableAutoSize` property is editable.
 	DisableAutoSizeMetadata *PropertyMetadata `json:"disableAutoSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -4647,7 +4647,7 @@ type Company struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -5296,7 +5296,7 @@ type Date struct {
 	// Metadata that indicates whether the `disableAutoSize` property is editable.
 	DisableAutoSizeMetadata *PropertyMetadata `json:"disableAutoSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -5350,7 +5350,7 @@ type Date struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -5365,7 +5365,7 @@ type DateSigned struct {
 	TabStyle
 	TabValue
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -5375,7 +5375,7 @@ type DateSigned struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -5480,7 +5480,7 @@ type Decline struct {
 	// Metadata that indicates whether the `fontSize` property is editable.
 	FontSizeMetadata *PropertyMetadata `json:"fontSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the information in the tab is italic.
@@ -5498,7 +5498,7 @@ type Decline struct {
 	// Metadata that indicates whether the `underline` property is editable.
 	UnderlineMetadata *PropertyMetadata `json:"underlineMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -6097,7 +6097,7 @@ type Email struct {
 	// Metadata that indicates whether the `disableAutoSize` property is editable.
 	DisableAutoSizeMetadata *PropertyMetadata `json:"disableAutoSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -6151,7 +6151,7 @@ type Email struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -6166,7 +6166,7 @@ type EmailAddress struct {
 	TabStyle
 	TabValue
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -6176,7 +6176,7 @@ type EmailAddress struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -6808,7 +6808,7 @@ type EnvelopeID struct {
 	TabPosition
 	TabStyle
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -6818,7 +6818,7 @@ type EnvelopeID struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -7527,7 +7527,7 @@ type FirstName struct {
 	TabStyle
 	TabValue
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -7537,7 +7537,7 @@ type FirstName struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -7825,7 +7825,7 @@ type FormulaTab struct {
 	// Metadata indicating if the sender can edit the `formula` property.
 	FormulaMetadata *PropertyMetadata `json:"formulaMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// If this is a regular formula (no `paymentDetails` property is present):
@@ -7910,7 +7910,7 @@ type FormulaTab struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -7924,7 +7924,7 @@ type FullName struct {
 	TabStyle
 	TabValue
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -7934,7 +7934,7 @@ type FullName struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -8331,7 +8331,7 @@ type InitialHere struct {
 	TabGuidedForm
 	TabPosition
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// The name of the tab. For example, `Sign Here` or `Initial Here`.
@@ -8351,7 +8351,7 @@ type InitialHere struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -8614,7 +8614,7 @@ type LastName struct {
 	TabStyle
 	TabValue
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -8624,7 +8624,7 @@ type LastName struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -8705,7 +8705,7 @@ type List struct {
 	// Metadata that indicates whether the `fontSize` property is editable.
 	FontSizeMetadata *PropertyMetadata `json:"fontSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the information in the tab is italic.
@@ -8761,7 +8761,7 @@ type List struct {
 	// Metadata that indicates whether the `underline` property is editable.
 	UnderlineMetadata *PropertyMetadata `json:"underlineMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -9346,7 +9346,7 @@ type Notarize struct {
 	// This object describes errors that occur. It is only valid for responses and ignored in requests.
 	ErrorDetails *ErrorDetails `json:"errorDetails,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the signer cannot change the data of the custom tab.
@@ -9395,7 +9395,7 @@ type Notarize struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 	// This property indicates the horizontal offset of the object on the page.
@@ -9673,7 +9673,7 @@ type Note struct {
 	TabStyle
 	TabValue
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -9687,7 +9687,7 @@ type Note struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -9781,7 +9781,7 @@ type Number struct {
 	// Metadata indicating if the sender can edit the `formula` property.
 	FormulaMetadata *PropertyMetadata `json:"formulaMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, sets this as a payment tab. Can only be used with Text, Number, Formula, or List tabs. The value of the tab must be a number.
@@ -9839,7 +9839,7 @@ type Number struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -10298,7 +10298,7 @@ type PolyLineOverlay struct {
 	// Contains details about the style used for the strike through graphic.
 	GraphicsContext *GraphicsContext `json:"graphicsContext,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the signer cannot change the data of the custom tab.
@@ -10361,7 +10361,7 @@ type PolyLineOverlay struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 	// This property indicates the horizontal offset of the object on the page.
@@ -11608,7 +11608,7 @@ type SignHere struct {
 	TabGuidedForm
 	TabPosition
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**,  the tab contains a visual representation for an electronic seal in a document.
@@ -11634,7 +11634,7 @@ type SignHere struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -11930,7 +11930,7 @@ type SignerAttachment struct {
 	TabGuidedForm
 	TabPosition
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// The name of the tab. For example, `Sign Here` or `Initial Here`.
@@ -11950,7 +11950,7 @@ type SignerAttachment struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -12110,7 +12110,7 @@ type SmartSection struct {
 	// This object describes errors that occur. It is only valid for responses and ignored in requests.
 	ErrorDetails *ErrorDetails `json:"errorDetails,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the signer cannot change the data of the custom tab.
@@ -12184,7 +12184,7 @@ type SmartSection struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 	// This property indicates the horizontal offset of the object on the page.
@@ -12310,7 +12310,7 @@ type SSN struct {
 	// Metadata that indicates whether the `disableAutoSize` property is editable.
 	DisableAutoSizeMetadata *PropertyMetadata `json:"disableAutoSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -12364,7 +12364,7 @@ type SSN struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -12558,7 +12558,7 @@ type TabGroup struct {
 	// Metadata that indicates whether the `groupRule` property is editable.
 	GroupRuleMetadata *PropertyMetadata `json:"groupRuleMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// The maximum number of tabs within the `tabGroup` that should be checked, populated, or signed. This property is used for validation.
@@ -12618,7 +12618,7 @@ type TabGroup struct {
 	// Metadata that indicates whether the `validationMessage` property is editable.
 	ValidationMessageMetadata *PropertyMetadata `json:"validationMessageMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 	// This property indicates the horizontal offset of the object on the page.
@@ -13607,7 +13607,7 @@ type Text struct {
 	// Metadata indicating if the sender can edit the `formula` property.
 	FormulaMetadata *PropertyMetadata `json:"formulaMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, sets this as a payment tab. Can only be used with Text, Number, Formula, or List tabs. The value of the tab must be a number.
@@ -13665,7 +13665,7 @@ type Text struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -13717,7 +13717,7 @@ type Title struct {
 	// Metadata that indicates whether the `disableAutoSize` property is editable.
 	DisableAutoSizeMetadata *PropertyMetadata `json:"disableAutoSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -13743,7 +13743,7 @@ type Title struct {
 	// The text of a tooltip that appears when a user hovers over a form field or tab.
 	Tooltip string `json:"tooltip,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -14753,7 +14753,7 @@ type View struct {
 	// Metadata that indicates whether the `fontSize` property is editable.
 	FontSizeMetadata *PropertyMetadata `json:"fontSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// When set to **true**, the information in the tab is italic.
@@ -14777,7 +14777,7 @@ type View struct {
 	// Metadata that indicates whether the `underline` property is editable.
 	UnderlineMetadata *PropertyMetadata `json:"underlineMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }
@@ -15329,7 +15329,7 @@ type Zip struct {
 	// Metadata that indicates whether the `disableAutoSize` property is editable.
 	DisableAutoSizeMetadata *PropertyMetadata `json:"disableAutoSizeMetadata,omitempty"`
 	// The height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// Metadata that indicates whether the `height` property is editable.
 	HeightMetadata *PropertyMetadata `json:"heightMetadata,omitempty"`
 	// Reserved for DocuSign.
@@ -15387,7 +15387,7 @@ type Zip struct {
 	// Metadata that indicates whether the `validationPattern` property is editable.
 	ValidationPatternMetadata *PropertyMetadata `json:"validationPatternMetadata,omitempty"`
 	// The width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 	// Metadata that indicates whether the `width` property is editable.
 	WidthMetadata *PropertyMetadata `json:"widthMetadata,omitempty"`
 }

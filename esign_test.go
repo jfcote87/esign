@@ -335,7 +335,7 @@ func TestOp_Do_FileUpload(t *testing.T) {
 		Transport: &ctxclient.ErrorTransport{Err: errors.New("ERROR")},
 	})
 	ctx := context.Background()
-	if err := op.Do(ctx, nil); err == nil || err.Error() != "Post https://www.example.com/restapi/v2/accounts/1234/multipart/go: ERROR" {
+	if err := op.Do(ctx, nil); err == nil || err.Error() != "Post \"https://www.example.com/restapi/v2/accounts/1234/multipart/go\": ERROR" {
 		t.Fatalf("multipart test expected post error; got %v", err)
 	}
 	time.Sleep(time.Second)

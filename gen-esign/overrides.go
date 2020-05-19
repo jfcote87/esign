@@ -1648,14 +1648,6 @@ func TabDefsV21(defMap map[string]Definition, overrides map[string]map[string]st
 			defOverrides = make(map[string]string)
 			overrides[dx.ID] = defOverrides
 		}
-		// NOTE: in v2.1 swagger files, these are listed as strings.
-		// TODO: Check for fix in future
-		if xmap["width"] {
-			defOverrides["width"] = "int32"
-		}
-		if xmap["height"] {
-			defOverrides["height"] = "int32"
-		}
 
 		memberOf := make([]string, 0) // tab types for this tab
 		// Loop thru each tab type

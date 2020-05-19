@@ -1,5 +1,7 @@
 module github.com/jfcote87/esign
 
+go 1.14
+
 require (
 	cloud.google.com/go v0.43.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
