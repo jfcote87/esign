@@ -1399,6 +1399,14 @@ func TabDefsV2(defMap map[string]Definition, overrides map[string]map[string]str
 			defOverrides = make(map[string]string)
 			overrides[dx.ID] = defOverrides
 		}
+
+		if xmap["width"] {
+			defOverrides["width"] = "string"
+		}
+		if xmap["height"] {
+			defOverrides["height"] = "string"
+		}
+
 		memberOf := make([]string, 0) // tab types for this tab
 		// Loop thru each tab type
 		for _, nm := range []string{"Base", "Position", "Style", "Value"} {
