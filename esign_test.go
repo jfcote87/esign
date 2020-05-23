@@ -335,9 +335,19 @@ func TestOp_Do_FileUpload(t *testing.T) {
 		Transport: &ctxclient.ErrorTransport{Err: errors.New("ERROR")},
 	})
 	ctx := context.Background()
-	if err := op.Do(ctx, nil); err == nil || err.Error() != "Post https://www.example.com/restapi/v2/accounts/1234/multipart/go: ERROR" {
-		t.Fatalf("multipart test expected post error; got %v", err)
+	err := op.Do(ctx, nil)
+	switch reterr := err.(type) {
+	case nil:
+		t.Fatalf("multipart test expected *url.Error; got success")
+	case *url.Error:
+		msg := reterr.Err.Error()
+		if msg != "ERROR" {
+			t.Fatalf("multipart test expected error msg = ERROR; got %s", msg)
+		}
+	default:
+		t.Fatalf("multipart test expected error msg = ERROR; got %s", err.Error())
 	}
+
 	time.Sleep(time.Second)
 	if !checkFilesClosed(t, f1, f2) {
 		t.Errorf("multipart network error expected closed files")

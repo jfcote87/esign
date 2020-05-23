@@ -309,8 +309,8 @@ func Example_create_envelope_fileupload() {
 								TabStyle: model.TabStyle{
 									Name: "This is the tab tooltip",
 								},
-								Width:  300,
-								Height: 150,
+								Width:  "300",
+								Height: "150",
 							},
 						},
 					},

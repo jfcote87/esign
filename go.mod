@@ -1,5 +1,7 @@
 module github.com/jfcote87/esign
 
+go 1.14
+
 require (
 	cloud.google.com/go v0.44.3 // indirect
 	github.com/google/go-cmp v0.3.1 // indirect
