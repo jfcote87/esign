@@ -13,4 +13,4 @@ eSignatature REST API as defined in the published  api.
 Api documentation: https://developers.docusign.com/
 
 */
-package esign // import "github.com/jfcote87/esign"
+package esign // import "github.com/pwaterz/esign"

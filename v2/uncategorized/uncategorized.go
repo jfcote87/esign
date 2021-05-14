@@ -15,21 +15,21 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/uncategorized"
-//       "github.com/jfcote87/esign/v2/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2/uncategorized"
+//       "github.com/pwaterz/esign/v2/model"
 //   )
 //   ...
 //   uncategorizedService := uncategorized.New(esignCredential)
-package uncategorized // import "github.com/jfcote87/esign/v2/uncategorized"
+package uncategorized // import "github.com/pwaterz/esign/v2/uncategorized"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Service implements DocuSign Uncategorized Category API operations

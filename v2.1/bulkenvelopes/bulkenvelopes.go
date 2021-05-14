@@ -15,13 +15,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/bulkenvelopes"
-//       "github.com/jfcote87/esign/v2.1/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2.1/bulkenvelopes"
+//       "github.com/pwaterz/esign/v2.1/model"
 //   )
 //   ...
 //   bulkenvelopesService := bulkenvelopes.New(esignCredential)
-package bulkenvelopes // import "github.com/jfcote87/esign/v2.1/bulkenvelopes"
+package bulkenvelopes // import "github.com/pwaterz/esign/v2.1/bulkenvelopes"
 
 import (
 	"context"
@@ -29,8 +29,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2.1/model"
 )
 
 // Service implements DocuSign BulkEnvelopes Category API operations

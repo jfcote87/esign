@@ -17,21 +17,21 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/signinggroups"
-//       "github.com/jfcote87/esign/v2.1/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2.1/signinggroups"
+//       "github.com/pwaterz/esign/v2.1/model"
 //   )
 //   ...
 //   signinggroupsService := signinggroups.New(esignCredential)
-package signinggroups // import "github.com/jfcote87/esign/v2.1/signinggroups"
+package signinggroups // import "github.com/pwaterz/esign/v2.1/signinggroups"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2.1/model"
 )
 
 // Service implements DocuSign SigningGroups Category API operations

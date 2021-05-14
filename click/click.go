@@ -7,7 +7,7 @@
 // must be initialized with a scop of click.manageApi documentation for these
 // functions may be found at:
 // https://docs.docusign.com/esign/guide/authentication/legacy_auth.htmlpackage
-package click // import "github.com/jfcote87/esign/click"
+package click // import "github.com/pwaterz/esign/click"
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
+	"github.com/pwaterz/esign"
 )
 
 var clickV1 = &esign.APIVersion{

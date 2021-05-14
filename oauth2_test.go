@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/jfcote87/esign"
 	"github.com/jfcote87/oauth2"
 	"github.com/jfcote87/testutils"
+	"github.com/pwaterz/esign"
 )
 
 const tokenSuccessResponse = `{

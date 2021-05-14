@@ -27,7 +27,7 @@ const (
 )
 
 var (
-	basePkg     = flag.String("basepkg", "github.com/jfcote87/esign", "root package in gopath")
+	basePkg     = flag.String("basepkg", "github.com/pwaterz/esign", "root package in gopath")
 	baseDir     = flag.String("src", ".", "src directory")
 	templDir    = flag.String("template", "gen-esign/templates", "directory containing output templates.")
 	buildFlag   = flag.Bool("build", false, "Compile generated packages.")

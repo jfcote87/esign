@@ -19,13 +19,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/billing"
-//       "github.com/jfcote87/esign/v2/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2/billing"
+//       "github.com/pwaterz/esign/v2/model"
 //   )
 //   ...
 //   billingService := billing.New(esignCredential)
-package billing // import "github.com/jfcote87/esign/v2/billing"
+package billing // import "github.com/pwaterz/esign/v2/billing"
 
 import (
 	"context"
@@ -33,8 +33,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Service implements DocuSign Billing Category API operations

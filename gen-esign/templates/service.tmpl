@@ -21,7 +21,7 @@
 //   )
 //   ...
 //   {{.Package}}Service := {{.Package}}.New(esignCredential)
-package {{.Package}} // import "github.com/jfcote87/esign/{{$verPrefix}}/{{.Package}}"
+package {{.Package}} // import "github.com/pwaterz/esign/{{$verPrefix}}/{{.Package}}"
 
 import ({{range .Packages}}
     {{.}}{{end}}
@@ -29,7 +29,7 @@ import ({{range .Packages}}
 
 // Service implements DocuSign {{.Service}} Category API operations
 type Service struct {
-    credential esign.Credential 
+    credential esign.Credential
 }
 
 // New initializes a {{.Package}} service using cred to authorize ops.

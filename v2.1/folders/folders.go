@@ -17,13 +17,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/folders"
-//       "github.com/jfcote87/esign/v2.1/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2.1/folders"
+//       "github.com/pwaterz/esign/v2.1/model"
 //   )
 //   ...
 //   foldersService := folders.New(esignCredential)
-package folders // import "github.com/jfcote87/esign/v2.1/folders"
+package folders // import "github.com/pwaterz/esign/v2.1/folders"
 
 import (
 	"context"
@@ -32,8 +32,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2.1/model"
 )
 
 // Service implements DocuSign Folders Category API operations
