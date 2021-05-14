@@ -11191,6 +11191,19 @@ type Recipients struct {
 	Witnesses []Witness `json:"witnesses,omitempty"`
 }
 
+// AdditionalNotification is an undocumented option to add additonal notifications options
+type AdditionalNotification struct {
+	// SMS
+	SecondaryDeliveryMethod string      `json:"secondaryDeliveryMethod,omitempty"`
+	PhoneNumber             PhoneNumber `json:"phoneNumber,omitempty"`
+}
+
+// PhoneNumber represents a phone number
+type PhoneNumber struct {
+	CountryCode string `json:"countryCode"`
+	Number      string `json:"number"`
+}
+
 // RecipientsUpdateSummary this is the response that the API returns after you update recipients.
 type RecipientsUpdateSummary struct {
 	// An array of `recipientUpdateResults` objects that contain details about the recipients.
@@ -11696,6 +11709,8 @@ type Signer struct {
 	AccessCodeMetadata *PropertyMetadata `json:"accessCodeMetadata,omitempty"`
 	// This Optional attribute indicates that the access code will be added to the email sent to the recipient; this nullifies the Security measure of Access Code on the recipient.
 	AddAccessCodeToEmail string `json:"addAccessCodeToEmail,omitempty"`
+	// A list of additional notifications
+	AdditionalNotifications []AdditionalNotification `json:"additionalNotifications,omitempty"`
 	// Optional element. When set to true, the agents recipient associated with this recipient can change the recipient's pre-populated email address. This element is only active if enabled for the account.
 	AgentCanEditEmail DSBool `json:"agentCanEditEmail,omitempty"`
 	// Optional element. When set to **true**, the agents recipient associated with this recipient can change the recipient's pre-populated name. This element is only active if enabled for the account.
