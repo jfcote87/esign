@@ -17,13 +17,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/cloudstorage"
-//       "github.com/jfcote87/esign/v2.1/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2.1/cloudstorage"
+//       "github.com/pwaterz/esign/v2.1/model"
 //   )
 //   ...
 //   cloudstorageService := cloudstorage.New(esignCredential)
-package cloudstorage // import "github.com/jfcote87/esign/v2.1/cloudstorage"
+package cloudstorage // import "github.com/pwaterz/esign/v2.1/cloudstorage"
 
 import (
 	"context"
@@ -31,8 +31,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2.1/model"
 )
 
 // Service implements DocuSign CloudStorage Category API operations

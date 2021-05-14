@@ -19,21 +19,21 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/authentication"
-//       "github.com/jfcote87/esign/v2/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2/authentication"
+//       "github.com/pwaterz/esign/v2/model"
 //   )
 //   ...
 //   authenticationService := authentication.New(esignCredential)
-package authentication // import "github.com/jfcote87/esign/v2/authentication"
+package authentication // import "github.com/pwaterz/esign/v2/authentication"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Service implements DocuSign Authentication Category API operations

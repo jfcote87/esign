@@ -15,13 +15,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/powerforms"
-//       "github.com/jfcote87/esign/v2.1/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2.1/powerforms"
+//       "github.com/pwaterz/esign/v2.1/model"
 //   )
 //   ...
 //   powerformsService := powerforms.New(esignCredential)
-package powerforms // import "github.com/jfcote87/esign/v2.1/powerforms"
+package powerforms // import "github.com/pwaterz/esign/v2.1/powerforms"
 
 import (
 	"context"
@@ -30,8 +30,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2.1/model"
 )
 
 // Service implements DocuSign PowerForms Category API operations

@@ -19,13 +19,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/envelopes"
-//       "github.com/jfcote87/esign/v2/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2/envelopes"
+//       "github.com/pwaterz/esign/v2/model"
 //   )
 //   ...
 //   envelopesService := envelopes.New(esignCredential)
-package envelopes // import "github.com/jfcote87/esign/v2/envelopes"
+package envelopes // import "github.com/pwaterz/esign/v2/envelopes"
 
 import (
 	"context"
@@ -35,8 +35,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Service implements DocuSign Envelopes Category API operations

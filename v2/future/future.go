@@ -15,8 +15,8 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign//future"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign//future"
 //   )
 //   ...
 //   futureService := future.New(esignCredential)
@@ -27,8 +27,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Service implements DocuSign Future Category API operations

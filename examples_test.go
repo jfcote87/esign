@@ -13,10 +13,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/envelopes"
-	"github.com/jfcote87/esign/v2.1/folders"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2.1/envelopes"
+	"github.com/pwaterz/esign/v2.1/folders"
+	"github.com/pwaterz/esign/v2.1/model"
 )
 
 func ExampleOAuth2Config() {

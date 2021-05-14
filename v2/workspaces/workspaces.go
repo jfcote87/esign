@@ -15,13 +15,13 @@
 // Usage example:
 //
 //   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/workspaces"
-//       "github.com/jfcote87/esign/v2/model"
+//       "github.com/pwaterz/esign"
+//       "github.com/pwaterz/esign/v2/workspaces"
+//       "github.com/pwaterz/esign/v2/model"
 //   )
 //   ...
 //   workspacesService := workspaces.New(esignCredential)
-package workspaces // import "github.com/jfcote87/esign/v2/workspaces"
+package workspaces // import "github.com/pwaterz/esign/v2/workspaces"
 
 import (
 	"context"
@@ -30,8 +30,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Service implements DocuSign Workspaces Category API operations

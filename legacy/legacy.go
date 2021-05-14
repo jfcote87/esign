@@ -15,8 +15,8 @@ import (
 	"net/url"
 
 	"github.com/jfcote87/ctxclient"
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/pwaterz/esign"
+	"github.com/pwaterz/esign/v2/model"
 )
 
 // Documentation: https://docs.docusign.com/esign/

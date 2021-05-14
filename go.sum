@@ -36,8 +36,6 @@ github.com/hashicorp/golang-lru v0.5.3 h1:YPkqC67at8FYaadspW/6uE0COsBxS2656RLEr8
 github.com/hashicorp/golang-lru v0.5.3/go.mod h1:iADmTwqILo4mZ8BN3D2Q6+9jd8WM5uGBxy+E8yxSoD4=
 github.com/jfcote87/ctxclient v0.5.1 h1:FnL5Y1yhUfFyZzoCDkZAJRSoEGuh0+vDCdEvjUYm0LU=
 github.com/jfcote87/ctxclient v0.5.1/go.mod h1:f7zOFa74RLJBqXyENHpoOerIWyJ+vYSISilQt4EzSYk=
-github.com/jfcote87/esign v0.9.0 h1:tB8RSH6P7Qfqv4iH70gVieWdIE11qiT7pRMRaz0eNjk=
-github.com/jfcote87/esign v0.9.0/go.mod h1:DqFRTbH0KbIuTykLGPPnOQvIbZuQHz5TWPLEXwyT3BY=
 github.com/jfcote87/oauth2 v0.2.3 h1:bZtLPKeTvpNR3jzvBxciaz3FqBwYN9L6fAJXHpsTNAA=
 github.com/jfcote87/oauth2 v0.2.3/go.mod h1:DWdh/z6vDUwVcQ8D/oFL8db+kKFlphYCEoDbAZhTdsA=
 github.com/jfcote87/testutils v0.0.0-20190527035656-94af7a2b3405/go.mod h1:QFUFPaD1I3QKdKq4d0f1+RokX2LF15Vbgk0lXvTb8HY=

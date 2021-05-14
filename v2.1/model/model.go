@@ -11,7 +11,7 @@
 //
 // Api documentation may be found at:
 // https://developers.docusign.com/esign-rest-api/reference
-package model // import "github.com/jfcote87/esign/v2.1/model"
+package model // import "github.com/pwaterz/esign/v2.1/model"
 
 import (
 	"fmt"
