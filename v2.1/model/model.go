@@ -143,7 +143,7 @@ type TabPosition struct {
 	// Reserved for DocuSign.
 	AnchorHorizontalAlignmentMetadata *PropertyMetadata `json:"anchorHorizontalAlignmentMetadata,omitempty"`
 	// When set to **true**, this tab is ignored if the `anchorString` is not found in the document.
-	AnchorIgnoreIfNotPresent DSBool `json:"anchorIgnoreIfNotPresent,omitempty"`
+	AnchorIgnoreIfNotPresent DSBool `json:"anchorIgnoreIfNotPresent"`
 	// Metadata that indicates whether the `anchorIgnoreIfNotPresent` property is editable.
 	AnchorIgnoreIfNotPresentMetadata *PropertyMetadata `json:"anchorIgnoreIfNotPresentMetadata,omitempty"`
 	// Reserved for DocuSign.
