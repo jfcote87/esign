@@ -8,9 +8,13 @@
 // Package signinggroups implements the DocuSign SDK
 // category SigningGroups.
 //
-// Use the SigningGroup category to manage signing groups that allow you anyone in the group to sign a document.
+// Use the Signing Group category to manage signing groups that allow anyone in the group to sign a document. When you send an envelope to a signing group, anyone in the group can open it and sign it with their own signature.
 //
-// The category allows you create the signing group and manage the users in the group.
+// This category shows account administrators how to create a signing group and manage the users in the group.
+//
+// **Note**: To create and manage signing groups, you must be an account administrator.
+//
+// For more information about this topic, see [Signing Groups](https://support.docusign.com/en/guides/ndse-user-guide-signing-groups).
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/esign-rest-api/reference/SigningGroups
@@ -237,12 +241,12 @@ func (op *ListOp) IncludeUsers() *ListOp {
 // https://developers.docusign.com/esign-rest-api/reference/signinggroups/signinggroups/update
 //
 // SDK Method SigningGroups::update
-func (s *Service) Update(signingGroupID string, signingGroups *model.SigningGroup) *UpdateOp {
+func (s *Service) Update(signingGroupID string, signingGroup *model.SigningGroup) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"signing_groups", signingGroupID}, "/"),
-		Payload:    signingGroups,
+		Payload:    signingGroup,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

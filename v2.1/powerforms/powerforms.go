@@ -99,17 +99,17 @@ func (op *DataListOp) ToDate(val time.Time) *DataListOp {
 	return op
 }
 
-// Create creates a new PowerForm.
+// Create creates a new PowerForm
 //
 // https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/create
 //
 // SDK Method PowerForms::createPowerForm
-func (s *Service) Create(powerForms *model.PowerForm) *CreateOp {
+func (s *Service) Create(powerForm *model.PowerForm) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "powerforms",
-		Payload:    powerForms,
+		Payload:    powerForm,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -304,12 +304,12 @@ func (op *ListSendersOp) StartPosition(val int) *ListSendersOp {
 // https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/update
 //
 // SDK Method PowerForms::updatePowerForm
-func (s *Service) Update(powerFormID string, powerForms *model.PowerForm) *UpdateOp {
+func (s *Service) Update(powerFormID string, powerForm *model.PowerForm) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
-		Payload:    powerForms,
+		Payload:    powerForm,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

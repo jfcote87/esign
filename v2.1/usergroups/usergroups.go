@@ -49,7 +49,7 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
-// GroupBrandsDelete deletes brand information from the requested group.
+// GroupBrandsDelete deletes brand information from a group.
 //
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/delete
 //
@@ -74,8 +74,7 @@ func (op *GroupBrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, e
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// GroupBrandsGet gets group brand ID Information.
-//
+// GroupBrandsGet gets the brand information for a group.
 //
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/get
 //
@@ -99,7 +98,7 @@ func (op *GroupBrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, erro
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// GroupBrandsUpdate adds group brand ID information to a group.
+// GroupBrandsUpdate adds an existing brand to a group.
 //
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/update
 //
@@ -219,12 +218,12 @@ func (op *GroupUsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, err
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/create
 //
 // SDK Method UserGroups::createGroups
-func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
+func (s *Service) GroupsCreate(groupInformation *model.GroupInformation) *GroupsCreateOp {
 	return &GroupsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "groups",
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -244,12 +243,12 @@ func (op *GroupsCreateOp) Do(ctx context.Context) (*model.GroupInformation, erro
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/delete
 //
 // SDK Method UserGroups::deleteGroups
-func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
+func (s *Service) GroupsDelete(groupInformation *model.GroupInformation) *GroupsDeleteOp {
 	return &GroupsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       "groups",
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -333,12 +332,12 @@ func (op *GroupsListOp) StartPosition(val int) *GroupsListOp {
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/update
 //
 // SDK Method UserGroups::updateGroups
-func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {
+func (s *Service) GroupsUpdate(groupInformation *model.GroupInformation) *GroupsUpdateOp {
 	return &GroupsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       "groups",
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

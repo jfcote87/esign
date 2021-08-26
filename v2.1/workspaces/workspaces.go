@@ -8,7 +8,18 @@
 // Package workspaces implements the DocuSign SDK
 // category Workspaces.
 //
-// Workspaces creation and management.
+// A workspace is a collaborative space for sharing documents and managing workflows. A workspace has a single owner who must be a DocuSign user. The owner can invite others to the workspace as collaborators. Individuals who are not DocuSign users must create a DocuSign account to join a workspace as a collaborator.
+//
+// You can create an envelope directly from a workspace.
+//
+// Workspaces store the following information:
+//
+// - **Files**: Files uploaded to a workspace for storage or reuse.
+// - **Documents**: A document is a component of a transaction, template, or workspace. When a file is added to a transaction, template, or workspace, it is copied as a document. Each document in a workspace has a single owner.
+// - **Templates**: A set of documents that you can use to create a transaction or a workspace.
+// - **Transactions**: A transaction is a series of workflow events related to one or more documents. These events route the documents to one or more individuals for the purposes of doing business. Each transaction has a single owner (the sender).
+//
+// **Note**: Documents in a template are not individually listed as files.
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/esign-rest-api/reference/Workspaces
@@ -70,7 +81,7 @@ func (op *ItemsCreateFIleOp) Do(ctx context.Context) (*model.WorkspaceItem, erro
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// ItemsDeleteFolderItems deletes workspace one or more specific files/folders from the given folder or root.
+// ItemsDeleteFolderItems deletes files or sub-folders from a workspace.
 //
 // https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/deletefolderitems
 //
@@ -94,7 +105,7 @@ func (op *ItemsDeleteFolderItemsOp) Do(ctx context.Context) error {
 	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// ItemsGetFile get Workspace File
+// ItemsGetFile gets a workspace file
 //
 // https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/getfile
 //
@@ -118,7 +129,7 @@ func (op *ItemsGetFileOp) Do(ctx context.Context) (*esign.Download, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// IsDownload when set to **true**, the Content-Disposition header is set in the response. The value of the header provides the filename of the file. Default is **false**.
+// IsDownload when set to **true**, the `Content-Disposition` header is set in the response. The value of the header provides the filename of the file. The default is **false**.
 func (op *ItemsGetFileOp) IsDownload() *ItemsGetFileOp {
 	if op != nil {
 		op.QueryOpts.Set("is_download", "true")
@@ -126,7 +137,7 @@ func (op *ItemsGetFileOp) IsDownload() *ItemsGetFileOp {
 	return op
 }
 
-// PdfVersion when set to **true** the file returned as a PDF.
+// PdfVersion when set to **true** the file is returned in PDF format.
 func (op *ItemsGetFileOp) PdfVersion() *ItemsGetFileOp {
 	if op != nil {
 		op.QueryOpts.Set("pdf_version", "true")
@@ -158,7 +169,7 @@ func (op *ItemsListFilePagesOp) Do(ctx context.Context) (*model.PageImages, erro
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Count is the maximum number of results to return.
+// Count is the maximum number of results to be returned by this request.
 func (op *ItemsListFilePagesOp) Count(val int) *ItemsListFilePagesOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -198,7 +209,7 @@ func (op *ItemsListFilePagesOp) StartPosition(val int) *ItemsListFilePagesOp {
 	return op
 }
 
-// ItemsListFolderItems list Workspace Folder Contents
+// ItemsListFolderItems list workspace folder contents
 //
 // https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/listfolderitems
 //
@@ -222,7 +233,7 @@ func (op *ItemsListFolderItemsOp) Do(ctx context.Context) (*model.WorkspaceFolde
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Count is the maximum number of results to return.
+// Count is the maximum number of results to be returned by this request.
 func (op *ItemsListFolderItemsOp) Count(val int) *ItemsListFolderItemsOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -230,7 +241,7 @@ func (op *ItemsListFolderItemsOp) Count(val int) *ItemsListFolderItemsOp {
 	return op
 }
 
-// IncludeFiles when set to **true**, file information is returned in the response along with folder information. The default is **false**.
+// IncludeFiles when set to **true**, the response includes file information (in addition to folder information). The default is **false**.
 func (op *ItemsListFolderItemsOp) IncludeFiles() *ItemsListFolderItemsOp {
 	if op != nil {
 		op.QueryOpts.Set("include_files", "true")
@@ -238,7 +249,7 @@ func (op *ItemsListFolderItemsOp) IncludeFiles() *ItemsListFolderItemsOp {
 	return op
 }
 
-// IncludeSubFolders when set to **true**, information about the sub-folders of the current folder is returned. The default is **false**.
+// IncludeSubFolders when set to **true**, the response includes information about the sub-folders of the current folder. The default is **false**.
 func (op *ItemsListFolderItemsOp) IncludeSubFolders() *ItemsListFolderItemsOp {
 	if op != nil {
 		op.QueryOpts.Set("include_sub_folders", "true")
@@ -246,7 +257,7 @@ func (op *ItemsListFolderItemsOp) IncludeSubFolders() *ItemsListFolderItemsOp {
 	return op
 }
 
-// IncludeThumbnails when set to **true**, thumbnails are returned as part of the response.  The default is **false**.
+// IncludeThumbnails when set to **true**, the response returns thumbnails.  The default is **false**.
 func (op *ItemsListFolderItemsOp) IncludeThumbnails() *ItemsListFolderItemsOp {
 	if op != nil {
 		op.QueryOpts.Set("include_thumbnails", "true")
@@ -254,7 +265,7 @@ func (op *ItemsListFolderItemsOp) IncludeThumbnails() *ItemsListFolderItemsOp {
 	return op
 }
 
-// IncludeUserDetail set to **true** to return extended details about the user. The default is **false**.
+// IncludeUserDetail when set to **true**, the response includes extended details about the user. The default is **false**.
 func (op *ItemsListFolderItemsOp) IncludeUserDetail() *ItemsListFolderItemsOp {
 	if op != nil {
 		op.QueryOpts.Set("include_user_detail", "true")
@@ -270,7 +281,7 @@ func (op *ItemsListFolderItemsOp) StartPosition(val int) *ItemsListFolderItemsOp
 	return op
 }
 
-// WorkspaceUserID if set, then the results are filtered to those associated with the specified userId.
+// WorkspaceUserID if set, the response only includes results associated with the `userId` that you specify.
 func (op *ItemsListFolderItemsOp) WorkspaceUserID(val string) *ItemsListFolderItemsOp {
 	if op != nil {
 		op.QueryOpts.Set("workspace_user_id", val)
@@ -278,7 +289,7 @@ func (op *ItemsListFolderItemsOp) WorkspaceUserID(val string) *ItemsListFolderIt
 	return op
 }
 
-// ItemsUpdateFile update Workspace File Metadata
+// ItemsUpdateFile update workspace file or folder metadata
 // If media is an io.ReadCloser, Do() will close media.
 //
 // https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaceitems/updatefile
@@ -309,12 +320,12 @@ func (op *ItemsUpdateFileOp) Do(ctx context.Context) (*model.WorkspaceItem, erro
 // https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/create
 //
 // SDK Method Workspaces::createWorkspace
-func (s *Service) Create(workspaces *model.Workspace) *CreateOp {
+func (s *Service) Create(workspace *model.Workspace) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "workspaces",
-		Payload:    workspaces,
+		Payload:    workspace,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -406,12 +417,12 @@ func (op *ListOp) Do(ctx context.Context) (*model.WorkspaceList, error) {
 // https://developers.docusign.com/esign-rest-api/reference/workspaces/workspaces/update
 //
 // SDK Method Workspaces::updateWorkspace
-func (s *Service) Update(workspaceID string, workspaces *model.Workspace) *UpdateOp {
+func (s *Service) Update(workspaceID string, workspace *model.Workspace) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"workspaces", workspaceID}, "/"),
-		Payload:    workspaces,
+		Payload:    workspace,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

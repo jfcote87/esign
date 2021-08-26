@@ -1096,7 +1096,7 @@ type Approve struct {
 	// - Size72
 	FontSize string `json:"fontSize,omitempty"`
 	// Height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// When set to **true**, the information in the tab is italic.
 	Italic string `json:"italic,omitempty"`
 	//
@@ -1104,7 +1104,7 @@ type Approve struct {
 	// When set to **true**, the information in the tab is underlined.
 	Underline string `json:"underline,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 // Attachment contains information about an attachment.
@@ -2255,7 +2255,7 @@ type Company struct {
 	//
 	Tooltip string `json:"tooltip,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type CompleteSignHashResponse struct {
@@ -2796,7 +2796,7 @@ type Date struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 // DateSigned is a tab that displays the date that the recipient signed the
@@ -2890,7 +2890,7 @@ type Decline struct {
 	// - Size72
 	FontSize string `json:"fontSize,omitempty"`
 	// Height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// When set to **true**, the information in the tab is italic.
 	Italic string `json:"italic,omitempty"`
 	//
@@ -2898,7 +2898,7 @@ type Decline struct {
 	// When set to **true**, the information in the tab is underlined.
 	Underline string `json:"underline,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type DiagnosticsSettingsInformation struct {
@@ -3454,7 +3454,7 @@ type Email struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 // EmailAddress is a tab that displays the recipient's email as entered in the
@@ -4904,7 +4904,7 @@ type FormulaTab struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 // FullName is a tab that displays the recipient's full name.
@@ -5592,7 +5592,7 @@ type List struct {
 	// When set to **true**, the information in the tab is underlined.
 	Underline string `json:"underline,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type ListCustomField struct {
@@ -6163,13 +6163,13 @@ type Note struct {
 	TabStyle
 	TabValue
 	// Height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// When set to **true**, this custom tab is shared.
 	Shared DSBool `json:"shared,omitempty"`
 	//
 	Tooltip string `json:"tooltip,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 // Notification is a complex element that specifies the notification options for the envelope. It consists of:
@@ -6270,7 +6270,7 @@ type Number struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type OauthAccess struct {
@@ -7923,7 +7923,7 @@ type SSN struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type Ssn4InformationInput struct {
@@ -9073,7 +9073,7 @@ type Text struct {
 	//
 	Formula string `json:"formula,omitempty"`
 	// Height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// When set to **true**, sets this as a payment tab. Can only be used with Text, Number, Formula, or List tabs. The value of the tab must be a number.
 	IsPaymentAmount DSBool `json:"isPaymentAmount,omitempty"`
 	// When set to **true**, the signer cannot change the data of the custom tab.
@@ -9103,7 +9103,7 @@ type Text struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type TextCustomField struct {
@@ -9158,7 +9158,7 @@ type Title struct {
 	//
 	Tooltip string `json:"tooltip,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type TspHealthCheckRequest struct {
@@ -9647,7 +9647,7 @@ type View struct {
 	//
 	ButtonText string `json:"buttonText,omitempty"`
 	// Height of the tab in pixels.
-	Height int32 `json:"height,omitempty"`
+	Height string `json:"height,omitempty"`
 	// When set to **true**, the signer is required to fill out this tab
 	Required TabRequired `json:"required,omitempty"`
 	//
@@ -9655,7 +9655,7 @@ type View struct {
 	//
 	Tooltip string `json:"tooltip,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 type ViewURL struct {
@@ -9956,7 +9956,7 @@ type Zip struct {
 	// A regular expressionn used to validate input for the tab.
 	ValidationPattern string `json:"validationPattern,omitempty"`
 	// Width of the tab in pixels.
-	Width int32 `json:"width,omitempty"`
+	Width string `json:"width,omitempty"`
 }
 
 // GetTabValues returns a NameValue list of all entry tabs
