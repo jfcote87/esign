@@ -33331,6 +33331,82 @@
       "description": "",
       "x-ms-summary": ""
     },
+    "signHashDocument": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "A Base64-encoded representation of the attachment that is used to upload and download the file. File attachments may be up to 50 MB in size.",
+          "type": "string"
+        },
+        "documentId": {
+          "description": "Integer that identifies the document in the envelope.",
+          "type": "string"
+        },
+        "format": {
+          "description": "",
+          "type": "string"
+        },
+        "name": {
+          "description": "",
+          "type": "string"
+        },
+        "remainingSignatures": {
+          "format": "int64",
+          "description": "",
+          "type": "integer"
+        },
+        "revisions": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/revision"
+          }
+        },
+        "signatureProperties": {
+          "$ref": "#/definitions/signatureProperties",
+          "description": ""
+        },
+        "signatureType": {
+          "description": "Specifies the type of signature.",
+          "type": "string"
+        }
+      },
+      "x-ds-definition-name": "signHashDocument",
+      "description": "",
+      "x-ms-summary": ""
+    },
+        "revision": {
+      "type": "object",
+      "properties": {
+        "endData": {
+          "description": "",
+          "type": "string"
+        },
+        "fieldName": {
+          "description": "",
+          "type": "string"
+        },
+        "maxSignatureLength": {
+          "description": "",
+          "type": "string"
+        },
+        "signatureProperties": {
+          "$ref": "#/definitions/signatureProperties",
+          "description": ""
+        },
+        "signatureType": {
+          "description": "Specifies the type of signature.",
+          "type": "string"
+        },
+        "startData": {
+          "description": "",
+          "type": "string"
+        }
+      },
+      "x-ds-definition-name": "revision",
+      "description": "",
+      "x-ms-summary": ""
+    },
     "compositeTemplate": {
       "type": "object",
       "properties": {
