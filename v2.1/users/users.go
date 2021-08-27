@@ -51,7 +51,7 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
-// ContactsCreate imports multiple new contacts into the contacts collection from CSV, JSON, or XML (based on content type).
+// ContactsCreate imports new contacts into a contacts list.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/contacts/create
 //
@@ -76,7 +76,7 @@ func (op *ContactsCreateOp) Do(ctx context.Context) (*model.ContactUpdateRespons
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// ContactsDelete replaces a particular contact associated with an account for the DocuSign service.
+// ContactsDelete deletes a contact.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/contacts/delete
 //
@@ -100,7 +100,7 @@ func (op *ContactsDeleteOp) Do(ctx context.Context) (*model.ContactUpdateRespons
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// ContactsDeleteList delete contacts associated with an account for the DocuSign service.
+// ContactsDeleteList deletes multiple contacts from an account.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/contacts/deletelist
 //
@@ -125,7 +125,7 @@ func (op *ContactsDeleteListOp) Do(ctx context.Context) (*model.ContactUpdateRes
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// ContactsGet gets a particular contact associated with the user's account.
+// ContactsGet gets one or more contacts.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/contacts/get
 //
@@ -149,7 +149,10 @@ func (op *ContactsGetOp) Do(ctx context.Context) (*model.ContactGetResponse, err
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// CloudProvider set the call query parameter cloud_provider
+// CloudProvider (Optional) The cloud provider from which to retrieve the contacts. Valid values are:
+//
+// - `rooms`
+// - `docusignCore` (default)
 func (op *ContactsGetOp) CloudProvider(val string) *ContactsGetOp {
 	if op != nil {
 		op.QueryOpts.Set("cloud_provider", val)
@@ -157,7 +160,7 @@ func (op *ContactsGetOp) CloudProvider(val string) *ContactsGetOp {
 	return op
 }
 
-// ContactsUpdate replaces contacts associated with an account for the DocuSign service.
+// ContactsUpdate updates one or more contacts.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/contacts/update
 //
@@ -187,12 +190,12 @@ func (op *ContactsUpdateOp) Do(ctx context.Context) (*model.ContactUpdateRespons
 // https://developers.docusign.com/esign-rest-api/reference/users/usercustomsettings/delete
 //
 // SDK Method Users::deleteCustomSettings
-func (s *Service) CustomSettingsDelete(userID string, userCustomSettings *model.CustomSettingsInformation) *CustomSettingsDeleteOp {
+func (s *Service) CustomSettingsDelete(userID string, customSettingsInformation *model.CustomSettingsInformation) *CustomSettingsDeleteOp {
 	return &CustomSettingsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"users", userID, "custom_settings"}, "/"),
-		Payload:    userCustomSettings,
+		Payload:    customSettingsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -236,12 +239,12 @@ func (op *CustomSettingsListOp) Do(ctx context.Context) (*model.CustomSettingsIn
 // https://developers.docusign.com/esign-rest-api/reference/users/usercustomsettings/update
 //
 // SDK Method Users::updateCustomSettings
-func (s *Service) CustomSettingsUpdate(userID string, userCustomSettings *model.CustomSettingsInformation) *CustomSettingsUpdateOp {
+func (s *Service) CustomSettingsUpdate(userID string, customSettingsInformation *model.CustomSettingsInformation) *CustomSettingsUpdateOp {
 	return &CustomSettingsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"users", userID, "custom_settings"}, "/"),
-		Payload:    userCustomSettings,
+		Payload:    customSettingsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -285,12 +288,12 @@ func (op *ProfilesGetOp) Do(ctx context.Context) (*model.UserProfile, error) {
 // https://developers.docusign.com/esign-rest-api/reference/users/userprofiles/update
 //
 // SDK Method Users::updateProfile
-func (s *Service) ProfilesUpdate(userID string, userProfiles *model.UserProfile) *ProfilesUpdateOp {
+func (s *Service) ProfilesUpdate(userID string, userProfile *model.UserProfile) *ProfilesUpdateOp {
 	return &ProfilesUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"users", userID, "profile"}, "/"),
-		Payload:    userProfiles,
+		Payload:    userProfile,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -427,7 +430,7 @@ func (op *SignaturesGetImageOp) Do(ctx context.Context) (*esign.Download, error)
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// IncludeChrome set the call query parameter include_chrome
+// IncludeChrome when **true**, the chrome (or frame containing the added line and identifier) is included with the signature image.
 func (op *SignaturesGetImageOp) IncludeChrome() *SignaturesGetImageOp {
 	if op != nil {
 		op.QueryOpts.Set("include_chrome", "true")
@@ -435,7 +438,7 @@ func (op *SignaturesGetImageOp) IncludeChrome() *SignaturesGetImageOp {
 	return op
 }
 
-// SignaturesList retrieves a list of user signature definitions for a specified user.
+// SignaturesList retrieves a list of signature definitions for a user.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/usersignatures/list
 //
@@ -459,7 +462,11 @@ func (op *SignaturesListOp) Do(ctx context.Context) (*model.UserSignaturesInform
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// StampType set the call query parameter stamp_type
+// StampType is the type of stamps to return. Valid values are:
+//
+// - `signature`: Returns information about signature images only. This is the default value.
+// - `stamp`: Returns information about eHanko and custom stamps only.
+// - null
 func (op *SignaturesListOp) StampType(val string) *SignaturesListOp {
 	if op != nil {
 		op.QueryOpts.Set("stamp_type", val)
@@ -609,7 +616,7 @@ func (op *DeleteOp) Do(ctx context.Context) (*model.UsersResponse, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Delete iD of the user to delete.
+// Delete iD of the user to delete. This parameter takes a comma-separated list of values in the format: `Groups,PermissionSet,SigningGroupsEmail`.
 func (op *DeleteOp) Delete(val string) *DeleteOp {
 	if op != nil {
 		op.QueryOpts.Set("delete", val)
@@ -705,7 +712,7 @@ func (op *GetProfileImageOp) Do(ctx context.Context) (*esign.Download, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Encoding set the call query parameter encoding
+// Encoding reserved for DocuSign.
 func (op *GetProfileImageOp) Encoding(val string) *GetProfileImageOp {
 	if op != nil {
 		op.QueryOpts.Set("encoding", val)
@@ -769,7 +776,7 @@ func (op *ListOp) AdditionalInfo() *ListOp {
 	return op
 }
 
-// Count number of records to return. The number must be greater than 0 and less than or equal to 100.
+// Count is the number of records to return. This number must be greater than `0` and less than or equal to `100`.
 func (op *ListOp) Count(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -777,7 +784,9 @@ func (op *ListOp) Count(val int) *ListOp {
 	return op
 }
 
-// Email reserved for DocuSign.
+// Email filters results based on the email address associated with the user that you want to return.
+//
+// **Note**: You can use either this parameter or the `email_substring` parameter, but not both. For older accounts, this parameter might return multiple users who are associated with a single email address.
 func (op *ListOp) Email(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("email", val)
@@ -785,7 +794,9 @@ func (op *ListOp) Email(val string) *ListOp {
 	return op
 }
 
-// EmailSubstring reserved for DocuSign.
+// EmailSubstring filters results based on a fragment of an email address. For example, you could enter `gmail` to return all users who have Gmail addresses.
+//
+// **Note**: You do not use a wildcard character with this parameter. You can use either this parameter or the `email` parameter, but not both.
 func (op *ListOp) EmailSubstring(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("email_substring", val)
@@ -793,7 +804,7 @@ func (op *ListOp) EmailSubstring(val string) *ListOp {
 	return op
 }
 
-// GroupID filters returned user records by one or more group IDs.
+// GroupID filters results based on one or more group IDs.
 func (op *ListOp) GroupID(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("group_id", val)
@@ -801,7 +812,7 @@ func (op *ListOp) GroupID(val string) *ListOp {
 	return op
 }
 
-// IncludeUsersettingsForCsv return the `userSettings` object data in CSV format.
+// IncludeUsersettingsForCsv when set to **true**, the response includes the `userSettings` object data in CSV format.
 func (op *ListOp) IncludeUsersettingsForCsv() *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("include_usersettings_for_csv", "true")
@@ -809,7 +820,7 @@ func (op *ListOp) IncludeUsersettingsForCsv() *ListOp {
 	return op
 }
 
-// LoginStatus return the login status of each user.
+// LoginStatus when set to **true**, the response includes the login status of each user.
 func (op *ListOp) LoginStatus(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("login_status", val)
@@ -833,13 +844,13 @@ func (op *ListOp) StartPosition(val int) *ListOp {
 	return op
 }
 
-// Status filters the user records by account status. One of:
+// Status filters results by user account status. Possible values are:
 //
-// * ActivationRequired
-// * ActivationSent
-// * Active
-// * Closed
-// * Disabled
+// * `ActivationRequired`
+// * `ActivationSent`
+// * `Active`
+// * `Closed`
+// * `Disabled`
 func (op *ListOp) Status(val ...string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("status", strings.Join(val, ","))
@@ -847,7 +858,9 @@ func (op *ListOp) Status(val ...string) *ListOp {
 	return op
 }
 
-// UserNameSubstring filters returned user records by full user name or a substring of user name.
+// UserNameSubstring filters results based on a full or partial user name.
+//
+// **Note**: When you enter a partial user name, you do not use a wildcard character.
 func (op *ListOp) UserNameSubstring(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("user_name_substring", val)
@@ -860,12 +873,12 @@ func (op *ListOp) UserNameSubstring(val string) *ListOp {
 // https://developers.docusign.com/esign-rest-api/reference/users/users/update
 //
 // SDK Method Users::updateUser
-func (s *Service) Update(userID string, users *model.UserInformation) *UpdateOp {
+func (s *Service) Update(userID string, userInformation *model.UserInformation) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"users", userID}, "/"),
-		Payload:    users,
+		Payload:    userInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -880,7 +893,7 @@ func (op *UpdateOp) Do(ctx context.Context) (*model.UserInformation, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// UpdateList change one or more user in the specified account.
+// UpdateList changes one or more users in the specified account.
 //
 // https://developers.docusign.com/esign-rest-api/reference/users/users/updatelist
 //

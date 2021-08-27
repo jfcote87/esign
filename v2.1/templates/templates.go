@@ -10,13 +10,13 @@
 //
 // Use the Templates category to manage your account's templates.
 //
-// You can:
+// This section shows you how to perform the following tasks:
 //
 // * Create, list, get, update, and delete templates.
-// * Manage templates' notification and group sharing settings.
+// * Manage the notification and group sharing settings for templates.
 // * Fetch and rotate pages from a document used by a template.
 //
-// Templates can be created programmatically or can be created via the DocuSign web interface and then used by your application.
+// You can create templates either programmatically or through the DocuSign web interface and then used by your application.
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/esign-rest-api/reference/Templates
@@ -245,12 +245,12 @@ func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, er
 // https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/create
 //
 // SDK Method Templates::createDocumentFields
-func (s *Service) DocumentFieldsCreate(documentID string, templateID string, templateDocumentFields *model.DocumentFieldsInformation) *DocumentFieldsCreateOp {
+func (s *Service) DocumentFieldsCreate(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsCreateOp {
 	return &DocumentFieldsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
-		Payload:    templateDocumentFields,
+		Payload:    documentFieldsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -270,12 +270,12 @@ func (op *DocumentFieldsCreateOp) Do(ctx context.Context) (*model.DocumentFields
 // https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/delete
 //
 // SDK Method Templates::deleteDocumentFields
-func (s *Service) DocumentFieldsDelete(documentID string, templateID string, templateDocumentFields *model.DocumentFieldsInformation) *DocumentFieldsDeleteOp {
+func (s *Service) DocumentFieldsDelete(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsDeleteOp {
 	return &DocumentFieldsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
-		Payload:    templateDocumentFields,
+		Payload:    documentFieldsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -319,12 +319,12 @@ func (op *DocumentFieldsListOp) Do(ctx context.Context) (*model.DocumentFieldsIn
 // https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/update
 //
 // SDK Method Templates::updateDocumentFields
-func (s *Service) DocumentFieldsUpdate(documentID string, templateID string, templateDocumentFields *model.DocumentFieldsInformation) *DocumentFieldsUpdateOp {
+func (s *Service) DocumentFieldsUpdate(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsUpdateOp {
 	return &DocumentFieldsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
-		Payload:    templateDocumentFields,
+		Payload:    documentFieldsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -447,7 +447,7 @@ func (op *DocumentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Encrypt set the call query parameter encrypt
+// Encrypt when set to **true**, the PDF bytes returned in the response are encrypted for all the key managers configured on your DocuSign account. You can decrypt the documents by using the Key Manager DecryptDocument API method. For more information about Key Manager, see the DocuSign Security Appliance Installation Guide that your organization received from DocuSign.
 func (op *DocumentsGetOp) Encrypt() *DocumentsGetOp {
 	if op != nil {
 		op.QueryOpts.Set("encrypt", "true")
@@ -455,7 +455,7 @@ func (op *DocumentsGetOp) Encrypt() *DocumentsGetOp {
 	return op
 }
 
-// ShowChanges set the call query parameter show_changes
+// ShowChanges when set to **true**, any document fields that a recipient changed are highlighted in yellow in the returned PDF document, and optional signatures or initials are outlined in red.
 func (op *DocumentsGetOp) ShowChanges() *DocumentsGetOp {
 	if op != nil {
 		op.QueryOpts.Set("show_changes", "true")
@@ -495,7 +495,7 @@ func (op *DocumentsListOp) IncludeTabs(val string) *DocumentsListOp {
 	return op
 }
 
-// DocumentsUpdate adds a document to a template document.
+// DocumentsUpdate updates a template document.
 //
 // https://developers.docusign.com/esign-rest-api/reference/templates/templatedocuments/update
 //
@@ -553,7 +553,7 @@ func (op *DocumentsUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumen
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// LocksCreate lock a template.
+// LocksCreate locks a template.
 //
 // https://developers.docusign.com/esign-rest-api/reference/templates/templatelocks/create
 //
@@ -726,7 +726,7 @@ func (op *RecipientTabsListOp) Do(ctx context.Context) (*model.Tabs, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// IncludeAnchorTabLocations when set to **true**, all tabs with anchor tab properties are included in the response. If you do not specify this parameter, the effect is the default behavior (**false**).
+// IncludeAnchorTabLocations when set to **true**, all tabs with anchor tab properties are included in the response. The default value is **false**.
 func (op *RecipientTabsListOp) IncludeAnchorTabLocations() *RecipientTabsListOp {
 	if op != nil {
 		op.QueryOpts.Set("include_anchor_tab_locations", "true")
@@ -792,7 +792,9 @@ func (op *RecipientsCreateOp) Do(ctx context.Context) (*model.Recipients, error)
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// ResendEnvelope when set to **true**, resends the   envelope if the new recipient's routing order is before or the same as the envelope's next recipient.
+// ResendEnvelope when set to **true**, resends the envelope to the recipients that you specify in the request body. You use this parameter to resend the envelope to a recipient who deleted the original email notification.
+//
+// **Note**: Correcting an envelope is a different process. DocuSign always resends an envelope when you correct it, regardless of the value that you enter here.
 func (op *RecipientsCreateOp) ResendEnvelope() *RecipientsCreateOp {
 	if op != nil {
 		op.QueryOpts.Set("resend_envelope", "true")
@@ -890,7 +892,7 @@ func (op *RecipientsListOp) IncludeExtended() *RecipientsListOp {
 	return op
 }
 
-// IncludeTabs when set to **true**, the tab information associated with the recipient is included in the response. If you do not specify this parameter, the effect is the default behavior (**false**).
+// IncludeTabs when set to **true**, the tab information associated with the recipient is included in the response.
 func (op *RecipientsListOp) IncludeTabs() *RecipientsListOp {
 	if op != nil {
 		op.QueryOpts.Set("include_tabs", "true")
@@ -923,7 +925,9 @@ func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.RecipientsUpdateSu
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// ResendEnvelope when set to **true**, resends the   envelope if the new recipient's routing order is before or the same as the envelope's next recipient.
+// ResendEnvelope when set to **true**, resends the envelope to the recipients that you specify in the request body. You use this parameter to resend the envelope to a recipient who deleted the original email notification.
+//
+// **Note**: Correcting an envelope is a different process. DocuSign always resends an envelope when you correct it, regardless of the value that you enter here.
 func (op *RecipientsUpdateOp) ResendEnvelope() *RecipientsUpdateOp {
 	if op != nil {
 		op.QueryOpts.Set("resend_envelope", "true")
@@ -931,7 +935,7 @@ func (op *RecipientsUpdateOp) ResendEnvelope() *RecipientsUpdateOp {
 	return op
 }
 
-// ViewsCreateEdit provides a URL to start an edit view of the Template UI
+// ViewsCreateEdit gets a URL for a template edit view.
 //
 // https://developers.docusign.com/esign-rest-api/reference/templates/templateviews/createedit
 //
@@ -956,18 +960,18 @@ func (op *ViewsCreateEditOp) Do(ctx context.Context) (*model.ViewURL, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Create creates a template.
+// Create creates one or more templates.
 // If any uploads[x].Reader is an io.ReadCloser(s), Do() will always close Reader.
 //
 // https://developers.docusign.com/esign-rest-api/reference/templates/templates/create
 //
 // SDK Method Templates::createTemplate
-func (s *Service) Create(templates *model.EnvelopeTemplate, uploads ...*esign.UploadFile) *CreateOp {
+func (s *Service) Create(envelopeTemplate *model.EnvelopeTemplate, uploads ...*esign.UploadFile) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "templates",
-		Payload:    templates,
+		Payload:    envelopeTemplate,
 		Files:      uploads,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
@@ -1012,12 +1016,12 @@ func (op *DeleteDocumentPageOp) Do(ctx context.Context) error {
 // https://developers.docusign.com/esign-rest-api/reference/templates/templates/deletegroupshare
 //
 // SDK Method Templates::deleteGroupShare
-func (s *Service) DeleteGroupShare(templateID string, templatePart string, groups *model.GroupInformation) *DeleteGroupShareOp {
+func (s *Service) DeleteGroupShare(templateID string, templatePart string, groupInformation *model.GroupInformation) *DeleteGroupShareOp {
 	return &DeleteGroupShareOp{
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1056,14 +1060,15 @@ func (op *GetOp) Do(ctx context.Context) (*model.EnvelopeTemplate, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Include is a comma-separated list of additional template attributes to include in the response. Valid values are:
+// Include is a comma-separated list
+// of additional template attributes
+// to include in the response.
+// Valid values are:
 //
-// - `recipients`
-// - `folders`
-// - `documents`
-// - `custom_fields`
-// - `notifications`
-// - `powerforms`
+// - `powerforms`: Includes information about PowerForms.
+// - `tabs`: Includes information about tabs.
+// - `documents`: Includes information about documents.
+// - `favorite_template_status`: : Includes the template `favoritedByMe` property in the response. **Note**: You can mark a template as a favorite only in eSignature v2.1.
 func (op *GetOp) Include(val ...string) *GetOp {
 	if op != nil {
 		op.QueryOpts.Set("include", strings.Join(val, ","))
@@ -1232,7 +1237,7 @@ func (op *GetPageImagesOp) StartPosition(val int) *GetPageImagesOp {
 	return op
 }
 
-// List gets the definition of a template.
+// List gets template definitions.
 //
 // https://developers.docusign.com/esign-rest-api/reference/templates/templates/list
 //
@@ -1256,7 +1261,7 @@ func (op *ListOp) Do(ctx context.Context) (*model.EnvelopeTemplateResults, error
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Count number of records to return in the cache.
+// Count is the number of records to return in the cache.
 func (op *ListOp) Count(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -1264,7 +1269,7 @@ func (op *ListOp) Count(val int) *ListOp {
 	return op
 }
 
-// CreatedFromDate list templates created on or after this date.
+// CreatedFromDate lists templates created on or after this date.
 func (op *ListOp) CreatedFromDate(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("created_from_date", val)
@@ -1272,7 +1277,7 @@ func (op *ListOp) CreatedFromDate(val string) *ListOp {
 	return op
 }
 
-// CreatedToDate list templates modified before this date.
+// CreatedToDate lists templates modified before this date.
 func (op *ListOp) CreatedToDate(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("created_to_date", val)
@@ -1280,7 +1285,7 @@ func (op *ListOp) CreatedToDate(val string) *ListOp {
 	return op
 }
 
-// FolderIds is a comma separated list of folder ID GUIDs.
+// FolderIds is a comma-separated list of folder id GUIDs.
 func (op *ListOp) FolderIds(val ...string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("folder_ids", strings.Join(val, ","))
@@ -1314,19 +1319,14 @@ func (op *ListOp) FromDate(val time.Time) *ListOp {
 // to include in the response.
 // Valid values are:
 //
-// - `advanced_templates`
-// - `custom_fields`
-// - `documents`
-// - `folders`
-// - `notifications`
-// - `pathExtended`
-// - `powerforms`
-// - `recipients`
-// - `shared_template_folders`
-//
-// `pathExtended`: Includes SalesForce configuration data for merge fields
-// that can be used to optimize upload template
-// by eliminating the need to connect to SalesForce.
+// - `powerforms`: Includes details about the PowerForms associated with the templates.
+// - `documents`: Includes information about template documents.
+// - `folders`: Includes information about the folder that holds the template.
+// - `favorite_template_status`: Includes the template `favoritedByMe` property. **Note**: You can mark a template as a favorite only in eSignature v2.1.
+// - `advanced_templates`: Includes information about advanced templates.
+// - `recipients`: Includes information about template recipients.
+// - `custom_fields`: Includes information about template custom fields.
+// - `notifications`: Includes information about the notification settings for templates.
 func (op *ListOp) Include(val ...string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("include", strings.Join(val, ","))
@@ -1334,11 +1334,21 @@ func (op *ListOp) Include(val ...string) *ListOp {
 	return op
 }
 
-// IsDownload when **true**, download the templates listed in `template_ids` as a ZIP file.
+// IsDeletedTemplateOnly set the call query parameter is_deleted_template_only
+func (op *ListOp) IsDeletedTemplateOnly(val string) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("is_deleted_template_only", val)
+	}
+	return op
+}
+
+// IsDownload when set to **true**, downloads the templates listed in `template_ids` as a collection of JSON definitions in a single zip file.
 //
 // The `Content-Disposition` header is set in the response. The value of the header provides the filename of the file.
 //
-// Default is **false**.
+// The default is **false**.
+//
+// **Note**: This parameter only works when you specify a list of templates in the `template_ids` parameter.
 func (op *ListOp) IsDownload(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("is_download", val)
@@ -1346,7 +1356,7 @@ func (op *ListOp) IsDownload(val string) *ListOp {
 	return op
 }
 
-// ModifiedFromDate list templates modified on or after this date.
+// ModifiedFromDate lists templates modified on or after this date.
 func (op *ListOp) ModifiedFromDate(val time.Time) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("modified_from_date", val.Format(time.RFC3339))
@@ -1354,7 +1364,7 @@ func (op *ListOp) ModifiedFromDate(val time.Time) *ListOp {
 	return op
 }
 
-// ModifiedToDate list templates modified before this date.
+// ModifiedToDate lists templates modified before this date.
 func (op *ListOp) ModifiedToDate(val time.Time) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("modified_to_date", val.Format(time.RFC3339))
@@ -1400,7 +1410,7 @@ func (op *ListOp) SearchFields(val string) *ListOp {
 	return op
 }
 
-// SearchText is the search text used to search the names of templates.
+// SearchText is the search text to use to search the names of templates.
 func (op *ListOp) SearchText(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("search_text", val)
@@ -1408,7 +1418,7 @@ func (op *ListOp) SearchText(val string) *ListOp {
 	return op
 }
 
-// SharedByMe if true, the response only includes templates shared by the user. If false, the response only returns template not shared by the user. If not specified, the response is not affected.
+// SharedByMe if **true**, the response only includes templates shared by the user. If false, the response only returns template not shared by the user. If not specified, the response is not affected.
 func (op *ListOp) SharedByMe(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("shared_by_me", val)
@@ -1416,7 +1426,7 @@ func (op *ListOp) SharedByMe(val string) *ListOp {
 	return op
 }
 
-// StartPosition is the starting index for the first template shown in the response. This must be greater than or equal to 0 (zero).
+// StartPosition is the starting zero-based index position for the first template to show in the response. This value must be greater than or equal to `0` (zero).
 func (op *ListOp) StartPosition(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
@@ -1424,7 +1434,7 @@ func (op *ListOp) StartPosition(val int) *ListOp {
 	return op
 }
 
-// TemplateIds is a comma-separated list of template IDs to download. This value is valid only when `is_download` is **true**.
+// TemplateIds is a comma-separated list of template ids to download. This value is valid only when `is_download` is **true**.
 func (op *ListOp) TemplateIds(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("template_ids", val)
@@ -1432,7 +1442,9 @@ func (op *ListOp) TemplateIds(val string) *ListOp {
 	return op
 }
 
-// ToDate end of the search date range. Only returns templates created up to this date/time. If no value is provided, this defaults to the current date.
+// ToDate is the end of a search date range in UTC DateTime format. When you use this parameter, only templates created up to this date and time are returned.
+//
+// **Note**: If this property is null, the value defaults to the current date.
 func (op *ListOp) ToDate(val time.Time) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
@@ -1468,7 +1480,7 @@ func (op *ListOp) UserFilter(val string) *ListOp {
 	return op
 }
 
-// UserID is the user ID.
+// UserID is the id of the user.
 func (op *ListOp) UserID(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("user_id", val)
@@ -1505,12 +1517,12 @@ func (op *RotateDocumentPageOp) Do(ctx context.Context) error {
 // https://developers.docusign.com/esign-rest-api/reference/templates/templates/update
 //
 // SDK Method Templates::update
-func (s *Service) Update(templateID string, templates *model.EnvelopeTemplate) *UpdateOp {
+func (s *Service) Update(templateID string, envelopeTemplate *model.EnvelopeTemplate) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID}, "/"),
-		Payload:    templates,
+		Payload:    envelopeTemplate,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -1525,17 +1537,17 @@ func (op *UpdateOp) Do(ctx context.Context) (*model.TemplateUpdateSummary, error
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// UpdateGroupShare shares a template with a group
+// UpdateGroupShare shares a template with a group.
 //
 // https://developers.docusign.com/esign-rest-api/reference/templates/templates/updategroupshare
 //
 // SDK Method Templates::updateGroupShare
-func (s *Service) UpdateGroupShare(templateID string, templatePart string, groups *model.GroupInformation) *UpdateGroupShareOp {
+func (s *Service) UpdateGroupShare(templateID string, templatePart string, groupInformation *model.GroupInformation) *UpdateGroupShareOp {
 	return &UpdateGroupShareOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

@@ -83,6 +83,9 @@ func GetFieldOverrides() map[string]map[string]string {
 		"witness": {
 			"offlineAttributes": "interface{}",
 		},
+		"notaryRecipient": {
+			"offlineAttributes": "interface{}",
+		},
 		"newAccountDefinition": {
 			"socialAccountInformation": "*SocialAccountInformation",
 		},

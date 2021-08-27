@@ -8,14 +8,21 @@
 // Package connect implements the DocuSign SDK
 // category Connect.
 //
-// The Connect category enables your application to be called via HTTPS when an event of interest occurs.
+// The Connect service enables your application to be called via HTTPS when an event of interest occurs.
 //
 // Use the Connect service to "end the polling madness." With Connect, there is no need for your application to poll DocuSign every 15 minutes to learn the latest about your envelopes.
 //
 // Instead, you register your interest in one or more types of envelope or recipient events. Then, when an interesting event occurs, the DocuSign platform will contact your application with the event's details and data. You can register interest in envelopes sent by particular users in your account, or for envelopes sent by any user.
 //
+// Connect can empower your organization to manage document actions as they occur, and allows you to track their changes within your own systems. Upon completion, envelope information, including document content, can be stored in your own databases or CMS systems, and these events can be triggered via webhooks delivering messages to your application.
+//
 // ## Incoming Connect Calls
-// To use the Connect service, your application needs to provide an https url that can be called from the public internet. If your application runs on a server behind your organization's firewall, then you will need to create a "pinhole" in the firewall to allow the incoming Connect calls from DocuSign to reach your application. Other techniques for receiving the incoming calls including proxy servers and DMZ networking can also be used.
+//
+// To use the Connect service, your application needs to provide an HTTPS URL that can be called from the public Internet. If your application runs on a server behind your organization's firewall, then you will need to create a "pinhole" in the firewall to allow the incoming Connect calls from DocuSign to reach your application. You can also use other techniques such as proxy servers and DMZ networking for receiving the incoming calls.
+//
+// Connect delivers events over HTTP requests in the form of XML. DocuSign sends an XML object to the secure URL entered on the configuration page for every event and user selected.
+//
+// If your application is not configured to accept post messages, DocuSign will NOT return an additional post error response to your listener application. If you've enabled logging on your configuration, it will be logged in Admin under the configuration failure log.
 //
 // ## Per-envelope Connect Configuration
 // Instead of registering a general Connect configuration and listener, an individual envelope can have its own Connect configuration. See the `eventNotification` field for envelopes.
@@ -67,12 +74,12 @@ func New(cred esign.Credential) *Service {
 // https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/create
 //
 // SDK Method Connect::createConfiguration
-func (s *Service) ConfigurationsCreate(connectConfigurations *model.ConnectCustomConfiguration) *ConfigurationsCreateOp {
+func (s *Service) ConfigurationsCreate(connectCustomConfiguration *model.ConnectCustomConfiguration) *ConfigurationsCreateOp {
 	return &ConfigurationsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "connect",
-		Payload:    connectConfigurations,
+		Payload:    connectCustomConfiguration,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -110,7 +117,7 @@ func (op *ConfigurationsDeleteOp) Do(ctx context.Context) error {
 	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// ConfigurationsGet get information on a Connect Configuration
+// ConfigurationsGet gets the details about a Connect configuration.
 //
 // https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/get
 //
@@ -230,7 +237,9 @@ func (op *ConfigurationsListUsersOp) Status(val ...string) *ConfigurationsListUs
 	return op
 }
 
-// UserNameSubstring filters returned user records by full user name or a substring of user name.
+// UserNameSubstring filters results based on a full or partial user name.
+//
+// **Note**: When you enter a partial user name, you do not use a wildcard character.
 func (op *ConfigurationsListUsersOp) UserNameSubstring(val string) *ConfigurationsListUsersOp {
 	if op != nil {
 		op.QueryOpts.Set("user_name_substring", val)
@@ -243,12 +252,12 @@ func (op *ConfigurationsListUsersOp) UserNameSubstring(val string) *Configuratio
 // https://developers.docusign.com/esign-rest-api/reference/connect/connectconfigurations/update
 //
 // SDK Method Connect::updateConfiguration
-func (s *Service) ConfigurationsUpdate(connectConfigurations *model.ConnectCustomConfiguration) *ConfigurationsUpdateOp {
+func (s *Service) ConfigurationsUpdate(connectCustomConfiguration *model.ConnectCustomConfiguration) *ConfigurationsUpdateOp {
 	return &ConfigurationsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       "connect",
-		Payload:    connectConfigurations,
+		Payload:    connectCustomConfiguration,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -309,7 +318,7 @@ func (op *EventsDeleteFailureOp) Do(ctx context.Context) error {
 	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// EventsDeleteList gets a list of Connect log entries.
+// EventsDeleteList deletes a list of Connect log entries.
 //
 // https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/deletelist
 //
@@ -332,7 +341,7 @@ func (op *EventsDeleteListOp) Do(ctx context.Context) error {
 	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// EventsGet get the specified Connect log entry.
+// EventsGet gets a Connect log entry.
 //
 // https://developers.docusign.com/esign-rest-api/reference/connect/connectevents/get
 //
@@ -356,7 +365,7 @@ func (op *EventsGetOp) Do(ctx context.Context) (*model.ConnectLog, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// AdditionalInfo when true, the connectDebugLog information is included in the response.
+// AdditionalInfo when set to **true**, the response includes the `connectDebugLog` information.
 func (op *EventsGetOp) AdditionalInfo() *EventsGetOp {
 	if op != nil {
 		op.QueryOpts.Set("additional_info", "true")
@@ -398,7 +407,9 @@ func (op *EventsListOp) FromDate(val time.Time) *EventsListOp {
 	return op
 }
 
-// ToDate end of the search date range. Only returns templates created up to this date/time. If no value is provided, this defaults to the current date.
+// ToDate is the end of a search date range in UTC DateTime format. When you use this parameter, only templates created up to this date and time are returned.
+//
+// **Note**: If this property is null, the value defaults to the current date.
 func (op *EventsListOp) ToDate(val time.Time) *EventsListOp {
 	if op != nil {
 		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
@@ -440,7 +451,9 @@ func (op *EventsListFailuresOp) FromDate(val time.Time) *EventsListFailuresOp {
 	return op
 }
 
-// ToDate end of the search date range. Only returns templates created up to this date/time. If no value is provided, this defaults to the current date.
+// ToDate is the end of a search date range in UTC DateTime format. When you use this parameter, only templates created up to this date and time are returned.
+//
+// **Note**: If this property is null, the value defaults to the current date.
 func (op *EventsListFailuresOp) ToDate(val time.Time) *EventsListFailuresOp {
 	if op != nil {
 		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))

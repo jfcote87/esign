@@ -45,7 +45,7 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
-// List gets a list of all the items from the specified cloud storage provider.
+// List gets a list of items from a cloud storage provider.
 //
 // https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorage/list
 //
@@ -69,7 +69,7 @@ func (op *ListOp) Do(ctx context.Context) (*model.ExternalFolder, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// CloudStorageFolderPath set the call query parameter cloud_storage_folder_path
+// CloudStorageFolderPath is the file path to a cloud storage folder.
 func (op *ListOp) CloudStorageFolderPath(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("cloud_storage_folder_path", val)
@@ -77,7 +77,7 @@ func (op *ListOp) CloudStorageFolderPath(val string) *ListOp {
 	return op
 }
 
-// CloudStorageFolderidPlain set the call query parameter cloud_storage_folderid_plain
+// CloudStorageFolderidPlain is a plain-text folder id that you can use as an alternative to the existing folder id. This property is mainly used for rooms. Enter multiple folder ids as a comma-separated list.
 func (op *ListOp) CloudStorageFolderidPlain(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("cloud_storage_folderid_plain", val)
@@ -122,7 +122,7 @@ func (op *ListOp) OrderBy(val string) *ListOp {
 	return op
 }
 
-// SearchText set the call query parameter search_text
+// SearchText use this parameter to search for specific text.
 func (op *ListOp) SearchText(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("search_text", val)
@@ -130,7 +130,7 @@ func (op *ListOp) SearchText(val string) *ListOp {
 	return op
 }
 
-// StartPosition indicates the starting point of the first item included in the response set. It uses a 0-based index. The default setting for this is 0.
+// StartPosition is the starting index position in the result set from which to start returning values. The default setting is `0`.
 func (op *ListOp) StartPosition(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
@@ -207,7 +207,7 @@ func (op *ListFoldersOp) OrderBy(val string) *ListFoldersOp {
 	return op
 }
 
-// SearchText set the call query parameter search_text
+// SearchText use this parameter to search for specific text.
 func (op *ListFoldersOp) SearchText(val string) *ListFoldersOp {
 	if op != nil {
 		op.QueryOpts.Set("search_text", val)
