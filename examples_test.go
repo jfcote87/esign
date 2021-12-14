@@ -167,6 +167,20 @@ func Example_create_envelope() {
 	}
 
 	env := &model.EnvelopeDefinition{
+		EventNotification: &model.EventNotification{
+			URL: "https://webhook.site/67ce4f73-7af7-4995-b37d-a1fab267e706",
+			EnvelopeEvents: []model.EnvelopeEvent{
+				{
+					EnvelopeEventStatusCode: "Sent",
+					IncludeDocuments:        "false",
+				},
+				{
+					EnvelopeEventStatusCode: "Completed",
+					IncludeDocuments:        "true",
+				},
+			},
+			IncludeDocuments: true,
+		},
 		EmailSubject: "[Go eSignagure SDK] - Please sign this doc",
 		EmailBlurb:   "Please sign this test document",
 		Status:       "sent",

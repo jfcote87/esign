@@ -7293,10 +7293,23 @@ type ErrorDetails struct {
 	Message string `json:"message,omitempty"`
 }
 
+// EventData The eventNotification object now includes a new attribute, eventData. The attribute is set to an object with three attributes: {version, format, and includeData}: https://www.docusign.com/blog/developers/connect-webhooks-json-notifications
+type EventData struct {
+	// "restv2.1" | "legacy" default is "legacy"
+	Version string `json:"version,omitempty"`
+	// 	"json" | "xml"	If version is "legacy" (or not included) then default is "xml". If version is "restv2.1" then default is "json".
+	Format string `json:"format,omitempty"`
+	// Array of strings. Valid items: "custom_fields", "extensions", "folders", "recipients", "powerform", "tabs", "payment_tabs", "documents", "attachments"
+	// Optional: additional sets of data that can be included with the JSON payload. "extensions": include the email settings for the envelope
+	IncludeData []string `json:"includeData,omitempty"`
+}
+
 // EventNotification register a Connect webhook for a specific envelope
 type EventNotification struct {
 	// A list of envelope-level event statuses that will trigger Connect to send updates to the endpoint specified in the `url` property.
 	//
+	// Override default legacy xml event notifications by using the eventData object.
+	EventData EventData `json:"eventData,omitempty"`
 	// To receive notifications, you must include either an `envelopeEvents` node or a `recipientEvents` node. You do not need to specify both.
 	EnvelopeEvents []EnvelopeEvent `json:"envelopeEvents,omitempty"`
 	// When set to **true**, the Connect Service includes the Certificate of Completion with completed envelopes.
