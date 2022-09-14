@@ -13,11 +13,21 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
-	"strings"
-
 	"net/http"
 	"net/textproto"
 	"net/url"
+	"strconv"
+	"strings"
+	"time"
+)
+
+// Constants for the rate limit headers as described by https://developers.docusign.com/docs/esign-soap-api/esign101/security/call-limits/
+const (
+	Header_RateLimit_Limit      = "X-RateLimit-Limit"
+	Header_RateLimit_Remaining  = "X-RateLimit-Remaining"
+	Header_RateLimit_Reset      = "X-RateLimit-Reset"
+	Header_BurstLimit_Limit     = "X-BurstLimit-Limit"
+	Header_BurstLimit_Remaining = "X-BurstLimit-Remaining"
 )
 
 // ErrNilOp used to indicate a nil operation pointer
@@ -220,15 +230,67 @@ func (op *Op) validate(ctx context.Context) error {
 	return err
 }
 
+type RateLimitContext struct {
+	RateLimit      int64
+	RateRemaining  int64
+	RateReset      time.Time
+	BurstLimit     int64
+	BurstRemaining int64
+}
+
+func rateLimitFromHTTPResponse(resp *http.Response) (*RateLimitContext, error) {
+	rateLimit := resp.Header.Get(Header_RateLimit_Limit)
+	rateLimitCount, err := strconv.ParseInt(rateLimit, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	rateLimitRemaining := resp.Header.Get(Header_RateLimit_Remaining)
+	rateLimitRemainingCount, err := strconv.ParseInt(rateLimitRemaining, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	rateResetEpoch := resp.Header.Get(Header_RateLimit_Reset)
+	rateResetEpochCount, err := strconv.ParseInt(rateResetEpoch, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	burstLimit := resp.Header.Get(Header_BurstLimit_Limit)
+	burstLimitCount, err := strconv.ParseInt(burstLimit, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	burstLimitRemaining := resp.Header.Get(Header_BurstLimit_Remaining)
+	burstLimitRemainingCount, err := strconv.ParseInt(burstLimitRemaining, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	return &RateLimitContext{
+		RateLimit:      rateLimitCount,
+		RateRemaining:  rateLimitRemainingCount,
+		RateReset:      time.Unix(rateResetEpochCount, 0),
+		BurstLimit:     burstLimitCount,
+		BurstRemaining: burstLimitRemainingCount,
+	}, nil
+}
+
+type ResponseContext struct {
+	Ratelimit *RateLimitContext
+}
+
 // Do sends a request to DocuSign.  Response data is decoded into
 // result.  If result is a **Download, do sets the File.ReadCloser
 // to the *http.Response.  The developer is responsible for closing
 // the Download.ReadCloser.  Any non-2xx status code is returned as a
 // *ResponseError.
-func (op *Op) Do(ctx context.Context, result interface{}) error {
+func (op *Op) Do(ctx context.Context, result interface{}) (*ResponseContext, error) {
 	// do nil checks and get client
 	if err := op.validate(ctx); err != nil {
-		return err
+		return nil, err
 	}
 
 	acceptHdr := op.Accept
@@ -243,18 +305,23 @@ func (op *Op) Do(ctx context.Context, result interface{}) error {
 	// get request
 	req, err := op.createOpRequest(ctx, acceptHdr)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	res, err := op.Credential.AuthDo(ctx, req, op.Version)
 	if err != nil {
-		return err
+		return nil, err
+	}
+
+	limit, err := rateLimitFromHTTPResponse(res)
+	if err != nil {
+		return nil, err
 	}
 
 	switch f := result.(type) {
 	case **Download: // return w/o closing response body
 		*f = &Download{res.Body, res.ContentLength, res.Header.Get("Content-Type")}
-		return nil
+		return &ResponseContext{Ratelimit: limit}, nil
 	case interface{}: // non-nil
 		// parse response and check for context cancellation.
 		done := make(chan error, 1) // buffered channel so go routine doesn't hang
@@ -268,8 +335,7 @@ func (op *Op) Do(ctx context.Context, result interface{}) error {
 		}
 	}
 	res.Body.Close()
-	return err
-
+	return &ResponseContext{Ratelimit: limit}, err
 }
 
 // multiPartBody sends files thru a multipart writer. Using io.Pipe
