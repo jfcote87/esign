@@ -14,13 +14,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/BulkEnvelopes
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/bulkenvelopes"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   bulkenvelopesService := bulkenvelopes.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/bulkenvelopes"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	bulkenvelopesService := bulkenvelopes.New(esignCredential)
 package bulkenvelopes // import "github.com/jfcote87/esign/v2/bulkenvelopes"
 
 import (
@@ -61,9 +61,10 @@ func (s *Service) Get(batchID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.BulkEnvelopeStatus, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.BulkEnvelopeStatus, *esign.ResponseContext, error) {
 	var res *model.BulkEnvelopeStatus
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count specifies the number of entries to return.
@@ -115,9 +116,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.BulkEnvelopesResponse, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.BulkEnvelopesResponse, *esign.ResponseContext, error) {
 	var res *model.BulkEnvelopesResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count is the number of results to return. This can be 1 to 20.
@@ -169,9 +171,10 @@ func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *Recip
 type RecipientsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipientsUpdateResponse, error) {
+func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipientsUpdateResponse, *esign.ResponseContext, error) {
 	var res *model.BulkRecipientsUpdateResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientsList gets the bulk recipient file from an envelope.
@@ -192,9 +195,10 @@ func (s *Service) RecipientsList(envelopeID string, recipientID string) *Recipie
 type RecipientsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsListOp) Do(ctx context.Context) (*model.BulkRecipientsResponse, error) {
+func (op *RecipientsListOp) Do(ctx context.Context) (*model.BulkRecipientsResponse, *esign.ResponseContext, error) {
 	var res *model.BulkRecipientsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeTabs if **true**
@@ -233,7 +237,8 @@ func (s *Service) RecipientsUpdate(envelopeID string, recipientID string, bulkRe
 type RecipientsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.BulkRecipientsSummaryResponse, error) {
+func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.BulkRecipientsSummaryResponse, *esign.ResponseContext, error) {
 	var res *model.BulkRecipientsSummaryResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

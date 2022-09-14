@@ -14,13 +14,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/PowerForms
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/powerforms"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   powerformsService := powerforms.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/powerforms"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	powerformsService := powerforms.New(esignCredential)
 package powerforms // import "github.com/jfcote87/esign/v2.1/powerforms"
 
 import (
@@ -63,9 +63,10 @@ func (s *Service) DataList(powerFormID string) *DataListOp {
 type DataListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DataListOp) Do(ctx context.Context) (*model.PowerFormsFormDataResponse, error) {
+func (op *DataListOp) Do(ctx context.Context) (*model.PowerFormsFormDataResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormsFormDataResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DataLayout is the layout in which to return the PowerForm data. Valid values are:
@@ -119,9 +120,10 @@ func (s *Service) Create(powerForms *model.PowerForm) *CreateOp {
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, *esign.ResponseContext, error) {
 	var res *model.PowerForm
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete deletes a PowerForm.
@@ -143,8 +145,10 @@ func (s *Service) Delete(powerFormID string) *DeleteOp {
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // DeleteList deletes one or more PowerForms.
@@ -167,9 +171,10 @@ func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *Delete
 type DeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
+func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Get returns a single PowerForm.
@@ -191,9 +196,10 @@ func (s *Service) Get(powerFormID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, *esign.ResponseContext, error) {
 	var res *model.PowerForm
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // List returns a list of PowerForms.
@@ -215,9 +221,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.PowerFormsResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate (Optional) The start date for a date range.
@@ -233,7 +240,6 @@ func (op *ListOp) FromDate(val time.Time) *ListOp {
 // Order (Optional) The order in which to sort the results.
 //
 // Valid values are:
-//
 //
 // * `asc`: Ascending order.
 // * `desc`: Descending order.
@@ -286,9 +292,10 @@ func (s *Service) ListSenders() *ListSendersOp {
 type ListSendersOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSendersOp) Do(ctx context.Context) (*model.PowerFormSendersResponse, error) {
+func (op *ListSendersOp) Do(ctx context.Context) (*model.PowerFormSendersResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormSendersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // StartPosition is the position within the total result set from which to start returning values. The value **thumbnail** may be used to return the page image.
@@ -319,7 +326,8 @@ func (s *Service) Update(powerFormID string, powerForms *model.PowerForm) *Updat
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.PowerForm, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.PowerForm, *esign.ResponseContext, error) {
 	var res *model.PowerForm
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

@@ -16,13 +16,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/CustomTabs
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/customtabs"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   customtabsService := customtabs.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/customtabs"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	customtabsService := customtabs.New(esignCredential)
 package customtabs // import "github.com/jfcote87/esign/v2.1/customtabs"
 
 import (
@@ -64,9 +64,10 @@ func (s *Service) Create(customTabs *model.TabMetadata) *CreateOp {
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.TabMetadata, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.TabMetadata, *esign.ResponseContext, error) {
 	var res *model.TabMetadata
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete deletes custom tab information.
@@ -88,8 +89,10 @@ func (s *Service) Delete(customTabID string) *DeleteOp {
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // Get gets custom tab information.
@@ -111,9 +114,10 @@ func (s *Service) Get(customTabID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.TabMetadata, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.TabMetadata, *esign.ResponseContext, error) {
 	var res *model.TabMetadata
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // List gets a list of all account tabs.
@@ -135,9 +139,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.TabMetadataList, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.TabMetadataList, *esign.ResponseContext, error) {
 	var res *model.TabMetadataList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomTabOnly when set to **true**, only custom tabs are returned in the response.
@@ -149,8 +154,6 @@ func (op *ListOp) CustomTabOnly() *ListOp {
 }
 
 // Update updates custom tab information.
-//
-//
 //
 // https://developers.docusign.com/esign-rest-api/reference/customtabs/customtabs/update
 //
@@ -170,7 +173,8 @@ func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *Upd
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.TabMetadata, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.TabMetadata, *esign.ResponseContext, error) {
 	var res *model.TabMetadata
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

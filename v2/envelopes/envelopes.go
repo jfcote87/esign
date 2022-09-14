@@ -18,13 +18,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/Envelopes
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/envelopes"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   envelopesService := envelopes.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/envelopes"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	envelopesService := envelopes.New(esignCredential)
 package envelopes // import "github.com/jfcote87/esign/v2/envelopes"
 
 import (
@@ -69,9 +69,10 @@ func (s *Service) ChunkedUploadsCommit(chunkedUploadID string, media io.Reader, 
 type ChunkedUploadsCommitOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ChunkedUploadsCommitOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, error) {
+func (op *ChunkedUploadsCommitOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, *esign.ResponseContext, error) {
 	var res *model.ChunkedUploadResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Action set the call query parameter action
@@ -101,9 +102,10 @@ func (s *Service) ChunkedUploadsCreate(chunkedUploadRequest *model.ChunkedUpload
 type ChunkedUploadsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ChunkedUploadsCreateOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, error) {
+func (op *ChunkedUploadsCreateOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, *esign.ResponseContext, error) {
 	var res *model.ChunkedUploadResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ChunkedUploadsDelete delete an existing ChunkedUpload.
@@ -124,9 +126,10 @@ func (s *Service) ChunkedUploadsDelete(chunkedUploadID string) *ChunkedUploadsDe
 type ChunkedUploadsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ChunkedUploadsDeleteOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, error) {
+func (op *ChunkedUploadsDeleteOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, *esign.ResponseContext, error) {
 	var res *model.ChunkedUploadResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ChunkedUploadsGet retrieves the current metadata of a ChunkedUpload.
@@ -147,9 +150,10 @@ func (s *Service) ChunkedUploadsGet(chunkedUploadID string) *ChunkedUploadsGetOp
 type ChunkedUploadsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ChunkedUploadsGetOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, error) {
+func (op *ChunkedUploadsGetOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, *esign.ResponseContext, error) {
 	var res *model.ChunkedUploadResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include is a comma-separated list of additional template attributes to include in the response. Valid values are: recipients, folders, documents, custom_fields, and notifications.
@@ -179,9 +183,10 @@ func (s *Service) ChunkedUploadsUpdate(chunkedUploadID string, chunkedUploadPart
 type ChunkedUploadsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ChunkedUploadsUpdateOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, error) {
+func (op *ChunkedUploadsUpdateOp) Do(ctx context.Context) (*model.ChunkedUploadResponse, *esign.ResponseContext, error) {
 	var res *model.ChunkedUploadResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AttachmentsCreate add one or more attachments to a DRAFT or IN-PROCESS envelope.
@@ -203,9 +208,10 @@ func (s *Service) AttachmentsCreate(envelopeID string, envelopeAttachmentsReques
 type AttachmentsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AttachmentsCreateOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, error) {
+func (op *AttachmentsCreateOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeAttachmentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AttachmentsDelete delete one or more attachments from a DRAFT envelope.
@@ -227,9 +233,10 @@ func (s *Service) AttachmentsDelete(envelopeID string, envelopeAttachmentsReques
 type AttachmentsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AttachmentsDeleteOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, error) {
+func (op *AttachmentsDeleteOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeAttachmentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AttachmentsGet retrieves an attachment from the envelope.
@@ -250,9 +257,10 @@ func (s *Service) AttachmentsGet(attachmentID string, envelopeID string) *Attach
 type AttachmentsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AttachmentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *AttachmentsGetOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AttachmentsList returns a list of attachments associated with the specified envelope
@@ -273,9 +281,10 @@ func (s *Service) AttachmentsList(envelopeID string) *AttachmentsListOp {
 type AttachmentsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AttachmentsListOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, error) {
+func (op *AttachmentsListOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeAttachmentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AttachmentsUpdate add an attachment to a DRAFT or IN-PROCESS envelope.
@@ -297,9 +306,10 @@ func (s *Service) AttachmentsUpdate(attachmentID string, envelopeID string, atta
 type AttachmentsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AttachmentsUpdateOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, error) {
+func (op *AttachmentsUpdateOp) Do(ctx context.Context) (*model.EnvelopeAttachmentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeAttachmentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ConsumerDisclosuresGet reserved: Gets the Electronic Record and Signature Disclosure associated with the account.
@@ -320,9 +330,10 @@ func (s *Service) ConsumerDisclosuresGet(envelopeID string, langCode string, rec
 type ConsumerDisclosuresGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisclosure, *esign.ResponseContext, error) {
 	var res *model.ConsumerDisclosure
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LangCode set the call query parameter langCode
@@ -351,9 +362,10 @@ func (s *Service) ConsumerDisclosuresGetDefault(envelopeID string, recipientID s
 type ConsumerDisclosuresGetDefaultOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context) (*model.ConsumerDisclosure, *esign.ResponseContext, error) {
 	var res *model.ConsumerDisclosure
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LangCode set the call query parameter langCode
@@ -383,9 +395,10 @@ func (s *Service) CustomFieldsCreate(envelopeID string, envelopeCustomFields *mo
 type CustomFieldsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, *esign.ResponseContext, error) {
 	var res *model.CustomFields
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomFieldsDelete deletes envelope custom fields for draft and in-process envelopes.
@@ -407,9 +420,10 @@ func (s *Service) CustomFieldsDelete(envelopeID string, envelopeCustomFields *mo
 type CustomFieldsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsDeleteOp) Do(ctx context.Context) (*model.CustomFields, error) {
+func (op *CustomFieldsDeleteOp) Do(ctx context.Context) (*model.CustomFields, *esign.ResponseContext, error) {
 	var res *model.CustomFields
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomFieldsList gets the custom field information for the specified envelope.
@@ -430,9 +444,10 @@ func (s *Service) CustomFieldsList(envelopeID string) *CustomFieldsListOp {
 type CustomFieldsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFieldsEnvelope, error) {
+func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFieldsEnvelope, *esign.ResponseContext, error) {
 	var res *model.CustomFieldsEnvelope
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomFieldsUpdate updates envelope custom fields in an envelope.
@@ -454,9 +469,10 @@ func (s *Service) CustomFieldsUpdate(envelopeID string, envelopeCustomFields *mo
 type CustomFieldsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, *esign.ResponseContext, error) {
 	var res *model.CustomFields
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentFieldsCreate creates custom document fields in an existing envelope document.
@@ -478,9 +494,10 @@ func (s *Service) DocumentFieldsCreate(documentID string, envelopeID string, env
 type DocumentFieldsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsCreateOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+func (op *DocumentFieldsCreateOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, *esign.ResponseContext, error) {
 	var res *model.DocumentFieldsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentFieldsDelete deletes custom document fields from an existing envelope document.
@@ -502,9 +519,10 @@ func (s *Service) DocumentFieldsDelete(documentID string, envelopeID string, env
 type DocumentFieldsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsDeleteOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+func (op *DocumentFieldsDeleteOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, *esign.ResponseContext, error) {
 	var res *model.DocumentFieldsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentFieldsList gets the custom document fields from an  existing envelope document.
@@ -525,9 +543,10 @@ func (s *Service) DocumentFieldsList(documentID string, envelopeID string) *Docu
 type DocumentFieldsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsListOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+func (op *DocumentFieldsListOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, *esign.ResponseContext, error) {
 	var res *model.DocumentFieldsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentFieldsUpdate updates existing custom document fields in an existing envelope document.
@@ -549,9 +568,10 @@ func (s *Service) DocumentFieldsUpdate(documentID string, envelopeID string, env
 type DocumentFieldsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsUpdateOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+func (op *DocumentFieldsUpdateOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, *esign.ResponseContext, error) {
 	var res *model.DocumentFieldsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentTabsGet returns tabs on the document.
@@ -572,9 +592,10 @@ func (s *Service) DocumentTabsGet(documentID string, envelopeID string) *Documen
 type DocumentTabsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsGetOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *DocumentTabsGetOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PageNumbers set the call query parameter page_numbers
@@ -603,9 +624,10 @@ func (s *Service) DocumentTabsGetByPage(documentID string, envelopeID string, pa
 type DocumentTabsGetByPageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsGetByPageOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *DocumentTabsGetByPageOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentVisibilityGet returns document visibility for the recipients
@@ -626,9 +648,10 @@ func (s *Service) DocumentVisibilityGet(envelopeID string, recipientID string) *
 type DocumentVisibilityGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
+func (op *DocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, *esign.ResponseContext, error) {
 	var res *model.DocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentVisibilityUpdate updates document visibility for the recipients
@@ -650,9 +673,10 @@ func (s *Service) DocumentVisibilityUpdate(envelopeID string, recipientID string
 type DocumentVisibilityUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
+func (op *DocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.DocumentVisibilityList, *esign.ResponseContext, error) {
 	var res *model.DocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentVisibilityUpdateList updates document visibility for the recipients
@@ -674,9 +698,10 @@ func (s *Service) DocumentVisibilityUpdateList(envelopeID string, envelopeDocume
 type DocumentVisibilityUpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
+func (op *DocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.DocumentVisibilityList, *esign.ResponseContext, error) {
 	var res *model.DocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentsDelete deletes documents from a draft envelope.
@@ -698,9 +723,10 @@ func (s *Service) DocumentsDelete(envelopeID string, envelopeDefinition *model.E
 type DocumentsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsDeleteOp) Do(ctx context.Context) (*model.EnvelopeDocumentsResult, error) {
+func (op *DocumentsDeleteOp) Do(ctx context.Context) (*model.EnvelopeDocumentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeDocumentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentsGet gets a document from an envelope.
@@ -722,9 +748,10 @@ func (s *Service) DocumentsGet(documentID string, envelopeID string) *DocumentsG
 type DocumentsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *DocumentsGetOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Certificate when set to **false**, the envelope signing certificate is removed from the download.
@@ -801,9 +828,10 @@ func (s *Service) DocumentsList(envelopeID string) *DocumentsListOp {
 type DocumentsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsListOp) Do(ctx context.Context) (*model.EnvelopeDocumentsResult, error) {
+func (op *DocumentsListOp) Do(ctx context.Context) (*model.EnvelopeDocumentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeDocumentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DocumentsUpdate adds a document to an existing draft envelope.
@@ -826,8 +854,10 @@ func (s *Service) DocumentsUpdate(documentID string, envelopeID string, media io
 type DocumentsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsUpdateOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DocumentsUpdateOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // ApplyDocumentFields when **true**, document fields
@@ -859,9 +889,10 @@ func (s *Service) DocumentsUpdateList(envelopeID string, envelopeDefinition *mod
 type DocumentsUpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsUpdateListOp) Do(ctx context.Context) (*model.EnvelopeDocumentsResult, error) {
+func (op *DocumentsUpdateListOp) Do(ctx context.Context) (*model.EnvelopeDocumentsResult, *esign.ResponseContext, error) {
 	var res *model.EnvelopeDocumentsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ApplyDocumentFields when **true**, document fields
@@ -901,9 +932,10 @@ func (s *Service) EmailSettingsCreate(envelopeID string, envelopeEmailSettings *
 type EmailSettingsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EmailSettingsCreateOp) Do(ctx context.Context) (*model.EmailSettings, error) {
+func (op *EmailSettingsCreateOp) Do(ctx context.Context) (*model.EmailSettings, *esign.ResponseContext, error) {
 	var res *model.EmailSettings
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EmailSettingsDelete deletes the email setting overrides for an envelope.
@@ -924,9 +956,10 @@ func (s *Service) EmailSettingsDelete(envelopeID string) *EmailSettingsDeleteOp 
 type EmailSettingsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EmailSettingsDeleteOp) Do(ctx context.Context) (*model.EmailSettings, error) {
+func (op *EmailSettingsDeleteOp) Do(ctx context.Context) (*model.EmailSettings, *esign.ResponseContext, error) {
 	var res *model.EmailSettings
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EmailSettingsGet gets the email setting overrides for an envelope.
@@ -947,9 +980,10 @@ func (s *Service) EmailSettingsGet(envelopeID string) *EmailSettingsGetOp {
 type EmailSettingsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EmailSettingsGetOp) Do(ctx context.Context) (*model.EmailSettings, error) {
+func (op *EmailSettingsGetOp) Do(ctx context.Context) (*model.EmailSettings, *esign.ResponseContext, error) {
 	var res *model.EmailSettings
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EmailSettingsUpdate updates the email setting overrides for an envelope.
@@ -971,9 +1005,10 @@ func (s *Service) EmailSettingsUpdate(envelopeID string, envelopeEmailSettings *
 type EmailSettingsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EmailSettingsUpdateOp) Do(ctx context.Context) (*model.EmailSettings, error) {
+func (op *EmailSettingsUpdateOp) Do(ctx context.Context) (*model.EmailSettings, *esign.ResponseContext, error) {
 	var res *model.EmailSettings
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FormDataGet returns envelope form data for an existing envelope.
@@ -994,9 +1029,10 @@ func (s *Service) FormDataGet(envelopeID string) *FormDataGetOp {
 type FormDataGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *FormDataGetOp) Do(ctx context.Context) (*model.EnvelopeFormData, error) {
+func (op *FormDataGetOp) Do(ctx context.Context) (*model.EnvelopeFormData, *esign.ResponseContext, error) {
 	var res *model.EnvelopeFormData
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LocksCreate lock an envelope.
@@ -1018,9 +1054,10 @@ func (s *Service) LocksCreate(envelopeID string, lockRequest *model.LockRequest)
 type LocksCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksCreateOp) Do(ctx context.Context) (*model.LockInformation, error) {
+func (op *LocksCreateOp) Do(ctx context.Context) (*model.LockInformation, *esign.ResponseContext, error) {
 	var res *model.LockInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LocksDelete deletes an envelope lock.
@@ -1041,9 +1078,10 @@ func (s *Service) LocksDelete(envelopeID string) *LocksDeleteOp {
 type LocksDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksDeleteOp) Do(ctx context.Context) (*model.LockInformation, error) {
+func (op *LocksDeleteOp) Do(ctx context.Context) (*model.LockInformation, *esign.ResponseContext, error) {
 	var res *model.LockInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LocksGet gets envelope lock information.
@@ -1064,9 +1102,10 @@ func (s *Service) LocksGet(envelopeID string) *LocksGetOp {
 type LocksGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksGetOp) Do(ctx context.Context) (*model.LockInformation, error) {
+func (op *LocksGetOp) Do(ctx context.Context) (*model.LockInformation, *esign.ResponseContext, error) {
 	var res *model.LockInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LocksUpdate updates an envelope lock.
@@ -1088,9 +1127,10 @@ func (s *Service) LocksUpdate(envelopeID string, lockRequest *model.LockRequest)
 type LocksUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksUpdateOp) Do(ctx context.Context) (*model.LockInformation, error) {
+func (op *LocksUpdateOp) Do(ctx context.Context) (*model.LockInformation, *esign.ResponseContext, error) {
 	var res *model.LockInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientTabsCreate adds tabs for a recipient.
@@ -1112,9 +1152,10 @@ func (s *Service) RecipientTabsCreate(envelopeID string, recipientID string, env
 type RecipientTabsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsCreateOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *RecipientTabsCreateOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientTabsDelete deletes the tabs associated with a recipient.
@@ -1136,9 +1177,10 @@ func (s *Service) RecipientTabsDelete(envelopeID string, recipientID string, env
 type RecipientTabsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsDeleteOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *RecipientTabsDeleteOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientTabsList gets the tabs information for a signer or sign-in-person recipient in an envelope.
@@ -1159,9 +1201,10 @@ func (s *Service) RecipientTabsList(envelopeID string, recipientID string) *Reci
 type RecipientTabsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsListOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *RecipientTabsListOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeAnchorTabLocations when set to **true**, all tabs with anchor tab properties are included in the response.
@@ -1182,8 +1225,6 @@ func (op *RecipientTabsListOp) IncludeMetadata(val string) *RecipientTabsListOp 
 
 // RecipientTabsUpdate updates the tabs for a recipient.
 //
-//
-//
 // https://developers.docusign.com/esign-rest-api/v2/reference/envelopes/enveloperecipienttabs/update
 //
 // SDK Method Envelopes::updateTabs
@@ -1201,9 +1242,10 @@ func (s *Service) RecipientTabsUpdate(envelopeID string, recipientID string, env
 type RecipientTabsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsUpdateOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *RecipientTabsUpdateOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientsCreate adds one or more recipients to an envelope.
@@ -1225,9 +1267,10 @@ func (s *Service) RecipientsCreate(envelopeID string, envelopeRecipients *model.
 type RecipientsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsCreateOp) Do(ctx context.Context) (*model.Recipients, error) {
+func (op *RecipientsCreateOp) Do(ctx context.Context) (*model.Recipients, *esign.ResponseContext, error) {
 	var res *model.Recipients
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ResendEnvelope when set to **true**, resends the   envelope if the new recipient's routing order is before or the same as the envelope's next recipient.
@@ -1256,9 +1299,10 @@ func (s *Service) RecipientsDelete(envelopeID string, recipientID string) *Recip
 type RecipientsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.Recipients, error) {
+func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.Recipients, *esign.ResponseContext, error) {
 	var res *model.Recipients
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientsDeleteList deletes recipients from an envelope.
@@ -1280,9 +1324,10 @@ func (s *Service) RecipientsDeleteList(envelopeID string, envelopeRecipients *mo
 type RecipientsDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsDeleteListOp) Do(ctx context.Context) (*model.Recipients, error) {
+func (op *RecipientsDeleteListOp) Do(ctx context.Context) (*model.Recipients, *esign.ResponseContext, error) {
 	var res *model.Recipients
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RecipientsList gets the status of recipients for an envelope.
@@ -1303,9 +1348,10 @@ func (s *Service) RecipientsList(envelopeID string) *RecipientsListOp {
 type RecipientsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsListOp) Do(ctx context.Context) (*model.Recipients, error) {
+func (op *RecipientsListOp) Do(ctx context.Context) (*model.Recipients, *esign.ResponseContext, error) {
 	var res *model.Recipients
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeAnchorTabLocations when set to **true** and `include_tabs` value is set to **true**, all tabs with anchor tab properties are included in the response.
@@ -1351,9 +1397,10 @@ func (s *Service) RecipientsUpdate(envelopeID string, envelopeRecipients *model.
 type RecipientsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.RecipientsUpdateSummary, error) {
+func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.RecipientsUpdateSummary, *esign.ResponseContext, error) {
 	var res *model.RecipientsUpdateSummary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // OfflineSigning set the call query parameter offline_signing
@@ -1391,9 +1438,10 @@ func (s *Service) TemplatesApply(envelopeID string, documentTemplateList *model.
 type TemplatesApplyOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplatesApplyOp) Do(ctx context.Context) (*model.DocumentTemplateList, error) {
+func (op *TemplatesApplyOp) Do(ctx context.Context) (*model.DocumentTemplateList, *esign.ResponseContext, error) {
 	var res *model.DocumentTemplateList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplatesApplyToDocument adds templates to a document in an  envelope.
@@ -1415,9 +1463,10 @@ func (s *Service) TemplatesApplyToDocument(documentID string, envelopeID string,
 type TemplatesApplyToDocumentOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplatesApplyToDocumentOp) Do(ctx context.Context) (*model.DocumentTemplateList, error) {
+func (op *TemplatesApplyToDocumentOp) Do(ctx context.Context) (*model.DocumentTemplateList, *esign.ResponseContext, error) {
 	var res *model.DocumentTemplateList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplatesDelete deletes a template from a document in an existing envelope.
@@ -1438,8 +1487,10 @@ func (s *Service) TemplatesDelete(documentID string, envelopeID string, template
 type TemplatesDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplatesDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *TemplatesDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // TemplatesList get List of Templates used in an Envelope
@@ -1460,9 +1511,10 @@ func (s *Service) TemplatesList(envelopeID string) *TemplatesListOp {
 type TemplatesListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplatesListOp) Do(ctx context.Context) (*model.TemplateInformation, error) {
+func (op *TemplatesListOp) Do(ctx context.Context) (*model.TemplateInformation, *esign.ResponseContext, error) {
 	var res *model.TemplateInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include is the possible values are:  matching_applied - This returns template matching information for the template.
@@ -1491,9 +1543,10 @@ func (s *Service) TemplatesListByDocument(documentID string, envelopeID string) 
 type TemplatesListByDocumentOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplatesListByDocumentOp) Do(ctx context.Context) (*model.TemplateInformation, error) {
+func (op *TemplatesListByDocumentOp) Do(ctx context.Context) (*model.TemplateInformation, *esign.ResponseContext, error) {
 	var res *model.TemplateInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include is a comma-separated list
@@ -1528,9 +1581,10 @@ func (s *Service) ViewsCreateConsole(consoleViewRequest *model.ConsoleViewReques
 type ViewsCreateConsoleOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateConsoleOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *ViewsCreateConsoleOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ViewsCreateCorrect returns a URL to the envelope correction UI.
@@ -1552,9 +1606,10 @@ func (s *Service) ViewsCreateCorrect(envelopeID string, correctViewRequest *mode
 type ViewsCreateCorrectOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateCorrectOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *ViewsCreateCorrectOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ViewsCreateEdit returns a URL to the edit view UI.
@@ -1576,9 +1631,10 @@ func (s *Service) ViewsCreateEdit(envelopeID string, returnURLRequest *model.Ret
 type ViewsCreateEditOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateEditOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *ViewsCreateEditOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ViewsCreateRecipient returns a URL to the recipient view UI.
@@ -1600,9 +1656,10 @@ func (s *Service) ViewsCreateRecipient(envelopeID string, recipientViewRequest *
 type ViewsCreateRecipientOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateRecipientOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *ViewsCreateRecipientOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ViewsCreateSender returns a URL to the sender view UI.
@@ -1624,9 +1681,10 @@ func (s *Service) ViewsCreateSender(envelopeID string, returnURLRequest *model.R
 type ViewsCreateSenderOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateSenderOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *ViewsCreateSenderOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Create creates an envelope.
@@ -1650,9 +1708,10 @@ func (s *Service) Create(envelopeDefinition *model.EnvelopeDefinition, uploads .
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.EnvelopeSummary, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.EnvelopeSummary, *esign.ResponseContext, error) {
 	var res *model.EnvelopeSummary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CdseMode reserved for DocuSign.
@@ -1707,8 +1766,10 @@ func (s *Service) DeleteDocumentPage(documentID string, envelopeID string, pageN
 type DeleteDocumentPageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteDocumentPageOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteDocumentPageOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // Get gets the status of a single envelope.
@@ -1729,9 +1790,10 @@ func (s *Service) Get(envelopeID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.Envelope, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.Envelope, *esign.ResponseContext, error) {
 	var res *model.Envelope
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AdvancedUpdate when true, envelope information can be added or modified.
@@ -1768,9 +1830,10 @@ func (s *Service) GetNotificationSettings(envelopeID string) *GetNotificationSet
 type GetNotificationSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, error) {
+func (op *GetNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, *esign.ResponseContext, error) {
 	var res *model.Notification
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GetPageImage gets a page image from an envelope for display.
@@ -1792,9 +1855,10 @@ func (s *Service) GetPageImage(documentID string, envelopeID string, pageNumber 
 type GetPageImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetPageImageOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *GetPageImageOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Dpi sets the dpi for the image.
@@ -1847,9 +1911,10 @@ func (s *Service) GetPageImages(documentID string, envelopeID string) *GetPageIm
 type GetPageImagesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetPageImagesOp) Do(ctx context.Context) (*model.PageImages, error) {
+func (op *GetPageImagesOp) Do(ctx context.Context) (*model.PageImages, *esign.ResponseContext, error) {
 	var res *model.PageImages
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count is the maximum number of results to be returned by this request.
@@ -1927,9 +1992,10 @@ func (s *Service) GetRecipientInitialsImage(envelopeID string, recipientID strin
 type GetRecipientInitialsImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetRecipientInitialsImageOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *GetRecipientInitialsImageOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeChrome is the added line and identifier around the initial image. Note: Older envelopes might only have chromed images. If getting the non-chromed image fails, try getting the chromed image.
@@ -1958,9 +2024,10 @@ func (s *Service) GetRecipientSignature(envelopeID string, recipientID string) *
 type GetRecipientSignatureOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetRecipientSignatureOp) Do(ctx context.Context) (*model.UserSignature, error) {
+func (op *GetRecipientSignatureOp) Do(ctx context.Context) (*model.UserSignature, *esign.ResponseContext, error) {
 	var res *model.UserSignature
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GetRecipientSignatureImage retrieve signature image information for a signer/sign-in-person recipient.
@@ -1982,9 +2049,10 @@ func (s *Service) GetRecipientSignatureImage(envelopeID string, recipientID stri
 type GetRecipientSignatureImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetRecipientSignatureImageOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *GetRecipientSignatureImageOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeChrome when set to **true**, indicates the chromed version of the signature image should be retrieved.
@@ -2013,9 +2081,10 @@ func (s *Service) ListAuditEvents(envelopeID string) *ListAuditEventsOp {
 type ListAuditEventsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListAuditEventsOp) Do(ctx context.Context) (*model.EnvelopeAuditEventResponse, error) {
+func (op *ListAuditEventsOp) Do(ctx context.Context) (*model.EnvelopeAuditEventResponse, *esign.ResponseContext, error) {
 	var res *model.EnvelopeAuditEventResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ListStatus gets the envelope status for the specified envelopes.
@@ -2037,9 +2106,10 @@ func (s *Service) ListStatus(envelopeIdsRequest *model.EnvelopeIdsRequest) *List
 type ListStatusOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListStatusOp) Do(ctx context.Context) (*model.EnvelopesInformation, error) {
+func (op *ListStatusOp) Do(ctx context.Context) (*model.EnvelopesInformation, *esign.ResponseContext, error) {
 	var res *model.EnvelopesInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AcStatus specifies the Authoritative Copy Status for the envelopes. The possible values are: Unknown, Original, Transferred, AuthoritativeCopy, AuthoritativeCopyExportPending, AuthoritativeCopyExported, DepositPending, Deposited, DepositedEO, or DepositFailed.
@@ -2177,9 +2247,10 @@ func (s *Service) ListStatusChanges() *ListStatusChangesOp {
 type ListStatusChangesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListStatusChangesOp) Do(ctx context.Context) (*model.EnvelopesInformation, error) {
+func (op *ListStatusChangesOp) Do(ctx context.Context) (*model.EnvelopesInformation, *esign.ResponseContext, error) {
 	var res *model.EnvelopesInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AcStatus specifies the Authoritative Copy Status for the envelopes. The possible values are: Unknown, Original, Transferred, AuthoritativeCopy, AuthoritativeCopyExportPending, AuthoritativeCopyExported, DepositPending, Deposited, DepositedEO, or DepositFailed.
@@ -2347,8 +2418,10 @@ func (s *Service) RotateDocumentPage(documentID string, envelopeID string, pageN
 type RotateDocumentPageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RotateDocumentPageOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *RotateDocumentPageOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // Update send, void, or modify a draft envelope. Purge documents from a completed envelope.
@@ -2370,9 +2443,10 @@ func (s *Service) Update(envelopeID string, envelopes *model.Envelope) *UpdateOp
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.EnvelopeUpdateSummary, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.EnvelopeUpdateSummary, *esign.ResponseContext, error) {
 	var res *model.EnvelopeUpdateSummary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AdvancedUpdate when set to **true**, allows the caller to update recipients, tabs, custom fields, notification, email settings and other envelope attributes.
@@ -2410,9 +2484,10 @@ func (s *Service) UpdateNotificationSettings(envelopeID string, envelopeNotifica
 type UpdateNotificationSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, error) {
+func (op *UpdateNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, *esign.ResponseContext, error) {
 	var res *model.Notification
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UpdateRecipientInitialsImage sets the initials image for an accountless signer.
@@ -2435,8 +2510,10 @@ func (s *Service) UpdateRecipientInitialsImage(envelopeID string, recipientID st
 type UpdateRecipientInitialsImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateRecipientInitialsImageOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdateRecipientInitialsImageOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // UpdateRecipientSignatureImage sets the signature image for an accountless signer.
@@ -2459,8 +2536,10 @@ func (s *Service) UpdateRecipientSignatureImage(envelopeID string, recipientID s
 type UpdateRecipientSignatureImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateRecipientSignatureImageOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdateRecipientSignatureImageOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // TemplateDocumentVisibilityGet returns document visibility for the recipients
@@ -2481,9 +2560,10 @@ func (s *Service) TemplateDocumentVisibilityGet(recipientID string, templateID s
 type TemplateDocumentVisibilityGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
+func (op *TemplateDocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, *esign.ResponseContext, error) {
 	var res *model.DocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentVisibilityUpdate updates document visibility for the recipients
@@ -2505,9 +2585,10 @@ func (s *Service) TemplateDocumentVisibilityUpdate(recipientID string, templateI
 type TemplateDocumentVisibilityUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
+func (op *TemplateDocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, *esign.ResponseContext, error) {
 	var res *model.TemplateDocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentVisibilityUpdateList updates document visibility for the recipients
@@ -2529,9 +2610,10 @@ func (s *Service) TemplateDocumentVisibilityUpdateList(templateID string, templa
 type TemplateDocumentVisibilityUpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
+func (op *TemplateDocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, *esign.ResponseContext, error) {
 	var res *model.TemplateDocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // NotaryJournalsList is SDK Method Envelopes::listNotaryJournals
@@ -2550,9 +2632,10 @@ func (s *Service) NotaryJournalsList() *NotaryJournalsListOp {
 type NotaryJournalsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *NotaryJournalsListOp) Do(ctx context.Context) (*model.NotaryJournalList, error) {
+func (op *NotaryJournalsListOp) Do(ctx context.Context) (*model.NotaryJournalList, *esign.ResponseContext, error) {
 	var res *model.NotaryJournalList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count is the maximum number of results to be returned by this request.
@@ -2596,7 +2679,8 @@ func (s *Service) ViewsCreateSharedRecipient(envelopeID string, recipientViewReq
 type ViewsCreateSharedRecipientOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateSharedRecipientOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *ViewsCreateSharedRecipientOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

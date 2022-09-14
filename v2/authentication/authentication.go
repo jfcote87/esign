@@ -18,13 +18,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/Authentication
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/authentication"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   authenticationService := authentication.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/authentication"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	authenticationService := authentication.New(esignCredential)
 package authentication // import "github.com/jfcote87/esign/v2/authentication"
 
 import (
@@ -64,9 +64,10 @@ func (s *Service) Login() *LoginOp {
 type LoginOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LoginOp) Do(ctx context.Context) (*model.LoginInformation, error) {
+func (op *LoginOp) Do(ctx context.Context) (*model.LoginInformation, *esign.ResponseContext, error) {
 	var res *model.LoginInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // APIPassword reserved for DocuSign.
@@ -125,8 +126,10 @@ func (s *Service) UpdatePassword(loginPart string, userPasswordInformation *mode
 type UpdatePasswordOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdatePasswordOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdatePasswordOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // UserSocialAccountLoginsDelete deletes user's social account.
@@ -148,8 +151,10 @@ func (s *Service) UserSocialAccountLoginsDelete(userID string, userSocialAccount
 type UserSocialAccountLoginsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UserSocialAccountLoginsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UserSocialAccountLoginsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // UserSocialAccountLoginsList gets a list of a user's social accounts.
@@ -170,9 +175,10 @@ func (s *Service) UserSocialAccountLoginsList(userID string) *UserSocialAccountL
 type UserSocialAccountLoginsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UserSocialAccountLoginsListOp) Do(ctx context.Context) (*model.UserSocialIDResult, error) {
+func (op *UserSocialAccountLoginsListOp) Do(ctx context.Context) (*model.UserSocialIDResult, *esign.ResponseContext, error) {
 	var res *model.UserSocialIDResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UserSocialAccountLoginsUpdate adds social account for a user.
@@ -194,6 +200,8 @@ func (s *Service) UserSocialAccountLoginsUpdate(userID string, userSocialAccount
 type UserSocialAccountLoginsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UserSocialAccountLoginsUpdateOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UserSocialAccountLoginsUpdateOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }

@@ -14,13 +14,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/Workspaces
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/workspaces"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   workspacesService := workspaces.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/workspaces"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	workspacesService := workspaces.New(esignCredential)
 package workspaces // import "github.com/jfcote87/esign/v2.1/workspaces"
 
 import (
@@ -65,9 +65,10 @@ func (s *Service) ItemsCreateFIle(folderID string, workspaceID string, media io.
 type ItemsCreateFIleOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ItemsCreateFIleOp) Do(ctx context.Context) (*model.WorkspaceItem, error) {
+func (op *ItemsCreateFIleOp) Do(ctx context.Context) (*model.WorkspaceItem, *esign.ResponseContext, error) {
 	var res *model.WorkspaceItem
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ItemsDeleteFolderItems deletes workspace one or more specific files/folders from the given folder or root.
@@ -90,8 +91,10 @@ func (s *Service) ItemsDeleteFolderItems(folderID string, workspaceID string, wo
 type ItemsDeleteFolderItemsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ItemsDeleteFolderItemsOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *ItemsDeleteFolderItemsOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // ItemsGetFile get Workspace File
@@ -113,9 +116,10 @@ func (s *Service) ItemsGetFile(fileID string, folderID string, workspaceID strin
 type ItemsGetFileOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ItemsGetFileOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *ItemsGetFileOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IsDownload when set to **true**, the Content-Disposition header is set in the response. The value of the header provides the filename of the file. Default is **false**.
@@ -153,9 +157,10 @@ func (s *Service) ItemsListFilePages(fileID string, folderID string, workspaceID
 type ItemsListFilePagesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ItemsListFilePagesOp) Do(ctx context.Context) (*model.PageImages, error) {
+func (op *ItemsListFilePagesOp) Do(ctx context.Context) (*model.PageImages, *esign.ResponseContext, error) {
 	var res *model.PageImages
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count is the maximum number of results to return.
@@ -217,9 +222,10 @@ func (s *Service) ItemsListFolderItems(folderID string, workspaceID string) *Ite
 type ItemsListFolderItemsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ItemsListFolderItemsOp) Do(ctx context.Context) (*model.WorkspaceFolderContents, error) {
+func (op *ItemsListFolderItemsOp) Do(ctx context.Context) (*model.WorkspaceFolderContents, *esign.ResponseContext, error) {
 	var res *model.WorkspaceFolderContents
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count is the maximum number of results to return.
@@ -299,9 +305,10 @@ func (s *Service) ItemsUpdateFile(fileID string, folderID string, workspaceID st
 type ItemsUpdateFileOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ItemsUpdateFileOp) Do(ctx context.Context) (*model.WorkspaceItem, error) {
+func (op *ItemsUpdateFileOp) Do(ctx context.Context) (*model.WorkspaceItem, *esign.ResponseContext, error) {
 	var res *model.WorkspaceItem
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Create create a Workspace
@@ -324,9 +331,10 @@ func (s *Service) Create(workspaces *model.Workspace) *CreateOp {
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.Workspace, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.Workspace, *esign.ResponseContext, error) {
 	var res *model.Workspace
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete delete Workspace
@@ -348,9 +356,10 @@ func (s *Service) Delete(workspaceID string) *DeleteOp {
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) (*model.Workspace, error) {
+func (op *DeleteOp) Do(ctx context.Context) (*model.Workspace, *esign.ResponseContext, error) {
 	var res *model.Workspace
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Get get Workspace
@@ -372,9 +381,10 @@ func (s *Service) Get(workspaceID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.Workspace, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.Workspace, *esign.ResponseContext, error) {
 	var res *model.Workspace
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // List list Workspaces
@@ -396,9 +406,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.WorkspaceList, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.WorkspaceList, *esign.ResponseContext, error) {
 	var res *model.WorkspaceList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Update update Workspace
@@ -421,7 +432,8 @@ func (s *Service) Update(workspaceID string, workspaces *model.Workspace) *Updat
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.Workspace, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.Workspace, *esign.ResponseContext, error) {
 	var res *model.Workspace
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

@@ -20,13 +20,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/UserGroups
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/usergroups"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   usergroupsService := usergroups.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/usergroups"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	usergroupsService := usergroups.New(esignCredential)
 package usergroups // import "github.com/jfcote87/esign/v2.1/usergroups"
 
 import (
@@ -69,13 +69,13 @@ func (s *Service) GroupBrandsDelete(groupID string, brandsRequest *model.BrandsR
 type GroupBrandsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupBrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+func (op *GroupBrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, *esign.ResponseContext, error) {
 	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupBrandsGet gets group brand ID Information.
-//
 //
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/get
 //
@@ -94,9 +94,10 @@ func (s *Service) GroupBrandsGet(groupID string) *GroupBrandsGetOp {
 type GroupBrandsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupBrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+func (op *GroupBrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, *esign.ResponseContext, error) {
 	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupBrandsUpdate adds group brand ID information to a group.
@@ -119,9 +120,10 @@ func (s *Service) GroupBrandsUpdate(groupID string, brandsRequest *model.BrandsR
 type GroupBrandsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupBrandsUpdateOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+func (op *GroupBrandsUpdateOp) Do(ctx context.Context) (*model.BrandsResponse, *esign.ResponseContext, error) {
 	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupUsersDelete deletes one or more users from a group
@@ -144,9 +146,10 @@ func (s *Service) GroupUsersDelete(groupID string, userInfoList *model.UserInfoL
 type GroupUsersDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupUsersDeleteOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+func (op *GroupUsersDeleteOp) Do(ctx context.Context) (*model.UsersResponse, *esign.ResponseContext, error) {
 	var res *model.UsersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupUsersList gets a list of users in a group.
@@ -168,9 +171,10 @@ func (s *Service) GroupUsersList(groupID string) *GroupUsersListOp {
 type GroupUsersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupUsersListOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+func (op *GroupUsersListOp) Do(ctx context.Context) (*model.UsersResponse, *esign.ResponseContext, error) {
 	var res *model.UsersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count number of records to return. The number must be greater than 1 and less than or equal to 100.
@@ -209,9 +213,10 @@ func (s *Service) GroupUsersUpdate(groupID string, userInfoList *model.UserInfoL
 type GroupUsersUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupUsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+func (op *GroupUsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, *esign.ResponseContext, error) {
 	var res *model.UsersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupsCreate creates one or more groups for the account.
@@ -234,9 +239,10 @@ func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
 type GroupsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupsCreateOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+func (op *GroupsCreateOp) Do(ctx context.Context) (*model.GroupInformation, *esign.ResponseContext, error) {
 	var res *model.GroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupsDelete deletes an existing user group.
@@ -259,9 +265,10 @@ func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
 type GroupsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupsDeleteOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+func (op *GroupsDeleteOp) Do(ctx context.Context) (*model.GroupInformation, *esign.ResponseContext, error) {
 	var res *model.GroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupsList gets information about groups associated with the account.
@@ -283,9 +290,10 @@ func (s *Service) GroupsList() *GroupsListOp {
 type GroupsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupsListOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+func (op *GroupsListOp) Do(ctx context.Context) (*model.GroupInformation, *esign.ResponseContext, error) {
 	var res *model.GroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count number of records to return. The number must be greater than 1 and less than or equal to 100.
@@ -348,7 +356,8 @@ func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {
 type GroupsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GroupsUpdateOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+func (op *GroupsUpdateOp) Do(ctx context.Context) (*model.GroupInformation, *esign.ResponseContext, error) {
 	var res *model.GroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

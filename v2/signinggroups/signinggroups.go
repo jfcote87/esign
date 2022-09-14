@@ -16,13 +16,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/SigningGroups
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/signinggroups"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   signinggroupsService := signinggroups.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/signinggroups"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	signinggroupsService := signinggroups.New(esignCredential)
 package signinggroups // import "github.com/jfcote87/esign/v2/signinggroups"
 
 import (
@@ -63,9 +63,10 @@ func (s *Service) UsersDelete(signingGroupID string, signingGroupUsers *model.Si
 type UsersDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UsersDeleteOp) Do(ctx context.Context) (*model.SigningGroupUsers, error) {
+func (op *UsersDeleteOp) Do(ctx context.Context) (*model.SigningGroupUsers, *esign.ResponseContext, error) {
 	var res *model.SigningGroupUsers
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UsersList gets a list of members in a Signing Group.
@@ -86,9 +87,10 @@ func (s *Service) UsersList(signingGroupID string) *UsersListOp {
 type UsersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UsersListOp) Do(ctx context.Context) (*model.SigningGroupUsers, error) {
+func (op *UsersListOp) Do(ctx context.Context) (*model.SigningGroupUsers, *esign.ResponseContext, error) {
 	var res *model.SigningGroupUsers
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UsersUpdate adds members to a signing group.
@@ -110,9 +112,10 @@ func (s *Service) UsersUpdate(signingGroupID string, signingGroupUsers *model.Si
 type UsersUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UsersUpdateOp) Do(ctx context.Context) (*model.SigningGroupUsers, error) {
+func (op *UsersUpdateOp) Do(ctx context.Context) (*model.SigningGroupUsers, *esign.ResponseContext, error) {
 	var res *model.SigningGroupUsers
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Create creates a signing group.
@@ -134,9 +137,10 @@ func (s *Service) Create(signingGroupInformation *model.SigningGroupInformation)
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.SigningGroupInformation, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.SigningGroupInformation, *esign.ResponseContext, error) {
 	var res *model.SigningGroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete deletes one or more signing groups.
@@ -158,9 +162,10 @@ func (s *Service) Delete(signingGroupInformation *model.SigningGroupInformation)
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) (*model.SigningGroupInformation, error) {
+func (op *DeleteOp) Do(ctx context.Context) (*model.SigningGroupInformation, *esign.ResponseContext, error) {
 	var res *model.SigningGroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Get gets information about a signing group.
@@ -181,9 +186,10 @@ func (s *Service) Get(signingGroupID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.SigningGroup, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.SigningGroup, *esign.ResponseContext, error) {
 	var res *model.SigningGroup
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // List gets a list of the Signing Groups in an account.
@@ -204,9 +210,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.SigningGroupInformation, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.SigningGroupInformation, *esign.ResponseContext, error) {
 	var res *model.SigningGroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // GroupType set the call query parameter group_type
@@ -244,9 +251,10 @@ func (s *Service) Update(signingGroupID string, signingGroups *model.SigningGrou
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.SigningGroup, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.SigningGroup, *esign.ResponseContext, error) {
 	var res *model.SigningGroup
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UpdateList updates signing group names.
@@ -268,7 +276,8 @@ func (s *Service) UpdateList(signingGroupInformation *model.SigningGroupInformat
 type UpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateListOp) Do(ctx context.Context) (*model.SigningGroupInformation, error) {
+func (op *UpdateListOp) Do(ctx context.Context) (*model.SigningGroupInformation, *esign.ResponseContext, error) {
 	var res *model.SigningGroupInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

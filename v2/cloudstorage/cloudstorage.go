@@ -16,13 +16,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/CloudStorage
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/cloudstorage"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   cloudstorageService := cloudstorage.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/cloudstorage"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	cloudstorageService := cloudstorage.New(esignCredential)
 package cloudstorage // import "github.com/jfcote87/esign/v2/cloudstorage"
 
 import (
@@ -63,9 +63,10 @@ func (s *Service) List(folderID string, serviceID string, userID string) *ListOp
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.ExternalFolder, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.ExternalFolder, *esign.ResponseContext, error) {
 	var res *model.ExternalFolder
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CloudStorageFolderPath set the call query parameter cloud_storage_folder_path
@@ -146,9 +147,10 @@ func (s *Service) ListFolders(serviceID string, userID string) *ListFoldersOp {
 type ListFoldersOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListFoldersOp) Do(ctx context.Context) (*model.ExternalFolder, error) {
+func (op *ListFoldersOp) Do(ctx context.Context) (*model.ExternalFolder, *esign.ResponseContext, error) {
 	var res *model.ExternalFolder
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CloudStorageFolderPath is a comma separated list of folder IDs included in the request.
@@ -230,9 +232,10 @@ func (s *Service) ProvidersCreate(userID string, cloudStorageProviders *model.Cl
 type ProvidersCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProvidersCreateOp) Do(ctx context.Context) (*model.CloudStorageProviders, error) {
+func (op *ProvidersCreateOp) Do(ctx context.Context) (*model.CloudStorageProviders, *esign.ResponseContext, error) {
 	var res *model.CloudStorageProviders
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ProvidersDelete deletes the user authentication information for the specified cloud storage provider.
@@ -253,9 +256,10 @@ func (s *Service) ProvidersDelete(serviceID string, userID string) *ProvidersDel
 type ProvidersDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProvidersDeleteOp) Do(ctx context.Context) (*model.CloudStorageProviders, error) {
+func (op *ProvidersDeleteOp) Do(ctx context.Context) (*model.CloudStorageProviders, *esign.ResponseContext, error) {
 	var res *model.CloudStorageProviders
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ProvidersDeleteList deletes the user authentication information for one or more cloud storage providers.
@@ -277,9 +281,10 @@ func (s *Service) ProvidersDeleteList(userID string, cloudStorageProviders *mode
 type ProvidersDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProvidersDeleteListOp) Do(ctx context.Context) (*model.CloudStorageProviders, error) {
+func (op *ProvidersDeleteListOp) Do(ctx context.Context) (*model.CloudStorageProviders, *esign.ResponseContext, error) {
 	var res *model.CloudStorageProviders
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ProvidersGet gets the specified Cloud Storage Provider configuration for the User.
@@ -300,9 +305,10 @@ func (s *Service) ProvidersGet(serviceID string, userID string) *ProvidersGetOp 
 type ProvidersGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProvidersGetOp) Do(ctx context.Context) (*model.CloudStorageProviders, error) {
+func (op *ProvidersGetOp) Do(ctx context.Context) (*model.CloudStorageProviders, *esign.ResponseContext, error) {
 	var res *model.CloudStorageProviders
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RedirectURL is the URL the user is redirected to after the cloud storage provider authenticates the user. Using this will append the redirectUrl to the authenticationUrl.
@@ -333,9 +339,10 @@ func (s *Service) ProvidersList(userID string) *ProvidersListOp {
 type ProvidersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProvidersListOp) Do(ctx context.Context) (*model.CloudStorageProviders, error) {
+func (op *ProvidersListOp) Do(ctx context.Context) (*model.CloudStorageProviders, *esign.ResponseContext, error) {
 	var res *model.CloudStorageProviders
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RedirectURL is the URL the user is redirected to after the cloud storage provider authenticates the user. Using this will append the redirectUrl to the authenticationUrl.

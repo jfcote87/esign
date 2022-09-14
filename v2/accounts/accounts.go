@@ -22,13 +22,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/Accounts
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/accounts"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   accountsService := accounts.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/accounts"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	accountsService := accounts.New(esignCredential)
 package accounts // import "github.com/jfcote87/esign/v2/accounts"
 
 import (
@@ -71,9 +71,10 @@ func (s *Service) BrandsCreate(brand *model.Brand) *BrandsCreateOp {
 type BrandsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsCreateOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+func (op *BrandsCreateOp) Do(ctx context.Context) (*model.BrandsResponse, *esign.ResponseContext, error) {
 	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // BrandsDelete removes a brand.
@@ -94,8 +95,10 @@ func (s *Service) BrandsDelete(brandID string) *BrandsDeleteOp {
 type BrandsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // BrandsDeleteList deletes one or more brand profiles.
@@ -117,9 +120,10 @@ func (s *Service) BrandsDeleteList(brandsRequest *model.BrandsRequest) *BrandsDe
 type BrandsDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsDeleteListOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+func (op *BrandsDeleteListOp) Do(ctx context.Context) (*model.BrandsResponse, *esign.ResponseContext, error) {
 	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // BrandsDeleteLogo delete one branding logo.
@@ -140,8 +144,10 @@ func (s *Service) BrandsDeleteLogo(brandID string, logoType string) *BrandsDelet
 type BrandsDeleteLogoOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsDeleteLogoOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsDeleteLogoOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // BrandsGet get information for a specific brand.
@@ -162,9 +168,10 @@ func (s *Service) BrandsGet(brandID string) *BrandsGetOp {
 type BrandsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetOp) Do(ctx context.Context) (*model.Brand, error) {
+func (op *BrandsGetOp) Do(ctx context.Context) (*model.Brand, *esign.ResponseContext, error) {
 	var res *model.Brand
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeExternalReferences set the call query parameter include_external_references
@@ -201,9 +208,10 @@ func (s *Service) BrandsGetExportFile(brandID string) *BrandsGetExportFileOp {
 type BrandsGetExportFileOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetExportFileOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *BrandsGetExportFileOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // BrandsGetLogo obtains the specified image for a brand.
@@ -225,9 +233,10 @@ func (s *Service) BrandsGetLogo(brandID string, logoType string) *BrandsGetLogoO
 type BrandsGetLogoOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetLogoOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *BrandsGetLogoOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // BrandsGetResource returns the specified branding resource file.
@@ -248,9 +257,10 @@ func (s *Service) BrandsGetResource(brandID string, resourceContentType string) 
 type BrandsGetResourceOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetResourceOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *BrandsGetResourceOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Langcode set the call query parameter langcode
@@ -287,9 +297,10 @@ func (s *Service) BrandsList() *BrandsListOp {
 type BrandsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsListOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+func (op *BrandsListOp) Do(ctx context.Context) (*model.BrandsResponse, *esign.ResponseContext, error) {
 	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ExcludeDistributorBrand when set to **true**, excludes distributor brand information from the response set.
@@ -326,9 +337,10 @@ func (s *Service) BrandsListResources(brandID string) *BrandsListResourcesOp {
 type BrandsListResourcesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsListResourcesOp) Do(ctx context.Context) (*model.BrandResourcesList, error) {
+func (op *BrandsListResourcesOp) Do(ctx context.Context) (*model.BrandResourcesList, *esign.ResponseContext, error) {
 	var res *model.BrandResourcesList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // BrandsUpdate updates an existing brand.
@@ -350,9 +362,10 @@ func (s *Service) BrandsUpdate(brandID string, brand *model.Brand) *BrandsUpdate
 type BrandsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsUpdateOp) Do(ctx context.Context) (*model.Brand, error) {
+func (op *BrandsUpdateOp) Do(ctx context.Context) (*model.Brand, *esign.ResponseContext, error) {
 	var res *model.Brand
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // BrandsUpdateLogo put one branding logo.
@@ -374,8 +387,10 @@ func (s *Service) BrandsUpdateLogo(brandID string, logoType string, logoFileByte
 type BrandsUpdateLogoOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsUpdateLogoOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsUpdateLogoOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // BrandsUpdateResource uploads a branding resource file.
@@ -398,9 +413,10 @@ func (s *Service) BrandsUpdateResource(brandID string, resourceContentType strin
 type BrandsUpdateResourceOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsUpdateResourceOp) Do(ctx context.Context) (*model.BrandResources, error) {
+func (op *BrandsUpdateResourceOp) Do(ctx context.Context) (*model.BrandResources, *esign.ResponseContext, error) {
 	var res *model.BrandResources
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ConsumerDisclosuresGet gets the Electronic Record and Signature Disclosure.
@@ -421,9 +437,10 @@ func (s *Service) ConsumerDisclosuresGet(langCode string) *ConsumerDisclosuresGe
 type ConsumerDisclosuresGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisclosure, *esign.ResponseContext, error) {
 	var res *model.ConsumerDisclosure
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ConsumerDisclosuresGetDefault gets the Electronic Record and Signature Disclosure for the account.
@@ -444,9 +461,10 @@ func (s *Service) ConsumerDisclosuresGetDefault() *ConsumerDisclosuresGetDefault
 type ConsumerDisclosuresGetDefaultOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context) (*model.ConsumerDisclosure, *esign.ResponseContext, error) {
 	var res *model.ConsumerDisclosure
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // LangCode specifies the language used in the response. The supported languages, with the language value shown in parenthesis, are: Arabic (ar), Bulgarian (bg), Czech (cs), Chinese Simplified (zh_CN), Chinese Traditional (zh_TW), Croatian (hr), Danish (da), Dutch (nl), English US (en), English UK (en_GB), Estonian (et), Farsi (fa), Finnish (fi), French (fr), French Canada (fr_CA), German (de), Greek (el), Hebrew (he), Hindi (hi), Hungarian (hu), Bahasa Indonesia (id), Italian (it), Japanese (ja), Korean (ko), Latvian (lv), Lithuanian (lt), Bahasa Melayu (ms), Norwegian (no), Polish (pl), Portuguese (pt), Portuguese Brazil (pt_BR), Romanian (ro), Russian (ru), Serbian (sr), Slovak (sk), Slovenian (sl), Spanish (es),Spanish Latin America (es_MX), Swedish (sv), Thai (th), Turkish (tr), Ukrainian (uk), and Vietnamese (vi).
@@ -478,9 +496,10 @@ func (s *Service) ConsumerDisclosuresUpdate(langCode string, envelopeConsumerDis
 type ConsumerDisclosuresUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresUpdateOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+func (op *ConsumerDisclosuresUpdateOp) Do(ctx context.Context) (*model.ConsumerDisclosure, *esign.ResponseContext, error) {
 	var res *model.ConsumerDisclosure
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeMetadata reserved for DocuSign.
@@ -510,9 +529,10 @@ func (s *Service) CustomFieldsCreate(customField *model.CustomField) *CustomFiel
 type CustomFieldsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, *esign.ResponseContext, error) {
 	var res *model.CustomFields
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ApplyToTemplates set the call query parameter apply_to_templates
@@ -541,8 +561,10 @@ func (s *Service) CustomFieldsDelete(customFieldID string) *CustomFieldsDeleteOp
 type CustomFieldsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *CustomFieldsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // ApplyToTemplates set the call query parameter apply_to_templates
@@ -571,9 +593,10 @@ func (s *Service) CustomFieldsList() *CustomFieldsListOp {
 type CustomFieldsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, error) {
+func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, *esign.ResponseContext, error) {
 	var res *model.CustomFields
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomFieldsUpdate updates an existing account custom field.
@@ -595,9 +618,10 @@ func (s *Service) CustomFieldsUpdate(customFieldID string, customField *model.Cu
 type CustomFieldsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, *esign.ResponseContext, error) {
 	var res *model.CustomFields
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ApplyToTemplates set the call query parameter apply_to_templates
@@ -626,9 +650,10 @@ func (s *Service) PasswordRulesGet() *PasswordRulesGetOp {
 type PasswordRulesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PasswordRulesGetOp) Do(ctx context.Context) (*model.AccountPasswordRules, error) {
+func (op *PasswordRulesGetOp) Do(ctx context.Context) (*model.AccountPasswordRules, *esign.ResponseContext, error) {
 	var res *model.AccountPasswordRules
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PasswordRulesGetForUser get membership account password rules
@@ -649,9 +674,10 @@ func (s *Service) PasswordRulesGetForUser() *PasswordRulesGetForUserOp {
 type PasswordRulesGetForUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PasswordRulesGetForUserOp) Do(ctx context.Context) (*model.UserPasswordRules, error) {
+func (op *PasswordRulesGetForUserOp) Do(ctx context.Context) (*model.UserPasswordRules, *esign.ResponseContext, error) {
 	var res *model.UserPasswordRules
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PasswordRulesUpdate update the password rules
@@ -673,9 +699,10 @@ func (s *Service) PasswordRulesUpdate(accountPasswordRules *model.AccountPasswor
 type PasswordRulesUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PasswordRulesUpdateOp) Do(ctx context.Context) (*model.AccountPasswordRules, error) {
+func (op *PasswordRulesUpdateOp) Do(ctx context.Context) (*model.AccountPasswordRules, *esign.ResponseContext, error) {
 	var res *model.AccountPasswordRules
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PermissionProfilesCreate creates a new permission profile in the specified account.
@@ -697,9 +724,10 @@ func (s *Service) PermissionProfilesCreate(accountPermissionProfiles *model.Perm
 type PermissionProfilesCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesCreateOp) Do(ctx context.Context) (*model.PermissionProfile, error) {
+func (op *PermissionProfilesCreateOp) Do(ctx context.Context) (*model.PermissionProfile, *esign.ResponseContext, error) {
 	var res *model.PermissionProfile
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include is a comma-separated list of additional template attributes to include in the response. Valid values are: recipients, folders, documents, custom_fields, and notifications.
@@ -728,8 +756,10 @@ func (s *Service) PermissionProfilesDelete(permissionProfileID string) *Permissi
 type PermissionProfilesDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *PermissionProfilesDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // PermissionProfilesGet returns a permissions profile in the specified account.
@@ -750,9 +780,10 @@ func (s *Service) PermissionProfilesGet(permissionProfileID string) *PermissionP
 type PermissionProfilesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesGetOp) Do(ctx context.Context) (*model.PermissionProfile, error) {
+func (op *PermissionProfilesGetOp) Do(ctx context.Context) (*model.PermissionProfile, *esign.ResponseContext, error) {
 	var res *model.PermissionProfile
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include is a comma-separated list of additional template attributes to include in the response. Valid values are: recipients, folders, documents, custom_fields, and notifications.
@@ -781,9 +812,10 @@ func (s *Service) PermissionProfilesList() *PermissionProfilesListOp {
 type PermissionProfilesListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesListOp) Do(ctx context.Context) (*model.PermissionProfileInformation, error) {
+func (op *PermissionProfilesListOp) Do(ctx context.Context) (*model.PermissionProfileInformation, *esign.ResponseContext, error) {
 	var res *model.PermissionProfileInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include reserved for DocuSign.
@@ -813,9 +845,10 @@ func (s *Service) PermissionProfilesUpdate(permissionProfileID string, accountPe
 type PermissionProfilesUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesUpdateOp) Do(ctx context.Context) (*model.PermissionProfile, error) {
+func (op *PermissionProfilesUpdateOp) Do(ctx context.Context) (*model.PermissionProfile, *esign.ResponseContext, error) {
 	var res *model.PermissionProfile
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include is a comma-separated list of additional template attributes to include in the response. Valid values are: recipients, folders, documents, custom_fields, and notifications.
@@ -844,9 +877,10 @@ func (s *Service) SignatureProvidersList() *SignatureProvidersListOp {
 type SignatureProvidersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignatureProvidersListOp) Do(ctx context.Context) (*model.AccountSignatureProviders, error) {
+func (op *SignatureProvidersListOp) Do(ctx context.Context) (*model.AccountSignatureProviders, *esign.ResponseContext, error) {
 	var res *model.AccountSignatureProviders
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TabSettingsGet returns tab settings list for specified account
@@ -867,9 +901,10 @@ func (s *Service) TabSettingsGet() *TabSettingsGetOp {
 type TabSettingsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TabSettingsGetOp) Do(ctx context.Context) (*model.TabAccountSettings, error) {
+func (op *TabSettingsGetOp) Do(ctx context.Context) (*model.TabAccountSettings, *esign.ResponseContext, error) {
 	var res *model.TabAccountSettings
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TabSettingsUpdate modifies tab settings for specified account
@@ -891,9 +926,10 @@ func (s *Service) TabSettingsUpdate(accountTabSettings *model.TabAccountSettings
 type TabSettingsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TabSettingsUpdateOp) Do(ctx context.Context) (*model.TabAccountSettings, error) {
+func (op *TabSettingsUpdateOp) Do(ctx context.Context) (*model.TabAccountSettings, *esign.ResponseContext, error) {
 	var res *model.TabAccountSettings
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // WatermarksGet get watermark information.
@@ -914,9 +950,10 @@ func (s *Service) WatermarksGet() *WatermarksGetOp {
 type WatermarksGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *WatermarksGetOp) Do(ctx context.Context) (*model.Watermark, error) {
+func (op *WatermarksGetOp) Do(ctx context.Context) (*model.Watermark, *esign.ResponseContext, error) {
 	var res *model.Watermark
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // WatermarksPreview get watermark preview.
@@ -938,9 +975,10 @@ func (s *Service) WatermarksPreview(accountWatermarks *model.Watermark) *Waterma
 type WatermarksPreviewOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *WatermarksPreviewOp) Do(ctx context.Context) (*model.Watermark, error) {
+func (op *WatermarksPreviewOp) Do(ctx context.Context) (*model.Watermark, *esign.ResponseContext, error) {
 	var res *model.Watermark
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // WatermarksUpdate update watermark information.
@@ -962,9 +1000,10 @@ func (s *Service) WatermarksUpdate(accountWatermarks *model.Watermark) *Watermar
 type WatermarksUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *WatermarksUpdateOp) Do(ctx context.Context) (*model.Watermark, error) {
+func (op *WatermarksUpdateOp) Do(ctx context.Context) (*model.Watermark, *esign.ResponseContext, error) {
 	var res *model.Watermark
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Create creates new accounts.
@@ -986,9 +1025,10 @@ func (s *Service) Create(newAccountDefinition *model.NewAccountDefinition) *Crea
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.NewAccountSummary, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.NewAccountSummary, *esign.ResponseContext, error) {
 	var res *model.NewAccountSummary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PreviewBillingPlan when set to **true**, creates the account using a preview billing plan.
@@ -1017,8 +1057,10 @@ func (s *Service) Delete() *DeleteOp {
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // DeleteCaptiveRecipient deletes the signature for one or more captive recipient records.
@@ -1040,9 +1082,10 @@ func (s *Service) DeleteCaptiveRecipient(recipientPart string, captiveRecipientI
 type DeleteCaptiveRecipientOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteCaptiveRecipientOp) Do(ctx context.Context) (*model.CaptiveRecipientInformation, error) {
+func (op *DeleteCaptiveRecipientOp) Do(ctx context.Context) (*model.CaptiveRecipientInformation, *esign.ResponseContext, error) {
 	var res *model.CaptiveRecipientInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Get retrieves the account information for the specified account.
@@ -1063,9 +1106,10 @@ func (s *Service) Get() *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.AccountInformation, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.AccountInformation, *esign.ResponseContext, error) {
 	var res *model.AccountInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeAccountSettings when set to **true**, includes the account settings for the account in the response.
@@ -1094,9 +1138,10 @@ func (s *Service) GetBillingCharges() *GetBillingChargesOp {
 type GetBillingChargesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetBillingChargesOp) Do(ctx context.Context) (*model.BillingChargeResponse, error) {
+func (op *GetBillingChargesOp) Do(ctx context.Context) (*model.BillingChargeResponse, *esign.ResponseContext, error) {
 	var res *model.BillingChargeResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeCharges specifies which billing charges to return.
@@ -1129,9 +1174,10 @@ func (s *Service) GetProvisioning() *GetProvisioningOp {
 type GetProvisioningOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetProvisioningOp) Do(ctx context.Context) (*model.ProvisioningInformation, error) {
+func (op *GetProvisioningOp) Do(ctx context.Context) (*model.ProvisioningInformation, *esign.ResponseContext, error) {
 	var res *model.ProvisioningInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ListRecipientNamesByEmail gets recipient names associated with an email address.
@@ -1152,9 +1198,10 @@ func (s *Service) ListRecipientNamesByEmail() *ListRecipientNamesByEmailOp {
 type ListRecipientNamesByEmailOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListRecipientNamesByEmailOp) Do(ctx context.Context) (*model.RecipientNamesResponse, error) {
+func (op *ListRecipientNamesByEmailOp) Do(ctx context.Context) (*model.RecipientNamesResponse, *esign.ResponseContext, error) {
 	var res *model.RecipientNamesResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Email is the email address for the user
@@ -1183,9 +1230,10 @@ func (s *Service) ListSettings() *ListSettingsOp {
 type ListSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSettingsOp) Do(ctx context.Context) (*model.AccountSettingsInformation, error) {
+func (op *ListSettingsOp) Do(ctx context.Context) (*model.AccountSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.AccountSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ListSharedAccess reserved: Gets the shared item status for one or more users.
@@ -1206,9 +1254,10 @@ func (s *Service) ListSharedAccess() *ListSharedAccessOp {
 type ListSharedAccessOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSharedAccessOp) Do(ctx context.Context) (*model.AccountSharedAccess, error) {
+func (op *ListSharedAccessOp) Do(ctx context.Context) (*model.AccountSharedAccess, *esign.ResponseContext, error) {
 	var res *model.AccountSharedAccess
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count specifies maximum number of results included in the response. If no value is specified, this defaults to 1000.
@@ -1310,9 +1359,10 @@ func (s *Service) ListSupportedLanguages() *ListSupportedLanguagesOp {
 type ListSupportedLanguagesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSupportedLanguagesOp) Do(ctx context.Context) (*model.SupportedLanguages, error) {
+func (op *ListSupportedLanguagesOp) Do(ctx context.Context) (*model.SupportedLanguages, *esign.ResponseContext, error) {
 	var res *model.SupportedLanguages
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ListUnsupportedFileTypes gets a list of unsupported file types.
@@ -1333,9 +1383,10 @@ func (s *Service) ListUnsupportedFileTypes() *ListUnsupportedFileTypesOp {
 type ListUnsupportedFileTypesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListUnsupportedFileTypesOp) Do(ctx context.Context) (*model.FileTypeList, error) {
+func (op *ListUnsupportedFileTypesOp) Do(ctx context.Context) (*model.FileTypeList, *esign.ResponseContext, error) {
 	var res *model.FileTypeList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UpdateSettings updates the account settings for an account.
@@ -1357,8 +1408,10 @@ func (s *Service) UpdateSettings(accountSettingsInformation *model.AccountSettin
 type UpdateSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateSettingsOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdateSettingsOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // UpdateSharedAccess reserved: Sets the shared access information for users.
@@ -1380,9 +1433,10 @@ func (s *Service) UpdateSharedAccess(accountSharedAccess *model.AccountSharedAcc
 type UpdateSharedAccessOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateSharedAccessOp) Do(ctx context.Context) (*model.AccountSharedAccess, error) {
+func (op *UpdateSharedAccessOp) Do(ctx context.Context) (*model.AccountSharedAccess, *esign.ResponseContext, error) {
 	var res *model.AccountSharedAccess
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ItemType specifies the type of shared item being requested. The possible values are:
@@ -1423,8 +1477,10 @@ func (s *Service) ENoteConfigurationsDelete() *ENoteConfigurationsDeleteOp {
 type ENoteConfigurationsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ENoteConfigurationsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *ENoteConfigurationsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // ENoteConfigurationsGet returns the configuration information for the eNote eOriginal integration.
@@ -1445,9 +1501,10 @@ func (s *Service) ENoteConfigurationsGet() *ENoteConfigurationsGetOp {
 type ENoteConfigurationsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ENoteConfigurationsGetOp) Do(ctx context.Context) (*model.ENoteConfiguration, error) {
+func (op *ENoteConfigurationsGetOp) Do(ctx context.Context) (*model.ENoteConfiguration, *esign.ResponseContext, error) {
 	var res *model.ENoteConfiguration
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ENoteConfigurationsUpdate updates configuration information for the eNote eOriginal integration.
@@ -1469,9 +1526,10 @@ func (s *Service) ENoteConfigurationsUpdate(eNoteConfigurations *model.ENoteConf
 type ENoteConfigurationsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context) (*model.ENoteConfiguration, error) {
+func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context) (*model.ENoteConfiguration, *esign.ResponseContext, error) {
 	var res *model.ENoteConfiguration
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PaymentGatewayAccountsList list payment gateway account information
@@ -1492,9 +1550,10 @@ func (s *Service) PaymentGatewayAccountsList() *PaymentGatewayAccountsListOp {
 type PaymentGatewayAccountsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PaymentGatewayAccountsListOp) Do(ctx context.Context) (*model.PaymentGatewayAccountsInfo, error) {
+func (op *PaymentGatewayAccountsListOp) Do(ctx context.Context) (*model.PaymentGatewayAccountsInfo, *esign.ResponseContext, error) {
 	var res *model.PaymentGatewayAccountsInfo
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // SealProvidersList is SDK Method Accounts::getSealProviders
@@ -1513,9 +1572,10 @@ func (s *Service) SealProvidersList() *SealProvidersListOp {
 type SealProvidersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SealProvidersListOp) Do(ctx context.Context) (*model.AccountSeals, error) {
+func (op *SealProvidersListOp) Do(ctx context.Context) (*model.AccountSeals, *esign.ResponseContext, error) {
 	var res *model.AccountSeals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IdentityVerificationsList is SDK Method Accounts::getAccountIdentityVerification
@@ -1534,7 +1594,8 @@ func (s *Service) IdentityVerificationsList() *IdentityVerificationsListOp {
 type IdentityVerificationsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *IdentityVerificationsListOp) Do(ctx context.Context) (*model.AccountIdentityVerificationResponse, error) {
+func (op *IdentityVerificationsListOp) Do(ctx context.Context) (*model.AccountIdentityVerificationResponse, *esign.ResponseContext, error) {
 	var res *model.AccountIdentityVerificationResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

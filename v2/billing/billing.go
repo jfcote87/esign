@@ -18,13 +18,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/Billing
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/billing"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   billingService := billing.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/billing"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	billingService := billing.New(esignCredential)
 package billing // import "github.com/jfcote87/esign/v2/billing"
 
 import (
@@ -65,9 +65,10 @@ func (s *Service) PlansGet(billingPlanID string) *PlansGetOp {
 type PlansGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PlansGetOp) Do(ctx context.Context) (*model.BillingPlanResponse, error) {
+func (op *PlansGetOp) Do(ctx context.Context) (*model.BillingPlanResponse, *esign.ResponseContext, error) {
 	var res *model.BillingPlanResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PlansGetAccountPlan get Account Billing Plan
@@ -88,9 +89,10 @@ func (s *Service) PlansGetAccountPlan() *PlansGetAccountPlanOp {
 type PlansGetAccountPlanOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PlansGetAccountPlanOp) Do(ctx context.Context) (*model.AccountBillingPlanResponse, error) {
+func (op *PlansGetAccountPlanOp) Do(ctx context.Context) (*model.AccountBillingPlanResponse, *esign.ResponseContext, error) {
 	var res *model.AccountBillingPlanResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeCreditCardInformation when set to **true**, payment information including credit card information will show in the return.
@@ -135,9 +137,10 @@ func (s *Service) PlansGetCreditCard() *PlansGetCreditCardOp {
 type PlansGetCreditCardOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PlansGetCreditCardOp) Do(ctx context.Context) (*model.CreditCardInformation, error) {
+func (op *PlansGetCreditCardOp) Do(ctx context.Context) (*model.CreditCardInformation, *esign.ResponseContext, error) {
 	var res *model.CreditCardInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PlansList gets the list of available billing plans.
@@ -158,9 +161,10 @@ func (s *Service) PlansList() *PlansListOp {
 type PlansListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PlansListOp) Do(ctx context.Context) (*model.BillingPlansResponse, error) {
+func (op *PlansListOp) Do(ctx context.Context) (*model.BillingPlansResponse, *esign.ResponseContext, error) {
 	var res *model.BillingPlansResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PlansPurchaseEnvelopes reserverd: Purchase additional envelopes.
@@ -182,8 +186,10 @@ func (s *Service) PlansPurchaseEnvelopes(purchasedEnvelopesInformation *model.Pu
 type PlansPurchaseEnvelopesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PlansPurchaseEnvelopesOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *PlansPurchaseEnvelopesOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // PlansUpdate updates the account billing plan.
@@ -205,9 +211,10 @@ func (s *Service) PlansUpdate(billingPlanInformation *model.BillingPlanInformati
 type PlansUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PlansUpdateOp) Do(ctx context.Context) (*model.BillingPlanUpdateResponse, error) {
+func (op *PlansUpdateOp) Do(ctx context.Context) (*model.BillingPlanUpdateResponse, *esign.ResponseContext, error) {
 	var res *model.BillingPlanUpdateResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PreviewBillingPlan when set to **true**, updates the account using a preview billing plan.
@@ -236,9 +243,10 @@ func (s *Service) InvoicesGet(invoiceID string) *InvoicesGetOp {
 type InvoicesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InvoicesGetOp) Do(ctx context.Context) (*model.BillingInvoice, error) {
+func (op *InvoicesGetOp) Do(ctx context.Context) (*model.BillingInvoice, *esign.ResponseContext, error) {
 	var res *model.BillingInvoice
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PDF returns a pdf version of the invoice by setting
@@ -273,9 +281,10 @@ func (s *Service) InvoicesList() *InvoicesListOp {
 type InvoicesListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InvoicesListOp) Do(ctx context.Context) (*model.BillingInvoicesResponse, error) {
+func (op *InvoicesListOp) Do(ctx context.Context) (*model.BillingInvoicesResponse, *esign.ResponseContext, error) {
 	var res *model.BillingInvoicesResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate specifies the date/time of the earliest invoice in the account to retrieve.
@@ -312,9 +321,10 @@ func (s *Service) InvoicesListPastDue() *InvoicesListPastDueOp {
 type InvoicesListPastDueOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InvoicesListPastDueOp) Do(ctx context.Context) (*model.BillingInvoicesSummary, error) {
+func (op *InvoicesListPastDueOp) Do(ctx context.Context) (*model.BillingInvoicesSummary, *esign.ResponseContext, error) {
 	var res *model.BillingInvoicesSummary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PaymentsCreate posts a payment to a past due invoice.
@@ -336,9 +346,10 @@ func (s *Service) PaymentsCreate(billingPaymentRequest *model.BillingPaymentRequ
 type PaymentsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PaymentsCreateOp) Do(ctx context.Context) (*model.BillingPaymentResponse, error) {
+func (op *PaymentsCreateOp) Do(ctx context.Context) (*model.BillingPaymentResponse, *esign.ResponseContext, error) {
 	var res *model.BillingPaymentResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PaymentsGet gets billing payment information for a specific payment.
@@ -359,9 +370,10 @@ func (s *Service) PaymentsGet(paymentID string) *PaymentsGetOp {
 type PaymentsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PaymentsGetOp) Do(ctx context.Context) (*model.BillingPaymentItem, error) {
+func (op *PaymentsGetOp) Do(ctx context.Context) (*model.BillingPaymentItem, *esign.ResponseContext, error) {
 	var res *model.BillingPaymentItem
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // PaymentsList gets payment information for one or more payments.
@@ -382,9 +394,10 @@ func (s *Service) PaymentsList() *PaymentsListOp {
 type PaymentsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PaymentsListOp) Do(ctx context.Context) (*model.BillingPaymentsResponse, error) {
+func (op *PaymentsListOp) Do(ctx context.Context) (*model.BillingPaymentsResponse, *esign.ResponseContext, error) {
 	var res *model.BillingPaymentsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate specifies the date/time of the earliest payment in the account to retrieve.

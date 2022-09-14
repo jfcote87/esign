@@ -8,19 +8,17 @@
 // Package uncategorized implements the DocuSign SDK
 // category Uncategorized.
 //
-//
 // Uncategorized calls may change or move to other packages.
-//
 //
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/uncategorized"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   uncategorizedService := uncategorized.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/uncategorized"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	uncategorizedService := uncategorized.New(esignCredential)
 package uncategorized // import "github.com/jfcote87/esign/v2.1/uncategorized"
 
 import (
@@ -58,9 +56,10 @@ func (s *Service) CommentsCreateEnvelopeComments(envelopeID string, commentsPubl
 type CommentsCreateEnvelopeCommentsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CommentsCreateEnvelopeCommentsOp) Do(ctx context.Context) (*model.CommentHistoryResult, error) {
+func (op *CommentsCreateEnvelopeCommentsOp) Do(ctx context.Context) (*model.CommentHistoryResult, *esign.ResponseContext, error) {
 	var res *model.CommentHistoryResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CommentsGetis uncategorized and subject to change
@@ -79,9 +78,10 @@ func (s *Service) CommentsGet(envelopeID string) *CommentsGetOp {
 type CommentsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CommentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *CommentsGetOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Encoding set the call query parameter encoding
@@ -108,9 +108,10 @@ func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, envelop
 type DocumentResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeDocumentHTMLDefinitionsGetis uncategorized and subject to change
@@ -128,9 +129,10 @@ func (s *Service) EnvelopeDocumentHTMLDefinitionsGet(documentID string, envelope
 type EnvelopeDocumentHTMLDefinitionsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeDocumentHTMLDefinitionsGetOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *EnvelopeDocumentHTMLDefinitionsGetOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeDocumentTabsCreateDocumentTabsis uncategorized and subject to change
@@ -149,9 +151,10 @@ func (s *Service) EnvelopeDocumentTabsCreateDocumentTabs(documentID string, enve
 type EnvelopeDocumentTabsCreateDocumentTabsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeDocumentTabsCreateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *EnvelopeDocumentTabsCreateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeDocumentTabsDeleteDocumentTabsis uncategorized and subject to change
@@ -170,9 +173,10 @@ func (s *Service) EnvelopeDocumentTabsDeleteDocumentTabs(documentID string, enve
 type EnvelopeDocumentTabsDeleteDocumentTabsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeDocumentTabsDeleteDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *EnvelopeDocumentTabsDeleteDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeDocumentTabsUpdateDocumentTabsis uncategorized and subject to change
@@ -191,9 +195,10 @@ func (s *Service) EnvelopeDocumentTabsUpdateDocumentTabs(documentID string, enve
 type EnvelopeDocumentTabsUpdateDocumentTabsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeDocumentTabsUpdateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *EnvelopeDocumentTabsUpdateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeHTMLDefinitionsListis uncategorized and subject to change
@@ -211,9 +216,10 @@ func (s *Service) EnvelopeHTMLDefinitionsList(envelopeID string) *EnvelopeHTMLDe
 type EnvelopeHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *EnvelopeHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopePurgeConfigurationGetEnvelopePurgeConfigurationis uncategorized and subject to change
@@ -231,9 +237,10 @@ func (s *Service) EnvelopePurgeConfigurationGetEnvelopePurgeConfiguration() *Env
 type EnvelopePurgeConfigurationGetEnvelopePurgeConfigurationOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopePurgeConfigurationGetEnvelopePurgeConfigurationOp) Do(ctx context.Context) (*model.EnvelopePurgeConfiguration, error) {
+func (op *EnvelopePurgeConfigurationGetEnvelopePurgeConfigurationOp) Do(ctx context.Context) (*model.EnvelopePurgeConfiguration, *esign.ResponseContext, error) {
 	var res *model.EnvelopePurgeConfiguration
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopePurgeConfigurationUpdateEnvelopePurgeConfigurationis uncategorized and subject to change
@@ -252,9 +259,10 @@ func (s *Service) EnvelopePurgeConfigurationUpdateEnvelopePurgeConfiguration(env
 type EnvelopePurgeConfigurationUpdateEnvelopePurgeConfigurationOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopePurgeConfigurationUpdateEnvelopePurgeConfigurationOp) Do(ctx context.Context) (*model.EnvelopePurgeConfiguration, error) {
+func (op *EnvelopePurgeConfigurationUpdateEnvelopePurgeConfigurationOp) Do(ctx context.Context) (*model.EnvelopePurgeConfiguration, *esign.ResponseContext, error) {
 	var res *model.EnvelopePurgeConfiguration
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeTransferRulesCreateEnvelopeTransferRulesis uncategorized and subject to change
@@ -273,9 +281,10 @@ func (s *Service) EnvelopeTransferRulesCreateEnvelopeTransferRules(envelopeTrans
 type EnvelopeTransferRulesCreateEnvelopeTransferRulesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeTransferRulesCreateEnvelopeTransferRulesOp) Do(ctx context.Context) (*model.EnvelopeTransferRuleInformation, error) {
+func (op *EnvelopeTransferRulesCreateEnvelopeTransferRulesOp) Do(ctx context.Context) (*model.EnvelopeTransferRuleInformation, *esign.ResponseContext, error) {
 	var res *model.EnvelopeTransferRuleInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeTransferRulesDeleteEnvelopeTransferRulesis uncategorized and subject to change
@@ -293,8 +302,10 @@ func (s *Service) EnvelopeTransferRulesDeleteEnvelopeTransferRules(envelopeTrans
 type EnvelopeTransferRulesDeleteEnvelopeTransferRulesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeTransferRulesDeleteEnvelopeTransferRulesOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *EnvelopeTransferRulesDeleteEnvelopeTransferRulesOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // EnvelopeTransferRulesGetEnvelopeTransferRulesis uncategorized and subject to change
@@ -312,9 +323,10 @@ func (s *Service) EnvelopeTransferRulesGetEnvelopeTransferRules() *EnvelopeTrans
 type EnvelopeTransferRulesGetEnvelopeTransferRulesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeTransferRulesGetEnvelopeTransferRulesOp) Do(ctx context.Context) (*model.EnvelopeTransferRuleInformation, error) {
+func (op *EnvelopeTransferRulesGetEnvelopeTransferRulesOp) Do(ctx context.Context) (*model.EnvelopeTransferRuleInformation, *esign.ResponseContext, error) {
 	var res *model.EnvelopeTransferRuleInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count is the maximum number of results to return.
@@ -349,9 +361,10 @@ func (s *Service) EnvelopeTransferRulesUpdateEnvelopeTransferRule(envelopeTransf
 type EnvelopeTransferRulesUpdateEnvelopeTransferRuleOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeTransferRulesUpdateEnvelopeTransferRuleOp) Do(ctx context.Context) (*model.EnvelopeTransferRule, error) {
+func (op *EnvelopeTransferRulesUpdateEnvelopeTransferRuleOp) Do(ctx context.Context) (*model.EnvelopeTransferRule, *esign.ResponseContext, error) {
 	var res *model.EnvelopeTransferRule
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeTransferRulesUpdateEnvelopeTransferRulesis uncategorized and subject to change
@@ -370,9 +383,10 @@ func (s *Service) EnvelopeTransferRulesUpdateEnvelopeTransferRules(envelopeTrans
 type EnvelopeTransferRulesUpdateEnvelopeTransferRulesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeTransferRulesUpdateEnvelopeTransferRulesOp) Do(ctx context.Context) (*model.EnvelopeTransferRuleInformation, error) {
+func (op *EnvelopeTransferRulesUpdateEnvelopeTransferRulesOp) Do(ctx context.Context) (*model.EnvelopeTransferRuleInformation, *esign.ResponseContext, error) {
 	var res *model.EnvelopeTransferRuleInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeViewsCreateEnvelopeRecipientPreviewis uncategorized and subject to change
@@ -391,9 +405,10 @@ func (s *Service) EnvelopeViewsCreateEnvelopeRecipientPreview(envelopeID string,
 type EnvelopeViewsCreateEnvelopeRecipientPreviewOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeViewsCreateEnvelopeRecipientPreviewOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *EnvelopeViewsCreateEnvelopeRecipientPreviewOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeViewsCreateTemplateRecipientPreviewis uncategorized and subject to change
@@ -412,9 +427,10 @@ func (s *Service) EnvelopeViewsCreateTemplateRecipientPreview(templateID string,
 type EnvelopeViewsCreateTemplateRecipientPreviewOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeViewsCreateTemplateRecipientPreviewOp) Do(ctx context.Context) (*model.ViewURL, error) {
+func (op *EnvelopeViewsCreateTemplateRecipientPreviewOp) Do(ctx context.Context) (*model.ViewURL, *esign.ResponseContext, error) {
 	var res *model.ViewURL
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // NotificationDefaultsGetNotificationDefaultsis uncategorized and subject to change
@@ -432,9 +448,10 @@ func (s *Service) NotificationDefaultsGetNotificationDefaults() *NotificationDef
 type NotificationDefaultsGetNotificationDefaultsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *NotificationDefaultsGetNotificationDefaultsOp) Do(ctx context.Context) (*model.NotificationDefaults, error) {
+func (op *NotificationDefaultsGetNotificationDefaultsOp) Do(ctx context.Context) (*model.NotificationDefaults, *esign.ResponseContext, error) {
 	var res *model.NotificationDefaults
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // NotificationDefaultsUpdateNotificationDefaultsis uncategorized and subject to change
@@ -453,9 +470,10 @@ func (s *Service) NotificationDefaultsUpdateNotificationDefaults(notificationDef
 type NotificationDefaultsUpdateNotificationDefaultsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *NotificationDefaultsUpdateNotificationDefaultsOp) Do(ctx context.Context) (*model.NotificationDefaults, error) {
+func (op *NotificationDefaultsUpdateNotificationDefaultsOp) Do(ctx context.Context) (*model.NotificationDefaults, *esign.ResponseContext, error) {
 	var res *model.NotificationDefaults
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ResponsiveHTMLPreviewCreateis uncategorized and subject to change
@@ -474,9 +492,10 @@ func (s *Service) ResponsiveHTMLPreviewCreate(envelopeID string, documentHTMLDef
 type ResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentHTMLDefinitionsListis uncategorized and subject to change
@@ -494,9 +513,10 @@ func (s *Service) TemplateDocumentHTMLDefinitionsList(documentID string, templat
 type TemplateDocumentHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *TemplateDocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentResponsiveHTMLPreviewCreateis uncategorized and subject to change
@@ -515,9 +535,10 @@ func (s *Service) TemplateDocumentResponsiveHTMLPreviewCreate(documentID string,
 type TemplateDocumentResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *TemplateDocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentTabsCreateTemplateDocumentTabs create Template Document Tabs
@@ -537,9 +558,10 @@ func (s *Service) TemplateDocumentTabsCreateTemplateDocumentTabs(documentID stri
 type TemplateDocumentTabsCreateTemplateDocumentTabsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentTabsCreateTemplateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *TemplateDocumentTabsCreateTemplateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentTabsDeleteTemplateDocumentTabsis uncategorized and subject to change
@@ -558,9 +580,10 @@ func (s *Service) TemplateDocumentTabsDeleteTemplateDocumentTabs(documentID stri
 type TemplateDocumentTabsDeleteTemplateDocumentTabsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentTabsDeleteTemplateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *TemplateDocumentTabsDeleteTemplateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentTabsUpdateTemplateDocumentTabsis uncategorized and subject to change
@@ -579,9 +602,10 @@ func (s *Service) TemplateDocumentTabsUpdateTemplateDocumentTabs(documentID stri
 type TemplateDocumentTabsUpdateTemplateDocumentTabsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentTabsUpdateTemplateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, error) {
+func (op *TemplateDocumentTabsUpdateTemplateDocumentTabsOp) Do(ctx context.Context) (*model.Tabs, *esign.ResponseContext, error) {
 	var res *model.Tabs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateHTMLDefinitionsListis uncategorized and subject to change
@@ -599,9 +623,10 @@ func (s *Service) TemplateHTMLDefinitionsList(templateID string) *TemplateHTMLDe
 type TemplateHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *TemplateHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateResponsiveHTMLPreviewCreateis uncategorized and subject to change
@@ -620,7 +645,8 @@ func (s *Service) TemplateResponsiveHTMLPreviewCreate(templateID string, documen
 type TemplateResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *TemplateResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

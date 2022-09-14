@@ -14,13 +14,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/PowerForms
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/powerforms"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   powerformsService := powerforms.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/powerforms"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	powerformsService := powerforms.New(esignCredential)
 package powerforms // import "github.com/jfcote87/esign/v2/powerforms"
 
 import (
@@ -62,9 +62,10 @@ func (s *Service) DataList(powerFormID string) *DataListOp {
 type DataListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DataListOp) Do(ctx context.Context) (*model.PowerFormsFormDataResponse, error) {
+func (op *DataListOp) Do(ctx context.Context) (*model.PowerFormsFormDataResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormsFormDataResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // DataLayout set the call query parameter data_layout
@@ -110,9 +111,10 @@ func (s *Service) Create(powerForms *model.PowerForm) *CreateOp {
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, *esign.ResponseContext, error) {
 	var res *model.PowerForm
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete delete a PowerForm.
@@ -133,8 +135,10 @@ func (s *Service) Delete(powerFormID string) *DeleteOp {
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // DeleteList deletes one or more PowerForms
@@ -156,9 +160,10 @@ func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *Delete
 type DeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
+func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Get returns a single PowerForm.
@@ -179,9 +184,10 @@ func (s *Service) Get(powerFormID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, *esign.ResponseContext, error) {
 	var res *model.PowerForm
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // List returns the list of PowerForms available to the user.
@@ -202,9 +208,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.PowerFormsResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate start of the search date range. Only returns templates created on or after this date/time. If no value is specified, there is no limit on the earliest date created.
@@ -267,9 +274,10 @@ func (s *Service) ListSenders() *ListSendersOp {
 type ListSendersOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSendersOp) Do(ctx context.Context) (*model.PowerFormSendersResponse, error) {
+func (op *ListSendersOp) Do(ctx context.Context) (*model.PowerFormSendersResponse, *esign.ResponseContext, error) {
 	var res *model.PowerFormSendersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // StartPosition is the position within the total result set from which to start returning values. The value **thumbnail** may be used to return the page image.
@@ -299,7 +307,8 @@ func (s *Service) Update(powerFormID string, powerForms *model.PowerForm) *Updat
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.PowerForm, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.PowerForm, *esign.ResponseContext, error) {
 	var res *model.PowerForm
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
