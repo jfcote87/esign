@@ -230,7 +230,7 @@ func (op *Op) validate(ctx context.Context) error {
 	return err
 }
 
-type RatelimitReport struct {
+type Ratelimit struct {
 	RateLimit      int64
 	RateRemaining  int64
 	RateReset      time.Time
@@ -238,7 +238,7 @@ type RatelimitReport struct {
 	BurstRemaining int64
 }
 
-func rateLimitFromHTTPResponse(resp *http.Response) (*RatelimitReport, error) {
+func rateLimitFromHTTPResponse(resp *http.Response) (*Ratelimit, error) {
 	rateLimit := resp.Header.Get(Header_RateLimit_Limit)
 	rateLimitCount, err := strconv.ParseInt(rateLimit, 10, 64)
 	if err != nil {
@@ -269,7 +269,7 @@ func rateLimitFromHTTPResponse(resp *http.Response) (*RatelimitReport, error) {
 		return nil, err
 	}
 
-	return &RatelimitReport{
+	return &Ratelimit{
 		RateLimit:      rateLimitCount,
 		RateRemaining:  rateLimitRemainingCount,
 		RateReset:      time.Unix(rateResetEpochCount, 0),
@@ -279,7 +279,7 @@ func rateLimitFromHTTPResponse(resp *http.Response) (*RatelimitReport, error) {
 }
 
 type ResponseContext struct {
-	Ratelimit *RatelimitReport
+	Ratelimit *Ratelimit
 }
 
 // Do sends a request to DocuSign.  Response data is decoded into
