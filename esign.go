@@ -238,35 +238,52 @@ type Ratelimit struct {
 	BurstRemaining int64
 }
 
-func rateLimitFromHTTPResponse(resp *http.Response) (*Ratelimit, error) {
+func rateLimitFromHTTPResponse(resp *http.Response) *Ratelimit {
+	var rateLimitCount int64
+	var rateLimitRemainingCount int64
+	var rateResetEpochCount int64
+	var burstLimitCount int64
+	var burstLimitRemainingCount int64
+	var err error
+
 	rateLimit := resp.Header.Get(Header_RateLimit_Limit)
-	rateLimitCount, err := strconv.ParseInt(rateLimit, 10, 64)
-	if err != nil {
-		return nil, err
+	if rateLimit != "" {
+		rateLimitCount, err = strconv.ParseInt(rateLimit, 10, 64)
+		if err != nil {
+			return nil
+		}
 	}
 
 	rateLimitRemaining := resp.Header.Get(Header_RateLimit_Remaining)
-	rateLimitRemainingCount, err := strconv.ParseInt(rateLimitRemaining, 10, 64)
-	if err != nil {
-		return nil, err
+	if rateLimitRemaining != "" {
+		rateLimitRemainingCount, err = strconv.ParseInt(rateLimitRemaining, 10, 64)
+		if err != nil {
+			return nil
+		}
 	}
 
 	rateResetEpoch := resp.Header.Get(Header_RateLimit_Reset)
-	rateResetEpochCount, err := strconv.ParseInt(rateResetEpoch, 10, 64)
-	if err != nil {
-		return nil, err
+	if rateResetEpoch != "" {
+		rateResetEpochCount, err = strconv.ParseInt(rateResetEpoch, 10, 64)
+		if err != nil {
+			return nil
+		}
 	}
 
 	burstLimit := resp.Header.Get(Header_BurstLimit_Limit)
-	burstLimitCount, err := strconv.ParseInt(burstLimit, 10, 64)
-	if err != nil {
-		return nil, err
+	if burstLimit != "" {
+		burstLimitCount, err = strconv.ParseInt(burstLimit, 10, 64)
+		if err != nil {
+			return nil
+		}
 	}
 
 	burstLimitRemaining := resp.Header.Get(Header_BurstLimit_Remaining)
-	burstLimitRemainingCount, err := strconv.ParseInt(burstLimitRemaining, 10, 64)
-	if err != nil {
-		return nil, err
+	if burstLimitRemaining != "" {
+		burstLimitRemainingCount, err = strconv.ParseInt(burstLimitRemaining, 10, 64)
+		if err != nil {
+			return nil
+		}
 	}
 
 	return &Ratelimit{
@@ -275,7 +292,7 @@ func rateLimitFromHTTPResponse(resp *http.Response) (*Ratelimit, error) {
 		RateReset:      time.Unix(rateResetEpochCount, 0),
 		BurstLimit:     burstLimitCount,
 		BurstRemaining: burstLimitRemainingCount,
-	}, nil
+	}
 }
 
 type ResponseContext struct {
@@ -313,10 +330,7 @@ func (op *Op) Do(ctx context.Context, result interface{}) (*ResponseContext, err
 		return nil, err
 	}
 
-	limit, err := rateLimitFromHTTPResponse(res)
-	if err != nil {
-		return nil, err
-	}
+	limit := rateLimitFromHTTPResponse(res)
 
 	switch f := result.(type) {
 	case **Download: // return w/o closing response body
