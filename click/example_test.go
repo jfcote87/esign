@@ -39,7 +39,7 @@ func Example() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	result, err := click.New(credential).List().Do(ctx)
+	result, _, err := click.New(credential).List().Do(ctx)
 	if err != nil {
 		log.Fatalf("list clickwraps error: %v", err)
 	}

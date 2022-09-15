@@ -21,13 +21,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/Users
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/users"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   usersService := users.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/users"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	usersService := users.New(esignCredential)
 package users // import "github.com/jfcote87/esign/v2.1/users"
 
 import (
@@ -71,9 +71,10 @@ func (s *Service) ContactsCreate(contactModRequest *model.ContactModRequest) *Co
 type ContactsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ContactsCreateOp) Do(ctx context.Context) (*model.ContactUpdateResponse, error) {
+func (op *ContactsCreateOp) Do(ctx context.Context) (*model.ContactUpdateResponse, *esign.ResponseContext, error) {
 	var res *model.ContactUpdateResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ContactsDelete replaces a particular contact associated with an account for the DocuSign service.
@@ -95,9 +96,10 @@ func (s *Service) ContactsDelete(contactID string) *ContactsDeleteOp {
 type ContactsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ContactsDeleteOp) Do(ctx context.Context) (*model.ContactUpdateResponse, error) {
+func (op *ContactsDeleteOp) Do(ctx context.Context) (*model.ContactUpdateResponse, *esign.ResponseContext, error) {
 	var res *model.ContactUpdateResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ContactsDeleteList delete contacts associated with an account for the DocuSign service.
@@ -120,9 +122,10 @@ func (s *Service) ContactsDeleteList(contactModRequest *model.ContactModRequest)
 type ContactsDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ContactsDeleteListOp) Do(ctx context.Context) (*model.ContactUpdateResponse, error) {
+func (op *ContactsDeleteListOp) Do(ctx context.Context) (*model.ContactUpdateResponse, *esign.ResponseContext, error) {
 	var res *model.ContactUpdateResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ContactsGet gets a particular contact associated with the user's account.
@@ -144,9 +147,10 @@ func (s *Service) ContactsGet(contactID string) *ContactsGetOp {
 type ContactsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ContactsGetOp) Do(ctx context.Context) (*model.ContactGetResponse, error) {
+func (op *ContactsGetOp) Do(ctx context.Context) (*model.ContactGetResponse, *esign.ResponseContext, error) {
 	var res *model.ContactGetResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CloudProvider set the call query parameter cloud_provider
@@ -177,9 +181,10 @@ func (s *Service) ContactsUpdate(contactModRequest *model.ContactModRequest) *Co
 type ContactsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ContactsUpdateOp) Do(ctx context.Context) (*model.ContactUpdateResponse, error) {
+func (op *ContactsUpdateOp) Do(ctx context.Context) (*model.ContactUpdateResponse, *esign.ResponseContext, error) {
 	var res *model.ContactUpdateResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomSettingsDelete deletes custom user settings for a specified user.
@@ -202,9 +207,10 @@ func (s *Service) CustomSettingsDelete(userID string, userCustomSettings *model.
 type CustomSettingsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomSettingsDeleteOp) Do(ctx context.Context) (*model.CustomSettingsInformation, error) {
+func (op *CustomSettingsDeleteOp) Do(ctx context.Context) (*model.CustomSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.CustomSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomSettingsList retrieves the custom user settings for a specified user.
@@ -226,9 +232,10 @@ func (s *Service) CustomSettingsList(userID string) *CustomSettingsListOp {
 type CustomSettingsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomSettingsListOp) Do(ctx context.Context) (*model.CustomSettingsInformation, error) {
+func (op *CustomSettingsListOp) Do(ctx context.Context) (*model.CustomSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.CustomSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CustomSettingsUpdate adds or updates custom user settings for the specified user.
@@ -251,9 +258,10 @@ func (s *Service) CustomSettingsUpdate(userID string, userCustomSettings *model.
 type CustomSettingsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomSettingsUpdateOp) Do(ctx context.Context) (*model.CustomSettingsInformation, error) {
+func (op *CustomSettingsUpdateOp) Do(ctx context.Context) (*model.CustomSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.CustomSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ProfilesGet retrieves the user profile for a specified user.
@@ -275,9 +283,10 @@ func (s *Service) ProfilesGet(userID string) *ProfilesGetOp {
 type ProfilesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProfilesGetOp) Do(ctx context.Context) (*model.UserProfile, error) {
+func (op *ProfilesGetOp) Do(ctx context.Context) (*model.UserProfile, *esign.ResponseContext, error) {
 	var res *model.UserProfile
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ProfilesUpdate updates the user profile information for the specified user.
@@ -300,8 +309,10 @@ func (s *Service) ProfilesUpdate(userID string, userProfiles *model.UserProfile)
 type ProfilesUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ProfilesUpdateOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *ProfilesUpdateOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // SignaturesCreate adds user Signature and initials images to a Signature.
@@ -326,9 +337,10 @@ func (s *Service) SignaturesCreate(userID string, userSignaturesInformation *mod
 type SignaturesCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesCreateOp) Do(ctx context.Context) (*model.UserSignaturesInformation, error) {
+func (op *SignaturesCreateOp) Do(ctx context.Context) (*model.UserSignaturesInformation, *esign.ResponseContext, error) {
 	var res *model.UserSignaturesInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // SignaturesDelete removes removes signature information for the specified user.
@@ -350,8 +362,10 @@ func (s *Service) SignaturesDelete(signatureID string, userID string) *Signature
 type SignaturesDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *SignaturesDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // SignaturesDeleteImage deletes the user initials image or the  user signature image for the specified user.
@@ -373,9 +387,10 @@ func (s *Service) SignaturesDeleteImage(imageType string, signatureID string, us
 type SignaturesDeleteImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesDeleteImageOp) Do(ctx context.Context) (*model.UserSignature, error) {
+func (op *SignaturesDeleteImageOp) Do(ctx context.Context) (*model.UserSignature, *esign.ResponseContext, error) {
 	var res *model.UserSignature
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // SignaturesGet gets the user signature information for the specified user.
@@ -397,9 +412,10 @@ func (s *Service) SignaturesGet(signatureID string, userID string) *SignaturesGe
 type SignaturesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesGetOp) Do(ctx context.Context) (*model.UserSignature, error) {
+func (op *SignaturesGetOp) Do(ctx context.Context) (*model.UserSignature, *esign.ResponseContext, error) {
 	var res *model.UserSignature
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // SignaturesGetImage retrieves the user initials image or the  user signature image for the specified user.
@@ -422,9 +438,10 @@ func (s *Service) SignaturesGetImage(imageType string, signatureID string, userI
 type SignaturesGetImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesGetImageOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *SignaturesGetImageOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // IncludeChrome set the call query parameter include_chrome
@@ -454,9 +471,10 @@ func (s *Service) SignaturesList(userID string) *SignaturesListOp {
 type SignaturesListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesListOp) Do(ctx context.Context) (*model.UserSignaturesInformation, error) {
+func (op *SignaturesListOp) Do(ctx context.Context) (*model.UserSignaturesInformation, *esign.ResponseContext, error) {
 	var res *model.UserSignaturesInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // StampType set the call query parameter stamp_type
@@ -487,9 +505,10 @@ func (s *Service) SignaturesUpdate(signatureID string, userID string, userSignat
 type SignaturesUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesUpdateOp) Do(ctx context.Context) (*model.UserSignature, error) {
+func (op *SignaturesUpdateOp) Do(ctx context.Context) (*model.UserSignature, *esign.ResponseContext, error) {
 	var res *model.UserSignature
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // CloseExistingSignature when set to **true**, closes the current signature.
@@ -521,9 +540,10 @@ func (s *Service) SignaturesUpdateImage(imageType string, signatureID string, us
 type SignaturesUpdateImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesUpdateImageOp) Do(ctx context.Context) (*model.UserSignature, error) {
+func (op *SignaturesUpdateImageOp) Do(ctx context.Context) (*model.UserSignature, *esign.ResponseContext, error) {
 	var res *model.UserSignature
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TransparentPng set the call query parameter transparent_png
@@ -554,9 +574,10 @@ func (s *Service) SignaturesUpdateList(userID string, userSignaturesInformation 
 type SignaturesUpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesUpdateListOp) Do(ctx context.Context) (*model.UserSignaturesInformation, error) {
+func (op *SignaturesUpdateListOp) Do(ctx context.Context) (*model.UserSignaturesInformation, *esign.ResponseContext, error) {
 	var res *model.UserSignaturesInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Create adds new users to the specified account.
@@ -579,9 +600,10 @@ func (s *Service) Create(newUsersDefinition *model.NewUsersDefinition) *CreateOp
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context) (*model.NewUsersSummary, error) {
+func (op *CreateOp) Do(ctx context.Context) (*model.NewUsersSummary, *esign.ResponseContext, error) {
 	var res *model.NewUsersSummary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete removes users account privileges.
@@ -604,9 +626,10 @@ func (s *Service) Delete(userInfoList *model.UserInfoList) *DeleteOp {
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context) (*model.UsersResponse, error) {
+func (op *DeleteOp) Do(ctx context.Context) (*model.UsersResponse, *esign.ResponseContext, error) {
 	var res *model.UsersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Delete iD of the user to delete.
@@ -636,8 +659,10 @@ func (s *Service) DeleteProfileImage(userID string) *DeleteProfileImageOp {
 type DeleteProfileImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteProfileImageOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteProfileImageOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // Get gets the user information for a specified user.
@@ -659,9 +684,10 @@ func (s *Service) Get(userID string) *GetOp {
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context) (*model.UserInformation, error) {
+func (op *GetOp) Do(ctx context.Context) (*model.UserInformation, *esign.ResponseContext, error) {
 	var res *model.UserInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AdditionalInfo setting this parameter has no effect in this operation.
@@ -700,9 +726,10 @@ func (s *Service) GetProfileImage(userID string) *GetProfileImageOp {
 type GetProfileImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetProfileImageOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *GetProfileImageOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Encoding set the call query parameter encoding
@@ -732,9 +759,10 @@ func (s *Service) GetSettings(userID string) *GetSettingsOp {
 type GetSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetSettingsOp) Do(ctx context.Context) (*model.UserSettingsInformation, error) {
+func (op *GetSettingsOp) Do(ctx context.Context) (*model.UserSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.UserSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // List retrieves the list of users for the specified account.
@@ -756,9 +784,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.UserInformationList, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.UserInformationList, *esign.ResponseContext, error) {
 	var res *model.UserInformationList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AdditionalInfo when set to **true**, the custom settings information is returned for each user in the account. If this parameter is omitted, the default behavior is **false**.
@@ -875,9 +904,10 @@ func (s *Service) Update(userID string, users *model.UserInformation) *UpdateOp 
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context) (*model.UserInformation, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*model.UserInformation, *esign.ResponseContext, error) {
 	var res *model.UserInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UpdateList change one or more user in the specified account.
@@ -900,9 +930,10 @@ func (s *Service) UpdateList(userInformationList *model.UserInformationList) *Up
 type UpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateListOp) Do(ctx context.Context) (*model.UserInformationList, error) {
+func (op *UpdateListOp) Do(ctx context.Context) (*model.UserInformationList, *esign.ResponseContext, error) {
 	var res *model.UserInformationList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // UpdateProfileImage updates the user profile image for a specified user.
@@ -926,8 +957,10 @@ func (s *Service) UpdateProfileImage(userID string, media io.Reader, mimeType st
 type UpdateProfileImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateProfileImageOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdateProfileImageOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // UpdateSettings updates the user account settings for a specified user.
@@ -950,6 +983,8 @@ func (s *Service) UpdateSettings(userID string, userSettingsInformation *model.U
 type UpdateSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateSettingsOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdateSettingsOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }

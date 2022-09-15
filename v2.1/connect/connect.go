@@ -31,13 +31,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/Connect
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/connect"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   connectService := connect.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/connect"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	connectService := connect.New(esignCredential)
 package connect // import "github.com/jfcote87/esign/v2.1/connect"
 
 import (
@@ -82,9 +82,10 @@ func (s *Service) ConfigurationsCreate(connectConfigurations *model.ConnectCusto
 type ConfigurationsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConfigurationsCreateOp) Do(ctx context.Context) (*model.ConnectCustomConfiguration, error) {
+func (op *ConfigurationsCreateOp) Do(ctx context.Context) (*model.ConnectCustomConfiguration, *esign.ResponseContext, error) {
 	var res *model.ConnectCustomConfiguration
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ConfigurationsDelete deletes the specified connect configuration.
@@ -106,8 +107,10 @@ func (s *Service) ConfigurationsDelete(connectID string) *ConfigurationsDeleteOp
 type ConfigurationsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConfigurationsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *ConfigurationsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // ConfigurationsGet get information on a Connect Configuration
@@ -129,9 +132,10 @@ func (s *Service) ConfigurationsGet(connectID string) *ConfigurationsGetOp {
 type ConfigurationsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConfigurationsGetOp) Do(ctx context.Context) (*model.ConnectConfigResults, error) {
+func (op *ConfigurationsGetOp) Do(ctx context.Context) (*model.ConnectConfigResults, *esign.ResponseContext, error) {
 	var res *model.ConnectConfigResults
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ConfigurationsList get Connect Configuration Information
@@ -153,9 +157,10 @@ func (s *Service) ConfigurationsList() *ConfigurationsListOp {
 type ConfigurationsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConfigurationsListOp) Do(ctx context.Context) (*model.ConnectConfigResults, error) {
+func (op *ConfigurationsListOp) Do(ctx context.Context) (*model.ConnectConfigResults, *esign.ResponseContext, error) {
 	var res *model.ConnectConfigResults
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ConfigurationsListUsers returns users from the configured Connect service.
@@ -177,9 +182,10 @@ func (s *Service) ConfigurationsListUsers(connectID string) *ConfigurationsListU
 type ConfigurationsListUsersOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConfigurationsListUsersOp) Do(ctx context.Context) (*model.IntegratedUserInfoList, error) {
+func (op *ConfigurationsListUsersOp) Do(ctx context.Context) (*model.IntegratedUserInfoList, *esign.ResponseContext, error) {
 	var res *model.IntegratedUserInfoList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Count optional. Number of items to return.
@@ -258,9 +264,10 @@ func (s *Service) ConfigurationsUpdate(connectConfigurations *model.ConnectCusto
 type ConfigurationsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConfigurationsUpdateOp) Do(ctx context.Context) (*model.ConnectCustomConfiguration, error) {
+func (op *ConfigurationsUpdateOp) Do(ctx context.Context) (*model.ConnectCustomConfiguration, *esign.ResponseContext, error) {
 	var res *model.ConnectCustomConfiguration
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EventsDelete deletes a specified Connect log entry.
@@ -282,8 +289,10 @@ func (s *Service) EventsDelete(logID string) *EventsDeleteOp {
 type EventsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *EventsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // EventsDeleteFailure deletes a Connect failure log entry.
@@ -305,8 +314,10 @@ func (s *Service) EventsDeleteFailure(failureID string) *EventsDeleteFailureOp {
 type EventsDeleteFailureOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsDeleteFailureOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *EventsDeleteFailureOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // EventsDeleteList gets a list of Connect log entries.
@@ -328,8 +339,10 @@ func (s *Service) EventsDeleteList() *EventsDeleteListOp {
 type EventsDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsDeleteListOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *EventsDeleteListOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // EventsGet get the specified Connect log entry.
@@ -351,9 +364,10 @@ func (s *Service) EventsGet(logID string) *EventsGetOp {
 type EventsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsGetOp) Do(ctx context.Context) (*model.ConnectLog, error) {
+func (op *EventsGetOp) Do(ctx context.Context) (*model.ConnectLog, *esign.ResponseContext, error) {
 	var res *model.ConnectLog
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // AdditionalInfo when true, the connectDebugLog information is included in the response.
@@ -383,9 +397,10 @@ func (s *Service) EventsList() *EventsListOp {
 type EventsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsListOp) Do(ctx context.Context) (*model.ConnectLogs, error) {
+func (op *EventsListOp) Do(ctx context.Context) (*model.ConnectLogs, *esign.ResponseContext, error) {
 	var res *model.ConnectLogs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate is the start date for a date range in UTC DateTime format.
@@ -425,9 +440,10 @@ func (s *Service) EventsListFailures() *EventsListFailuresOp {
 type EventsListFailuresOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsListFailuresOp) Do(ctx context.Context) (*model.ConnectLogs, error) {
+func (op *EventsListFailuresOp) Do(ctx context.Context) (*model.ConnectLogs, *esign.ResponseContext, error) {
 	var res *model.ConnectLogs
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate is the start date for a date range in UTC DateTime format.
@@ -469,9 +485,10 @@ func (s *Service) EventsRetryForEnvelope(envelopeID string, media io.Reader, mim
 type EventsRetryForEnvelopeOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsRetryForEnvelopeOp) Do(ctx context.Context) (*model.ConnectFailureResults, error) {
+func (op *EventsRetryForEnvelopeOp) Do(ctx context.Context) (*model.ConnectFailureResults, *esign.ResponseContext, error) {
 	var res *model.ConnectFailureResults
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EventsRetryForEnvelopes republishes Connect information for multiple envelopes.
@@ -494,7 +511,8 @@ func (s *Service) EventsRetryForEnvelopes(connectFailureFilter *model.ConnectFai
 type EventsRetryForEnvelopesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EventsRetryForEnvelopesOp) Do(ctx context.Context) (*model.ConnectFailureResults, error) {
+func (op *EventsRetryForEnvelopesOp) Do(ctx context.Context) (*model.ConnectFailureResults, *esign.ResponseContext, error) {
 	var res *model.ConnectFailureResults
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

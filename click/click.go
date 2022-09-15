@@ -50,9 +50,10 @@ func (s *Service) Create(clickwrap *Clickwrap) *CreateOp {
 }
 
 // Do executes the operation
-func (op *CreateOp) Do(ctx context.Context) (*Summary, error) {
+func (op *CreateOp) Do(ctx context.Context) (*Summary, *esign.ResponseContext, error) {
 	var res *Summary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	respCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, respCtx, err
 }
 
 // UpdateOp updates an existing clickwrap and creates a new
@@ -73,9 +74,10 @@ func (s *Service) Update(id string, clickwrap *Clickwrap) *UpdateOp {
 }
 
 // Do executes the operation
-func (op *UpdateOp) Do(ctx context.Context) (*Summary, error) {
+func (op *UpdateOp) Do(ctx context.Context) (*Summary, *esign.ResponseContext, error) {
 	var res *Summary
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	respCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, respCtx, err
 }
 
 // ListOp gets all the clickwraps for an account
@@ -146,9 +148,10 @@ func (op *ListOp) VersionNumber(val int32) *ListOp {
 }
 
 // Do executes the operation
-func (op *ListOp) Do(ctx context.Context) (*Listing, error) {
+func (op *ListOp) Do(ctx context.Context) (*Listing, *esign.ResponseContext, error) {
 	var res *Listing
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	respCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, respCtx, err
 }
 
 // SetAgreementOp creates/update as user agreement for a client
@@ -167,9 +170,10 @@ func (s *Service) SetAgreement(clickwrapID string, agreement *UserAgreement) *Se
 }
 
 // Do executes the operation
-func (op *SetAgreementOp) Do(ctx context.Context) (*UserAgreement, error) {
+func (op *SetAgreementOp) Do(ctx context.Context) (*UserAgreement, *esign.ResponseContext, error) {
 	var res *UserAgreement
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	respCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, respCtx, err
 }
 
 // GetAgreementsOp lists user agreements for a specific clickwrap
@@ -203,7 +207,8 @@ func (op *GetAgreementsOp) Page(val int32) *GetAgreementsOp {
 }
 
 // Do executes the operation
-func (op *GetAgreementsOp) Do(ctx context.Context) (*AgreementList, error) {
+func (op *GetAgreementsOp) Do(ctx context.Context) (*AgreementList, *esign.ResponseContext, error) {
 	var res *AgreementList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	respCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, respCtx, err
 }

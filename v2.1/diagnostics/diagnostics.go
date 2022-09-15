@@ -18,13 +18,13 @@
 // https://developers.docusign.com/esign-rest-api/reference/Diagnostics
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/diagnostics"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   diagnosticsService := diagnostics.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2.1/diagnostics"
+//	    "github.com/jfcote87/esign/v2.1/model"
+//	)
+//	...
+//	diagnosticsService := diagnostics.New(esignCredential)
 package diagnostics // import "github.com/jfcote87/esign/v2.1/diagnostics"
 
 import (
@@ -65,8 +65,10 @@ func (s *Service) RequestLogsDelete() *RequestLogsDeleteOp {
 type RequestLogsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RequestLogsDeleteOp) Do(ctx context.Context) error {
-	return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *RequestLogsDeleteOp) Do(ctx context.Context) (*esign.ResponseContext, error) {
+
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, nil)
+	return rspCtx, err
 }
 
 // RequestLogsGet gets a request logging log file.
@@ -89,9 +91,10 @@ func (s *Service) RequestLogsGet(requestLogID string) *RequestLogsGetOp {
 type RequestLogsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RequestLogsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *RequestLogsGetOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RequestLogsGetSettings gets the API request logging settings.
@@ -113,9 +116,10 @@ func (s *Service) RequestLogsGetSettings() *RequestLogsGetSettingsOp {
 type RequestLogsGetSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RequestLogsGetSettingsOp) Do(ctx context.Context) (*model.DiagnosticsSettingsInformation, error) {
+func (op *RequestLogsGetSettingsOp) Do(ctx context.Context) (*model.DiagnosticsSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.DiagnosticsSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // RequestLogsList gets the API request logging log files.
@@ -137,9 +141,10 @@ func (s *Service) RequestLogsList() *RequestLogsListOp {
 type RequestLogsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RequestLogsListOp) Do(ctx context.Context) (*model.APIRequestLogsResult, error) {
+func (op *RequestLogsListOp) Do(ctx context.Context) (*model.APIRequestLogsResult, *esign.ResponseContext, error) {
 	var res *model.APIRequestLogsResult
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Encoding set the call query parameter encoding
@@ -184,9 +189,10 @@ func (s *Service) RequestLogsUpdateSettings(requestLogs *model.DiagnosticsSettin
 type RequestLogsUpdateSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RequestLogsUpdateSettingsOp) Do(ctx context.Context) (*model.DiagnosticsSettingsInformation, error) {
+func (op *RequestLogsUpdateSettingsOp) Do(ctx context.Context) (*model.DiagnosticsSettingsInformation, *esign.ResponseContext, error) {
 	var res *model.DiagnosticsSettingsInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ResourcesGet lists resources for REST version specified
@@ -208,9 +214,10 @@ func (s *Service) ResourcesGet() *ResourcesGetOp {
 type ResourcesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ResourcesGetOp) Do(ctx context.Context) (*model.ResourceInformation, error) {
+func (op *ResourcesGetOp) Do(ctx context.Context) (*model.ResourceInformation, *esign.ResponseContext, error) {
 	var res *model.ResourceInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ServicesGet retrieves the available REST API versions.
@@ -232,7 +239,8 @@ func (s *Service) ServicesGet() *ServicesGetOp {
 type ServicesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ServicesGetOp) Do(ctx context.Context) (*model.ServiceInformation, error) {
+func (op *ServicesGetOp) Do(ctx context.Context) (*model.ServiceInformation, *esign.ResponseContext, error) {
 	var res *model.ServiceInformation
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }

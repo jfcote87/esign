@@ -16,13 +16,13 @@
 // https://developers.docusign.com/esign-rest-api/v2/reference/Folders
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/folders"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   foldersService := folders.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/folders"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	foldersService := folders.New(esignCredential)
 package folders // import "github.com/jfcote87/esign/v2/folders"
 
 import (
@@ -64,9 +64,10 @@ func (s *Service) List() *ListOp {
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.FoldersResponse, error) {
+func (op *ListOp) Do(ctx context.Context) (*model.FoldersResponse, *esign.ResponseContext, error) {
 	var res *model.FoldersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Include reserved for DocuSign.
@@ -122,9 +123,10 @@ func (s *Service) ListItems(folderID string) *ListItemsOp {
 type ListItemsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListItemsOp) Do(ctx context.Context) (*model.FolderItemsResponse, error) {
+func (op *ListItemsOp) Do(ctx context.Context) (*model.FolderItemsResponse, *esign.ResponseContext, error) {
 	var res *model.FolderItemsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // FromDate only return items on or after this date. If no value is provided, the default search is the previous 30 days.
@@ -215,9 +217,10 @@ func (s *Service) MoveEnvelopes(folderID string, foldersRequest *model.FoldersRe
 type MoveEnvelopesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *MoveEnvelopesOp) Do(ctx context.Context) (*model.FoldersResponse, error) {
+func (op *MoveEnvelopesOp) Do(ctx context.Context) (*model.FoldersResponse, *esign.ResponseContext, error) {
 	var res *model.FoldersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Search gets a list of envelopes in folders matching the specified criteria.
@@ -238,9 +241,10 @@ func (s *Service) Search(searchFolderID string) *SearchOp {
 type SearchOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SearchOp) Do(ctx context.Context) (*model.FolderItemResponse, error) {
+func (op *SearchOp) Do(ctx context.Context) (*model.FolderItemResponse, *esign.ResponseContext, error) {
 	var res *model.FolderItemResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // All specifies that all envelopes that match the criteria are returned.

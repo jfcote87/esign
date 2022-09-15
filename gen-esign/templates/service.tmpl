@@ -55,9 +55,10 @@ func New(cred esign.Credential) *Service {
 type {{.FuncName}}Op esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *{{.FuncName}}Op) Do(ctx context.Context)  {{if .Result}}({{.Result}}, error){{else}}error{{end}} {
-    {{if .Result}}var res {{.Result}}
-    {{end}}return {{if .Result}}res, {{end}}((*esign.Op)(op)).Do(ctx, {{if .Result}}&res{{else}}nil{{end}})
+func (op *{{.FuncName}}Op) Do(ctx context.Context)  {{if .Result}}({{.Result}}, *esign.ResponseContext, error){{else}}(*esign.ResponseContext, error){{end}} {
+    {{if .Result}}var res {{.Result}}{{end}}
+    rspCtx, err := ((*esign.Op)(op)).Do(ctx, {{if .Result}}&res{{else}}nil{{end}})
+    return {{if .Result}}res, {{end}}rspCtx, err
 }
 
 {{$funcName := .FuncName}}{{range .QueryOptions}}{{range .Comments}}// {{.}}

@@ -8,19 +8,17 @@
 // Package uncategorized implements the DocuSign SDK
 // category Uncategorized.
 //
-//
 // Uncategorized calls may change or move to other packages.
-//
 //
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/uncategorized"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   uncategorizedService := uncategorized.New(esignCredential)
+//	import (
+//	    "github.com/jfcote87/esign"
+//	    "github.com/jfcote87/esign/v2/uncategorized"
+//	    "github.com/jfcote87/esign/v2/model"
+//	)
+//	...
+//	uncategorizedService := uncategorized.New(esignCredential)
 package uncategorized // import "github.com/jfcote87/esign/v2/uncategorized"
 
 import (
@@ -57,9 +55,10 @@ func (s *Service) CommentsGet(envelopeID string) *CommentsGetOp {
 type CommentsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CommentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+func (op *CommentsGetOp) Do(ctx context.Context) (*esign.Download, *esign.ResponseContext, error) {
 	var res *esign.Download
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // Encoding set the call query parameter encoding
@@ -85,9 +84,10 @@ func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, envelop
 type DocumentResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeDocumentHTMLDefinitionsGetis uncategorized and subject to change
@@ -104,9 +104,10 @@ func (s *Service) EnvelopeDocumentHTMLDefinitionsGet(documentID string, envelope
 type EnvelopeDocumentHTMLDefinitionsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeDocumentHTMLDefinitionsGetOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *EnvelopeDocumentHTMLDefinitionsGetOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // EnvelopeHTMLDefinitionsListis uncategorized and subject to change
@@ -123,9 +124,10 @@ func (s *Service) EnvelopeHTMLDefinitionsList(envelopeID string) *EnvelopeHTMLDe
 type EnvelopeHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *EnvelopeHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *EnvelopeHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // ResponsiveHTMLPreviewCreateis uncategorized and subject to change
@@ -143,9 +145,10 @@ func (s *Service) ResponsiveHTMLPreviewCreate(envelopeID string, documentHTMLDef
 type ResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentHTMLDefinitionsListis uncategorized and subject to change
@@ -162,9 +165,10 @@ func (s *Service) TemplateDocumentHTMLDefinitionsList(documentID string, templat
 type TemplateDocumentHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *TemplateDocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateDocumentResponsiveHTMLPreviewCreateis uncategorized and subject to change
@@ -182,9 +186,10 @@ func (s *Service) TemplateDocumentResponsiveHTMLPreviewCreate(documentID string,
 type TemplateDocumentResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *TemplateDocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateHTMLDefinitionsListis uncategorized and subject to change
@@ -201,9 +206,10 @@ func (s *Service) TemplateHTMLDefinitionsList(templateID string) *TemplateHTMLDe
 type TemplateHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+func (op *TemplateHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitionOriginals
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
 
 // TemplateResponsiveHTMLPreviewCreateis uncategorized and subject to change
@@ -221,7 +227,8 @@ func (s *Service) TemplateResponsiveHTMLPreviewCreate(templateID string, documen
 type TemplateResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TemplateResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+func (op *TemplateResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, *esign.ResponseContext, error) {
 	var res *model.DocumentHTMLDefinitions
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+	rspCtx, err := ((*esign.Op)(op)).Do(ctx, &res)
+	return res, rspCtx, err
 }
