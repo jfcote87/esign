@@ -247,43 +247,33 @@ func rateLimitFromHTTPResponse(resp *http.Response) *Ratelimit {
 	var err error
 
 	rateLimit := resp.Header.Get(Header_RateLimit_Limit)
-	if rateLimit != "" {
-		rateLimitCount, err = strconv.ParseInt(rateLimit, 10, 64)
-		if err != nil {
-			return nil
-		}
+	rateLimitCount, err = strconv.ParseInt(rateLimit, 10, 64)
+	if err != nil {
+		return nil
 	}
 
 	rateLimitRemaining := resp.Header.Get(Header_RateLimit_Remaining)
-	if rateLimitRemaining != "" {
-		rateLimitRemainingCount, err = strconv.ParseInt(rateLimitRemaining, 10, 64)
-		if err != nil {
-			return nil
-		}
+	rateLimitRemainingCount, err = strconv.ParseInt(rateLimitRemaining, 10, 64)
+	if err != nil {
+		return nil
 	}
 
 	rateResetEpoch := resp.Header.Get(Header_RateLimit_Reset)
-	if rateResetEpoch != "" {
-		rateResetEpochCount, err = strconv.ParseInt(rateResetEpoch, 10, 64)
-		if err != nil {
-			return nil
-		}
+	rateResetEpochCount, err = strconv.ParseInt(rateResetEpoch, 10, 64)
+	if err != nil {
+		return nil
 	}
 
 	burstLimit := resp.Header.Get(Header_BurstLimit_Limit)
-	if burstLimit != "" {
-		burstLimitCount, err = strconv.ParseInt(burstLimit, 10, 64)
-		if err != nil {
-			return nil
-		}
+	burstLimitCount, err = strconv.ParseInt(burstLimit, 10, 64)
+	if err != nil {
+		return nil
 	}
 
 	burstLimitRemaining := resp.Header.Get(Header_BurstLimit_Remaining)
-	if burstLimitRemaining != "" {
-		burstLimitRemainingCount, err = strconv.ParseInt(burstLimitRemaining, 10, 64)
-		if err != nil {
-			return nil
-		}
+	burstLimitRemainingCount, err = strconv.ParseInt(burstLimitRemaining, 10, 64)
+	if err != nil {
+		return nil
 	}
 
 	return &Ratelimit{
