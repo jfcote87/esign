@@ -153,7 +153,7 @@ func TestOp_Do(t *testing.T) {
 		},
 	}
 	for i, op := range ops {
-		if err := op.Do(context.Background(), nil); err != nil {
+		if _, err := op.Do(context.Background(), nil); err != nil {
 			t.Errorf("Error %d: %v", i, err)
 		}
 	}
@@ -165,7 +165,7 @@ func TestOp_Do(t *testing.T) {
 		QueryOpts:  make(url.Values),
 		Method:     "GET",
 	}
-	err := op.Do(context.Background(), nil)
+	_, err := op.Do(context.Background(), nil)
 	if ex, ok := err.(*esign.ResponseError); !ok {
 		t.Fatalf("test 5 expected *ResponseError; got %#v", err)
 	} else if ex.Status != 400 || string(ex.Raw) != "No JSON" {
@@ -174,7 +174,7 @@ func TestOp_Do(t *testing.T) {
 
 	// check error handling for properly formateed ResponseError
 	op.Path = "do/test6/go"
-	err = op.Do(context.Background(), nil)
+	_, err = op.Do(context.Background(), nil)
 	if ex, ok := err.(*esign.ResponseError); !ok {
 		t.Fatalf("test 6 expected *ResponseError; got %#v", err)
 	} else if ex.Status != 400 || ex.ErrorCode != "A" || ex.Description != "error desc" {
@@ -189,7 +189,7 @@ func TestOp_Do(t *testing.T) {
 		B int64
 		C string
 	}
-	if err := op.Do(context.Background(), &result); err != nil {
+	if _, err := op.Do(context.Background(), &result); err != nil {
 		t.Fatalf("JSON response failed: %#v", err)
 	}
 	if result.A != "val" || result.B != 9 || result.C != "X" {
@@ -321,7 +321,7 @@ func TestOp_Do_FileUpload(t *testing.T) {
 			},
 		},
 	}
-	if err := op.Do(context.Background(), nil); err != nil {
+	if _, err := op.Do(context.Background(), nil); err != nil {
 		t.Fatalf("multipart test expected success; got %v", err)
 	}
 	if !checkFilesClosed(t, f1, f2) {
@@ -335,7 +335,7 @@ func TestOp_Do_FileUpload(t *testing.T) {
 		Transport: &ctxclient.ErrorTransport{Err: errors.New("ERROR")},
 	})
 	ctx := context.Background()
-	err := op.Do(ctx, nil)
+	_, err := op.Do(ctx, nil)
 	switch reterr := err.(type) {
 	case nil:
 		t.Fatalf("multipart test expected *url.Error; got success")
@@ -365,7 +365,8 @@ func TestOp_Do_FileUpload(t *testing.T) {
 		Response: testutils.MakeResponse(200, nil, nil),
 	})
 
-	switch err := op.Do(context.Background(), nil).(type) {
+	_, e := op.Do(context.Background(), nil)
+	switch err := e.(type) {
 	case *url.Error:
 	default:
 		t.Errorf("multipart read expected io error; got %v", err)
@@ -398,7 +399,7 @@ func TestOp_Do_FileDownload(t *testing.T) {
 			return res, nil
 		},
 	})
-	if err := op.Do(context.Background(), &file); err != nil {
+	if _, err := op.Do(context.Background(), &file); err != nil {
 		t.Fatalf("expecte esign.Download; got error %v", err)
 	}
 	if file == nil {
@@ -441,14 +442,14 @@ func TestOp_FilesClosed(t *testing.T) {
 	}
 	// ensure files close on nil context/invalid client/invalid credential error
 	var ctx context.Context
-	if err := op.Do(ctx, nil); err != nil && err.Error() != "nil context" {
+	if _, err := op.Do(ctx, nil); err != nil && err.Error() != "nil context" {
 		t.Errorf("expected nil context; got %v", err)
 	}
 	if !checkFilesClosed(t, f1, f2) {
 		t.Fatalf("multipart test nil context expected closed files")
 	}
 	ctx = context.Background()
-	if err := op.Do(ctx, nil); err != nil && err.Error() != "nil credential" {
+	if _, err := op.Do(ctx, nil); err != nil && err.Error() != "nil credential" {
 		t.Errorf("expected nil credential; got %v", err)
 	}
 	if !checkFilesClosed(t, f1, f2) {
@@ -459,7 +460,7 @@ func TestOp_FilesClosed(t *testing.T) {
 	cx, _ := getTestCredentialClientTransport()
 	op.Credential = cx
 	op.Method = "PO ST" //invalid method
-	if err := op.Do(ctx, nil); err != nil && err.Error() != "net/http: invalid method \"PO ST\"" {
+	if _, err := op.Do(ctx, nil); err != nil && err.Error() != "net/http: invalid method \"PO ST\"" {
 		t.Errorf("expected net/http: invalid method \"PO ST\"; got %v", err)
 	}
 	time.Sleep(time.Second)
@@ -483,7 +484,8 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 		Response: testutils.MakeResponse(200, []byte("0123456789"), nil),
 	})
 	var result *TokenCache
-	switch err := op.Do(ctx, &result).(type) {
+	_, e := op.Do(ctx, &result)
+	switch err := e.(type) {
 	case *json.UnmarshalTypeError:
 	default:
 		t.Fatalf("expected *json.UnmarshalTypeError; got %#v", err)
@@ -504,7 +506,7 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 		QueryOpts:  make(url.Values),
 		Method:     "POST",
 	}
-	if err := op.Do(ctx, &result); err == nil || err.Error() != "context canceled" {
+	if _, err := op.Do(ctx, &result); err == nil || err.Error() != "context canceled" {
 		t.Errorf("expected context canceled; got %v", err)
 	}
 }
@@ -545,7 +547,7 @@ func TestGeneratedOps(t *testing.T) {
 	ctx := context.Background()
 	// Read throught  all folders
 	sv := folders.New(cred)
-	l, err := sv.List().Do(ctx)
+	l, _, err := sv.List().Do(ctx)
 	if err != nil {
 		t.Errorf("List: %v", err)
 		return
@@ -556,14 +558,14 @@ func TestGeneratedOps(t *testing.T) {
 
 	// Read through all templates
 	svT := templates.New(cred)
-	tList, err := svT.List().Do(context.Background())
+	tList, _, err := svT.List().Do(context.Background())
 	if err != nil {
 		t.Errorf("Template List: %v", err)
 	}
 
 	for _, tmpl := range tList.EnvelopeTemplates {
 		t.Logf("Getting: %s", tmpl.TemplateID)
-		tx, err := svT.Get(tmpl.TemplateID).Include("recipients").Do(context.Background())
+		tx, _, err := svT.Get(tmpl.TemplateID).Include("recipients").Do(context.Background())
 		if err != nil {
 			t.Errorf("unable to open template %s: %v", tmpl.Name, err)
 			continue

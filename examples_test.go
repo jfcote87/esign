@@ -44,7 +44,7 @@ func ExampleOAuth2Config() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fl, err := folders.New(credential).List().Do(ctx)
+	fl, _, err := folders.New(credential).List().Do(ctx)
 	if err != nil {
 		log.Fatalf("Folder list error: %v", err)
 	}
@@ -73,7 +73,7 @@ func ExampleJWTConfig() {
 	if err != nil {
 		log.Fatalf("create credential error: %v", err)
 	}
-	fl, err := folders.New(credential).List().Do(ctx)
+	fl, _, err := folders.New(credential).List().Do(ctx)
 	if err != nil {
 		log.Fatalf("Folder list error: %v", err)
 	}
@@ -144,7 +144,7 @@ func ExampleTokenCredential() {
 	// or generate or
 	var accessToken = `eyJ0eXAiOiJNVCIsImF...`
 	credential := esign.TokenCredential(accessToken, true)
-	fl, err := folders.New(credential).List().Do(context.Background())
+	fl, _, err := folders.New(credential).List().Do(context.Background())
 	if err != nil {
 		log.Fatalf("Folder list error: %v", err)
 	}
@@ -218,7 +218,7 @@ func Example_create_envelope() {
 			},
 		},
 	}
-	envSummary, err := sv.Create(env).Do(ctx)
+	envSummary, _, err := sv.Create(env).Do(ctx)
 	if err != nil {
 		log.Fatalf("create envelope error: %v", err)
 	}
@@ -319,7 +319,7 @@ func Example_create_envelope_fileupload() {
 		},
 	}
 	// UploadFile.Reader is always closed on operation
-	envSummary, err := sv.Create(env, &esign.UploadFile{
+	envSummary, _, err := sv.Create(env, &esign.UploadFile{
 		ContentType: "application/pdf",
 		FileName:    "invitation letter.pdf",
 		ID:          "1",
@@ -349,7 +349,7 @@ func Example_document_download() {
 	sv := envelopes.New(cred)
 
 	var dn *esign.Download
-	if dn, err = sv.DocumentsGet("combined", envID).
+	if dn, _, err = sv.DocumentsGet("combined", envID).
 		Certificate().
 		Watermark().
 		Do(ctx); err != nil {

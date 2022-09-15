@@ -380,7 +380,8 @@ func TestTokenCredential(t *testing.T) {
 		},
 	)
 	// check for userinfo fail
-	switch err := testOp.Do(ctx, nil).(type) {
+	_, e := testOp.Do(ctx, nil)
+	switch err := e.(type) {
 	case nil:
 		t.Errorf("invalid token expected 400 status; got success")
 		return
@@ -390,16 +391,16 @@ func TestTokenCredential(t *testing.T) {
 		return
 	}
 
-	if err := testOp.Do(ctx, nil); err != nil {
+	if _, err := testOp.Do(ctx, nil); err != nil {
 		t.Errorf("%v", err)
 	}
 	testOp.Credential = cred.WithAccountID("BAD_ACCT")
-	if err := testOp.Do(ctx, nil); err == nil || err.Error() != "no account BAD_ACCT for susan.smart@example.com" {
+	if _, err := testOp.Do(ctx, nil); err == nil || err.Error() != "no account BAD_ACCT for susan.smart@example.com" {
 		t.Errorf("expected no account BAD_ACCT; got %v", err)
 		return
 	}
 	testOp.Credential = cred.WithAccountID("abcd61a3-3b9b-cafe-b7be-4592af32aa9b")
-	if err := testOp.Do(ctx, nil); err != nil {
+	if _, err := testOp.Do(ctx, nil); err != nil {
 		t.Errorf("expected success; got %v", err)
 	}
 }

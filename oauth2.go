@@ -42,15 +42,15 @@ func (df demoFlag) tokenURI() string {
 	return "account.docusign.com"
 }
 
-func (df demoFlag) getUserInfoForToken(ctx context.Context, f ctxclient.Func, tk *oauth2.Token) (*UserInfo, error) {
+func (df demoFlag) getUserInfoForToken(ctx context.Context, f ctxclient.Func, tk *oauth2.Token) (*UserInfo, *ResponseContext, error) {
 	// needed to use token credential due to different host and path parameters for op
 	var u *UserInfo
-	err := (&Op{
+	responseContext, err := (&Op{
 		Credential: &tokenCredential{tk, f},
 		Method:     "GET",
 		Path:       "https://" + df.tokenURI() + "/oauth/userinfo",
 	}).Do(ctx, &u)
-	return u, err
+	return u, responseContext, err
 }
 
 // OAuth2Config allows for 3-legged oauth via a code grant mechanism
@@ -152,7 +152,7 @@ func (c *OAuth2Config) Exchange(ctx context.Context, code string) (*OAuth2Creden
 	if err != nil {
 		return nil, err
 	}
-	u, err := demoFlag(c.IsDemo).getUserInfoForToken(ctx, cfg.HTTPClientFunc, tk)
+	u, _, err := demoFlag(c.IsDemo).getUserInfoForToken(ctx, cfg.HTTPClientFunc, tk)
 	if err != nil {
 		return nil, err
 	}
@@ -266,9 +266,10 @@ func (c *JWTConfig) UserConsentURL(redirectURL string, scopes ...string) string 
 // prompt determines whether the user is prompted for re-authentication, even with an active login session.
 //
 // scopes permissions being requested for the application from each user in the organization.  Valid values are
-//   signature — allows your application to create and send envelopes, and obtain links for starting signing sessions.
-//   extended — issues your application a refresh token that can be used any number of times (Authorization Code flow only).
-//   impersonation — allows your application to access a user’s account and act on their behalf via JWT authentication.
+//
+//	signature — allows your application to create and send envelopes, and obtain links for starting signing sessions.
+//	extended — issues your application a refresh token that can be used any number of times (Authorization Code flow only).
+//	impersonation — allows your application to access a user’s account and act on their behalf via JWT authentication.
 func (c *JWTConfig) ExternalAdminConsentURL(redirectURL, authType, state string, prompt bool, scopes ...string) (string, error) {
 	if authType != "code" && authType != "token" {
 		return "", fmt.Errorf("invalid authType %s, must be code or token", authType)
@@ -446,7 +447,7 @@ func (cred *OAuth2Credential) Token(ctx context.Context) (*oauth2.Token, error) 
 	}
 	// check for userInfo and set AccountID and BaseURI to resolve op urls
 	if cred.userInfo == nil {
-		cred.userInfo, err = cred.isDemo.getUserInfoForToken(ctx, cred.Func, cred.cachedToken)
+		cred.userInfo, _, err = cred.isDemo.getUserInfoForToken(ctx, cred.Func, cred.cachedToken)
 		if err != nil {
 			return nil, err
 		}

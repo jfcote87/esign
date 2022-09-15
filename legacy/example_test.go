@@ -22,7 +22,7 @@ func Example_config() {
 		Host:          "na1.docusign.com",
 	}
 	sv := folders.New(cfg)
-	fl, err := sv.List().Do(context.Background())
+	fl, _, err := sv.List().Do(context.Background())
 	if err != nil {
 		log.Fatalf("Folder list error: %v", err)
 	}
@@ -45,7 +45,7 @@ func Example_oauth() {
 	}
 	// save cred for future use
 	sv := folders.New(cred)
-	fl, err := sv.List().Do(context.Background())
+	fl, _, err := sv.List().Do(context.Background())
 	if err != nil {
 		log.Fatalf("Folder list error: %v", err)
 	}

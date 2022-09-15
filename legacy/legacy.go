@@ -30,11 +30,12 @@ import (
 // https://eu.docusign.net/restapi/v2/accounts/{accountId}
 //
 // EXAMPLES
-// 	"https://www.docusign.net/restapi/v2"  (deprecated?)
-// 	"https://na2.docusign.net/restapi/v2"   (north america)
-// 	"https://na3.docusign.net/restapi/v2"   (north america)
-// 	"https://eu.docusign.net/restapi/v2"   (europe)
-// 	"https://demo.docusign.net/restapi/v2" (sandbox)
+//
+//	"https://www.docusign.net/restapi/v2"  (deprecated?)
+//	"https://na2.docusign.net/restapi/v2"   (north america)
+//	"https://na3.docusign.net/restapi/v2"   (north america)
+//	"https://eu.docusign.net/restapi/v2"   (europe)
+//	"https://demo.docusign.net/restapi/v2" (sandbox)
 var (
 	demoHost = "demo.docusign.net"
 	baseHost = "www.docusign.net"
@@ -97,7 +98,8 @@ func (o OauthCredential) Revoke(ctx context.Context) error {
 		},
 		QueryOpts: make(url.Values),
 	}
-	return c.Do(ctx, nil)
+	_, err := c.Do(ctx, nil)
+	return err
 }
 
 // Config provides methods to authenticate via a user/password combination.  It may also
@@ -138,7 +140,7 @@ func (c *Config) OauthCredential(ctx context.Context) (*OauthCredential, error) 
 		QueryOpts: make(url.Values),
 	}
 	var ret *model.OauthAccess
-	if err := call.Do(ctx, &ret); err != nil {
+	if _, err := call.Do(ctx, &ret); err != nil {
 		return nil, err
 	}
 	return &OauthCredential{
@@ -167,7 +169,7 @@ func (o *OauthCredential) OnBehalfOfCredential(ctx context.Context, integratorKe
 		QueryOpts: make(url.Values),
 	}
 	var ret *model.OauthAccess
-	if err := call.Do(ctx, &ret); err != nil {
+	if _, err := call.Do(ctx, &ret); err != nil {
 		return nil, err
 	}
 	return &OauthCredential{
