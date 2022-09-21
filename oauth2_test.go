@@ -7,6 +7,8 @@ package esign_test
 import (
 	"context"
 	"net/http"
+	"net/url"
+	"strings"
 	"testing"
 
 	"github.com/jfcote87/esign"
@@ -43,7 +45,7 @@ const userInfoSuccessResponse = `{
 	"email": "susan.smart@example.com"
   }`
 
-func getOAuth2ConfigTranspot() (*esign.OAuth2Config, *testutils.Transport) {
+func getOAuth2ConfigTransport() (*esign.OAuth2Config, *testutils.Transport) {
 	testTransport := &testutils.Transport{}
 	clx := &http.Client{Transport: testTransport}
 
@@ -60,7 +62,7 @@ func getOAuth2ConfigTranspot() (*esign.OAuth2Config, *testutils.Transport) {
 }
 
 func TestOuauth2Config_AuthURL(t *testing.T) {
-	cfg, _ := getOAuth2ConfigTranspot()
+	cfg, _ := getOAuth2ConfigTransport()
 	authURL := cfg.AuthURL("STATE")
 	expectedURL := "https://account-d.docusign.com/oauth/auth?client_id=KEY&redirect_uri=https%3A%2F%2Fwww.example.com%2Ftoken&response_type=code&scope=signature&state=STATE"
 	if authURL != expectedURL {
@@ -104,8 +106,18 @@ var exchangeResponseTest = &testutils.RequestTester{
 		return testutils.MakeResponse(200, []byte(tokenSuccessResponse), nil), nil
 	},
 }
-var userinfoResponseTest = &testutils.RequestTester{
+var userinfoResponseDemoTest = &testutils.RequestTester{
 	Host:   "account-d.docusign.com",
+	Path:   "/oauth/userinfo",
+	Method: "GET",
+	Auth:   "Bearer ISSUED_ACCESS_TOKEN",
+	ResponseFunc: func(r *http.Request) (*http.Response, error) {
+		return testutils.MakeResponse(200, []byte(userInfoSuccessResponse), nil), nil
+	},
+}
+
+var userinfoResponseTest = &testutils.RequestTester{
+	Host:   "account.docusign.com",
 	Path:   "/oauth/userinfo",
 	Method: "GET",
 	Auth:   "Bearer ISSUED_ACCESS_TOKEN",
@@ -124,9 +136,9 @@ var refreshResponseTest = &testutils.RequestTester{
 
 func TestOAuth2Config_Exchange(t *testing.T) {
 	// Test OAuth2Credential flow
-	cfg, testTransport := getOAuth2ConfigTranspot()
+	cfg, testTransport := getOAuth2ConfigTransport()
 
-	testTransport.Add(exchangeResponseTest, userinfoResponseTest)
+	testTransport.Add(exchangeResponseTest, userinfoResponseDemoTest)
 	ctx := context.Background()
 
 	var savedToken *oauth2.Token
@@ -169,8 +181,22 @@ func TestOAuth2Config_Exchange(t *testing.T) {
 	}
 }
 
+var tverV2 = &testVersion{
+	Host:   "gotest.docusign.net",
+	Demo:   "gotest-d.docusign.net",
+	Prefix: "/restapi",
+	Ver:    "/v2",
+}
+var tverV21 = &testVersion{
+	Host:   "gotest.docusign.net",
+	Demo:   "gotest-d.docusign.net",
+	Prefix: "/restapi",
+	Ver:    "/v2.1",
+}
+
 func TestOAuth2Config_Refresh(t *testing.T) {
-	cfg, testTransport := getOAuth2ConfigTranspot()
+
+	cfg, testTransport := getOAuth2ConfigTransport()
 
 	var savedToken *oauth2.Token
 	var savedUserInfo *esign.UserInfo
@@ -180,16 +206,16 @@ func TestOAuth2Config_Refresh(t *testing.T) {
 		savedUserInfo = &ui
 	}
 
-	testTransport.Add(refreshResponseTest, userinfoResponseTest)
+	testTransport.Add(refreshResponseTest, userinfoResponseDemoTest)
 
 	var tk *oauth2.Token
 	ctx := context.Background()
-
-	ocr, err := cfg.Credential(&oauth2.Token{RefreshToken: "refresh"}, nil)
+	cfg.IsDemo = true
+	ocra, err := cfg.Credential(&oauth2.Token{RefreshToken: "refresh"}, nil)
 	if err != nil {
 		t.Fatalf("expected successful credential create; got %v", err)
 	}
-	if tk, err = ocr.Token(ctx); err != nil {
+	if tk, err = ocra.Token(ctx); err != nil {
 		t.Fatalf("expected token; got %v", err)
 	}
 	if tk.AccessToken != "ISSUED_ACCESS_TOKEN" {
@@ -197,7 +223,8 @@ func TestOAuth2Config_Refresh(t *testing.T) {
 	}
 
 	testTransport.Add(refreshResponseTest, userinfoResponseTest)
-	ocr, err = cfg.Credential(&oauth2.Token{RefreshToken: "refresh"}, nil)
+	cfg.IsDemo = false
+	ocr, err := cfg.Credential(&oauth2.Token{RefreshToken: "refresh"}, nil)
 	if err != nil {
 		t.Fatalf("expected successful credential create; got %v", err)
 	}
@@ -220,18 +247,25 @@ func TestOAuth2Config_Refresh(t *testing.T) {
 	}, &testutils.RequestTester{
 		Path:   "/restapi/v2.1/accounts/" + u.Accounts[0].AccountID + "/abc/def",
 		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
-		Host:   "gotest.docusign.net",
+		Host:   "gotest-d.docusign.net",
 	})
-	req, _ := http.NewRequest("GET", "abc/def", nil)
-	if res, err := ocr.AuthDo(ctx, req, nil); err != nil {
+	op := &esign.Op{
+		Method:  "GET",
+		Path:    "abc/def",
+		Version: tverV2,
+	}
+	if res, err := ocr.AuthDo(ctx, op); err != nil {
 		_ = res
-		t.Errorf("%v", err)
+		t.Errorf("authdo(GET, abc/def, nil) expected success; got %v", err)
+
 	} else {
 		res.Body.Close()
 	}
-	req, _ = http.NewRequest("GET", "abc/def", nil)
-	if res, err := ocr.AuthDo(ctx, req, esign.VersionV21); err != nil {
-		t.Errorf("%v", err)
+
+	op.Version = tverV21
+
+	if res, err := ocra.AuthDo(ctx, op); err != nil {
+		t.Errorf("authdo(GET, abc/def, VersionV21) expected success; got %v", err)
 	} else {
 		res.Body.Close()
 	}
@@ -283,7 +317,6 @@ ZhC2gm1mAAZF9SBYwxTJ7vIcXRWi8uOB6yM7QQhuUpduK236a1lJZao=
 	}
 	ocr, _ := cfg.Credential("50d89ab1-dad5-d00d-b410-92ee3110b970", nil, nil)
 
-	_ = ocr
 	var exchangeResponseTest = &testutils.RequestTester{
 		Host:   "account-d.docusign.com",
 		Path:   "/oauth/token",
@@ -320,21 +353,26 @@ ZhC2gm1mAAZF9SBYwxTJ7vIcXRWi8uOB6yM7QQhuUpduK236a1lJZao=
 	testTransport.Add(&testutils.RequestTester{
 		Path:   "/restapi/v2/accounts/" + u.Accounts[0].AccountID + "/abc/def",
 		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
-		Host:   "gotest.docusign.net",
+		Host:   "gotest-d.docusign.net",
 	}, &testutils.RequestTester{
 		Path:   "/restapi/v2.1/accounts/" + u.Accounts[0].AccountID + "/abc/def",
 		Header: http.Header{"Authorization": {"Bearer ISSUED_ACCESS_TOKEN"}},
-		Host:   "gotest.docusign.net",
+		Host:   "gotest-d.docusign.net",
 	})
-	req, _ := http.NewRequest("GET", "abc/def", nil)
-	if res, err := ocr.AuthDo(ctx, req, nil); err != nil {
+	op := &esign.Op{
+		Method:  "GET",
+		Path:    "abc/def",
+		Version: tverV2,
+	}
+
+	if res, err := ocr.AuthDo(ctx, op); err != nil {
 		_ = res
 		t.Errorf("%v", err)
 	} else {
 		res.Body.Close()
 	}
-	req, _ = http.NewRequest("GET", "abc/def", nil)
-	if res, err := ocr.AuthDo(ctx, req, esign.VersionV21); err != nil {
+	op.Version = tverV21
+	if res, err := ocr.AuthDo(ctx, op); err != nil {
 		t.Errorf("%v", err)
 	} else {
 		res.Body.Close()
@@ -352,6 +390,7 @@ func TestTokenCredential(t *testing.T) {
 		Credential: cred,
 		Method:     "GET",
 		Path:       "testcmd",
+		Version:    esign.VersionV2,
 	}
 	_ = testOp
 	expectedAuthHeader := http.Header{
@@ -432,4 +471,30 @@ func TestJWTExternalAdminConsentURL(t *testing.T) {
 		t.Errorf("expected %s; got %s", expectedURL, authURL)
 		return
 	}
+}
+
+type testVersion struct {
+	Host   string
+	Demo   string
+	Prefix string
+	Ver    string
+}
+
+func (tv *testVersion) ResolveDSURL(u *url.URL, host string, accountID string, isDemo bool) *url.URL {
+	if tv == nil {
+		return u
+	}
+	newURL := *u
+	newURL.Scheme = "https"
+	newURL.Host = tv.Host
+	if isDemo {
+		newURL.Host = tv.Demo
+	}
+
+	if !strings.HasPrefix(u.Path, "/") {
+		newURL.Path = tv.Prefix + tv.Ver + "/accounts/" + accountID + "/" + u.Path
+		return &newURL
+	}
+	newURL.Path = tv.Prefix + u.Path
+	return &newURL
 }

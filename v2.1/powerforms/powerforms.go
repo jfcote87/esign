@@ -83,7 +83,7 @@ func (op *DataListOp) DataLayout(val string) *DataListOp {
 
 // FromDate is the start date for a date range in UTC DateTime format.
 //
-// **Note**: If this property is null, no date filtering is applied.
+// **Note:** If this property is null, no date filtering is applied.
 func (op *DataListOp) FromDate(val time.Time) *DataListOp {
 	if op != nil {
 		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
@@ -99,17 +99,17 @@ func (op *DataListOp) ToDate(val time.Time) *DataListOp {
 	return op
 }
 
-// Create creates a new PowerForm.
+// Create creates a new PowerForm
 //
 // https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/create
 //
 // SDK Method PowerForms::createPowerForm
-func (s *Service) Create(powerForms *model.PowerForm) *CreateOp {
+func (s *Service) Create(powerForm *model.PowerForm) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "powerforms",
-		Payload:    powerForms,
+		Payload:    powerForm,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -220,9 +220,9 @@ func (op *ListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// FromDate (Optional) The start date for a date range.
+// FromDate is the start date for a date range.
 //
-// **Note**: If no value is provided, no date filtering is applied.
+// **Note:** If no value is provided, no date filtering is applied.
 func (op *ListOp) FromDate(val time.Time) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
@@ -230,7 +230,7 @@ func (op *ListOp) FromDate(val time.Time) *ListOp {
 	return op
 }
 
-// Order (Optional) The order in which to sort the results.
+// Order is the order in which to sort the results.
 //
 // Valid values are:
 //
@@ -244,12 +244,19 @@ func (op *ListOp) Order(val string) *ListOp {
 	return op
 }
 
-// OrderBy (Optional) The file attribute to use to sort the results.
+// OrderBy is the file attribute to use to sort the results.
 //
 // Valid values are:
 //
-// * `modified`
-// * `name`
+// - `sender`
+// - `auth`
+// - `used`
+// - `remaining`
+// - `lastused`
+// - `status`
+// - `type`
+// - `templatename`
+// - `created`
 func (op *ListOp) OrderBy(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("order_by", val)
@@ -257,9 +264,29 @@ func (op *ListOp) OrderBy(val string) *ListOp {
 	return op
 }
 
-// ToDate (Optional) The end date for a date range.
+// SearchFields is a comma-separated list of additional properties to include in a search.
 //
-// **Note**: If no value is provided, this property defaults to the current date.
+// - `sender`: Include sender name and email in the search.
+// - `recipients`: Include recipient names and emails in the search.
+// - `envelope`: Include envelope information in the search.
+func (op *ListOp) SearchFields(val string) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("search_fields", val)
+	}
+	return op
+}
+
+// SearchText use this parameter to search for specific text.
+func (op *ListOp) SearchText(val string) *ListOp {
+	if op != nil {
+		op.QueryOpts.Set("search_text", val)
+	}
+	return op
+}
+
+// ToDate is the end date for a date range.
+//
+// **Note:** If no value is provided, this property defaults to the current date.
 func (op *ListOp) ToDate(val time.Time) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
@@ -304,12 +331,12 @@ func (op *ListSendersOp) StartPosition(val int) *ListSendersOp {
 // https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/update
 //
 // SDK Method PowerForms::updatePowerForm
-func (s *Service) Update(powerFormID string, powerForms *model.PowerForm) *UpdateOp {
+func (s *Service) Update(powerFormID string, powerForm *model.PowerForm) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
-		Payload:    powerForms,
+		Payload:    powerForm,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

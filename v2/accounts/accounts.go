@@ -1474,29 +1474,6 @@ func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context) (*model.ENoteConf
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// PaymentGatewayAccountsList list payment gateway account information
-//
-// https://developers.docusign.com/esign-rest-api/v2/reference/accounts/paymentgatewayaccounts/list
-//
-// SDK Method Accounts::getAllPaymentGatewayAccounts
-func (s *Service) PaymentGatewayAccountsList() *PaymentGatewayAccountsListOp {
-	return &PaymentGatewayAccountsListOp{
-		Credential: s.credential,
-		Method:     "GET",
-		Path:       "payment_gateway_accounts",
-		QueryOpts:  make(url.Values),
-	}
-}
-
-// PaymentGatewayAccountsListOp implements DocuSign API SDK Accounts::getAllPaymentGatewayAccounts
-type PaymentGatewayAccountsListOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *PaymentGatewayAccountsListOp) Do(ctx context.Context) (*model.PaymentGatewayAccountsInfo, error) {
-	var res *model.PaymentGatewayAccountsInfo
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
 // SealProvidersList is SDK Method Accounts::getSealProviders
 //
 // https://developers.docusign.com/esign/restapi/Accounts/AccountSealProviders/list

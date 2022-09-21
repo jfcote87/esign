@@ -2463,77 +2463,6 @@ func (op *UpdateRecipientSignatureImageOp) Do(ctx context.Context) error {
 	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// TemplateDocumentVisibilityGet returns document visibility for the recipients
-//
-// https://developers.docusign.com/esign-rest-api/v2/reference/envelopes/templatedocumentvisibility/get
-//
-// SDK Method Envelopes::getTemplateRecipientDocumentVisibility
-func (s *Service) TemplateDocumentVisibilityGet(recipientID string, templateID string) *TemplateDocumentVisibilityGetOp {
-	return &TemplateDocumentVisibilityGetOp{
-		Credential: s.credential,
-		Method:     "GET",
-		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
-		QueryOpts:  make(url.Values),
-	}
-}
-
-// TemplateDocumentVisibilityGetOp implements DocuSign API SDK Envelopes::getTemplateRecipientDocumentVisibility
-type TemplateDocumentVisibilityGetOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
-	var res *model.DocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
-// TemplateDocumentVisibilityUpdate updates document visibility for the recipients
-//
-// https://developers.docusign.com/esign-rest-api/v2/reference/envelopes/templatedocumentvisibility/update
-//
-// SDK Method Envelopes::updateTemplateRecipientDocumentVisibility
-func (s *Service) TemplateDocumentVisibilityUpdate(recipientID string, templateID string, templateDocumentVisibility *model.TemplateDocumentVisibilityList) *TemplateDocumentVisibilityUpdateOp {
-	return &TemplateDocumentVisibilityUpdateOp{
-		Credential: s.credential,
-		Method:     "PUT",
-		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
-		Payload:    templateDocumentVisibility,
-		QueryOpts:  make(url.Values),
-	}
-}
-
-// TemplateDocumentVisibilityUpdateOp implements DocuSign API SDK Envelopes::updateTemplateRecipientDocumentVisibility
-type TemplateDocumentVisibilityUpdateOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
-	var res *model.TemplateDocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
-// TemplateDocumentVisibilityUpdateList updates document visibility for the recipients
-//
-// https://developers.docusign.com/esign-rest-api/v2/reference/envelopes/templatedocumentvisibility/updatelist
-//
-// SDK Method Envelopes::updateTemplateRecipientsDocumentVisibility
-func (s *Service) TemplateDocumentVisibilityUpdateList(templateID string, templateDocumentVisibility *model.TemplateDocumentVisibilityList) *TemplateDocumentVisibilityUpdateListOp {
-	return &TemplateDocumentVisibilityUpdateListOp{
-		Credential: s.credential,
-		Method:     "PUT",
-		Path:       strings.Join([]string{"templates", templateID, "recipients", "document_visibility"}, "/"),
-		Payload:    templateDocumentVisibility,
-		QueryOpts:  make(url.Values),
-	}
-}
-
-// TemplateDocumentVisibilityUpdateListOp implements DocuSign API SDK Envelopes::updateTemplateRecipientsDocumentVisibility
-type TemplateDocumentVisibilityUpdateListOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *TemplateDocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
-	var res *model.TemplateDocumentVisibilityList
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
 // NotaryJournalsList is SDK Method Envelopes::listNotaryJournals
 //
 // https://developers.docusign.com/esign/restapi/Envelopes/NotaryJournals/list
@@ -2579,6 +2508,100 @@ func (op *NotaryJournalsListOp) StartPosition(val string) *NotaryJournalsListOp 
 	return op
 }
 
+// CommentsGet is SDK Method Envelopes::getCommentsTranscript
+//
+// https://developers.docusign.com/esign/restapi/Envelopes/Comments/get
+func (s *Service) CommentsGet(envelopeID string) *CommentsGetOp {
+	return &CommentsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "comments", "transcript"}, "/"),
+		Accept:     "application/pdf",
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// CommentsGetOp implements DocuSign API SDK Envelopes::getCommentsTranscript
+type CommentsGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *CommentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// Encoding set the call query parameter encoding
+func (op *CommentsGetOp) Encoding(val string) *CommentsGetOp {
+	if op != nil {
+		op.QueryOpts.Set("encoding", val)
+	}
+	return op
+}
+
+// DocumentResponsiveHTMLPreviewCreate is SDK Method Envelopes::createDocumentResponsiveHtmlPreview
+//
+// https://developers.docusign.com/esign/restapi/Envelopes/DocumentResponsiveHtmlPreview/create
+func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, envelopeID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *DocumentResponsiveHTMLPreviewCreateOp {
+	return &DocumentResponsiveHTMLPreviewCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "responsive_html_preview"}, "/"),
+		Payload:    documentHTMLDefinition,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentResponsiveHTMLPreviewCreateOp implements DocuSign API SDK Envelopes::createDocumentResponsiveHtmlPreview
+type DocumentResponsiveHTMLPreviewCreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+	var res *model.DocumentHTMLDefinitions
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// DocumentHTMLDefinitionsGet is SDK Method Envelopes::getEnvelopeDocumentHtmlDefinitions
+//
+// https://developers.docusign.com/esign/restapi/Envelopes/EnvelopeDocumentHtmlDefinitions/get
+func (s *Service) DocumentHTMLDefinitionsGet(documentID string, envelopeID string) *DocumentHTMLDefinitionsGetOp {
+	return &DocumentHTMLDefinitionsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "documents", documentID, "html_definitions"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentHTMLDefinitionsGetOp implements DocuSign API SDK Envelopes::getEnvelopeDocumentHtmlDefinitions
+type DocumentHTMLDefinitionsGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentHTMLDefinitionsGetOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+	var res *model.DocumentHTMLDefinitionOriginals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// HTMLDefinitionsList is SDK Method Envelopes::getEnvelopeHtmlDefinitions
+//
+// https://developers.docusign.com/esign/restapi/Envelopes/EnvelopeHtmlDefinitions/list
+func (s *Service) HTMLDefinitionsList(envelopeID string) *HTMLDefinitionsListOp {
+	return &HTMLDefinitionsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "html_definitions"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// HTMLDefinitionsListOp implements DocuSign API SDK Envelopes::getEnvelopeHtmlDefinitions
+type HTMLDefinitionsListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *HTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+	var res *model.DocumentHTMLDefinitionOriginals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
 // ViewsCreateSharedRecipient is SDK Method Envelopes::createEnvelopeRecipientSharedView
 //
 // https://developers.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createSharedRecipient
@@ -2598,5 +2621,27 @@ type ViewsCreateSharedRecipientOp esign.Op
 // Do executes the op.  A nil context will return error.
 func (op *ViewsCreateSharedRecipientOp) Do(ctx context.Context) (*model.ViewURL, error) {
 	var res *model.ViewURL
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// ResponsiveHTMLPreviewCreate is SDK Method Envelopes::createResponsiveHtmlPreview
+//
+// https://developers.docusign.com/esign/restapi/Envelopes/ResponsiveHtmlPreview/create
+func (s *Service) ResponsiveHTMLPreviewCreate(envelopeID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *ResponsiveHTMLPreviewCreateOp {
+	return &ResponsiveHTMLPreviewCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"envelopes", envelopeID, "responsive_html_preview"}, "/"),
+		Payload:    documentHTMLDefinition,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// ResponsiveHTMLPreviewCreateOp implements DocuSign API SDK Envelopes::createResponsiveHtmlPreview
+type ResponsiveHTMLPreviewCreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+	var res *model.DocumentHTMLDefinitions
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }

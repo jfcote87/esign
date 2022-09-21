@@ -142,7 +142,7 @@ func (op *RequestLogsListOp) Do(ctx context.Context) (*model.APIRequestLogsResul
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Encoding set the call query parameter encoding
+// Encoding reserved for DocuSign.
 func (op *RequestLogsListOp) Encoding(val string) *RequestLogsListOp {
 	if op != nil {
 		op.QueryOpts.Set("encoding", val)
@@ -150,31 +150,17 @@ func (op *RequestLogsListOp) Encoding(val string) *RequestLogsListOp {
 	return op
 }
 
-// Zip returns a zip file containing log files by setting
-// the Accept header to application/zip
-//
-// **not included in swagger definition
-func (op *RequestLogsListOp) Zip(ctx context.Context) (*esign.Download, error) {
-	var res *esign.Download
-	if op == nil {
-		return nil, esign.ErrNilOp
-	}
-	newOp := esign.Op(*op)
-	newOp.Accept = "application/zip"
-	return res, (&newOp).Do(ctx, &res)
-}
-
 // RequestLogsUpdateSettings enables or disables API request logging for troubleshooting.
 //
 // https://developers.docusign.com/esign-rest-api/reference/diagnostics/requestlogs/updatesettings
 //
 // SDK Method Diagnostics::updateRequestLogSettings
-func (s *Service) RequestLogsUpdateSettings(requestLogs *model.DiagnosticsSettingsInformation) *RequestLogsUpdateSettingsOp {
+func (s *Service) RequestLogsUpdateSettings(diagnosticsSettingsInformation *model.DiagnosticsSettingsInformation) *RequestLogsUpdateSettingsOp {
 	return &RequestLogsUpdateSettingsOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       "/v2.1/diagnostics/settings",
-		Payload:    requestLogs,
+		Payload:    diagnosticsSettingsInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

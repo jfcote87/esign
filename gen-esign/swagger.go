@@ -358,9 +358,14 @@ type Operation struct {
 	Status      string              `json:"x-ds-api-status,omitempty"`
 }
 
-// Accepts converts the Produces slice to a comma
+// Accept converts the Consumes slice to a comma
 // separated string to use for Accept Header.
-func (o Operation) Accepts() string {
+func (o Operation) Accept() string {
+	return strings.Join(o.Consumes, ", ")
+}
+
+// ContentType returns the
+func (o Operation) ContentType() string {
 	return strings.Join(o.Produces, ", ")
 }
 
@@ -386,7 +391,7 @@ func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUpload
 			comments = append(comments, "operation is uncategorized and subject to change.")
 		} else {
 			if len(o.Tags) > 0 {
-				comments = append(comments, "", "https://developers.docusign.com/esign-rest-api/"+strings.ToLower(docPrefix+"reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method))
+				comments = append(comments, "", "https://developers.docusign.com/docs/"+strings.ToLower(docPrefix+"reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method))
 			}
 			if o.InSDK {
 				comments = append(comments, "", "SDK Method "+o.SDK())
@@ -401,7 +406,7 @@ func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUpload
 	if o.InSDK {
 		comments[0] = funcName + " is SDK Method " + o.SDK()
 		if len(o.Tags) > 0 {
-			comments = append(comments, "", "https://developers.docusign.com/esign/restapi/"+o.Service+"/"+o.Tags[0]+"/"+o.Method)
+			comments = append(comments, "", "https://developers.docusign.com/docs/"+strings.ToLower(docPrefix+"reference/")+o.Service+"/"+o.Tags[0]+"/"+o.Method)
 		}
 	}
 	return comments
@@ -443,17 +448,18 @@ func (o Operation) OpPath2(ver string, p []PathParam) string {
 
 // GoFuncName provides a go formatted name
 func (o Operation) GoFuncName(prefixList []string) string {
-	if len(o.Tags) == 1 {
-		tag := o.Tags[0]
-		method := strings.ToUpper(o.Method[0:1]) + o.Method[1:]
-		for _, pre := range prefixList {
-			if strings.HasPrefix(tag, pre) {
-				return ToGoName(tag[len(pre):] + method)
-			}
-		}
-		return ToGoName(tag + method)
+	if len(o.Tags) == 0 || o.Service == "Uncategorized" {
+		return ToGoName(o.MethodName)
 	}
-	return ToGoName(o.MethodName)
+	tag := o.Tags[0]
+	method := strings.ToUpper(o.Method[0:1]) + o.Method[1:]
+	for _, pre := range prefixList {
+		if strings.HasPrefix(tag, pre) {
+			return ToGoName(tag[len(pre):] + method)
+		}
+	}
+	return ToGoName(tag + method)
+
 }
 
 // Payload describes the body of an operation
@@ -580,13 +586,17 @@ func (o Operation) SDK() string {
 }
 
 // Result defines the return value for an operation
-func (o Operation) Result(structMap map[string]Definition) string {
+func (o Operation) Result(structMap map[string]Definition, pkgName string) string {
 	for k, v := range o.Responses {
 		if k == "200" || k == "201" {
 			if v.Schema != nil {
 				if v.Schema.Ref != "" {
 					if def, ok := structMap[v.Schema.Ref]; ok {
-						return "*model." + ToGoName(def.Name)
+						if pkgName > "" {
+							pkgName = "*" + pkgName + "."
+						}
+						//return "*model." + ToGoName(def.Name)
+						return pkgName + ToGoName(def.Name)
 					}
 				}
 				if v.Schema.Type == "file" {

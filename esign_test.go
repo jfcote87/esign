@@ -37,9 +37,13 @@ type TestCred struct {
 	ctxclient.Func
 }
 
-func (t *TestCred) AuthDo(ctx context.Context, req *http.Request, v *esign.APIVersion) (*http.Response, error) {
-	req.URL = v.ResolveDSURL(req.URL, t.host, t.acctID)
-
+//func (t *TestCred) AuthDo(ctx context.Context, req *http.Request, v esign.APIVersion) (*http.Response, error) {
+func (t *TestCred) AuthDo(ctx context.Context, op *esign.Op) (*http.Response, error) {
+	req, err := op.CreateRequest()
+	if err != nil {
+		return nil, err
+	}
+	req.URL = op.Version.ResolveDSURL(req.URL, t.host, t.acctID, false)
 	req.Header.Set("Authorization", "TESTAUTH")
 	res, err := t.Func.Do(ctx, req)
 	if nsErr, ok := err.(*ctxclient.NotSuccess); ok {
@@ -124,6 +128,7 @@ func TestOp_Do(t *testing.T) {
 			Path:       "/v2/noaccount/test1/go",
 			QueryOpts:  url.Values{"a": {"B"}, "c": {"D"}},
 			Method:     "GET",
+			Version:    esign.VersionV2,
 		},
 		{
 			Credential: cx,
@@ -131,6 +136,7 @@ func TestOp_Do(t *testing.T) {
 			QueryOpts:  make(url.Values),
 			Method:     "POST",
 			Payload:    url.Values{"a": {"B"}, "c": {"D"}},
+			Version:    esign.VersionV2,
 		},
 		{
 			Credential: cx,
@@ -140,6 +146,7 @@ func TestOp_Do(t *testing.T) {
 			Payload: map[string]interface{}{
 				"a": "String", "b": 9,
 			},
+			Version: esign.VersionV2,
 		},
 		{
 			Credential: cx,
@@ -150,6 +157,7 @@ func TestOp_Do(t *testing.T) {
 				Reader:      bytes.NewReader([]byte("0123456789")),
 				ContentType: "text/plain",
 			},
+			Version: esign.VersionV2,
 		},
 	}
 	for i, op := range ops {
@@ -164,6 +172,7 @@ func TestOp_Do(t *testing.T) {
 		Path:       "do/test5/go",
 		QueryOpts:  make(url.Values),
 		Method:     "GET",
+		Version:    esign.VersionV2,
 	}
 	err := op.Do(context.Background(), nil)
 	if ex, ok := err.(*esign.ResponseError); !ok {
@@ -320,6 +329,7 @@ func TestOp_Do_FileUpload(t *testing.T) {
 				Reader:      f2,
 			},
 		},
+		Version: esign.VersionV2,
 	}
 	if err := op.Do(context.Background(), nil); err != nil {
 		t.Fatalf("multipart test expected success; got %v", err)
@@ -384,6 +394,7 @@ func TestOp_Do_FileDownload(t *testing.T) {
 		QueryOpts:  make(url.Values),
 		Method:     "GET",
 		Accept:     "text/plain",
+		Version:    esign.VersionV2,
 	}
 	f1 := &testFile{
 		reader: bytes.NewReader([]byte("0123456789")),
@@ -478,6 +489,7 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 		Path:       "multipart/go",
 		QueryOpts:  make(url.Values),
 		Method:     "POST",
+		Version:    esign.VersionV2,
 	}
 	testTransport.Add(&testutils.RequestTester{
 		Response: testutils.MakeResponse(200, []byte("0123456789"), nil),
@@ -503,6 +515,7 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 		Path:       "multipart/go",
 		QueryOpts:  make(url.Values),
 		Method:     "POST",
+		Version:    esign.VersionV2,
 	}
 	if err := op.Do(ctx, &result); err == nil || err.Error() != "context canceled" {
 		t.Errorf("expected context canceled; got %v", err)

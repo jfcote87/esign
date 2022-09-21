@@ -49,81 +49,6 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
-// GroupBrandsDelete deletes brand information from the requested group.
-//
-// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/delete
-//
-// SDK Method UserGroups::deleteBrands
-func (s *Service) GroupBrandsDelete(groupID string, brandsRequest *model.BrandsRequest) *GroupBrandsDeleteOp {
-	return &GroupBrandsDeleteOp{
-		Credential: s.credential,
-		Method:     "DELETE",
-		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
-		Payload:    brandsRequest,
-		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
-	}
-}
-
-// GroupBrandsDeleteOp implements DocuSign API SDK UserGroups::deleteBrands
-type GroupBrandsDeleteOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *GroupBrandsDeleteOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
-	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
-// GroupBrandsGet gets group brand ID Information.
-//
-//
-// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/get
-//
-// SDK Method UserGroups::getBrands
-func (s *Service) GroupBrandsGet(groupID string) *GroupBrandsGetOp {
-	return &GroupBrandsGetOp{
-		Credential: s.credential,
-		Method:     "GET",
-		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
-		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
-	}
-}
-
-// GroupBrandsGetOp implements DocuSign API SDK UserGroups::getBrands
-type GroupBrandsGetOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *GroupBrandsGetOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
-	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
-// GroupBrandsUpdate adds group brand ID information to a group.
-//
-// https://developers.docusign.com/esign-rest-api/reference/usergroups/groupbrands/update
-//
-// SDK Method UserGroups::updateBrands
-func (s *Service) GroupBrandsUpdate(groupID string, brandsRequest *model.BrandsRequest) *GroupBrandsUpdateOp {
-	return &GroupBrandsUpdateOp{
-		Credential: s.credential,
-		Method:     "PUT",
-		Path:       strings.Join([]string{"groups", groupID, "brands"}, "/"),
-		Payload:    brandsRequest,
-		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
-	}
-}
-
-// GroupBrandsUpdateOp implements DocuSign API SDK UserGroups::updateBrands
-type GroupBrandsUpdateOp esign.Op
-
-// Do executes the op.  A nil context will return error.
-func (op *GroupBrandsUpdateOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
-	var res *model.BrandsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
 // GroupUsersDelete deletes one or more users from a group
 //
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groupusers/delete
@@ -173,7 +98,11 @@ func (op *GroupUsersListOp) Do(ctx context.Context) (*model.UsersResponse, error
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Count number of records to return. The number must be greater than 1 and less than or equal to 100.
+// Count is the maximum number of results to return.
+//
+// Use `start_position` to specify the number of results to skip.
+//
+// Valid values: `1` to `100`
 func (op *GroupUsersListOp) Count(val int) *GroupUsersListOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -181,7 +110,13 @@ func (op *GroupUsersListOp) Count(val int) *GroupUsersListOp {
 	return op
 }
 
-// StartPosition starting value for the list.
+// StartPosition is the zero-based index of the
+// result from which to start returning results.
+//
+// Use with `count` to limit the number
+// of results.
+//
+// The default value is `0`.
 func (op *GroupUsersListOp) StartPosition(val int) *GroupUsersListOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
@@ -219,12 +154,12 @@ func (op *GroupUsersUpdateOp) Do(ctx context.Context) (*model.UsersResponse, err
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/create
 //
 // SDK Method UserGroups::createGroups
-func (s *Service) GroupsCreate(groups *model.GroupInformation) *GroupsCreateOp {
+func (s *Service) GroupsCreate(groupInformation *model.GroupInformation) *GroupsCreateOp {
 	return &GroupsCreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "groups",
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -244,12 +179,12 @@ func (op *GroupsCreateOp) Do(ctx context.Context) (*model.GroupInformation, erro
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/delete
 //
 // SDK Method UserGroups::deleteGroups
-func (s *Service) GroupsDelete(groups *model.GroupInformation) *GroupsDeleteOp {
+func (s *Service) GroupsDelete(groupInformation *model.GroupInformation) *GroupsDeleteOp {
 	return &GroupsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       "groups",
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -288,7 +223,11 @@ func (op *GroupsListOp) Do(ctx context.Context) (*model.GroupInformation, error)
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Count number of records to return. The number must be greater than 1 and less than or equal to 100.
+// Count is the maximum number of results to return.
+//
+// Use `start_position` to specify the number of results to skip.
+//
+// Valid values: `1` to `100`
 func (op *GroupsListOp) Count(val int) *GroupsListOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -304,7 +243,7 @@ func (op *GroupsListOp) GroupType(val string) *GroupsListOp {
 	return op
 }
 
-// IncludeUsercount when set to **true**, every group returned in the response includes a `userCount` property that contains the total number of users in the group. The default is **true**.
+// IncludeUsercount when **true,** every group returned in the response includes a `userCount` property that contains the total number of users in the group. The default is **true.**
 func (op *GroupsListOp) IncludeUsercount(val string) *GroupsListOp {
 	if op != nil {
 		op.QueryOpts.Set("include_usercount", val)
@@ -320,7 +259,13 @@ func (op *GroupsListOp) SearchText(val string) *GroupsListOp {
 	return op
 }
 
-// StartPosition is the starting value for the list.
+// StartPosition is the zero-based index of the
+// result from which to start returning results.
+//
+// Use with `count` to limit the number
+// of results.
+//
+// The default value is `0`.
 func (op *GroupsListOp) StartPosition(val int) *GroupsListOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
@@ -333,12 +278,12 @@ func (op *GroupsListOp) StartPosition(val int) *GroupsListOp {
 // https://developers.docusign.com/esign-rest-api/reference/usergroups/groups/update
 //
 // SDK Method UserGroups::updateGroups
-func (s *Service) GroupsUpdate(groups *model.GroupInformation) *GroupsUpdateOp {
+func (s *Service) GroupsUpdate(groupInformation *model.GroupInformation) *GroupsUpdateOp {
 	return &GroupsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       "groups",
-		Payload:    groups,
+		Payload:    groupInformation,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

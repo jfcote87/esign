@@ -49,6 +49,7 @@ func (df demoFlag) getUserInfoForToken(ctx context.Context, f ctxclient.Func, tk
 		Credential: &tokenCredential{tk, f},
 		Method:     "GET",
 		Path:       "https://" + df.tokenURI() + "/oauth/userinfo",
+		Version:    VersionV2,
 	}).Do(ctx, &u)
 	return u, err
 }
@@ -360,9 +361,9 @@ type OAuth2Credential struct {
 	ctxclient.Func
 }
 
-// AuthDo set the authorization header and completes request's url
+// AuthDo2 set the authorization header and completes request's url
 // with the users's baseURI and account id before sending the request
-func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request, v *APIVersion) (*http.Response, error) {
+func (cred *OAuth2Credential) AuthDo2(ctx context.Context, req *http.Request, v APIVersion) (*http.Response, error) {
 	t, err := cred.Token(ctx)
 	if err != nil {
 		if req.Body != nil {
@@ -379,8 +380,30 @@ func (cred *OAuth2Credential) AuthDo(ctx context.Context, req *http.Request, v *
 
 	t.SetAuthHeader(&r2)
 	// finalize url
-	r2.URL = v.ResolveDSURL(req.URL, cred.baseURI.Host, cred.accountID)
+	//r2.URL = ResolveAPIVersionURL(v, req.URL, cred.baseURI.Host, cred.accountID, bool(cred.isDemo))
 	res, err := cred.Func.Do(ctx, &r2)
+	return res, toResponseError(err)
+}
+
+// AuthDo set the authorization header and completes request's url
+// with the users's baseURI and account id before sending the request
+func (cred *OAuth2Credential) AuthDo(ctx context.Context, op *Op) (*http.Response, error) {
+	if op.Version == nil {
+		return nil, errors.New("no api version set for op")
+	}
+	t, err := cred.Token(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := op.CreateRequest()
+	if err != nil {
+		return nil, err
+	}
+	t.SetAuthHeader(req)
+	// finalize url
+	req.URL = op.Version.ResolveDSURL(req.URL, cred.baseURI.Host, cred.accountID, bool(cred.isDemo))
+	res, err := cred.Func.Do(ctx, req)
 	return res, toResponseError(err)
 }
 
@@ -392,20 +415,29 @@ func (cred *OAuth2Credential) WithAccountID(accountID string) *OAuth2Credential 
 	if cred == nil {
 		return nil
 	}
-	var mu sync.Mutex
 	cred.mu.Lock()
-	c := *cred
-	c.mu = mu
-	cred.mu.Unlock()
-	c.baseURI = nil
-	c.accountID = accountID
-	return &c
+	defer cred.mu.Unlock()
+	return &OAuth2Credential{
+		accountID:   accountID,
+		baseURI:     nil,
+		cachedToken: cred.cachedToken,
+		refresher:   cred.refresher,
+		cacheFunc:   cred.cacheFunc,
+		isDemo:      cred.isDemo,
+		userInfo:    cred.userInfo,
+		Func:        cred.Func,
+	}
 }
+
+var errNilCredential = errors.New("nil credential")
 
 // UserInfo returns user data returned from the /oauth/userinfo ednpoint.
 // See https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints
 func (cred *OAuth2Credential) UserInfo(ctx context.Context) (*UserInfo, error) {
 	cred.mu.Lock()
+	if cred == nil {
+		return nil, errNilCredential
+	}
 	if cred.userInfo == nil {
 		cred.mu.Unlock() // release lock b/c Token locks
 		// Token assignes userInfo if nil...
@@ -427,7 +459,7 @@ func (cred *OAuth2Credential) Token(ctx context.Context) (*oauth2.Token, error) 
 		return nil, errors.New("context may not be nil")
 	}
 	if cred == nil {
-		return nil, errors.New("nil credential")
+		return nil, errNilCredential
 	}
 	var updateCache bool
 	var err error
@@ -496,7 +528,8 @@ type tokenCredential struct {
 	ctxclient.Func
 }
 
-func (t *tokenCredential) AuthDo(ctx context.Context, req *http.Request, v *APIVersion) (*http.Response, error) {
+func (t *tokenCredential) AuthDo(ctx context.Context, op *Op) (*http.Response, error) {
+	req, _ := http.NewRequest(op.Method, op.Path, nil)
 	t.Token.SetAuthHeader(req)
 	res, err := t.Func.Do(ctx, req)
 	return res, toResponseError(err)

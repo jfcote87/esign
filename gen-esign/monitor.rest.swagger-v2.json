@@ -1,0 +1,156 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v2.0",
+    "title": "Monitor API",
+    "description": "Use the DocuSign Monitor API to receive a data feed containing atypical security events within your DocuSign account. This data goes directly to an integrated application or website.",
+    "termsOfService": "https://www.docusign.com/company/terms-and-conditions/web",
+    "contact": {
+      "name": "DocuSign Developer Center",
+      "url": "https://developers.docusign.com",
+      "email": "devcenter@docusign.com"
+    }
+  },
+  "host": "lens.docusign.net",
+  "basePath": "",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "externalDocs": {
+    "description": "Monitor API Documentation",
+    "url": "https://developers.docusign.com/docs/monitor-api"
+  },
+  "license": {
+    "name": "Terms and Conditions",
+    "url": "https://www.docusign.com/company/terms-and-conditions/web"
+  },
+  "paths": {
+    "/api/v{version}/datasets/{dataSetName}/stream": {
+      "get": {
+        "tags": [
+          "DataSet"
+        ],
+        "summary": "Gets customer event data for an organization.",
+        "description": "Gets customer event data for the\norganization that owns\nthe integration key.\n\nUse the `limit` query parameter\nto limit the number of records\nreturned.\n\n",
+        "operationId": "Api_Version_DatasetsByDataSetNameStreamGet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dataSetName",
+            "in": "path",
+            "description": "The data product to which the endpoints are executed against.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Must be `2`.\n",
+            "required": true,
+            "type": "string",
+            "default": "2.0"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "A location in the DataSet that continues querying data.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of records to return.",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 1000
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CursoredResult"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessCode": [
+              "impersonation"
+            ]
+          }
+        ],
+        "x-ds-methodname": "getStream",
+        "x-ds-method": "getStream",
+        "x-ds-service": "DataSet",
+        "x-ds-in-sdk": true
+      }
+    }
+  },
+  "definitions": {
+    "CursoredResult": {
+      "type": "object",
+      "properties": {
+        "endCursor": {
+          "type": "string",
+          "description": ""
+        },
+        "data": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": ""
+        }
+      },
+      "x-ds-definition-name": "CursoredResult",
+      "description": "",
+      "x-ms-summary": ""
+    },
+    "DataSet": {
+      "x-ds-category": "Monitor",
+      "x-ms-summary": "",
+      "description": ""
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "DataSet",
+      "description": "Valid value: 'monitor'"
+    }
+  ],
+  "x-ds-categories": [
+    {
+      "name": "Monitor",
+      "summary": "The DocuSign Monitor API receives a data feed containing security events for your DocuSign account. This data goes directly to whichever application or website you choose to integrate with DocuSign's eSignature REST API.",
+      "description": "Each time an event occurs, DocuSign Monitor returns JSON Data Types from a download endpoint. The endpoints include the Monitor UI, SIEMs such as Splunk, and other Customer API endpoints.\n\n**Note**: Your accounts must exist inside an organization to access this data.\n"
+    }
+  ]
+}

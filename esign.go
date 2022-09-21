@@ -25,44 +25,113 @@ var ErrNilOp = errors.New("nil operation")
 
 // VersionV21  indicates that the url will resolve
 // to /restapi/v2.1
-var VersionV21 = &APIVersion{Version: "v2.1"}
+var VersionV21 APIVersion = &apiVersion{
+	prefix:         "/restapi",
+	accountReplace: true,
+	versionPrefix:  "/v2.1",
+	demoHost:       "demo.docusign.net",
+}
+
+// VersionV2  indicates that the url will resolve
+// to /restapi/v2
+var VersionV2 APIVersion = &apiVersion{
+	prefix:         "/restapi",
+	accountReplace: true,
+	versionPrefix:  "/v2",
+	demoHost:       "demo.docusign.net",
+}
+
+// AdminV2 handles calls for the admin api and urls will
+// resolve to start with /management
+var AdminV2 APIVersion = &apiVersion{
+	prefix:   "/Management",
+	host:     "api.docusign.net",
+	demoHost: "api-d.docusign.net",
+}
+
+// RoomsV2 resolves urls for monitor dataset calls
+var RoomsV2 APIVersion = &apiVersion{
+	prefix:         "/restapi",
+	accountReplace: true,
+	versionPrefix:  "/v2",
+	host:           "rooms.docusign.com",
+	demoHost:       "demo.rooms.docusign.com",
+}
+
+// MonitorV2 resolves urls for monitor dataset calls
+var MonitorV2 APIVersion = &apiVersion{
+	prefix:   "",
+	host:     "lens.docusign.net",
+	demoHost: "lens-d.docusign.net",
+}
 
 // ClickV1 defines url replacement for clickraps api
-var ClickV1 = &APIVersion{
-	Version: "v1",
-	Prefix:  "clickapi",
+var ClickV1 APIVersion = &apiVersion{
+	prefix:         "/clickapi",
+	versionPrefix:  "/v1",
+	accountReplace: true,
+	demoHost:       "demo.docusign.net",
+}
+
+type apiVersion struct {
+	prefix         string
+	host           string
+	demoHost       string
+	accountReplace bool
+	versionPrefix  string
 }
 
 // APIVersion defines the prefix used to resolve an operation's url.  If
 // nil or blank, "v2" is assumed.
-type APIVersion struct {
-	Version string
-	Prefix  string
+type APIVersion interface {
+	ResolveDSURL(u *url.URL, host string, accountID string, isDemo bool) *url.URL
+}
+
+// ResolveAPIHost determines the url's host based upon the version
+func (v *apiVersion) resolveAPIHost(credentialHost string, isDemo bool) string {
+	if isDemo {
+		return v.demoHost
+	}
+	if v.host != "" {
+		return v.host
+	}
+	return credentialHost
 }
 
 // ResolveDSURL updates the passed *url.URL's settings.
 // https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints#form-your-base-path
-func (v *APIVersion) ResolveDSURL(u *url.URL, host string, accountID string) *url.URL {
+func (v *apiVersion) ResolveDSURL(u *url.URL, host string, accountID string, isDemo bool) *url.URL {
+	if v == nil {
+		return u
+	}
 	newURL := *u
 	newURL.Scheme = "https"
-	newURL.Host = host
-	var prefix = "/restapi"
-	var version = "/v2" // default is v2 restapi
-	if v != nil {
-		if v.Prefix != "" {
-			prefix = "/" + v.Prefix
-		}
-		if v.Version != "" {
-			version = "/" + v.Version
-		}
+	newURL.Host = v.resolveAPIHost(host, isDemo)
+
+	if v.accountReplace && !strings.HasPrefix(u.Path, "/") {
+		newURL.Path = v.prefix + v.versionPrefix + "/accounts/" + accountID + "/" + u.Path
+		return &newURL
 	}
-	if strings.HasPrefix(u.Path, "/") {
-		newURL.Path = prefix + u.Path
-	} else {
-		newURL.Path = prefix + version + "/accounts/" + accountID + "/" + u.Path
-	}
+	newURL.Path = v.prefix + u.Path
 	return &newURL
 }
+
+/* type ctxResponseReviewKeyType struct{}
+
+// CtxResponseReviewKey used to identify an HTTPReadResponse interface in a context.  If
+// a context has a value with this key and the is an HTTPResponseReader, HTTPResponseReader
+// ReadResponse method is passed the current http.Response.  This may be used for debugging and
+// is used the the ratelimit package to return rate limit header results.
+var CtxResponseReviewKey = (*ctxResponseReviewKeyType)(nil)
+
+// CtxResponseReviewer is used to review an api call's response prior to the response
+// json being decoded or returned as a stream.  Once added to a context with the value key
+// CtxResponseReviewKey, this method is called immediately after receiving the esign response.
+// If reading the body, the body should be copied to a io.ReadCloser and the response body must
+// be closed.  If an error occurs, a close of the response body is expected.
+type CtxResponseReviewer interface {
+	Review(*http.Response) (io.ReadCloser, error)
+} */
 
 // Credential adds an authorization header(s) for the http request,
 // resolves the http client and finalizes the url.  Credentials may
@@ -70,9 +139,8 @@ func (v *APIVersion) ResolveDSURL(u *url.URL, host string, accountID string) *ur
 // legacy.Config.
 type Credential interface {
 	// AuthDo attaches an authorization header to a request, prepends
-	// account and user ids to url, and sends request.  This func must
-	// always close the request Body.
-	AuthDo(context.Context, *http.Request, *APIVersion) (*http.Response, error)
+	// account and user ids to url, and sends request.
+	AuthDo(context.Context, *Op) (*http.Response, error)
 }
 
 // Op contains all needed information to perform a DocuSign operation.
@@ -95,13 +163,15 @@ type Op struct {
 	// Set Accept to a mimeType if response will
 	// not be application/json
 	Accept string
+	// ContentType is ContentType header value (usually application/json)
+	ContentType string
 	// Leave nil for v2
-	Version *APIVersion
+	Version APIVersion
 }
 
-//type requestHandler interface {
-//	Do(context.Context, *http.Request) (*http.Response, error)
-//}
+type requestHandler interface {
+	Do(context.Context, *http.Request) (*http.Response, error)
+}
 
 // ResponseError describes DocuSign's server error response.
 // https://developers.docusign.com/esign-rest-api/guides/status-and-error-codes#general-error-response-handling
@@ -129,10 +199,12 @@ func NewResponseError(buff []byte, status int) *ResponseError {
 	return &re
 }
 
-func getBodyFromPayload(payload interface{}, files []*UploadFile) (io.Reader, string, error) {
+// Body creates an io.Reader marshalling the payload in the appropriate
+// format and if files are available create a multipart form.
+func (op *Op) Body() (io.Reader, string, error) {
 	var body io.Reader
 	var ct string
-	switch p := payload.(type) {
+	switch p := op.Payload.(type) {
 	case *UploadFile:
 		return p.Reader, p.ContentType, nil
 	case url.Values:
@@ -143,43 +215,42 @@ func getBodyFromPayload(payload interface{}, files []*UploadFile) (io.Reader, st
 			return nil, "", err
 		}
 	}
-	if len(files) > 0 {
+	if len(op.Files) > 0 {
+		var files = op.Files
 		if body != nil {
-			files = append([]*UploadFile{{Reader: body, ContentType: ct}}, files...)
+			files = append([]*UploadFile{{Reader: body, ContentType: ct}}, op.Files...)
 		}
 		body, ct = multiPartBody(files)
 	}
 	return body, ct, nil
 }
 
-// createOpRequest prepares an http.Request and optionally logs the request body.
+// CreateRequest prepares an http.Request and optionally logs the request body.
 // UploadFiles will be closed on error.
-func (op *Op) createOpRequest(ctx context.Context, accept string) (*http.Request, error) {
-
-	body, ct, err := getBodyFromPayload(op.Payload, op.Files)
+func (op *Op) CreateRequest() (*http.Request, error) {
+	body, ct, err := op.Body()
 	if err != nil {
-		op.closeFiles() // close any open files on error
 		return nil, err
 	}
-
 	req, err := http.NewRequest(op.Method, op.Path, body)
 	if err != nil {
-		// close body
-		if f, ok := body.(io.Closer); ok {
-			f.Close()
+		if b, ok := body.(io.ReadCloser); ok {
+			b.Close()
 		}
 		return nil, err
 	}
 	if len(op.QueryOpts) > 0 {
 		req.URL.RawQuery = op.QueryOpts.Encode()
 	}
-	if len(ct) > 0 {
+	if body != nil {
+		if len(ct) == 0 {
+			ct = op.ContentType
+		}
 		req.Header.Set("Content-Type", ct)
 	}
-	if len(accept) > 0 {
-		req.Header.Set("Accept", accept)
+	if len(op.Accept) > 0 {
+		req.Header.Set("Accept", op.Accept)
 	}
-
 	return req, nil
 }
 
@@ -230,44 +301,33 @@ func (op *Op) Do(ctx context.Context, result interface{}) error {
 	if err := op.validate(ctx); err != nil {
 		return err
 	}
-
-	acceptHdr := op.Accept
-	if acceptHdr == "" {
-		switch result.(type) {
-		case **Download: // no accept header if **Download or nil
-		case interface{}:
-			acceptHdr = "application/json"
+	res, err := op.Credential.AuthDo(ctx, op)
+	if err != nil {
+		return err
+	}
+	// pass res.Body back if download
+	if f, ok := result.(**Download); ok {
+		*f = &Download{
+			ReadCloser:    res.Body,
+			ContentLength: res.ContentLength,
+			ContentType:   res.Header.Get("Content-Type"),
 		}
-	}
-
-	// get request
-	req, err := op.createOpRequest(ctx, acceptHdr)
-	if err != nil {
-		return err
-	}
-
-	res, err := op.Credential.AuthDo(ctx, req, op.Version)
-	if err != nil {
-		return err
-	}
-
-	switch f := result.(type) {
-	case **Download: // return w/o closing response body
-		*f = &Download{res.Body, res.ContentLength, res.Header.Get("Content-Type")}
 		return nil
-	case interface{}: // non-nil
-		// parse response and check for context cancellation.
-		done := make(chan error, 1) // buffered channel so go routine doesn't hang
-		go func() {
-			done <- json.NewDecoder(res.Body).Decode(result)
-		}()
-		select {
-		case <-ctx.Done():
-			err = ctx.Err()
-		case err = <-done:
-		}
 	}
-	res.Body.Close()
+
+	defer res.Body.Close()
+	done := make(chan error, 1)
+	go func() {
+		defer close(done)
+		if result != nil {
+			done <- json.NewDecoder(res.Body).Decode(result)
+		}
+	}()
+	select {
+	case <-ctx.Done():
+		err = ctx.Err()
+	case err = <-done:
+	}
 	return err
 
 }

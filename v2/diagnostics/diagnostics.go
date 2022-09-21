@@ -146,20 +146,6 @@ func (op *RequestLogsListOp) Encoding(val string) *RequestLogsListOp {
 	return op
 }
 
-// Zip returns a zip file containing log files by setting
-// the Accept header to application/zip
-//
-// **not included in swagger definition
-func (op *RequestLogsListOp) Zip(ctx context.Context) (*esign.Download, error) {
-	var res *esign.Download
-	if op == nil {
-		return nil, esign.ErrNilOp
-	}
-	newOp := esign.Op(*op)
-	newOp.Accept = "application/zip"
-	return res, (&newOp).Do(ctx, &res)
-}
-
 // RequestLogsUpdateSettings enables or disables API request logging for troubleshooting.
 //
 // https://developers.docusign.com/esign-rest-api/v2/reference/diagnostics/requestlogs/updatesettings

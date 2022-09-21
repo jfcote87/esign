@@ -8,9 +8,8 @@
 // Package folders implements the DocuSign SDK
 // category Folders.
 //
-// Use the Folders category to manage envelopes in your folders.
-//
-// You can list the folder contents and move envelopes between folders.
+// Use the Folders category to organize envelopes and templates.
+// You can list the folder contents and move envelopes and templates between folders.
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/esign-rest-api/reference/Folders
@@ -91,7 +90,10 @@ func (op *ListOp) IncludeItems(val string) *ListOp {
 	return op
 }
 
-// StartPosition is the position within the total result set from which to start returning values.
+// StartPosition is the zero-based index of the
+// result from which to start returning results.
+//
+// The default value is `0`.
 func (op *ListOp) StartPosition(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
@@ -119,7 +121,7 @@ func (op *ListOp) UserFilter(val string) *ListOp {
 	return op
 }
 
-// ListItems gets a list of the envelopes in the specified folder.
+// ListItems gets information about the specified folder.
 //
 // https://developers.docusign.com/esign-rest-api/reference/folders/folders/listitems
 //
@@ -264,7 +266,11 @@ func (op *SearchOp) All() *SearchOp {
 	return op
 }
 
-// Count specifies the number of records returned in the cache. The number must be greater than 0 and less than or equal to 100.
+// Count is the maximum number of results to return.
+//
+// Use `start_position` to specify the number of results to skip.
+//
+// Valid values: `1` to `100`
 func (op *SearchOp) Count(val int) *SearchOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -280,7 +286,7 @@ func (op *SearchOp) FromDate(val time.Time) *SearchOp {
 	return op
 }
 
-// IncludeRecipients when set to **true**, the recipient information is returned in the response.
+// IncludeRecipients when **true,** the recipient information is returned in the response.
 func (op *SearchOp) IncludeRecipients() *SearchOp {
 	if op != nil {
 		op.QueryOpts.Set("include_recipients", "true")
@@ -304,7 +310,13 @@ func (op *SearchOp) OrderBy(val string) *SearchOp {
 	return op
 }
 
-// StartPosition specifies the the starting location in the result set of the items that are returned.
+// StartPosition is the zero-based index of the
+// result from which to start returning results.
+//
+// Use with `count` to limit the number
+// of results.
+//
+// The default value is `0`.
 func (op *SearchOp) StartPosition(val int) *SearchOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))

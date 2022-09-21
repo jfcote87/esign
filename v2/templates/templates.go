@@ -52,6 +52,77 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
+// DocumentVisibilityGet returns document visibility for the recipients
+//
+// https://developers.docusign.com/esign-rest-api/v2/reference/templates/templatedocumentvisibility/get
+//
+// SDK Method Templates::getTemplateRecipientDocumentVisibility
+func (s *Service) DocumentVisibilityGet(recipientID string, templateID string) *DocumentVisibilityGetOp {
+	return &DocumentVisibilityGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentVisibilityGetOp implements DocuSign API SDK Templates::getTemplateRecipientDocumentVisibility
+type DocumentVisibilityGetOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
+	var res *model.DocumentVisibilityList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// DocumentVisibilityUpdate updates document visibility for the recipients
+//
+// https://developers.docusign.com/esign-rest-api/v2/reference/templates/templatedocumentvisibility/update
+//
+// SDK Method Templates::updateTemplateRecipientDocumentVisibility
+func (s *Service) DocumentVisibilityUpdate(recipientID string, templateID string, templateDocumentVisibility *model.TemplateDocumentVisibilityList) *DocumentVisibilityUpdateOp {
+	return &DocumentVisibilityUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		Payload:    templateDocumentVisibility,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentVisibilityUpdateOp implements DocuSign API SDK Templates::updateTemplateRecipientDocumentVisibility
+type DocumentVisibilityUpdateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
+	var res *model.TemplateDocumentVisibilityList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// DocumentVisibilityUpdateList updates document visibility for the recipients
+//
+// https://developers.docusign.com/esign-rest-api/v2/reference/templates/templatedocumentvisibility/updatelist
+//
+// SDK Method Templates::updateTemplateRecipientsDocumentVisibility
+func (s *Service) DocumentVisibilityUpdateList(templateID string, templateDocumentVisibility *model.TemplateDocumentVisibilityList) *DocumentVisibilityUpdateListOp {
+	return &DocumentVisibilityUpdateListOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", "document_visibility"}, "/"),
+		Payload:    templateDocumentVisibility,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentVisibilityUpdateListOp implements DocuSign API SDK Templates::updateTemplateRecipientsDocumentVisibility
+type DocumentVisibilityUpdateListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
+	var res *model.TemplateDocumentVisibilityList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
 // BulkRecipientsDelete deletes the bulk recipient list on a template.
 //
 // https://developers.docusign.com/esign-rest-api/v2/reference/templates/templatebulkrecipients/delete
@@ -1464,5 +1535,91 @@ type UpdateNotificationSettingsOp esign.Op
 // Do executes the op.  A nil context will return error.
 func (op *UpdateNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, error) {
 	var res *model.Notification
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// DocumentHTMLDefinitionsList is SDK Method Templates::getTemplateDocumentHtmlDefinitions
+//
+// https://developers.docusign.com/esign/restapi/Templates/TemplateDocumentHtmlDefinitions/list
+func (s *Service) DocumentHTMLDefinitionsList(documentID string, templateID string) *DocumentHTMLDefinitionsListOp {
+	return &DocumentHTMLDefinitionsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "html_definitions"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentHTMLDefinitionsListOp implements DocuSign API SDK Templates::getTemplateDocumentHtmlDefinitions
+type DocumentHTMLDefinitionsListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+	var res *model.DocumentHTMLDefinitionOriginals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// DocumentResponsiveHTMLPreviewCreate is SDK Method Templates::createTemplateDocumentResponsiveHtmlPreview
+//
+// https://developers.docusign.com/esign/restapi/Templates/TemplateDocumentResponsiveHtmlPreview/create
+func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, templateID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *DocumentResponsiveHTMLPreviewCreateOp {
+	return &DocumentResponsiveHTMLPreviewCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "responsive_html_preview"}, "/"),
+		Payload:    documentHTMLDefinition,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// DocumentResponsiveHTMLPreviewCreateOp implements DocuSign API SDK Templates::createTemplateDocumentResponsiveHtmlPreview
+type DocumentResponsiveHTMLPreviewCreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+	var res *model.DocumentHTMLDefinitions
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// HTMLDefinitionsList is SDK Method Templates::getTemplateHtmlDefinitions
+//
+// https://developers.docusign.com/esign/restapi/Templates/TemplateHtmlDefinitions/list
+func (s *Service) HTMLDefinitionsList(templateID string) *HTMLDefinitionsListOp {
+	return &HTMLDefinitionsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "html_definitions"}, "/"),
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// HTMLDefinitionsListOp implements DocuSign API SDK Templates::getTemplateHtmlDefinitions
+type HTMLDefinitionsListOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *HTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+	var res *model.DocumentHTMLDefinitionOriginals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// ResponsiveHTMLPreviewCreate is SDK Method Templates::createTemplateResponsiveHtmlPreview
+//
+// https://developers.docusign.com/esign/restapi/Templates/TemplateResponsiveHtmlPreview/create
+func (s *Service) ResponsiveHTMLPreviewCreate(templateID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *ResponsiveHTMLPreviewCreateOp {
+	return &ResponsiveHTMLPreviewCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "responsive_html_preview"}, "/"),
+		Payload:    documentHTMLDefinition,
+		QueryOpts:  make(url.Values),
+	}
+}
+
+// ResponsiveHTMLPreviewCreateOp implements DocuSign API SDK Templates::createTemplateResponsiveHtmlPreview
+type ResponsiveHTMLPreviewCreateOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+	var res *model.DocumentHTMLDefinitions
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }

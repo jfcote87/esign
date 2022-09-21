@@ -49,12 +49,12 @@ func New(cred esign.Credential) *Service {
 // https://developers.docusign.com/esign-rest-api/reference/customtabs/customtabs/create
 //
 // SDK Method CustomTabs::create
-func (s *Service) Create(customTabs *model.TabMetadata) *CreateOp {
+func (s *Service) Create(tabMetadata *model.TabMetadata) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "tab_definitions",
-		Payload:    customTabs,
+		Payload:    tabMetadata,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}
@@ -140,7 +140,7 @@ func (op *ListOp) Do(ctx context.Context) (*model.TabMetadataList, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// CustomTabOnly when set to **true**, only custom tabs are returned in the response.
+// CustomTabOnly when **true,** only custom tabs are returned in the response.
 func (op *ListOp) CustomTabOnly() *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("custom_tab_only", "true")
@@ -155,12 +155,12 @@ func (op *ListOp) CustomTabOnly() *ListOp {
 // https://developers.docusign.com/esign-rest-api/reference/customtabs/customtabs/update
 //
 // SDK Method CustomTabs::update
-func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *UpdateOp {
+func (s *Service) Update(customTabID string, tabMetadata *model.TabMetadata) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
-		Payload:    customTabs,
+		Payload:    tabMetadata,
 		QueryOpts:  make(url.Values),
 		Version:    esign.VersionV21,
 	}

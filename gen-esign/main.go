@@ -9,12 +9,13 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"go/format"
 	"log"
 	"os"
-	"os/exec"
 	"path"
 	"sort"
 	"strings"
@@ -37,15 +38,22 @@ var (
 
 // Version contains parameters for generating an eSignature version
 type Version struct {
-	FilePath    string // json swagger file
-	VersionNm   string // Blank or v2 for version 2, v2.1 for version 2.1
-	DocPrefix   string
-	CallVersion string
-	Prefix      string
-	Templates   *template.Template // templates
-	BaseDir     string             // source directory
-	BasePkg     string
-	SkipFormat  bool
+	FilePath           string // json swagger file
+	VersionNm          string // Blank or v2 for version 2, v2.1 for version 2.1
+	DocPrefix          string
+	CallVersion        string
+	Prefix             string
+	Templates          *template.Template // templates
+	BaseDir            string             // source directory
+	BasePkg            string
+	SkipFormat         bool
+	UncategorizedToTop bool
+	ModelFile          string
+	ModelPackage       string
+	ModelIsPackage     bool
+	ResourceMap        map[string]string
+	fldOverrides       map[string]map[string]string
+	paramOverrides     map[string]map[string]string
 }
 
 func main() {
@@ -86,29 +94,72 @@ func main() {
 		var filePath string
 		var docPrefix string
 		var callVersion string
+		var fldoverrides map[string]map[string]string
+		var paramoverrides map[string]map[string]string
+		var resourceMap map[string]string
+		var modelFile, modelPackage string
+		var modelIsPackage bool
 		switch doc.Info.Version {
 		case "v2":
 			filePath = "v2/"
-			docPrefix = "v2/"
+			modelFile = "v2/model/model.go"
+			modelPackage = "v2/model"
+			modelIsPackage = true
+			docPrefix = "esign-rest-api/v2/"
 			callVersion = ""
+			fldoverrides = GetFieldOverrides()
+			paramoverrides = GetParameterOverrides()
+			resourceMap = v2ResourceMap
 		case "v2.1":
 			filePath = "v2.1/"
-			docPrefix = ""
+			modelFile = "v2.1/model/model.go"
+			modelPackage = "v2.1/model"
+			modelIsPackage = true
+			docPrefix = "esign-rest-api/"
 			callVersion = "esign.VersionV21"
+			fldoverrides = GetFieldOverrides()
+			paramoverrides = GetParameterOverrides()
+			resourceMap = v21ResourceMap
+		case "admin":
+			filePath = "admin/"
+			modelFile = "admin/admin.go"
+			modelPackage = "admin"
+			modelIsPackage = true
+			docPrefix = "admin-api/"
+			callVersion = "esign.AdminV2"
+			fldoverrides = make(map[string]map[string]string)
+			paramoverrides = make(map[string]map[string]string)
+			resourceMap = adminResourceMap
+		case "rooms":
+			filePath = "rooms/"
+			modelFile = "rooms/rooms.go"
+			modelPackage = "rooms"
+			modelIsPackage = true
+			docPrefix = "rooms-api"
+			callVersion = "esign.RoomsV2"
+			fldoverrides = make(map[string]map[string]string)
+			paramoverrides = make(map[string]map[string]string)
+			resourceMap = adminResourceMap
 		default:
 			log.Fatalf("unknown version %s", doc.Info.Version)
 		}
 		log.Printf("starting %s generation", doc.Info.Version)
 
 		v := &Version{
-			BasePkg:     *basePkg,
-			BaseDir:     *baseDir,
-			Templates:   genTemplates,
-			VersionNm:   doc.Info.Version,
-			DocPrefix:   docPrefix,
-			FilePath:    filePath,
-			SkipFormat:  *skipFormat,
-			CallVersion: callVersion,
+			BasePkg:        *basePkg,
+			BaseDir:        *baseDir,
+			Templates:      genTemplates,
+			VersionNm:      doc.Info.Version,
+			DocPrefix:      docPrefix,
+			FilePath:       filePath,
+			SkipFormat:     *skipFormat,
+			CallVersion:    callVersion,
+			ResourceMap:    resourceMap,
+			ModelFile:      modelFile,
+			ModelPackage:   modelPackage,
+			ModelIsPackage: modelIsPackage,
+			fldOverrides:   fldoverrides,
+			paramOverrides: paramoverrides,
 		}
 		if err := v.genVersion(doc); err != nil {
 			log.Fatalf("%v", err)
@@ -150,16 +201,19 @@ func (ver *Version) genVersion(doc *Document) error {
 			log.Printf("No service specified: %s", op.OperationID)
 			continue
 		}
-		if newServiceName, ok := ServiceNameOverride[op.Service]; ok {
+		fullService := ver.VersionNm + ":" + op.Service
+		if newServiceName, ok := ServiceNameOverride[fullService]; ok {
 			op.Service = newServiceName
 		}
-		if !OperationSkipList[op.OperationID] {
-			if overrideService, ok := serviceOverrides[op.OperationID]; ok {
-				op.Service = overrideService
+		fullOpName := ver.VersionNm + ":" + op.OperationID
+		if !OperationSkipList[fullOpName] {
+			serviceName, ok := ver.ResourceMap[op.Tags[0]]
+			if ok {
+				op.Service = serviceName
+			} else {
+				log.Printf("No service found for %s", op.Tags[0])
 			}
-			opList := ops[op.Service]
-			opList = append(opList, op)
-			ops[op.Service] = opList
+			ops[op.Service] = append(ops[op.Service], op)
 		}
 	}
 	tagDescMap := make(map[string]string)
@@ -303,19 +357,8 @@ func getDocument(fn string) (*Document, error) {
 func (ver *Version) doModel(defList []Definition, defMap map[string]Definition) error {
 	modelTempl := ver.Templates.Lookup("model.tmpl")
 	// create model.go
-	f, err := ver.makePackageFile("model") //os.Create("model.go")
-	if err != nil {
-		return err
-	}
-	defer func() {
-		f.Close()
-		if err == nil && !ver.SkipFormat {
-			exec.Command("gofmt", "-s", "-w", "model.go").Run()
-		}
-	}()
 	// get field overrides and tab overrides
-	fldOverrides := GetFieldOverrides()
-	tabDefs := TabDefs(ver.VersionNm, defMap, fldOverrides)
+	tabDefs := TabDefs(ver.VersionNm, defMap, ver.fldOverrides)
 	var data = struct {
 		Definitions  []Definition
 		DefMap       map[string]Definition
@@ -326,12 +369,24 @@ func (ver *Version) doModel(defList []Definition, defMap map[string]Definition) 
 	}{
 		Definitions:  append(tabDefs, defList...), // Prepend tab definitions
 		DefMap:       defMap,
-		FldOverrides: fldOverrides,
+		FldOverrides: ver.fldOverrides,
 		CustomCode:   CustomCode,
 		DocPrefix:    ver.Prefix,
 		VersionID:    ver.VersionNm,
 	}
-	return modelTempl.Execute(f, data)
+	modelBuffer := &bytes.Buffer{}
+	if err := modelTempl.Execute(modelBuffer, data); err != nil {
+		return nil
+	}
+	// if *skipFormat {
+	return ver.makePackageFile("model", modelBuffer.Bytes())
+	/*}
+	 fmtBytes, err := format.Source(modelBuffer.Bytes())
+	if err != nil {
+		log.Printf("Source Error: %v", err)
+		return err
+	}
+	return ver.makePackageFile("model", fmtBytes) */
 }
 
 // ExtOperation contains all needed info
@@ -355,26 +410,20 @@ func (ver *Version) doPackage(resTempl *template.Template, serviceName, descript
 	if packageName == "uncategorized" {
 		comments = append(comments, "Uncategorized calls may change or move to other packages.")
 	}
-	f, err := ver.makePackageFile(packageName)
-	if err != nil {
-		return err
-	}
 
 	extOps := make([]ExtOperation, 0, len(ops))
-	paramOverrides := GetParameterOverrides()
-
 	for _, op := range ops {
 		payload := op.Payload(defMap)
 		extOps = append(extOps, ExtOperation{
 			Operation:         op,
 			OpPayload:         payload,
-			HasUploads:        IsUploadFilesOperation(op.OperationID),
+			HasUploads:        IsUploadFilesOperation(ver.VersionNm + ":" + op.OperationID),
 			IsMediaUpload:     payload != nil && payload.Type == "*esign.UploadFile",
 			PathParams:        op.PathParameters(),
 			FuncName:          op.GoFuncName(GetServicePrefixes(op.Service)),
-			QueryOptions:      op.QueryOpts(paramOverrides),
-			Result:            op.Result(defMap),
-			DownloadAdditions: GetDownloadAdditions(op.OperationID),
+			QueryOptions:      op.QueryOpts(ver.paramOverrides),
+			Result:            op.Result(defMap, ver.ModelPackage),
+			DownloadAdditions: GetDownloadAdditions(ver.VersionNm + ":" + op.OperationID),
 		})
 	}
 	var data = struct {
@@ -433,16 +482,25 @@ func (ver *Version) doPackage(resTempl *template.Template, serviceName, descript
 	sort.Strings(data.Packages)
 	data.Packages = append(data.Packages,
 		"",
-		"\""+*basePkg+"\"",
-		"\""+*basePkg+"/"+ver.VersionNm+"/model\"")
+		"\""+*basePkg+"\"")
+	if ver.ModelPackage > "" {
+		data.Packages = append(data.Packages,
+			"\""+*basePkg+"/"+ver.ModelPackage)
+	}
 
-	defer func() {
-		f.Close()
-		if err == nil && !*skipFormat {
-			exec.Command("gofmt", "-s", "-w", packageName+".go").Run()
+	pkgBuffer := &bytes.Buffer{}
+	if err := resTempl.Execute(pkgBuffer, data); err != nil {
+		return err
+	}
+	if !*skipFormat {
+		pkgBytes, err := format.Source(pkgBuffer.Bytes())
+		if err != nil {
+			return err
 		}
-	}()
-	return resTempl.Execute(f, data)
+		pkgBuffer = bytes.NewBuffer(pkgBytes)
+	}
+	return ver.makePackageFile(packageName, pkgBuffer.Bytes())
+
 }
 
 func (ver *Version) getEsignDir() string {
@@ -453,18 +511,17 @@ func (ver *Version) getEsignDir() string {
 	return p
 }
 
-func (ver *Version) makePackageFile(packageName string) (*os.File, error) {
-	pkgDir := ver.getEsignDir() + "/" + packageName
-
-	if err := os.Chdir(pkgDir); err != nil {
-		if os.IsNotExist(err) {
-			if err = os.Mkdir(pkgDir, 0755); err == nil {
-				os.Chdir(pkgDir)
-			}
-		}
-		if err != nil {
-			return nil, err
-		}
+func (ver *Version) pkgdir(packageName string) (string, string) {
+	if packageName == "Uncategorized" && ver.UncategorizedToTop {
+		return ver.getEsignDir(), ver.VersionNm
 	}
-	return os.Create(packageName + ".go")
+	return ver.getEsignDir() + "/" + packageName, packageName
+}
+
+func (ver *Version) makePackageFile(packageName string, content []byte) error {
+	pkgDir, fileName := ver.pkgdir(packageName)
+	if err := os.MkdirAll(pkgDir, 0755); err != nil {
+		return err
+	}
+	return os.WriteFile(pkgDir+"/"+fileName+".go", content, 0755)
 }

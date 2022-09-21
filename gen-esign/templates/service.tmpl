@@ -11,7 +11,7 @@
 // {{.}}{{end}}
 //
 // {{$callVersion := .CallVersion}}{{$verPrefix := .VersionID}}{{$docPrefix := .DocPrefix}}{{if .AddDocLinks}}Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/{{$docPrefix}}reference/{{.Service}}{{end}}
+// https://developers.docusign.com/docs/{{$docPrefix}}reference/{{.Service}}{{end}}
 // Usage example:
 //
 //   import (
@@ -45,7 +45,8 @@ func New(cred esign.Credential) *Service {
         Path: {{.OpPath2 $verPrefix .PathParams}},
         {{if .OpPayload}}Payload: {{if .IsMediaUpload}}&esign.UploadFile{ Reader: media, ContentType: mimeType }{{else}}{{.OpPayload.GoName}}{{end}},
         {{end}}{{if .HasUploads}}Files: uploads,
-        {{end}}{{if len .Produces}}Accept: "{{.Accepts}}",
+        {{end}}{{if len .Produces}}ContentType: "{{.Produces}}",
+        {{end}}{{if len .Consumes}}Accept: "{{.Consumes}}",
         {{end}}QueryOpts: make(url.Values),{{if $callVersion}}
         Version: {{$callVersion}},{{end}}
     }

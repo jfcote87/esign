@@ -19,10 +19,7 @@ import (
 	"github.com/jfcote87/esign"
 )
 
-var clickV1 = &esign.APIVersion{
-	Prefix:  "clickapi",
-	Version: "v1",
-}
+var clickV1 = esign.ClickV1
 
 // Service implements DocuSign Clickwrap API operations
 type Service struct {

@@ -45,7 +45,7 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
-// List gets a list of all the items from the specified cloud storage provider.
+// List gets a list of items from a cloud storage provider.
 //
 // https://developers.docusign.com/esign-rest-api/reference/cloudstorage/cloudstorage/list
 //
@@ -69,7 +69,7 @@ func (op *ListOp) Do(ctx context.Context) (*model.ExternalFolder, error) {
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// CloudStorageFolderPath set the call query parameter cloud_storage_folder_path
+// CloudStorageFolderPath is the file path to a cloud storage folder.
 func (op *ListOp) CloudStorageFolderPath(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("cloud_storage_folder_path", val)
@@ -77,7 +77,7 @@ func (op *ListOp) CloudStorageFolderPath(val string) *ListOp {
 	return op
 }
 
-// CloudStorageFolderidPlain set the call query parameter cloud_storage_folderid_plain
+// CloudStorageFolderidPlain is a plain-text folder ID that you can use as an alternative to the existing folder id. This property is mainly used for rooms. Enter multiple folder IDs as a comma-separated list.
 func (op *ListOp) CloudStorageFolderidPlain(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("cloud_storage_folderid_plain", val)
@@ -85,9 +85,11 @@ func (op *ListOp) CloudStorageFolderidPlain(val string) *ListOp {
 	return op
 }
 
-// Count is an optional value that sets how many items are included in the response.
+// Count is the maximum number of results to return.
 //
-// The default setting for this is 25.
+// Use `start_position` to specify the number of results to skip.
+//
+// Default: `25`
 func (op *ListOp) Count(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -95,7 +97,7 @@ func (op *ListOp) Count(val int) *ListOp {
 	return op
 }
 
-// Order (Optional) The order in which to sort the results.
+// Order is the order in which to sort the results.
 //
 // Valid values are:
 //
@@ -109,7 +111,7 @@ func (op *ListOp) Order(val string) *ListOp {
 	return op
 }
 
-// OrderBy (Optional) The file attribute to use to sort the results.
+// OrderBy is the file attribute to use to sort the results.
 //
 // Valid values are:
 //
@@ -122,7 +124,7 @@ func (op *ListOp) OrderBy(val string) *ListOp {
 	return op
 }
 
-// SearchText set the call query parameter search_text
+// SearchText use this parameter to search for specific text.
 func (op *ListOp) SearchText(val string) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("search_text", val)
@@ -130,7 +132,13 @@ func (op *ListOp) SearchText(val string) *ListOp {
 	return op
 }
 
-// StartPosition indicates the starting point of the first item included in the response set. It uses a 0-based index. The default setting for this is 0.
+// StartPosition is the zero-based index of the
+// result from which to start returning results.
+//
+// Use with `count` to limit the number
+// of results.
+//
+// The default value is `0`.
 func (op *ListOp) StartPosition(val int) *ListOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
@@ -170,9 +178,11 @@ func (op *ListFoldersOp) CloudStorageFolderPath(val ...string) *ListFoldersOp {
 	return op
 }
 
-// Count is an optional value that sets how many items are included in the response.
+// Count is the maximum number of results to return.
 //
-// The default setting for this is 25.
+// Use `start_position` to specify the number of results to skip.
+//
+// Default: `25`
 func (op *ListFoldersOp) Count(val int) *ListFoldersOp {
 	if op != nil {
 		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
@@ -180,7 +190,7 @@ func (op *ListFoldersOp) Count(val int) *ListFoldersOp {
 	return op
 }
 
-// Order (Optional) The order in which to sort the results.
+// Order is the order in which to sort the results.
 //
 // Valid values are:
 //
@@ -194,7 +204,7 @@ func (op *ListFoldersOp) Order(val string) *ListFoldersOp {
 	return op
 }
 
-// OrderBy (Optional) The file attribute to use to sort the results.
+// OrderBy is the file attribute to use to sort the results.
 //
 // Valid values are:
 //
@@ -207,7 +217,7 @@ func (op *ListFoldersOp) OrderBy(val string) *ListFoldersOp {
 	return op
 }
 
-// SearchText set the call query parameter search_text
+// SearchText use this parameter to search for specific text.
 func (op *ListFoldersOp) SearchText(val string) *ListFoldersOp {
 	if op != nil {
 		op.QueryOpts.Set("search_text", val)
@@ -215,7 +225,13 @@ func (op *ListFoldersOp) SearchText(val string) *ListFoldersOp {
 	return op
 }
 
-// StartPosition indicates the starting point of the first item included in the response set. It uses a 0-based index. The default setting for this is 0.
+// StartPosition is the zero-based index of the
+// result from which to start returning results.
+//
+// Use with `count` to limit the number
+// of results.
+//
+// The default value is `0`.
 func (op *ListFoldersOp) StartPosition(val int) *ListFoldersOp {
 	if op != nil {
 		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))

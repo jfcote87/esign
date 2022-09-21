@@ -241,20 +241,6 @@ func (op *InvoicesGetOp) Do(ctx context.Context) (*model.BillingInvoice, error) 
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// PDF returns a pdf version of the invoice by setting
-// the Accept header to application/pdf
-//
-// **not included in swagger definition
-func (op *InvoicesGetOp) PDF(ctx context.Context) (*esign.Download, error) {
-	var res *esign.Download
-	if op == nil {
-		return nil, esign.ErrNilOp
-	}
-	newOp := esign.Op(*op)
-	newOp.Accept = "application/pdf"
-	return res, (&newOp).Do(ctx, &res)
-}
-
 // InvoicesList get a List of Billing Invoices
 //
 // https://developers.docusign.com/esign-rest-api/v2/reference/billing/invoices/list

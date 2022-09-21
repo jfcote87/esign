@@ -47,7 +47,7 @@ func New(cred esign.Credential) *Service {
 	return &Service{credential: cred}
 }
 
-// PlansGet get the billing plan details.
+// PlansGet gets billing plan details.
 //
 // https://developers.docusign.com/esign-rest-api/reference/billing/billingplans/get
 //
@@ -95,7 +95,7 @@ func (op *PlansGetAccountPlanOp) Do(ctx context.Context) (*model.AccountBillingP
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// IncludeCreditCardInformation when set to **true**, payment information including credit card information will show in the return.
+// IncludeCreditCardInformation when **true,** payment information including credit card information will show in the return.
 func (op *PlansGetAccountPlanOp) IncludeCreditCardInformation() *PlansGetAccountPlanOp {
 	if op != nil {
 		op.QueryOpts.Set("include_credit_card_information", "true")
@@ -103,7 +103,15 @@ func (op *PlansGetAccountPlanOp) IncludeCreditCardInformation() *PlansGetAccount
 	return op
 }
 
-// IncludeMetadata when set to **true**, the `canUpgrade` and `renewalStatus` properities are included the response and an array of `supportedCountries` is added to the `billingAddress` information.
+// IncludeDowngradeInformation set the call query parameter include_downgrade_information
+func (op *PlansGetAccountPlanOp) IncludeDowngradeInformation(val string) *PlansGetAccountPlanOp {
+	if op != nil {
+		op.QueryOpts.Set("include_downgrade_information", val)
+	}
+	return op
+}
+
+// IncludeMetadata when **true,** the `canUpgrade` and `renewalStatus` properties are included the response and an array of `supportedCountries` is added to the `billingAddress` information.
 func (op *PlansGetAccountPlanOp) IncludeMetadata() *PlansGetAccountPlanOp {
 	if op != nil {
 		op.QueryOpts.Set("include_metadata", "true")
@@ -111,10 +119,18 @@ func (op *PlansGetAccountPlanOp) IncludeMetadata() *PlansGetAccountPlanOp {
 	return op
 }
 
-// IncludeSuccessorPlans when set to **true**, excludes successor information from the response.
+// IncludeSuccessorPlans when **true,** excludes successor information from the response.
 func (op *PlansGetAccountPlanOp) IncludeSuccessorPlans() *PlansGetAccountPlanOp {
 	if op != nil {
 		op.QueryOpts.Set("include_successor_plans", "true")
+	}
+	return op
+}
+
+// IncludeTaxExemptID set the call query parameter include_tax_exempt_id
+func (op *PlansGetAccountPlanOp) IncludeTaxExemptID(val string) *PlansGetAccountPlanOp {
+	if op != nil {
+		op.QueryOpts.Set("include_tax_exempt_id", val)
 	}
 	return op
 }
@@ -143,7 +159,7 @@ func (op *PlansGetCreditCardOp) Do(ctx context.Context) (*model.CreditCardInform
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// PlansList gets the list of available billing plans.
+// PlansList gets a list of available billing plans.
 //
 // https://developers.docusign.com/esign-rest-api/reference/billing/billingplans/list
 //
@@ -167,7 +183,7 @@ func (op *PlansListOp) Do(ctx context.Context) (*model.BillingPlansResponse, err
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// PlansPurchaseEnvelopes reserverd: Purchase additional envelopes.
+// PlansPurchaseEnvelopes reserved: Purchase additional envelopes.
 //
 // https://developers.docusign.com/esign-rest-api/reference/billing/billingplans/purchaseenvelopes
 //
@@ -191,7 +207,7 @@ func (op *PlansPurchaseEnvelopesOp) Do(ctx context.Context) error {
 	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
-// PlansUpdate updates the account billing plan.
+// PlansUpdate updates an account billing plan.
 //
 // https://developers.docusign.com/esign-rest-api/reference/billing/billingplans/update
 //
@@ -216,7 +232,7 @@ func (op *PlansUpdateOp) Do(ctx context.Context) (*model.BillingPlanUpdateRespon
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// PreviewBillingPlan when set to **true**, updates the account using a preview billing plan.
+// PreviewBillingPlan when **true,** updates the account using a preview billing plan.
 func (op *PlansUpdateOp) PreviewBillingPlan() *PlansUpdateOp {
 	if op != nil {
 		op.QueryOpts.Set("preview_billing_plan", "true")
@@ -246,20 +262,6 @@ type InvoicesGetOp esign.Op
 func (op *InvoicesGetOp) Do(ctx context.Context) (*model.BillingInvoice, error) {
 	var res *model.BillingInvoice
 	return res, ((*esign.Op)(op)).Do(ctx, &res)
-}
-
-// PDF returns a pdf version of the invoice by setting
-// the Accept header to application/pdf
-//
-// **not included in swagger definition
-func (op *InvoicesGetOp) PDF(ctx context.Context) (*esign.Download, error) {
-	var res *esign.Download
-	if op == nil {
-		return nil, esign.ErrNilOp
-	}
-	newOp := esign.Op(*op)
-	newOp.Accept = "application/pdf"
-	return res, (&newOp).Do(ctx, &res)
 }
 
 // InvoicesList get a List of Billing Invoices
@@ -413,4 +415,53 @@ func (op *PaymentsListOp) ToDate(val time.Time) *PaymentsListOp {
 		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
 	}
 	return op
+}
+
+// PlansGetDowngradeRequestBillingInfo returns downgrade plan information for the specified account.
+//
+// https://developers.docusign.com/esign-rest-api/reference/billing/billingplans/getdowngraderequestbillinginfo
+//
+// SDK Method Billing::getDowngradeRequestBillingInfo
+func (s *Service) PlansGetDowngradeRequestBillingInfo() *PlansGetDowngradeRequestBillingInfoOp {
+	return &PlansGetDowngradeRequestBillingInfoOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_plan/downgrade",
+		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
+	}
+}
+
+// PlansGetDowngradeRequestBillingInfoOp implements DocuSign API SDK Billing::getDowngradeRequestBillingInfo
+type PlansGetDowngradeRequestBillingInfoOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansGetDowngradeRequestBillingInfoOp) Do(ctx context.Context) (*model.DowngradRequestBillingInfoResponse, error) {
+	var res *model.DowngradRequestBillingInfoResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
+}
+
+// PlansUpdateDowngradeAccountBillingPlan queues downgrade billing plan request for an account.
+//
+// https://developers.docusign.com/esign-rest-api/reference/billing/billingplans/updatedowngradeaccountbillingplan
+//
+// SDK Method Billing::updateDowngradeAccountBillingPlan
+func (s *Service) PlansUpdateDowngradeAccountBillingPlan(downgradeBillingPlanInformation *model.DowngradeBillingPlanInformation) *PlansUpdateDowngradeAccountBillingPlanOp {
+	return &PlansUpdateDowngradeAccountBillingPlanOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "billing_plan/downgrade",
+		Payload:    downgradeBillingPlanInformation,
+		QueryOpts:  make(url.Values),
+		Version:    esign.VersionV21,
+	}
+}
+
+// PlansUpdateDowngradeAccountBillingPlanOp implements DocuSign API SDK Billing::updateDowngradeAccountBillingPlan
+type PlansUpdateDowngradeAccountBillingPlanOp esign.Op
+
+// Do executes the op.  A nil context will return error.
+func (op *PlansUpdateDowngradeAccountBillingPlanOp) Do(ctx context.Context) (*model.DowngradePlanUpdateResponse, error) {
+	var res *model.DowngradePlanUpdateResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
