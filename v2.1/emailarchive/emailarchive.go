@@ -15,7 +15,7 @@
 // **Note:** This feature is only available for certain account plans and must be enabled by DocuSign.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference/EmailArchive
+// https://developers.docusign.com/docs/esign-rest-api/reference/EmailArchive
 // Usage example:
 //
 //   import (
@@ -25,7 +25,7 @@
 //   )
 //   ...
 //   emailarchiveService := emailarchive.New(esignCredential)
-package emailarchive // import "github.com/jfcote87/esign/v2.1/emailarchive"
+package emailarchive // import "github.com/jfcote87/esign/v2.1//emailarchive"
 
 import (
 	"context"
@@ -48,7 +48,7 @@ func New(cred esign.Credential) *Service {
 
 // BCCEmailArchiveCreate creates a BCC email archive configuration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/emailarchive/bccemailarchive/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/emailarchive/bccemailarchive/create
 //
 // SDK Method EmailArchive::create
 func (s *Service) BCCEmailArchiveCreate(bccEmailArchive *model.BccEmailArchive) *BCCEmailArchiveCreateOp {
@@ -58,7 +58,7 @@ func (s *Service) BCCEmailArchiveCreate(bccEmailArchive *model.BccEmailArchive) 
 		Path:       "settings/bcc_email_archives",
 		Payload:    bccEmailArchive,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -73,7 +73,7 @@ func (op *BCCEmailArchiveCreateOp) Do(ctx context.Context) (*model.BccEmailArchi
 
 // BCCEmailArchiveDelete deletes a BCC email archive configuration.
 //
-// https://developers.docusign.com/esign-rest-api/reference/emailarchive/bccemailarchive/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/emailarchive/bccemailarchive/delete
 //
 // SDK Method EmailArchive::delete
 func (s *Service) BCCEmailArchiveDelete(bccEmailArchiveID string) *BCCEmailArchiveDeleteOp {
@@ -82,7 +82,7 @@ func (s *Service) BCCEmailArchiveDelete(bccEmailArchiveID string) *BCCEmailArchi
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"settings", "bcc_email_archives", bccEmailArchiveID}, "/"),
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -96,7 +96,7 @@ func (op *BCCEmailArchiveDeleteOp) Do(ctx context.Context) error {
 
 // BCCEmailArchiveGet gets a BCC email archive configuration and its history.
 //
-// https://developers.docusign.com/esign-rest-api/reference/emailarchive/bccemailarchive/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/emailarchive/bccemailarchive/get
 //
 // SDK Method EmailArchive::get
 func (s *Service) BCCEmailArchiveGet(bccEmailArchiveID string) *BCCEmailArchiveGetOp {
@@ -104,8 +104,9 @@ func (s *Service) BCCEmailArchiveGet(bccEmailArchiveID string) *BCCEmailArchiveG
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"settings", "bcc_email_archives", bccEmailArchiveID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -144,7 +145,7 @@ func (op *BCCEmailArchiveGetOp) StartPosition(val string) *BCCEmailArchiveGetOp 
 
 // BCCEmailArchiveList gets the BCC email archive configurations for an account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/emailarchive/bccemailarchive/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/emailarchive/bccemailarchive/list
 //
 // SDK Method EmailArchive::list
 func (s *Service) BCCEmailArchiveList() *BCCEmailArchiveListOp {
@@ -152,8 +153,9 @@ func (s *Service) BCCEmailArchiveList() *BCCEmailArchiveListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "settings/bcc_email_archives",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 

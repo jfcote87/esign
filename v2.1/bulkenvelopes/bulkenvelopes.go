@@ -11,7 +11,7 @@
 // Use the BulkEnvelopes category to manage the sending of envelopes to multiple recipients.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference/BulkEnvelopes
+// https://developers.docusign.com/docs/esign-rest-api/reference/BulkEnvelopes
 // Usage example:
 //
 //   import (
@@ -21,7 +21,7 @@
 //   )
 //   ...
 //   bulkenvelopesService := bulkenvelopes.New(esignCredential)
-package bulkenvelopes // import "github.com/jfcote87/esign/v2.1/bulkenvelopes"
+package bulkenvelopes // import "github.com/jfcote87/esign/v2.1//bulkenvelopes"
 
 import (
 	"context"
@@ -44,7 +44,7 @@ func New(cred esign.Credential) *Service {
 
 // BulkSendCreateBulkSendList creates a bulk send list
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/createbulksendlist
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/createbulksendlist
 //
 // SDK Method BulkEnvelopes::createBulkSendList
 func (s *Service) BulkSendCreateBulkSendList(bulkSendingList *model.BulkSendingList) *BulkSendCreateBulkSendListOp {
@@ -54,7 +54,7 @@ func (s *Service) BulkSendCreateBulkSendList(bulkSendingList *model.BulkSendingL
 		Path:       "bulk_send_lists",
 		Payload:    bulkSendingList,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -69,7 +69,7 @@ func (op *BulkSendCreateBulkSendListOp) Do(ctx context.Context) (*model.BulkSend
 
 // BulkSendCreateBulkSendRequest creates a bulk send request
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/createbulksendrequest
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/createbulksendrequest
 //
 // SDK Method BulkEnvelopes::createBulkSendRequest
 func (s *Service) BulkSendCreateBulkSendRequest(bulkSendListID string, bulkSendRequest *model.BulkSendRequest) *BulkSendCreateBulkSendRequestOp {
@@ -79,7 +79,7 @@ func (s *Service) BulkSendCreateBulkSendRequest(bulkSendListID string, bulkSendR
 		Path:       strings.Join([]string{"bulk_send_lists", bulkSendListID, "send"}, "/"),
 		Payload:    bulkSendRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -94,7 +94,7 @@ func (op *BulkSendCreateBulkSendRequestOp) Do(ctx context.Context) (*model.BulkS
 
 // BulkSendCreateBulkSendTestRequest creates a bulk send test
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/createbulksendtestrequest
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/createbulksendtestrequest
 //
 // SDK Method BulkEnvelopes::createBulkSendTestRequest
 func (s *Service) BulkSendCreateBulkSendTestRequest(bulkSendListID string, bulkSendRequest *model.BulkSendRequest) *BulkSendCreateBulkSendTestRequestOp {
@@ -104,7 +104,7 @@ func (s *Service) BulkSendCreateBulkSendTestRequest(bulkSendListID string, bulkS
 		Path:       strings.Join([]string{"bulk_send_lists", bulkSendListID, "test"}, "/"),
 		Payload:    bulkSendRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -119,7 +119,7 @@ func (op *BulkSendCreateBulkSendTestRequestOp) Do(ctx context.Context) (*model.B
 
 // BulkSendDeleteBulkSendList deletes a bulk send list
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/deletebulksendlist
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/deletebulksendlist
 //
 // SDK Method BulkEnvelopes::deleteBulkSendList
 func (s *Service) BulkSendDeleteBulkSendList(bulkSendListID string) *BulkSendDeleteBulkSendListOp {
@@ -127,8 +127,9 @@ func (s *Service) BulkSendDeleteBulkSendList(bulkSendListID string) *BulkSendDel
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"bulk_send_lists", bulkSendListID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -143,7 +144,7 @@ func (op *BulkSendDeleteBulkSendListOp) Do(ctx context.Context) (*model.BulkSend
 
 // BulkSendGetBulkSendBatchEnvelopes gets envelopes from a specific bulk send batch
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendbatchenvelopes
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendbatchenvelopes
 //
 // SDK Method BulkEnvelopes::getBulkSendBatchEnvelopes
 func (s *Service) BulkSendGetBulkSendBatchEnvelopes(bulkSendBatchID string) *BulkSendGetBulkSendBatchEnvelopesOp {
@@ -151,8 +152,9 @@ func (s *Service) BulkSendGetBulkSendBatchEnvelopes(bulkSendBatchID string) *Bul
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"bulk_send_batch", bulkSendBatchID, "envelopes"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -248,7 +250,7 @@ func (op *BulkSendGetBulkSendBatchEnvelopesOp) Status(val string) *BulkSendGetBu
 
 // BulkSendGetBulkSendBatchStatus gets the status of a specific bulk send batch.
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendbatchstatus
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendbatchstatus
 //
 // SDK Method BulkEnvelopes::getBulkSendBatchStatus
 func (s *Service) BulkSendGetBulkSendBatchStatus(bulkSendBatchID string) *BulkSendGetBulkSendBatchStatusOp {
@@ -256,8 +258,9 @@ func (s *Service) BulkSendGetBulkSendBatchStatus(bulkSendBatchID string) *BulkSe
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"bulk_send_batch", bulkSendBatchID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -272,7 +275,7 @@ func (op *BulkSendGetBulkSendBatchStatusOp) Do(ctx context.Context) (*model.Bulk
 
 // BulkSendGetBulkSendBatches returns a list of bulk send batch summaries.
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendbatches
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendbatches
 //
 // SDK Method BulkEnvelopes::getBulkSendBatches
 func (s *Service) BulkSendGetBulkSendBatches() *BulkSendGetBulkSendBatchesOp {
@@ -280,8 +283,9 @@ func (s *Service) BulkSendGetBulkSendBatches() *BulkSendGetBulkSendBatchesOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "bulk_send_batch",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -380,7 +384,7 @@ func (op *BulkSendGetBulkSendBatchesOp) UserID(val string) *BulkSendGetBulkSendB
 
 // BulkSendGetBulkSendList gets a specific bulk send list
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendlist
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendlist
 //
 // SDK Method BulkEnvelopes::getBulkSendList
 func (s *Service) BulkSendGetBulkSendList(bulkSendListID string) *BulkSendGetBulkSendListOp {
@@ -388,8 +392,9 @@ func (s *Service) BulkSendGetBulkSendList(bulkSendListID string) *BulkSendGetBul
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"bulk_send_lists", bulkSendListID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -404,7 +409,7 @@ func (op *BulkSendGetBulkSendListOp) Do(ctx context.Context) (*model.BulkSending
 
 // BulkSendGetBulkSendLists gets bulk send lists
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendlists
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/getbulksendlists
 //
 // SDK Method BulkEnvelopes::getBulkSendLists
 func (s *Service) BulkSendGetBulkSendLists() *BulkSendGetBulkSendListsOp {
@@ -412,8 +417,9 @@ func (s *Service) BulkSendGetBulkSendLists() *BulkSendGetBulkSendListsOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "bulk_send_lists",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -428,7 +434,7 @@ func (op *BulkSendGetBulkSendListsOp) Do(ctx context.Context) (*model.BulkSendin
 
 // BulkSendUpdateBulkSendBatchAction initiate a specific bulk send batch action
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/updatebulksendbatchaction
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/updatebulksendbatchaction
 //
 // SDK Method BulkEnvelopes::updateBulkSendBatchAction
 func (s *Service) BulkSendUpdateBulkSendBatchAction(bulkAction string, bulkSendBatchID string, bulkSendBatchActionRequest *model.BulkSendBatchActionRequest) *BulkSendUpdateBulkSendBatchActionOp {
@@ -437,8 +443,9 @@ func (s *Service) BulkSendUpdateBulkSendBatchAction(bulkAction string, bulkSendB
 		Method:     "PUT",
 		Path:       strings.Join([]string{"bulk_send_batch", bulkSendBatchID, bulkAction}, "/"),
 		Payload:    bulkSendBatchActionRequest,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -453,7 +460,7 @@ func (op *BulkSendUpdateBulkSendBatchActionOp) Do(ctx context.Context) (*model.B
 
 // BulkSendUpdateBulkSendBatchStatus updates a specific bulk send batch status.
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/updatebulksendbatchstatus
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/updatebulksendbatchstatus
 //
 // SDK Method BulkEnvelopes::updateBulkSendBatchStatus
 func (s *Service) BulkSendUpdateBulkSendBatchStatus(bulkSendBatchID string, bulkSendBatchRequest *model.BulkSendBatchRequest) *BulkSendUpdateBulkSendBatchStatusOp {
@@ -462,8 +469,9 @@ func (s *Service) BulkSendUpdateBulkSendBatchStatus(bulkSendBatchID string, bulk
 		Method:     "PUT",
 		Path:       strings.Join([]string{"bulk_send_batch", bulkSendBatchID}, "/"),
 		Payload:    bulkSendBatchRequest,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -478,7 +486,7 @@ func (op *BulkSendUpdateBulkSendBatchStatusOp) Do(ctx context.Context) (*model.B
 
 // BulkSendUpdateBulkSendList updates a bulk send list
 //
-// https://developers.docusign.com/esign-rest-api/reference/bulkenvelopes/bulksend/updatebulksendlist
+// https://developers.docusign.com/docs/esign-rest-api/reference/bulkenvelopes/bulksend/updatebulksendlist
 //
 // SDK Method BulkEnvelopes::updateBulkSendList
 func (s *Service) BulkSendUpdateBulkSendList(bulkSendListID string, bulkSendingList *model.BulkSendingList) *BulkSendUpdateBulkSendListOp {
@@ -487,8 +495,9 @@ func (s *Service) BulkSendUpdateBulkSendList(bulkSendListID string, bulkSendingL
 		Method:     "PUT",
 		Path:       strings.Join([]string{"bulk_send_lists", bulkSendListID}, "/"),
 		Payload:    bulkSendingList,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 

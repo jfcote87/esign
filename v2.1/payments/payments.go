@@ -11,7 +11,7 @@
 // This category includes resources for managing payment gateways. Payment information is added to envelopes via methods in the Envelopes category.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference/Payments
+// https://developers.docusign.com/docs/esign-rest-api/reference/Payments
 // Usage example:
 //
 //   import (
@@ -21,7 +21,7 @@
 //   )
 //   ...
 //   paymentsService := payments.New(esignCredential)
-package payments // import "github.com/jfcote87/esign/v2.1/payments"
+package payments // import "github.com/jfcote87/esign/v2.1//payments"
 
 import (
 	"context"
@@ -43,7 +43,7 @@ func New(cred esign.Credential) *Service {
 
 // GatewayAccountsList list payment gateway accounts
 //
-// https://developers.docusign.com/esign-rest-api/reference/payments/paymentgatewayaccounts/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/payments/paymentgatewayaccounts/list
 //
 // SDK Method Payments::getAllPaymentGatewayAccounts
 func (s *Service) GatewayAccountsList() *GatewayAccountsListOp {
@@ -51,8 +51,9 @@ func (s *Service) GatewayAccountsList() *GatewayAccountsListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "payment_gateway_accounts",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 

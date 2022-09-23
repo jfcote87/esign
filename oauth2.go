@@ -49,7 +49,7 @@ func (df demoFlag) getUserInfoForToken(ctx context.Context, f ctxclient.Func, tk
 		Credential: &tokenCredential{tk, f},
 		Method:     "GET",
 		Path:       "https://" + df.tokenURI() + "/oauth/userinfo",
-		Version:    VersionV2,
+		Version:    APIv2,
 	}).Do(ctx, &u)
 	return u, err
 }

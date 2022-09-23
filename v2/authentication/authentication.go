@@ -15,7 +15,7 @@
 // * Getting and revoking OAuth tokens.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/v2/reference/Authentication
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/Authentication
 // Usage example:
 //
 //   import (
@@ -25,7 +25,7 @@
 //   )
 //   ...
 //   authenticationService := authentication.New(esignCredential)
-package authentication // import "github.com/jfcote87/esign/v2/authentication"
+package authentication // import "github.com/jfcote87/esign/v2//authentication"
 
 import (
 	"context"
@@ -48,7 +48,7 @@ func New(cred esign.Credential) *Service {
 
 // Login gets login information for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/authentication/login
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/authentication/authentication/login
 //
 // SDK Method Authentication::login
 func (s *Service) Login() *LoginOp {
@@ -56,7 +56,9 @@ func (s *Service) Login() *LoginOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "/v2/login_information",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -108,7 +110,7 @@ func (op *LoginOp) LoginSettings(val string) *LoginOp {
 
 // UpdatePassword updates the password for a specified user.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/authentication/updatepassword
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/authentication/authentication/updatepassword
 //
 // SDK Method Authentication::updatePassword
 func (s *Service) UpdatePassword(loginPart string, userPasswordInformation *model.UserPasswordInformation) *UpdatePasswordOp {
@@ -118,6 +120,7 @@ func (s *Service) UpdatePassword(loginPart string, userPasswordInformation *mode
 		Path:       strings.Join([]string{"", "v2", "login_information", loginPart}, "/"),
 		Payload:    userPasswordInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -131,16 +134,17 @@ func (op *UpdatePasswordOp) Do(ctx context.Context) error {
 
 // UserSocialAccountLoginsDelete deletes user's social account.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/delete
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/delete
 //
 // SDK Method Authentication::deleteSocialLogin
-func (s *Service) UserSocialAccountLoginsDelete(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UserSocialAccountLoginsDeleteOp {
+func (s *Service) UserSocialAccountLoginsDelete(userID string, socialAccountInformation *model.SocialAccountInformation) *UserSocialAccountLoginsDeleteOp {
 	return &UserSocialAccountLoginsDeleteOp{
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"users", userID, "social"}, "/"),
-		Payload:    userSocialAccountLogins,
+		Payload:    socialAccountInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -154,7 +158,7 @@ func (op *UserSocialAccountLoginsDeleteOp) Do(ctx context.Context) error {
 
 // UserSocialAccountLoginsList gets a list of a user's social accounts.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/list
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/list
 //
 // SDK Method Authentication::listSocialLogins
 func (s *Service) UserSocialAccountLoginsList(userID string) *UserSocialAccountLoginsListOp {
@@ -162,7 +166,9 @@ func (s *Service) UserSocialAccountLoginsList(userID string) *UserSocialAccountL
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"users", userID, "social"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -177,16 +183,17 @@ func (op *UserSocialAccountLoginsListOp) Do(ctx context.Context) (*model.UserSoc
 
 // UserSocialAccountLoginsUpdate adds social account for a user.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/update
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/authentication/usersocialaccountlogins/update
 //
 // SDK Method Authentication::updateSocialLogin
-func (s *Service) UserSocialAccountLoginsUpdate(userID string, userSocialAccountLogins *model.SocialAccountInformation) *UserSocialAccountLoginsUpdateOp {
+func (s *Service) UserSocialAccountLoginsUpdate(userID string, socialAccountInformation *model.SocialAccountInformation) *UserSocialAccountLoginsUpdateOp {
 	return &UserSocialAccountLoginsUpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"users", userID, "social"}, "/"),
-		Payload:    userSocialAccountLogins,
+		Payload:    socialAccountInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 

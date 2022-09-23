@@ -13,7 +13,7 @@
 // This category enables custom tabs to be managed programmatically, including creation, deletion, etc.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/v2/reference/CustomTabs
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/CustomTabs
 // Usage example:
 //
 //   import (
@@ -23,7 +23,7 @@
 //   )
 //   ...
 //   customtabsService := customtabs.New(esignCredential)
-package customtabs // import "github.com/jfcote87/esign/v2/customtabs"
+package customtabs // import "github.com/jfcote87/esign/v2//customtabs"
 
 import (
 	"context"
@@ -46,16 +46,17 @@ func New(cred esign.Credential) *Service {
 
 // Create creates a custom tab.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/create
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/customtabs/customtabs/create
 //
 // SDK Method CustomTabs::create
-func (s *Service) Create(customTabs *model.TabMetadata) *CreateOp {
+func (s *Service) Create(tabMetadata *model.TabMetadata) *CreateOp {
 	return &CreateOp{
 		Credential: s.credential,
 		Method:     "POST",
 		Path:       "tab_definitions",
-		Payload:    customTabs,
+		Payload:    tabMetadata,
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -70,7 +71,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.TabMetadata, error) {
 
 // Delete deletes custom tab information.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/delete
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/customtabs/customtabs/delete
 //
 // SDK Method CustomTabs::delete
 func (s *Service) Delete(customTabID string) *DeleteOp {
@@ -79,6 +80,7 @@ func (s *Service) Delete(customTabID string) *DeleteOp {
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -92,7 +94,7 @@ func (op *DeleteOp) Do(ctx context.Context) error {
 
 // Get gets custom tab information.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/get
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/customtabs/customtabs/get
 //
 // SDK Method CustomTabs::get
 func (s *Service) Get(customTabID string) *GetOp {
@@ -100,7 +102,9 @@ func (s *Service) Get(customTabID string) *GetOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -115,7 +119,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.TabMetadata, error) {
 
 // List gets a list of all account tabs.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/list
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/customtabs/customtabs/list
 //
 // SDK Method CustomTabs::list
 func (s *Service) List() *ListOp {
@@ -123,7 +127,9 @@ func (s *Service) List() *ListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "tab_definitions",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -148,16 +154,18 @@ func (op *ListOp) CustomTabOnly() *ListOp {
 //
 //
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/customtabs/customtabs/update
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/customtabs/customtabs/update
 //
 // SDK Method CustomTabs::update
-func (s *Service) Update(customTabID string, customTabs *model.TabMetadata) *UpdateOp {
+func (s *Service) Update(customTabID string, tabMetadata *model.TabMetadata) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"tab_definitions", customTabID}, "/"),
-		Payload:    customTabs,
+		Payload:    tabMetadata,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 

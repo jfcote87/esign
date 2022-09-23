@@ -121,14 +121,14 @@ func TestOp_Do(t *testing.T) {
 			Path:       strings.Join([]string{"do", "test0", "testvar1", "go"}, "/"),
 			QueryOpts:  make(url.Values),
 			Method:     "GET",
-			Version:    esign.VersionV21,
+			Version:    esign.APIv21,
 		},
 		{
 			Credential: cx,
 			Path:       "/v2/noaccount/test1/go",
 			QueryOpts:  url.Values{"a": {"B"}, "c": {"D"}},
 			Method:     "GET",
-			Version:    esign.VersionV2,
+			Version:    esign.APIv2,
 		},
 		{
 			Credential: cx,
@@ -136,7 +136,7 @@ func TestOp_Do(t *testing.T) {
 			QueryOpts:  make(url.Values),
 			Method:     "POST",
 			Payload:    url.Values{"a": {"B"}, "c": {"D"}},
-			Version:    esign.VersionV2,
+			Version:    esign.APIv2,
 		},
 		{
 			Credential: cx,
@@ -146,7 +146,7 @@ func TestOp_Do(t *testing.T) {
 			Payload: map[string]interface{}{
 				"a": "String", "b": 9,
 			},
-			Version: esign.VersionV2,
+			Version: esign.APIv2,
 		},
 		{
 			Credential: cx,
@@ -157,7 +157,7 @@ func TestOp_Do(t *testing.T) {
 				Reader:      bytes.NewReader([]byte("0123456789")),
 				ContentType: "text/plain",
 			},
-			Version: esign.VersionV2,
+			Version: esign.APIv2,
 		},
 	}
 	for i, op := range ops {
@@ -172,7 +172,7 @@ func TestOp_Do(t *testing.T) {
 		Path:       "do/test5/go",
 		QueryOpts:  make(url.Values),
 		Method:     "GET",
-		Version:    esign.VersionV2,
+		Version:    esign.APIv2,
 	}
 	err := op.Do(context.Background(), nil)
 	if ex, ok := err.(*esign.ResponseError); !ok {
@@ -329,7 +329,7 @@ func TestOp_Do_FileUpload(t *testing.T) {
 				Reader:      f2,
 			},
 		},
-		Version: esign.VersionV2,
+		Version: esign.APIv2,
 	}
 	if err := op.Do(context.Background(), nil); err != nil {
 		t.Fatalf("multipart test expected success; got %v", err)
@@ -394,7 +394,7 @@ func TestOp_Do_FileDownload(t *testing.T) {
 		QueryOpts:  make(url.Values),
 		Method:     "GET",
 		Accept:     "text/plain",
-		Version:    esign.VersionV2,
+		Version:    esign.APIv2,
 	}
 	f1 := &testFile{
 		reader: bytes.NewReader([]byte("0123456789")),
@@ -489,7 +489,7 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 		Path:       "multipart/go",
 		QueryOpts:  make(url.Values),
 		Method:     "POST",
-		Version:    esign.VersionV2,
+		Version:    esign.APIv2,
 	}
 	testTransport.Add(&testutils.RequestTester{
 		Response: testutils.MakeResponse(200, []byte("0123456789"), nil),
@@ -515,7 +515,7 @@ func TestOp_Do_ContextCancel(t *testing.T) {
 		Path:       "multipart/go",
 		QueryOpts:  make(url.Values),
 		Method:     "POST",
-		Version:    esign.VersionV2,
+		Version:    esign.APIv2,
 	}
 	if err := op.Do(ctx, &result); err == nil || err.Error() != "context canceled" {
 		t.Errorf("expected context canceled; got %v", err)

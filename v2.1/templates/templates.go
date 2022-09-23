@@ -19,7 +19,7 @@
 // You can create templates either programmatically or through the DocuSign web interface and then used by your application.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference/Templates
+// https://developers.docusign.com/docs/esign-rest-api/reference/Templates
 // Usage example:
 //
 //   import (
@@ -29,7 +29,7 @@
 //   )
 //   ...
 //   templatesService := templates.New(esignCredential)
-package templates // import "github.com/jfcote87/esign/v2.1/templates"
+package templates // import "github.com/jfcote87/esign/v2.1//templates"
 
 import (
 	"context"
@@ -54,7 +54,7 @@ func New(cred esign.Credential) *Service {
 
 // DocumentVisibilityGet returns document visibility for a template recipient
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentvisibility/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentvisibility/get
 //
 // SDK Method Templates::getTemplateRecipientDocumentVisibility
 func (s *Service) DocumentVisibilityGet(recipientID string, templateID string) *DocumentVisibilityGetOp {
@@ -62,8 +62,9 @@ func (s *Service) DocumentVisibilityGet(recipientID string, templateID string) *
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -78,7 +79,7 @@ func (op *DocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisib
 
 // DocumentVisibilityUpdate updates document visibility for a template recipient
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentvisibility/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentvisibility/update
 //
 // SDK Method Templates::updateTemplateRecipientDocumentVisibility
 func (s *Service) DocumentVisibilityUpdate(recipientID string, templateID string, templateDocumentVisibilityList *model.TemplateDocumentVisibilityList) *DocumentVisibilityUpdateOp {
@@ -87,8 +88,9 @@ func (s *Service) DocumentVisibilityUpdate(recipientID string, templateID string
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
 		Payload:    templateDocumentVisibilityList,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -103,7 +105,7 @@ func (op *DocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.TemplateDo
 
 // DocumentVisibilityUpdateList updates document visibility for template recipients
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentvisibility/updatelist
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentvisibility/updatelist
 //
 // SDK Method Templates::updateTemplateRecipientsDocumentVisibility
 func (s *Service) DocumentVisibilityUpdateList(templateID string, templateDocumentVisibilityList *model.TemplateDocumentVisibilityList) *DocumentVisibilityUpdateListOp {
@@ -112,8 +114,9 @@ func (s *Service) DocumentVisibilityUpdateList(templateID string, templateDocume
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", "document_visibility"}, "/"),
 		Payload:    templateDocumentVisibilityList,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -128,7 +131,7 @@ func (op *DocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.Templa
 
 // BulkRecipientsDelete deletes the bulk recipient list on a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatebulkrecipients/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatebulkrecipients/delete
 //
 // SDK Method Templates::deleteBulkRecipients
 func (s *Service) BulkRecipientsDelete(recipientID string, templateID string) *BulkRecipientsDeleteOp {
@@ -136,8 +139,9 @@ func (s *Service) BulkRecipientsDelete(recipientID string, templateID string) *B
 		Credential: s.credential,
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -152,7 +156,7 @@ func (op *BulkRecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipients
 
 // BulkRecipientsList gets the bulk recipient file from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatebulkrecipients/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatebulkrecipients/list
 //
 // SDK Method Templates::listBulkRecipients
 func (s *Service) BulkRecipientsList(recipientID string, templateID string) *BulkRecipientsListOp {
@@ -160,8 +164,9 @@ func (s *Service) BulkRecipientsList(recipientID string, templateID string) *Bul
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -198,7 +203,7 @@ func (op *BulkRecipientsListOp) StartPosition(val int) *BulkRecipientsListOp {
 
 // CustomFieldsCreate creates custom document fields in an existing template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatecustomfields/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/create
 //
 // SDK Method Templates::createCustomFields
 func (s *Service) CustomFieldsCreate(templateID string, templateCustomFields *model.TemplateCustomFields) *CustomFieldsCreateOp {
@@ -208,7 +213,7 @@ func (s *Service) CustomFieldsCreate(templateID string, templateCustomFields *mo
 		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		Payload:    templateCustomFields,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -223,7 +228,7 @@ func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, er
 
 // CustomFieldsDelete deletes envelope custom fields in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatecustomfields/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/delete
 //
 // SDK Method Templates::deleteCustomFields
 func (s *Service) CustomFieldsDelete(templateID string, templateCustomFields *model.TemplateCustomFields) *CustomFieldsDeleteOp {
@@ -232,8 +237,9 @@ func (s *Service) CustomFieldsDelete(templateID string, templateCustomFields *mo
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		Payload:    templateCustomFields,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -248,7 +254,7 @@ func (op *CustomFieldsDeleteOp) Do(ctx context.Context) (*model.CustomFields, er
 
 // CustomFieldsList gets the custom document fields from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatecustomfields/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/list
 //
 // SDK Method Templates::listCustomFields
 func (s *Service) CustomFieldsList(templateID string) *CustomFieldsListOp {
@@ -256,8 +262,9 @@ func (s *Service) CustomFieldsList(templateID string) *CustomFieldsListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -272,7 +279,7 @@ func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, erro
 
 // CustomFieldsUpdate updates envelope custom fields in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatecustomfields/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/update
 //
 // SDK Method Templates::updateCustomFields
 func (s *Service) CustomFieldsUpdate(templateID string, templateCustomFields *model.TemplateCustomFields) *CustomFieldsUpdateOp {
@@ -281,8 +288,9 @@ func (s *Service) CustomFieldsUpdate(templateID string, templateCustomFields *mo
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
 		Payload:    templateCustomFields,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -297,7 +305,7 @@ func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, er
 
 // DocumentFieldsCreate creates custom document fields in an existing template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/create
 //
 // SDK Method Templates::createDocumentFields
 func (s *Service) DocumentFieldsCreate(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsCreateOp {
@@ -307,7 +315,7 @@ func (s *Service) DocumentFieldsCreate(documentID string, templateID string, doc
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		Payload:    documentFieldsInformation,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -322,7 +330,7 @@ func (op *DocumentFieldsCreateOp) Do(ctx context.Context) (*model.DocumentFields
 
 // DocumentFieldsDelete deletes custom document fields from an existing template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/delete
 //
 // SDK Method Templates::deleteDocumentFields
 func (s *Service) DocumentFieldsDelete(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsDeleteOp {
@@ -331,8 +339,9 @@ func (s *Service) DocumentFieldsDelete(documentID string, templateID string, doc
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		Payload:    documentFieldsInformation,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -347,7 +356,7 @@ func (op *DocumentFieldsDeleteOp) Do(ctx context.Context) (*model.DocumentFields
 
 // DocumentFieldsList gets the custom document fields for a an existing template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/list
 //
 // SDK Method Templates::listDocumentFields
 func (s *Service) DocumentFieldsList(documentID string, templateID string) *DocumentFieldsListOp {
@@ -355,8 +364,9 @@ func (s *Service) DocumentFieldsList(documentID string, templateID string) *Docu
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -371,7 +381,7 @@ func (op *DocumentFieldsListOp) Do(ctx context.Context) (*model.DocumentFieldsIn
 
 // DocumentFieldsUpdate updates existing custom document fields in an existing template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentfields/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/update
 //
 // SDK Method Templates::updateDocumentFields
 func (s *Service) DocumentFieldsUpdate(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsUpdateOp {
@@ -380,8 +390,9 @@ func (s *Service) DocumentFieldsUpdate(documentID string, templateID string, doc
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
 		Payload:    documentFieldsInformation,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -396,7 +407,7 @@ func (op *DocumentFieldsUpdateOp) Do(ctx context.Context) (*model.DocumentFields
 
 // DocumentTabsGet returns tabs on a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumenttabs/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/get
 //
 // SDK Method Templates::getDocumentTabs
 func (s *Service) DocumentTabsGet(documentID string, templateID string) *DocumentTabsGetOp {
@@ -404,8 +415,9 @@ func (s *Service) DocumentTabsGet(documentID string, templateID string) *Documen
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -430,7 +442,7 @@ func (op *DocumentTabsGetOp) PageNumbers(val string) *DocumentTabsGetOp {
 
 // DocumentTabsGetByPage returns tabs on the specified page.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumenttabs/getbypage
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/getbypage
 //
 // SDK Method Templates::getPageTabs
 func (s *Service) DocumentTabsGetByPage(documentID string, pageNumber string, templateID string) *DocumentTabsGetByPageOp {
@@ -438,8 +450,9 @@ func (s *Service) DocumentTabsGetByPage(documentID string, pageNumber string, te
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "tabs"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -454,7 +467,7 @@ func (op *DocumentTabsGetByPageOp) Do(ctx context.Context) (*model.Tabs, error) 
 
 // DocumentsDelete deletes documents from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocuments/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/delete
 //
 // SDK Method Templates::deleteDocuments
 func (s *Service) DocumentsDelete(templateID string, envelopeDefinition *model.EnvelopeDefinition) *DocumentsDeleteOp {
@@ -463,8 +476,9 @@ func (s *Service) DocumentsDelete(templateID string, envelopeDefinition *model.E
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
 		Payload:    envelopeDefinition,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -479,7 +493,7 @@ func (op *DocumentsDeleteOp) Do(ctx context.Context) (*model.TemplateDocumentsRe
 
 // DocumentsGet gets PDF documents from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocuments/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/get
 //
 // SDK Method Templates::getDocument
 func (s *Service) DocumentsGet(documentID string, templateID string) *DocumentsGetOp {
@@ -487,9 +501,8 @@ func (s *Service) DocumentsGet(documentID string, templateID string) *DocumentsG
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID}, "/"),
-		Accept:     "application/pdf",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -520,7 +533,7 @@ func (op *DocumentsGetOp) ShowChanges() *DocumentsGetOp {
 
 // DocumentsList gets a list of documents associated with a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocuments/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/list
 //
 // SDK Method Templates::listDocuments
 func (s *Service) DocumentsList(templateID string) *DocumentsListOp {
@@ -528,8 +541,9 @@ func (s *Service) DocumentsList(templateID string) *DocumentsListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -552,7 +566,7 @@ func (op *DocumentsListOp) IncludeTabs(val string) *DocumentsListOp {
 
 // DocumentsUpdate updates a template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocuments/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/update
 //
 // SDK Method Templates::updateDocument
 func (s *Service) DocumentsUpdate(documentID string, templateID string, envelopeDefinition *model.EnvelopeDefinition) *DocumentsUpdateOp {
@@ -561,8 +575,9 @@ func (s *Service) DocumentsUpdate(documentID string, templateID string, envelope
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID}, "/"),
 		Payload:    envelopeDefinition,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -585,7 +600,7 @@ func (op *DocumentsUpdateOp) IsEnvelopeDefinition() *DocumentsUpdateOp {
 
 // DocumentsUpdateList adds documents to a template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocuments/updatelist
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/updatelist
 //
 // SDK Method Templates::updateDocuments
 func (s *Service) DocumentsUpdateList(templateID string, envelopeDefinition *model.EnvelopeDefinition) *DocumentsUpdateListOp {
@@ -594,8 +609,9 @@ func (s *Service) DocumentsUpdateList(templateID string, envelopeDefinition *mod
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
 		Payload:    envelopeDefinition,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -610,7 +626,7 @@ func (op *DocumentsUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumen
 
 // LocksCreate locks a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatelocks/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/create
 //
 // SDK Method Templates::createLock
 func (s *Service) LocksCreate(templateID string, lockRequest *model.LockRequest) *LocksCreateOp {
@@ -620,7 +636,7 @@ func (s *Service) LocksCreate(templateID string, lockRequest *model.LockRequest)
 		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		Payload:    lockRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -635,7 +651,7 @@ func (op *LocksCreateOp) Do(ctx context.Context) (*model.LockInformation, error)
 
 // LocksDelete deletes a template lock.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatelocks/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/delete
 //
 // SDK Method Templates::deleteLock
 func (s *Service) LocksDelete(templateID string, lockRequest *model.LockRequest) *LocksDeleteOp {
@@ -644,8 +660,9 @@ func (s *Service) LocksDelete(templateID string, lockRequest *model.LockRequest)
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		Payload:    lockRequest,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -660,7 +677,7 @@ func (op *LocksDeleteOp) Do(ctx context.Context) (*model.LockInformation, error)
 
 // LocksGet gets template lock information.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatelocks/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/get
 //
 // SDK Method Templates::getLock
 func (s *Service) LocksGet(templateID string) *LocksGetOp {
@@ -668,8 +685,9 @@ func (s *Service) LocksGet(templateID string) *LocksGetOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -684,7 +702,7 @@ func (op *LocksGetOp) Do(ctx context.Context) (*model.LockInformation, error) {
 
 // LocksUpdate updates a template lock.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatelocks/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/update
 //
 // SDK Method Templates::updateLock
 func (s *Service) LocksUpdate(templateID string, lockRequest *model.LockRequest) *LocksUpdateOp {
@@ -693,8 +711,9 @@ func (s *Service) LocksUpdate(templateID string, lockRequest *model.LockRequest)
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
 		Payload:    lockRequest,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -709,7 +728,7 @@ func (op *LocksUpdateOp) Do(ctx context.Context) (*model.LockInformation, error)
 
 // RecipientTabsCreate adds tabs for a recipient.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipienttabs/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/create
 //
 // SDK Method Templates::createTabs
 func (s *Service) RecipientTabsCreate(recipientID string, templateID string, templateTabs *model.TemplateTabs) *RecipientTabsCreateOp {
@@ -719,7 +738,7 @@ func (s *Service) RecipientTabsCreate(recipientID string, templateID string, tem
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -734,7 +753,7 @@ func (op *RecipientTabsCreateOp) Do(ctx context.Context) (*model.Tabs, error) {
 
 // RecipientTabsDelete deletes the tabs associated with a recipient in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipienttabs/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/delete
 //
 // SDK Method Templates::deleteTabs
 func (s *Service) RecipientTabsDelete(recipientID string, templateID string, templateTabs *model.TemplateTabs) *RecipientTabsDeleteOp {
@@ -743,8 +762,9 @@ func (s *Service) RecipientTabsDelete(recipientID string, templateID string, tem
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    templateTabs,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -759,7 +779,7 @@ func (op *RecipientTabsDeleteOp) Do(ctx context.Context) (*model.Tabs, error) {
 
 // RecipientTabsList gets the tabs information for a signer or sign-in-person recipient in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipienttabs/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/list
 //
 // SDK Method Templates::listTabs
 func (s *Service) RecipientTabsList(recipientID string, templateID string) *RecipientTabsListOp {
@@ -767,8 +787,9 @@ func (s *Service) RecipientTabsList(recipientID string, templateID string) *Reci
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -799,7 +820,7 @@ func (op *RecipientTabsListOp) IncludeMetadata(val string) *RecipientTabsListOp 
 
 // RecipientTabsUpdate updates the tabs for a recipient.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipienttabs/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/update
 //
 // SDK Method Templates::updateTabs
 func (s *Service) RecipientTabsUpdate(recipientID string, templateID string, templateTabs *model.TemplateTabs) *RecipientTabsUpdateOp {
@@ -808,8 +829,9 @@ func (s *Service) RecipientTabsUpdate(recipientID string, templateID string, tem
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
 		Payload:    templateTabs,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -824,7 +846,7 @@ func (op *RecipientTabsUpdateOp) Do(ctx context.Context) (*model.Tabs, error) {
 
 // RecipientsCreate adds tabs for a recipient.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipients/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/create
 //
 // SDK Method Templates::createRecipients
 func (s *Service) RecipientsCreate(templateID string, templateRecipients *model.TemplateRecipients) *RecipientsCreateOp {
@@ -834,7 +856,7 @@ func (s *Service) RecipientsCreate(templateID string, templateRecipients *model.
 		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		Payload:    templateRecipients,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -866,7 +888,7 @@ func (op *RecipientsCreateOp) ResendEnvelope() *RecipientsCreateOp {
 
 // RecipientsDelete deletes the specified recipient file from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipients/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/delete
 //
 // SDK Method Templates::deleteRecipient
 func (s *Service) RecipientsDelete(recipientID string, templateID string, templateRecipients *model.TemplateRecipients) *RecipientsDeleteOp {
@@ -875,8 +897,9 @@ func (s *Service) RecipientsDelete(recipientID string, templateID string, templa
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID}, "/"),
 		Payload:    templateRecipients,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -891,7 +914,7 @@ func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.Recipients, error)
 
 // RecipientsDeleteList deletes recipients from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipients/deletelist
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/deletelist
 //
 // SDK Method Templates::deleteRecipients
 func (s *Service) RecipientsDeleteList(templateID string, templateRecipients *model.TemplateRecipients) *RecipientsDeleteListOp {
@@ -900,8 +923,9 @@ func (s *Service) RecipientsDeleteList(templateID string, templateRecipients *mo
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		Payload:    templateRecipients,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -916,7 +940,7 @@ func (op *RecipientsDeleteListOp) Do(ctx context.Context) (*model.Recipients, er
 
 // RecipientsList gets recipient information from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipients/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/list
 //
 // SDK Method Templates::listRecipients
 func (s *Service) RecipientsList(templateID string) *RecipientsListOp {
@@ -924,8 +948,9 @@ func (s *Service) RecipientsList(templateID string) *RecipientsListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -964,7 +989,7 @@ func (op *RecipientsListOp) IncludeTabs() *RecipientsListOp {
 
 // RecipientsUpdate updates recipients in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipients/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/update
 //
 // SDK Method Templates::updateRecipients
 func (s *Service) RecipientsUpdate(templateID string, templateRecipients *model.TemplateRecipients) *RecipientsUpdateOp {
@@ -973,8 +998,9 @@ func (s *Service) RecipientsUpdate(templateID string, templateRecipients *model.
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
 		Payload:    templateRecipients,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1006,7 +1032,7 @@ func (op *RecipientsUpdateOp) ResendEnvelope() *RecipientsUpdateOp {
 
 // ViewsCreateEdit gets a URL for a template edit view.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templateviews/createedit
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templateviews/createedit
 //
 // SDK Method Templates::createEditView
 func (s *Service) ViewsCreateEdit(templateID string, returnURLRequest *model.ReturnURLRequest) *ViewsCreateEditOp {
@@ -1016,7 +1042,7 @@ func (s *Service) ViewsCreateEdit(templateID string, returnURLRequest *model.Ret
 		Path:       strings.Join([]string{"templates", templateID, "views", "edit"}, "/"),
 		Payload:    returnURLRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1032,7 +1058,7 @@ func (op *ViewsCreateEditOp) Do(ctx context.Context) (*model.ViewURL, error) {
 // Create creates one or more templates.
 // If any uploads[x].Reader is an io.ReadCloser(s), Do() will always close Reader.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/create
 //
 // SDK Method Templates::createTemplate
 func (s *Service) Create(envelopeTemplate *model.EnvelopeTemplate, uploads ...*esign.UploadFile) *CreateOp {
@@ -1043,7 +1069,7 @@ func (s *Service) Create(envelopeTemplate *model.EnvelopeTemplate, uploads ...*e
 		Payload:    envelopeTemplate,
 		Files:      uploads,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1058,7 +1084,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.TemplateSummary, error) {
 
 // DeleteDocumentPage deletes a page from a document in an template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/deletedocumentpage
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/deletedocumentpage
 //
 // SDK Method Templates::deleteDocumentPage
 func (s *Service) DeleteDocumentPage(documentID string, pageNumber string, templateID string, pageRequest *model.PageRequest) *DeleteDocumentPageOp {
@@ -1068,7 +1094,7 @@ func (s *Service) DeleteDocumentPage(documentID string, pageNumber string, templ
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber}, "/"),
 		Payload:    pageRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1082,7 +1108,7 @@ func (op *DeleteDocumentPageOp) Do(ctx context.Context) error {
 
 // DeleteGroupShare removes a member group's sharing permissions for a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/deletegroupshare
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/deletegroupshare
 //
 // SDK Method Templates::deleteGroupShare
 func (s *Service) DeleteGroupShare(templateID string, templatePart string, groupInformation *model.GroupInformation) *DeleteGroupShareOp {
@@ -1091,8 +1117,9 @@ func (s *Service) DeleteGroupShare(templateID string, templatePart string, group
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
 		Payload:    groupInformation,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1107,7 +1134,7 @@ func (op *DeleteGroupShareOp) Do(ctx context.Context) (*model.GroupInformation, 
 
 // Get gets a specific template associated with a specified account.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/get
 //
 // SDK Method Templates::get
 func (s *Service) Get(templateID string) *GetOp {
@@ -1115,8 +1142,9 @@ func (s *Service) Get(templateID string) *GetOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1147,7 +1175,7 @@ func (op *GetOp) Include(val ...string) *GetOp {
 
 // GetDocumentPageImage gets a page image from a template for display.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/getdocumentpageimage
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/getdocumentpageimage
 //
 // SDK Method Templates::getDocumentPageImage
 func (s *Service) GetDocumentPageImage(documentID string, pageNumber string, templateID string) *GetDocumentPageImageOp {
@@ -1155,9 +1183,8 @@ func (s *Service) GetDocumentPageImage(documentID string, pageNumber string, tem
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
-		Accept:     "image/png",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1204,7 +1231,7 @@ func (op *GetDocumentPageImageOp) ShowChanges() *GetDocumentPageImageOp {
 
 // GetNotificationSettings gets template notification information.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/getnotificationsettings
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/getnotificationsettings
 //
 // SDK Method Templates::getNotificationSettings
 func (s *Service) GetNotificationSettings(templateID string) *GetNotificationSettingsOp {
@@ -1212,8 +1239,9 @@ func (s *Service) GetNotificationSettings(templateID string) *GetNotificationSet
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "notification"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1228,7 +1256,7 @@ func (op *GetNotificationSettingsOp) Do(ctx context.Context) (*model.Notificatio
 
 // GetPageImages returns document page images based on input.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/getpageimages
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/getpageimages
 //
 // SDK Method Templates::getDocumentPageImages
 func (s *Service) GetPageImages(documentID string, templateID string) *GetPageImagesOp {
@@ -1236,8 +1264,9 @@ func (s *Service) GetPageImages(documentID string, templateID string) *GetPageIm
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1308,7 +1337,7 @@ func (op *GetPageImagesOp) StartPosition(val int) *GetPageImagesOp {
 
 // List gets the list of templates.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/list
 //
 // SDK Method Templates::ListTemplates
 func (s *Service) List() *ListOp {
@@ -1316,8 +1345,9 @@ func (s *Service) List() *ListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "templates",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1569,7 +1599,7 @@ func (op *ListOp) UserID(val string) *ListOp {
 
 // RotateDocumentPage rotates page image from a template for display.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/rotatedocumentpage
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/rotatedocumentpage
 //
 // SDK Method Templates::rotateDocumentPage
 func (s *Service) RotateDocumentPage(documentID string, pageNumber string, templateID string, pageRequest *model.PageRequest) *RotateDocumentPageOp {
@@ -1579,7 +1609,7 @@ func (s *Service) RotateDocumentPage(documentID string, pageNumber string, templ
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
 		Payload:    pageRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1593,7 +1623,7 @@ func (op *RotateDocumentPageOp) Do(ctx context.Context) error {
 
 // Update updates an existing template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/update
 //
 // SDK Method Templates::update
 func (s *Service) Update(templateID string, envelopeTemplate *model.EnvelopeTemplate) *UpdateOp {
@@ -1602,8 +1632,9 @@ func (s *Service) Update(templateID string, envelopeTemplate *model.EnvelopeTemp
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID}, "/"),
 		Payload:    envelopeTemplate,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1618,7 +1649,7 @@ func (op *UpdateOp) Do(ctx context.Context) (*model.TemplateUpdateSummary, error
 
 // UpdateGroupShare shares a template with a group.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/updategroupshare
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/updategroupshare
 //
 // SDK Method Templates::updateGroupShare
 func (s *Service) UpdateGroupShare(templateID string, templatePart string, groupInformation *model.GroupInformation) *UpdateGroupShareOp {
@@ -1627,8 +1658,9 @@ func (s *Service) UpdateGroupShare(templateID string, templatePart string, group
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
 		Payload:    groupInformation,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1643,7 +1675,7 @@ func (op *UpdateGroupShareOp) Do(ctx context.Context) (*model.GroupInformation, 
 
 // UpdateNotificationSettings updates the notification  structure for an existing template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templates/updatenotificationsettings
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/updatenotificationsettings
 //
 // SDK Method Templates::updateNotificationSettings
 func (s *Service) UpdateNotificationSettings(templateID string, templateNotificationRequest *model.TemplateNotificationRequest) *UpdateNotificationSettingsOp {
@@ -1652,8 +1684,9 @@ func (s *Service) UpdateNotificationSettings(templateID string, templateNotifica
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "notification"}, "/"),
 		Payload:    templateNotificationRequest,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1668,7 +1701,7 @@ func (op *UpdateNotificationSettingsOp) Do(ctx context.Context) (*model.Notifica
 
 // DocumentHTMLDefinitionsList gets the Original HTML Definition used to generate the Responsive HTML for a given document in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumenthtmldefinitions/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenthtmldefinitions/list
 //
 // SDK Method Templates::getTemplateDocumentHtmlDefinitions
 func (s *Service) DocumentHTMLDefinitionsList(documentID string, templateID string) *DocumentHTMLDefinitionsListOp {
@@ -1676,8 +1709,9 @@ func (s *Service) DocumentHTMLDefinitionsList(documentID string, templateID stri
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "html_definitions"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1692,7 +1726,7 @@ func (op *DocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.Documen
 
 // DocumentResponsiveHTMLPreviewCreate creates a preview of the responsive version of a template document.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumentresponsivehtmlpreview/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentresponsivehtmlpreview/create
 //
 // SDK Method Templates::createTemplateDocumentResponsiveHtmlPreview
 func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, templateID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *DocumentResponsiveHTMLPreviewCreateOp {
@@ -1702,7 +1736,7 @@ func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, templat
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1717,7 +1751,7 @@ func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model
 
 // DocumentTabsCreate adds tabs to a document in a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumenttabs/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/create
 //
 // SDK Method Templates::postDocumentTabs
 func (s *Service) DocumentTabsCreate(documentID string, templateID string, templateTabs *model.TemplateTabs) *DocumentTabsCreateOp {
@@ -1727,7 +1761,7 @@ func (s *Service) DocumentTabsCreate(documentID string, templateID string, templ
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1742,7 +1776,7 @@ func (op *DocumentTabsCreateOp) Do(ctx context.Context) (*model.Tabs, error) {
 
 // DocumentTabsDelete deletes tabs from a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumenttabs/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/delete
 //
 // SDK Method Templates::deleteDocumentTabs
 func (s *Service) DocumentTabsDelete(documentID string, templateID string, templateTabs *model.TemplateTabs) *DocumentTabsDeleteOp {
@@ -1751,8 +1785,9 @@ func (s *Service) DocumentTabsDelete(documentID string, templateID string, templ
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1767,7 +1802,7 @@ func (op *DocumentTabsDeleteOp) Do(ctx context.Context) (*model.Tabs, error) {
 
 // DocumentTabsUpdate updates the tabs for a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatedocumenttabs/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/update
 //
 // SDK Method Templates::putDocumentTabs
 func (s *Service) DocumentTabsUpdate(documentID string, templateID string, templateTabs *model.TemplateTabs) *DocumentTabsUpdateOp {
@@ -1776,8 +1811,9 @@ func (s *Service) DocumentTabsUpdate(documentID string, templateID string, templ
 		Method:     "PUT",
 		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
 		Payload:    templateTabs,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1792,7 +1828,7 @@ func (op *DocumentTabsUpdateOp) Do(ctx context.Context) (*model.Tabs, error) {
 
 // HTMLDefinitionsList gets the Original HTML Definition used to generate the Responsive HTML for the template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templatehtmldefinitions/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatehtmldefinitions/list
 //
 // SDK Method Templates::getTemplateHtmlDefinitions
 func (s *Service) HTMLDefinitionsList(templateID string) *HTMLDefinitionsListOp {
@@ -1800,8 +1836,9 @@ func (s *Service) HTMLDefinitionsList(templateID string) *HTMLDefinitionsListOp 
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"templates", templateID, "html_definitions"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1816,7 +1853,7 @@ func (op *HTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDef
 
 // RecipientsCreateTemplateRecipientPreview creates a template recipient preview.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templaterecipients/createtemplaterecipientpreview
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/createtemplaterecipientpreview
 //
 // SDK Method Templates::createTemplateRecipientPreview
 func (s *Service) RecipientsCreateTemplateRecipientPreview(templateID string, recipientPreviewRequest *model.RecipientPreviewRequest) *RecipientsCreateTemplateRecipientPreviewOp {
@@ -1826,7 +1863,7 @@ func (s *Service) RecipientsCreateTemplateRecipientPreview(templateID string, re
 		Path:       strings.Join([]string{"templates", templateID, "views", "recipient_preview"}, "/"),
 		Payload:    recipientPreviewRequest,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -1841,7 +1878,7 @@ func (op *RecipientsCreateTemplateRecipientPreviewOp) Do(ctx context.Context) (*
 
 // ResponsiveHTMLPreviewCreate creates a preview of the responsive versions of all of the documents associated with a template.
 //
-// https://developers.docusign.com/esign-rest-api/reference/templates/templateresponsivehtmlpreview/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templateresponsivehtmlpreview/create
 //
 // SDK Method Templates::createTemplateResponsiveHtmlPreview
 func (s *Service) ResponsiveHTMLPreviewCreate(templateID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *ResponsiveHTMLPreviewCreateOp {
@@ -1851,7 +1888,7 @@ func (s *Service) ResponsiveHTMLPreviewCreate(templateID string, documentHTMLDef
 		Path:       strings.Join([]string{"templates", templateID, "responsive_html_preview"}, "/"),
 		Payload:    documentHTMLDefinition,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 

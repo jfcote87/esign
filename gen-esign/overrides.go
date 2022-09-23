@@ -77,7 +77,7 @@ var roomsResourceMap = map[string]string{
 	"Users":                    "Users",
 }
 
-var clicksResourceMap = map[string]string{
+var clickResourceMap = map[string]string{
 	"Uncategorized": "Click",
 }
 
@@ -95,13 +95,18 @@ var v2ResourceMap = map[string]string{
 	"AccountSealProviders":                  "Accounts",
 	"AccountSignatureProviders":             "Accounts",
 	"AccountTabSettings":                    "Accounts",
-	"AccountWaterMarks":                     "Accounts",
+	"AccountWatermarks":                     "Accounts",
+	"ConnectSecret":                         "Accounts",
 	"ENoteConfigurations":                   "Accounts",
 	"IdentityVerifications":                 "Accounts",
+	"Authentication":                        "Authentication",
+	"UserSocialAccountLogins":               "Authentication",
 	"BillingPlans":                          "Billing",
 	"Invoices":                              "Billing",
 	"Payments":                              "Billing",
+	"BulkEnvelopes":                         "BulkEnvelopes",
 	"BulkSend":                              "BulkEnvelopes",
+	"EnvelopeBulkRecipients":                "EnvelopeBulkRecipients",
 	"CloudStorage":                          "CloudStorage",
 	"CloudStorageProviders":                 "CloudStorage",
 	"ConnectConfigurations":                 "Connect",
@@ -138,12 +143,12 @@ var v2ResourceMap = map[string]string{
 	"TabsBlob":                              "Envelopes",
 	"Folders":                               "Folders",
 	"PaymentGatewayAccounts":                "Payments",
-	"PowerFormsData":                        "PowerForms",
+	"PowerFormData":                         "PowerForms",
 	"PowerForms":                            "PowerForms",
 	"SigningGroups":                         "SigningGroups",
 	"SigningGroupUsers":                     "SigningGroups",
 	"TemplateBulkRecipients":                "Templates",
-	"TemplateCustomeFields":                 "Templates",
+	"TemplateCustomFields":                  "Templates",
 	"TemplateDocumentFields":                "Templates",
 	"TemplateDocumentHtmlDefinitions":       "Templates",
 	"TemplateDocumentResponsiveHtmlPreview": "Templates",
@@ -156,7 +161,7 @@ var v2ResourceMap = map[string]string{
 	"TemplateRecipientTabs":                 "Templates",
 	"TemplateResponsiveHtmlPreview":         "Templates",
 	"Templates":                             "Templates",
-	"TemplateView":                          "Templates",
+	"TemplateViews":                         "Templates",
 	"GroupBrands":                           "UserGroups",
 	"Groups":                                "UserGroups",
 	"GroupUsers":                            "UserGroups",
@@ -180,7 +185,7 @@ var v21ResourceMap = map[string]string{
 	"AccountSignatureProviders":             "Accounts",
 	"AccountSignatures":                     "Accounts",
 	"AccountTabSettings":                    "Accounts",
-	"AccountWaterMarks":                     "Accounts",
+	"AccountWatermarks":                     "Accounts",
 	"ENoteConfigurations":                   "Accounts",
 	"FavoriteTemplates":                     "Accounts",
 	"IdentityVerifications":                 "Accounts",
@@ -227,12 +232,12 @@ var v21ResourceMap = map[string]string{
 	"NotaryJurisdiction":                    "Notary",
 	"Notary":                                "Notary",
 	"PaymentGatewayAccounts":                "Payments",
-	"PowerFormsData":                        "PowerForms",
+	"PowerFormData":                         "PowerForms",
 	"PowerForms":                            "PowerForms",
 	"SigningGroups":                         "SigningGroups",
 	"SigningGroupUsers":                     "SigningGroups",
 	"TemplateBulkRecipients":                "Templates",
-	"TemplateCustomeFields":                 "Templates",
+	"TemplateCustomFields":                  "Templates",
 	"TemplateDocumentFields":                "Templates",
 	"TemplateDocumentHtmlDefinitions":       "Templates",
 	"TemplateDocumentResponsiveHtmlPreview": "Templates",
@@ -245,8 +250,8 @@ var v21ResourceMap = map[string]string{
 	"TemplateRecipientTabs":                 "Templates",
 	"TemplateResponsiveHtmlPreview":         "Templates",
 	"Templates":                             "Templates",
-	"TemplateView":                          "Templates",
-	"GroupsBrands":                          "UserGroups",
+	"TemplateViews":                         "Templates",
+	"GroupBrands":                           "UserGroups",
 	"Groups":                                "UserGroups",
 	"GroupUsers":                            "UserGroups",
 	"Contacts":                              "Users",
@@ -1525,11 +1530,11 @@ func GetDownloadAdditions(opID string) []DownloadAddition {
 }
 
 // TabDefs return a list of embeded tab structs based upon the version
-func TabDefs(version string, defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
-	switch version {
-	case "v2":
+func TabDefs(apiname string, defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
+	switch apiname {
+	case "esignV2":
 		return TabDefsV2(defMap, overrides)
-	case "v2.1":
+	case "esignV2.1":
 		return TabDefsV21(defMap, overrides)
 	}
 	return make([]Definition, 0, 0)

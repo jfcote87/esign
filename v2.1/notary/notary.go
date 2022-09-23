@@ -14,7 +14,7 @@
 // to electronic signing of documents.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference/Notary
+// https://developers.docusign.com/docs/esign-rest-api/reference/Notary
 // Usage example:
 //
 //   import (
@@ -24,7 +24,7 @@
 //   )
 //   ...
 //   notaryService := notary.New(esignCredential)
-package notary // import "github.com/jfcote87/esign/v2.1/notary"
+package notary // import "github.com/jfcote87/esign/v2.1//notary"
 
 import (
 	"context"
@@ -47,7 +47,7 @@ func New(cred esign.Credential) *Service {
 
 // CreateNotary registers the current user as a notary.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notary/createnotary
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notary/createnotary
 //
 // SDK Method Notary::createNotary
 func (s *Service) CreateNotary(notary *model.Notary) *CreateNotaryOp {
@@ -57,7 +57,7 @@ func (s *Service) CreateNotary(notary *model.Notary) *CreateNotaryOp {
 		Path:       "/v2.1/current_user/notary",
 		Payload:    notary,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -72,7 +72,7 @@ func (op *CreateNotaryOp) Do(ctx context.Context) (*model.Notary, error) {
 
 // GetNotary gets settings for a  notary user.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notary/getnotary
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notary/getnotary
 //
 // SDK Method Notary::getNotary
 func (s *Service) GetNotary() *GetNotaryOp {
@@ -80,8 +80,9 @@ func (s *Service) GetNotary() *GetNotaryOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "/v2.1/current_user/notary",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -104,7 +105,7 @@ func (op *GetNotaryOp) IncludeJurisdictions(val string) *GetNotaryOp {
 
 // UpdateNotary updates notary information for the current user.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notary/updatenotary
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notary/updatenotary
 //
 // SDK Method Notary::updateNotary
 func (s *Service) UpdateNotary(notary *model.Notary) *UpdateNotaryOp {
@@ -113,8 +114,9 @@ func (s *Service) UpdateNotary(notary *model.Notary) *UpdateNotaryOp {
 		Method:     "PUT",
 		Path:       "/v2.1/current_user/notary",
 		Payload:    notary,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -129,7 +131,7 @@ func (op *UpdateNotaryOp) Do(ctx context.Context) (*model.Notary, error) {
 
 // JurisdictionCreateNotaryJurisdictions creates a jurisdiction object.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notaryjurisdiction/createnotaryjurisdictions
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/createnotaryjurisdictions
 //
 // SDK Method Notary::createNotaryJurisdictions
 func (s *Service) JurisdictionCreateNotaryJurisdictions(notaryJurisdiction *model.NotaryJurisdiction) *JurisdictionCreateNotaryJurisdictionsOp {
@@ -139,7 +141,7 @@ func (s *Service) JurisdictionCreateNotaryJurisdictions(notaryJurisdiction *mode
 		Path:       "/v2.1/current_user/notary/jurisdictions",
 		Payload:    notaryJurisdiction,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -154,7 +156,7 @@ func (op *JurisdictionCreateNotaryJurisdictionsOp) Do(ctx context.Context) (*mod
 
 // JurisdictionDeleteNotaryJurisdiction deletes the specified jurisdiction.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notaryjurisdiction/deletenotaryjurisdiction
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/deletenotaryjurisdiction
 //
 // SDK Method Notary::deleteNotaryJurisdiction
 func (s *Service) JurisdictionDeleteNotaryJurisdiction(jurisdictionID string) *JurisdictionDeleteNotaryJurisdictionOp {
@@ -163,7 +165,7 @@ func (s *Service) JurisdictionDeleteNotaryJurisdiction(jurisdictionID string) *J
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"", "v2.1", "current_user", "notary", "jurisdictions", jurisdictionID}, "/"),
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -177,7 +179,7 @@ func (op *JurisdictionDeleteNotaryJurisdictionOp) Do(ctx context.Context) error 
 
 // JurisdictionGetNotaryJurisdiction gets a jurisdiction object for the current user. The user must be a notary.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notaryjurisdiction/getnotaryjurisdiction
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/getnotaryjurisdiction
 //
 // SDK Method Notary::getNotaryJurisdiction
 func (s *Service) JurisdictionGetNotaryJurisdiction(jurisdictionID string) *JurisdictionGetNotaryJurisdictionOp {
@@ -185,8 +187,9 @@ func (s *Service) JurisdictionGetNotaryJurisdiction(jurisdictionID string) *Juri
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"", "v2.1", "current_user", "notary", "jurisdictions", jurisdictionID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -201,7 +204,7 @@ func (op *JurisdictionGetNotaryJurisdictionOp) Do(ctx context.Context) (*model.N
 
 // JurisdictionGetNotaryJurisdictions returns a list of jurisdictions that the notary is registered in.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notaryjurisdiction/getnotaryjurisdictions
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/getnotaryjurisdictions
 //
 // SDK Method Notary::getNotaryJurisdictions
 func (s *Service) JurisdictionGetNotaryJurisdictions() *JurisdictionGetNotaryJurisdictionsOp {
@@ -209,8 +212,9 @@ func (s *Service) JurisdictionGetNotaryJurisdictions() *JurisdictionGetNotaryJur
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "/v2.1/current_user/notary/jurisdictions",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -225,7 +229,7 @@ func (op *JurisdictionGetNotaryJurisdictionsOp) Do(ctx context.Context) (*model.
 
 // JurisdictionUpdateNotaryJurisdiction updates the jurisdiction information about a notary.
 //
-// https://developers.docusign.com/esign-rest-api/reference/notary/notaryjurisdiction/updatenotaryjurisdiction
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/updatenotaryjurisdiction
 //
 // SDK Method Notary::updateNotaryJurisdiction
 func (s *Service) JurisdictionUpdateNotaryJurisdiction(jurisdictionID string, notaryJurisdiction *model.NotaryJurisdiction) *JurisdictionUpdateNotaryJurisdictionOp {
@@ -234,8 +238,9 @@ func (s *Service) JurisdictionUpdateNotaryJurisdiction(jurisdictionID string, no
 		Method:     "PUT",
 		Path:       strings.Join([]string{"", "v2.1", "current_user", "notary", "jurisdictions", jurisdictionID}, "/"),
 		Payload:    notaryJurisdiction,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 

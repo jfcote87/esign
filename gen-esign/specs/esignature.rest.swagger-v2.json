@@ -22288,29 +22288,6 @@
       "description": "A tab that displays the recipient's company name.\n",
       "x-ms-summary": "A tab that displays the recipient's company name.\n"
     },
-    "completeSignHashResponse": {
-      "type": "object",
-      "properties": {
-        "documents": {
-          "description": "Complex element contains the details on the documents in the envelope.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/signHashDocument"
-          }
-        },
-        "redirectionUrl": {
-          "description": "",
-          "type": "string"
-        },
-        "remainingSignatureRequests": {
-          "description": "",
-          "type": "string"
-        }
-      },
-      "x-ds-definition-name": "completeSignHashResponse",
-      "description": "",
-      "x-ms-summary": ""
-    },
     "compositeTemplate": {
       "type": "object",
       "properties": {
@@ -41730,31 +41707,6 @@
       "x-ds-definition-name": "connectLogs",
       "description": "",
       "x-ds-category": "Connect",
-      "x-ds-order": "50",
-      "x-ms-summary": ""
-    },
-    "Signature": {
-      "type": "object",
-      "properties": {
-        "documents": {
-          "description": "Complex element contains the details on the documents in the envelope.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/signHashDocument"
-          }
-        },
-        "redirectionUrl": {
-          "description": "",
-          "type": "string"
-        },
-        "remainingSignatureRequests": {
-          "description": "",
-          "type": "string"
-        }
-      },
-      "x-ds-definition-name": "completeSignHashResponse",
-      "description": "",
-      "x-ds-category": "Signature",
       "x-ds-order": "50",
       "x-ms-summary": ""
     }

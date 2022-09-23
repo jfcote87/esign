@@ -23,18 +23,20 @@ import (
 // ErrNilOp used to indicate a nil operation pointer
 var ErrNilOp = errors.New("nil operation")
 
-// VersionV21  indicates that the url will resolve
+// APIv21  indicates that the url will resolve
 // to /restapi/v2.1
-var VersionV21 APIVersion = &apiVersion{
+var APIv21 APIVersion = &apiVersion{
+	name:           "DocuSign REST API:v2.1",
 	prefix:         "/restapi",
 	accountReplace: true,
 	versionPrefix:  "/v2.1",
 	demoHost:       "demo.docusign.net",
 }
 
-// VersionV2  indicates that the url will resolve
+// APIv2  indicates that the url will resolve
 // to /restapi/v2
-var VersionV2 APIVersion = &apiVersion{
+var APIv2 APIVersion = &apiVersion{
+	name:           "DocuSign REST API:v2",
 	prefix:         "/restapi",
 	accountReplace: true,
 	versionPrefix:  "/v2",
@@ -44,6 +46,7 @@ var VersionV2 APIVersion = &apiVersion{
 // AdminV2 handles calls for the admin api and urls will
 // resolve to start with /management
 var AdminV2 APIVersion = &apiVersion{
+	name:     "DocuSign Admin API:v2.1",
 	prefix:   "/Management",
 	host:     "api.docusign.net",
 	demoHost: "api-d.docusign.net",
@@ -51,6 +54,7 @@ var AdminV2 APIVersion = &apiVersion{
 
 // RoomsV2 resolves urls for monitor dataset calls
 var RoomsV2 APIVersion = &apiVersion{
+	name:           "DocuSign Rooms API - v2:v2",
 	prefix:         "/restapi",
 	accountReplace: true,
 	versionPrefix:  "/v2",
@@ -60,6 +64,7 @@ var RoomsV2 APIVersion = &apiVersion{
 
 // MonitorV2 resolves urls for monitor dataset calls
 var MonitorV2 APIVersion = &apiVersion{
+	name:     "Monitor API:v2.0",
 	prefix:   "",
 	host:     "lens.docusign.net",
 	demoHost: "lens-d.docusign.net",
@@ -67,6 +72,7 @@ var MonitorV2 APIVersion = &apiVersion{
 
 // ClickV1 defines url replacement for clickraps api
 var ClickV1 APIVersion = &apiVersion{
+	name:           "DocuSign Click API:v1",
 	prefix:         "/clickapi",
 	versionPrefix:  "/v1",
 	accountReplace: true,
@@ -74,6 +80,7 @@ var ClickV1 APIVersion = &apiVersion{
 }
 
 type apiVersion struct {
+	name           string
 	prefix         string
 	host           string
 	demoHost       string
@@ -81,10 +88,15 @@ type apiVersion struct {
 	versionPrefix  string
 }
 
+func (v *apiVersion) Name() string {
+	return v.name
+}
+
 // APIVersion defines the prefix used to resolve an operation's url.  If
 // nil or blank, "v2" is assumed.
 type APIVersion interface {
 	ResolveDSURL(u *url.URL, host string, accountID string, isDemo bool) *url.URL
+	Name() string
 }
 
 // ResolveAPIHost determines the url's host based upon the version
@@ -160,11 +172,8 @@ type Op struct {
 	QueryOpts url.Values
 	// Upload files for document creation
 	Files []*UploadFile
-	// Set Accept to a mimeType if response will
-	// not be application/json
+	// Accept header value (usually json/application)
 	Accept string
-	// ContentType is ContentType header value (usually application/json)
-	ContentType string
 	// Leave nil for v2
 	Version APIVersion
 }
@@ -243,12 +252,9 @@ func (op *Op) CreateRequest() (*http.Request, error) {
 		req.URL.RawQuery = op.QueryOpts.Encode()
 	}
 	if body != nil {
-		if len(ct) == 0 {
-			ct = op.ContentType
-		}
 		req.Header.Set("Content-Type", ct)
 	}
-	if len(op.Accept) > 0 {
+	if op.Accept > "" {
 		req.Header.Set("Accept", op.Accept)
 	}
 	return req, nil

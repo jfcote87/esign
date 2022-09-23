@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"log"
 	"math"
 	"regexp"
 	"sort"
@@ -188,7 +189,11 @@ func getGoFieldType(f Field) string {
 			fldType = "map[string]" + getGoFieldType(Field{Type: f.AdditionalProperties.Type})
 		}
 	case "array":
-		return handleArray(f.Items.Type)
+		ty := "interface{}"
+		if f.Items != nil {
+			ty = f.Items.Type
+		}
+		return handleArray(ty) //f.Items.Type)
 	}
 	return fldType
 }
@@ -204,7 +209,7 @@ func handleArray(fldType string) string {
 	case "number":
 		return "[]float64"
 	}
-	return ""
+	return "[]interface{}"
 }
 
 // StructFields returns all info need to create
@@ -212,6 +217,7 @@ func handleArray(fldType string) string {
 // defMap is a map of all definitions and the overrides specify
 // type overrides.
 func (d Definition) StructFields(defMap map[string]Definition, overrides map[string]map[string]string) []StructField {
+
 	// use x-definition-name for lookup
 	overrideMap, ok := overrides[d.Name]
 	if !ok {
@@ -226,16 +232,22 @@ func (d Definition) StructFields(defMap map[string]Definition, overrides map[str
 			})
 		}
 	}
+	log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
 	for _, f := range d.Fields {
+		log.Printf("a%s", f.Name)
 		if fldType, ok = overrideMap[f.Name]; !ok {
+			log.Printf("a")
 			fldType = getGoFieldType(f)
+			log.Printf("q")
 			switch fldType {
 			case "*Self":
 				fldType = "*" + defMap[f.Ref].StructName()
 			case "[]REF":
 				fldType = "[]" + defMap[f.Items.Ref].StructName()
 			}
+			log.Printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 		}
+		log.Printf("zzz%s", f.Name)
 		if fldType != "-" {
 			fields = append(fields, StructField{
 				Name:     ToGoName(f.Name),
@@ -244,7 +256,9 @@ func (d Definition) StructFields(defMap map[string]Definition, overrides map[str
 				Comments: strings.Split(f.Description, "\n"),
 			})
 		}
+		log.Printf("ZZZZZZZZZZZZZZZZZZZZZZZZZz")
 	}
+	log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
 	return fields
 }
 
@@ -361,6 +375,9 @@ type Operation struct {
 // Accept converts the Consumes slice to a comma
 // separated string to use for Accept Header.
 func (o Operation) Accept() string {
+	if o.hasJSONResponse() {
+		return "application/json"
+	}
 	return strings.Join(o.Consumes, ", ")
 }
 
@@ -469,7 +486,7 @@ type Payload struct {
 }
 
 // Payload formats a Payload struct from the operation's parameters
-func (o Operation) Payload(defMap map[string]Definition) *Payload {
+func (o Operation) Payload(defMap map[string]Definition, modelPkgName string) *Payload {
 	for _, p := range o.Parameters {
 		if p.In == "body" {
 			var ifType = ""
@@ -483,7 +500,10 @@ func (o Operation) Payload(defMap map[string]Definition) *Payload {
 				}
 			} else {
 				if def, ok := defMap[p.Schema.Ref]; ok {
-					ifType = "*model." + ToGoName(def.Name)
+					if modelPkgName > "" {
+						modelPkgName = "*" + modelPkgName + "."
+					}
+					ifType = modelPkgName + ToGoName(def.Name)
 				}
 			}
 			return &Payload{GoName: ToGoNameLC(p.Name), Type: ifType}
@@ -697,6 +717,9 @@ var registeredGoNames = map[string]bool{
 
 // ToGoName translates a swagger name which can be underscored or camel cased to a name that golint likes
 func ToGoName(name string) string {
+	if name == "" {
+		return "interface{}"
+	}
 	if _, ok := registeredGoNames[name]; ok {
 		return name
 	}

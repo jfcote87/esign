@@ -13,7 +13,7 @@
 // The category allows you create the signing group and manage the users in the group.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/v2/reference/SigningGroups
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/SigningGroups
 // Usage example:
 //
 //   import (
@@ -23,7 +23,7 @@
 //   )
 //   ...
 //   signinggroupsService := signinggroups.New(esignCredential)
-package signinggroups // import "github.com/jfcote87/esign/v2/signinggroups"
+package signinggroups // import "github.com/jfcote87/esign/v2//signinggroups"
 
 import (
 	"context"
@@ -46,7 +46,7 @@ func New(cred esign.Credential) *Service {
 
 // UsersDelete deletes  one or more members from a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroupusers/delete
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroupusers/delete
 //
 // SDK Method SigningGroups::deleteUsers
 func (s *Service) UsersDelete(signingGroupID string, signingGroupUsers *model.SigningGroupUsers) *UsersDeleteOp {
@@ -55,7 +55,9 @@ func (s *Service) UsersDelete(signingGroupID string, signingGroupUsers *model.Si
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"signing_groups", signingGroupID, "users"}, "/"),
 		Payload:    signingGroupUsers,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -70,7 +72,7 @@ func (op *UsersDeleteOp) Do(ctx context.Context) (*model.SigningGroupUsers, erro
 
 // UsersList gets a list of members in a Signing Group.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroupusers/list
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroupusers/list
 //
 // SDK Method SigningGroups::listUsers
 func (s *Service) UsersList(signingGroupID string) *UsersListOp {
@@ -78,7 +80,9 @@ func (s *Service) UsersList(signingGroupID string) *UsersListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"signing_groups", signingGroupID, "users"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -93,7 +97,7 @@ func (op *UsersListOp) Do(ctx context.Context) (*model.SigningGroupUsers, error)
 
 // UsersUpdate adds members to a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroupusers/update
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroupusers/update
 //
 // SDK Method SigningGroups::updateUsers
 func (s *Service) UsersUpdate(signingGroupID string, signingGroupUsers *model.SigningGroupUsers) *UsersUpdateOp {
@@ -102,7 +106,9 @@ func (s *Service) UsersUpdate(signingGroupID string, signingGroupUsers *model.Si
 		Method:     "PUT",
 		Path:       strings.Join([]string{"signing_groups", signingGroupID, "users"}, "/"),
 		Payload:    signingGroupUsers,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -117,7 +123,7 @@ func (op *UsersUpdateOp) Do(ctx context.Context) (*model.SigningGroupUsers, erro
 
 // Create creates a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroups/create
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroups/create
 //
 // SDK Method SigningGroups::createList
 func (s *Service) Create(signingGroupInformation *model.SigningGroupInformation) *CreateOp {
@@ -127,6 +133,7 @@ func (s *Service) Create(signingGroupInformation *model.SigningGroupInformation)
 		Path:       "signing_groups",
 		Payload:    signingGroupInformation,
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -141,7 +148,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.SigningGroupInformation, err
 
 // Delete deletes one or more signing groups.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroups/delete
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroups/delete
 //
 // SDK Method SigningGroups::deleteList
 func (s *Service) Delete(signingGroupInformation *model.SigningGroupInformation) *DeleteOp {
@@ -150,7 +157,9 @@ func (s *Service) Delete(signingGroupInformation *model.SigningGroupInformation)
 		Method:     "DELETE",
 		Path:       "signing_groups",
 		Payload:    signingGroupInformation,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -165,7 +174,7 @@ func (op *DeleteOp) Do(ctx context.Context) (*model.SigningGroupInformation, err
 
 // Get gets information about a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroups/get
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroups/get
 //
 // SDK Method SigningGroups::get
 func (s *Service) Get(signingGroupID string) *GetOp {
@@ -173,7 +182,9 @@ func (s *Service) Get(signingGroupID string) *GetOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"signing_groups", signingGroupID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -188,7 +199,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.SigningGroup, error) {
 
 // List gets a list of the Signing Groups in an account.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroups/list
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroups/list
 //
 // SDK Method SigningGroups::list
 func (s *Service) List() *ListOp {
@@ -196,7 +207,9 @@ func (s *Service) List() *ListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "signing_groups",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -227,16 +240,18 @@ func (op *ListOp) IncludeUsers() *ListOp {
 
 // Update updates a signing group.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroups/update
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroups/update
 //
 // SDK Method SigningGroups::update
-func (s *Service) Update(signingGroupID string, signingGroups *model.SigningGroup) *UpdateOp {
+func (s *Service) Update(signingGroupID string, signingGroup *model.SigningGroup) *UpdateOp {
 	return &UpdateOp{
 		Credential: s.credential,
 		Method:     "PUT",
 		Path:       strings.Join([]string{"signing_groups", signingGroupID}, "/"),
-		Payload:    signingGroups,
+		Payload:    signingGroup,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 
@@ -251,7 +266,7 @@ func (op *UpdateOp) Do(ctx context.Context) (*model.SigningGroup, error) {
 
 // UpdateList updates signing group names.
 //
-// https://developers.docusign.com/esign-rest-api/v2/reference/signinggroups/signinggroups/updatelist
+// https://developers.docusign.com/docs/esign-rest-api/v2/reference/signinggroups/signinggroups/updatelist
 //
 // SDK Method SigningGroups::updateList
 func (s *Service) UpdateList(signingGroupInformation *model.SigningGroupInformation) *UpdateListOp {
@@ -260,7 +275,9 @@ func (s *Service) UpdateList(signingGroupInformation *model.SigningGroupInformat
 		Method:     "PUT",
 		Path:       "signing_groups",
 		Payload:    signingGroupInformation,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
+		Version:    esign.APIv2,
 	}
 }
 

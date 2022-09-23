@@ -390,7 +390,7 @@ func TestTokenCredential(t *testing.T) {
 		Credential: cred,
 		Method:     "GET",
 		Path:       "testcmd",
-		Version:    esign.VersionV2,
+		Version:    esign.APIv2,
 	}
 	_ = testOp
 	expectedAuthHeader := http.Header{
@@ -478,6 +478,10 @@ type testVersion struct {
 	Demo   string
 	Prefix string
 	Ver    string
+}
+
+func (tv *testVersion) Name() string {
+	return tv.Ver
 }
 
 func (tv *testVersion) ResolveDSURL(u *url.URL, host string, accountID string, isDemo bool) *url.URL {

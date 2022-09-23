@@ -27,7 +27,6 @@ type DSBool bool
 
 // UnmarshalJSON checks for "True" or "true"
 func (d *DSBool) UnmarshalJSON(b []byte) error {
-	
 	*d = DSBool(b[0] == 0x22 && (b[1] == 0x54 || b[1] == 0x74))
 	return nil
 }

@@ -11,7 +11,7 @@
 // The PowerForms category enables you to create and manage PowerForms that you can use for self service and email forms.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/esign-rest-api/reference/PowerForms
+// https://developers.docusign.com/docs/esign-rest-api/reference/PowerForms
 // Usage example:
 //
 //   import (
@@ -21,7 +21,7 @@
 //   )
 //   ...
 //   powerformsService := powerforms.New(esignCredential)
-package powerforms // import "github.com/jfcote87/esign/v2.1/powerforms"
+package powerforms // import "github.com/jfcote87/esign/v2.1//powerforms"
 
 import (
 	"context"
@@ -46,7 +46,7 @@ func New(cred esign.Credential) *Service {
 
 // DataList returns the data that users entered in a PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerformdata/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerformdata/list
 //
 // SDK Method PowerForms::getPowerFormData
 func (s *Service) DataList(powerFormID string) *DataListOp {
@@ -54,8 +54,9 @@ func (s *Service) DataList(powerFormID string) *DataListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"powerforms", powerFormID, "form_data"}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -101,7 +102,7 @@ func (op *DataListOp) ToDate(val time.Time) *DataListOp {
 
 // Create creates a new PowerForm
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/create
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/create
 //
 // SDK Method PowerForms::createPowerForm
 func (s *Service) Create(powerForm *model.PowerForm) *CreateOp {
@@ -111,7 +112,7 @@ func (s *Service) Create(powerForm *model.PowerForm) *CreateOp {
 		Path:       "powerforms",
 		Payload:    powerForm,
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -126,7 +127,7 @@ func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, error) {
 
 // Delete deletes a PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/delete
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/delete
 //
 // SDK Method PowerForms::deletePowerForm
 func (s *Service) Delete(powerFormID string) *DeleteOp {
@@ -135,7 +136,7 @@ func (s *Service) Delete(powerFormID string) *DeleteOp {
 		Method:     "DELETE",
 		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -149,7 +150,7 @@ func (op *DeleteOp) Do(ctx context.Context) error {
 
 // DeleteList deletes one or more PowerForms.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/deletelist
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/deletelist
 //
 // SDK Method PowerForms::deletePowerForms
 func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *DeleteListOp {
@@ -158,8 +159,9 @@ func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *Delete
 		Method:     "DELETE",
 		Path:       "powerforms",
 		Payload:    powerFormsRequest,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -174,7 +176,7 @@ func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, erro
 
 // Get returns a single PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/get
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/get
 //
 // SDK Method PowerForms::getPowerForm
 func (s *Service) Get(powerFormID string) *GetOp {
@@ -182,8 +184,9 @@ func (s *Service) Get(powerFormID string) *GetOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -198,7 +201,7 @@ func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, error) {
 
 // List returns a list of PowerForms.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/list
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/list
 //
 // SDK Method PowerForms::listPowerForms
 func (s *Service) List() *ListOp {
@@ -206,8 +209,9 @@ func (s *Service) List() *ListOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "powerforms",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -296,7 +300,7 @@ func (op *ListOp) ToDate(val time.Time) *ListOp {
 
 // ListSenders gets PowerForm senders.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/listsenders
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/listsenders
 //
 // SDK Method PowerForms::listPowerFormSenders
 func (s *Service) ListSenders() *ListSendersOp {
@@ -304,8 +308,9 @@ func (s *Service) ListSenders() *ListSendersOp {
 		Credential: s.credential,
 		Method:     "GET",
 		Path:       "powerforms/senders",
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
@@ -328,7 +333,7 @@ func (op *ListSendersOp) StartPosition(val int) *ListSendersOp {
 
 // Update updates an existing PowerForm.
 //
-// https://developers.docusign.com/esign-rest-api/reference/powerforms/powerforms/update
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/update
 //
 // SDK Method PowerForms::updatePowerForm
 func (s *Service) Update(powerFormID string, powerForm *model.PowerForm) *UpdateOp {
@@ -337,8 +342,9 @@ func (s *Service) Update(powerFormID string, powerForm *model.PowerForm) *Update
 		Method:     "PUT",
 		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
 		Payload:    powerForm,
+		Accept:     "application/json",
 		QueryOpts:  make(url.Values),
-		Version:    esign.VersionV21,
+		Version:    esign.APIv21,
 	}
 }
 
