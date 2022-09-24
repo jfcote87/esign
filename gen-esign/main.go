@@ -28,20 +28,18 @@ import (
 const (
 	openAPIdefinition = "https://github.com/docusign/eSign-OpenAPI-Specification"
 	generatorVersion  = "20190720"
+	pkgBaseName       = "github.com/jfcote87/esign"
 )
 
-func init() {
-	definitionFileMap = make(map[string]esign.APIVersion)
-	for _, v := range []esign.APIVersion{
-		esign.APIv2, esign.APIv21, esign.AdminV2, esign.ClickV1, esign.RoomsV2, esign.MonitorV2,
-	} {
-		definitionFileMap[v.Name()] = v
-	}
-}
-
 var (
-	definitionFileMap map[string]esign.APIVersion
-
+	definitionFileMap = map[string]esign.APIVersion{
+		esign.APIv2.Name():     esign.APIv2,
+		esign.APIv21.Name():    esign.APIv2,
+		esign.AdminV2.Name():   esign.APIv2,
+		esign.ClickV1.Name():   esign.APIv2,
+		esign.MonitorV2.Name(): esign.MonitorV2,
+		esign.RoomsV2.Name():   esign.APIv2,
+	}
 	apiParametersMap = map[esign.APIVersion]APIGenerateCfg{
 		esign.APIv2: {
 			DocPrefix:      "esign-api/v2/",
@@ -111,10 +109,9 @@ var (
 		},
 	}
 
-	basePkg     = flag.String("basepkg", "github.com/jfcote87/esign", "root package in gopath")
 	baseDir     = flag.String("src", "../.", "source directory")
-	templDir    = flag.String("template", "templates", "directory containing output templates.")
-	specsFolder = flag.String("swagger_dir", "gen-esign/specs", "directory containing swagger specification files")
+	templDir    = flag.String("templates", "gen-esign/templates", "directory containing output templates.")
+	specsFolder = flag.String("swaggerfiles", "gen-esign/specs", "directory containing swagger specification files")
 	skipFormat  = flag.Bool("skip_format", false, "skip gofmt command")
 )
 
@@ -140,26 +137,26 @@ type APIGenerateCfg struct {
 
 func main() {
 	flag.Parse()
-	genTemplates, err := template.ParseFiles(path.Join(*templDir, "service.tmpl"), path.Join(*templDir, "model.tmpl"))
+	log.Printf("baseDir: %s", *baseDir)
+	log.Printf("tmpl: %s", *templDir)
+	log.Printf("specs: %s", *specsFolder)
+	curdir, _ := os.Getwd()
+	log.Printf("path: %s", curdir)
+	pkgBaseDir, pkgSwaggerDir, pkgTemplates, skipFormatting := *baseDir, *specsFolder, *templDir, *skipFormat
+	genTemplates, err := template.ParseFiles(path.Join(pkgTemplates, "service.tmpl"), path.Join(pkgTemplates, "model.tmpl"))
 	if err != nil {
 		log.Fatalf("Templates: %v", err)
 	}
-	docmap, err := decodeSwaggerDocs(*specsFolder)
+	docmap, err := decodeSwaggerDocs(pkgSwaggerDir)
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
 
-	if err := os.Chdir(*baseDir); err != nil {
-		log.Fatalf("unable to set directory to %s: %v", *baseDir, err)
+	if err := os.Chdir(pkgBaseDir); err != nil {
+		log.Fatalf("unable to set directory to %s: %v", pkgBaseDir, err)
 	}
-
-	if !strings.HasPrefix(*baseDir, "/") {
-		if *baseDir, err = os.Getwd(); err != nil {
-			log.Fatalf("unable to retrieve working diretory: %v", err)
-		}
-	}
-	if err == nil && strings.HasPrefix(*baseDir, "/") {
-		*baseDir, err = os.Getwd()
+	if pkgBaseDir, err = os.Getwd(); err != nil {
+		log.Fatalf("unable to retrieve working diretory: %v", err)
 	}
 
 	for v, doc := range docmap {
@@ -171,10 +168,10 @@ func main() {
 		cfg.APIVersion = v
 		cfg.Name = v.Name()
 		cfg.Version = doc.Info.Version
-		cfg.BaseDir = *baseDir
-		cfg.BasePkg = *basePkg
+		cfg.BaseDir = pkgBaseDir
+		cfg.BasePkg = pkgBaseName
 		cfg.Templates = genTemplates
-		cfg.SkipFormat = *skipFormat
+		cfg.SkipFormat = skipFormatting
 		if err := cfg.genVersion(&doc); err != nil {
 			log.Printf("%s %v", cfg.Name, err)
 			return
@@ -460,10 +457,10 @@ func (api *APIGenerateCfg) doPackage(resTempl *template.Template, serviceName st
 	sort.Strings(data.Packages)
 	data.Packages = append(data.Packages,
 		"",
-		"\""+*basePkg+"\"")
+		"\""+api.BasePkg+"\"")
 	if api.ModelPackage > "" {
 		data.Packages = append(data.Packages,
-			"\""+*basePkg+"/"+api.PackagePath+api.ModelPackage+"\"")
+			"\""+api.BasePkg+"/"+api.PackagePath+api.ModelPackage+"\"")
 	}
 
 	pkgBuffer := &bytes.Buffer{}
