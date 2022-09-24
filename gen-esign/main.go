@@ -112,18 +112,19 @@ var (
 	}
 
 	basePkg     = flag.String("basepkg", "github.com/jfcote87/esign", "root package in gopath")
-	baseDir     = flag.String("src", "../.", "src directory")
-	templDir    = flag.String("template", "gen-esign/templates", "") //gen-esign/templates", "directory containing output templates.")
-	buildFlag   = flag.Bool("build", false, "Compile generated packages.")
+	baseDir     = flag.String("src", "../.", "source directory")
+	templDir    = flag.String("template", "templates", "directory containing output templates.")
 	specsFolder = flag.String("swagger_dir", "gen-esign/specs", "directory containing swagger specification files")
-	deffiles    = flag.String("api_swagger_files", "", "leave blank for all in swagger_dir or provide a comma separated list of the file names")
 	skipFormat  = flag.Bool("skip_format", false, "skip gofmt command")
 )
 
 // APIGenerateCfg contains parameters for generating an eSignature version
 type APIGenerateCfg struct {
-	RunParameters
 	esign.APIVersion
+	Templates      *template.Template // templates
+	BaseDir        string             // source directory
+	BasePkg        string
+	SkipFormat     bool
 	Name           string
 	Version        string
 	DocPrefix      string
@@ -137,23 +138,21 @@ type APIGenerateCfg struct {
 	paramOverrides map[string]map[string]string
 }
 
-// RunParameters are the parameters for a single execution run and
-// are populated from command line params
-type RunParameters struct {
-	Version    string
-	Templates  *template.Template // templates
-	BaseDir    string             // source directory
-	BasePkg    string
-	SkipFormat bool
-}
-
 func main() {
 	flag.Parse()
-
-	err := os.Chdir(*baseDir)
+	genTemplates, err := template.ParseFiles(path.Join(*templDir, "service.tmpl"), path.Join(*templDir, "model.tmpl"))
 	if err != nil {
+		log.Fatalf("Templates: %v", err)
+	}
+	docmap, err := decodeSwaggerDocs(*specsFolder)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	if err := os.Chdir(*baseDir); err != nil {
 		log.Fatalf("unable to set directory to %s: %v", *baseDir, err)
 	}
+
 	if !strings.HasPrefix(*baseDir, "/") {
 		if *baseDir, err = os.Getwd(); err != nil {
 			log.Fatalf("unable to retrieve working diretory: %v", err)
@@ -162,88 +161,57 @@ func main() {
 	if err == nil && strings.HasPrefix(*baseDir, "/") {
 		*baseDir, err = os.Getwd()
 	}
-	rparams, err := runParameters(*templDir, *basePkg, *baseDir, *skipFormat)
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
 
-	docmap, err := swaggerDocuments(*deffiles, *specsFolder)
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-
-	var configs []APIGenerateCfg
 	for v, doc := range docmap {
-
 		cfg, ok := apiParametersMap[v]
 		if !ok {
-			log.Fatalf("no parameters entries for %s", v.Name())
+			log.Printf("skipping %s has no parameters entry", v.Name())
+			continue
 		}
 		cfg.APIVersion = v
 		cfg.Name = v.Name()
-		cfg.RunParameters = *rparams
 		cfg.Version = doc.Info.Version
-		configs = append(configs, cfg)
-	}
-	for _, ver := range configs {
-		doc := docmap[ver.APIVersion]
-		if err := ver.genVersion(&doc); err != nil {
-			log.Printf("%s %v", ver.APIVersion.Name(), err)
+		cfg.BaseDir = *baseDir
+		cfg.BasePkg = *basePkg
+		cfg.Templates = genTemplates
+		cfg.SkipFormat = *skipFormat
+		if err := cfg.genVersion(&doc); err != nil {
+			log.Printf("%s %v", cfg.Name, err)
+			return
 		}
 	}
 }
 
-func runParameters(templDir, basePkg, baseDir string, skipFormatting bool) (*RunParameters, error) {
-	if !strings.HasPrefix(templDir, "/") {
-		templDir = path.Join(baseDir, templDir)
-	}
-	genTemplates, err := template.ParseFiles(path.Join(templDir, "service.tmpl"), path.Join(templDir, "/model.tmpl"))
+func decodeSwaggerDocs(folderName string) (map[esign.APIVersion]Document, error) {
+	fis, err := ioutil.ReadDir(folderName)
 	if err != nil {
-		log.Fatalf("Templates: %v", err)
+		return nil, fmt.Errorf("%v", err)
 	}
-	return &RunParameters{
-		BasePkg:    basePkg,
-		BaseDir:    baseDir,
-		Templates:  genTemplates,
-		SkipFormat: *skipFormat,
-	}, nil
-}
-
-func swaggerDocuments(definitionFilesList, folderName string) (map[esign.APIVersion]Document, error) {
-	apis := strings.Split(strings.Trim(definitionFilesList, ""), ",")
-	if len(apis) == 0 {
-		fi, err := ioutil.ReadDir(folderName)
-		if err != nil {
-			return nil, fmt.Errorf("%v", err)
-		}
-		for _, f := range fi {
-			if !f.IsDir() && strings.HasSuffix(f.Name(), ".json") {
-				apis = append(apis, f.Name())
-			}
-		}
-		if len(apis) == 0 {
-			return nil, fmt.Errorf("no definition files specified in %s", folderName)
-		}
+	if !strings.HasSuffix(folderName, "/") {
+		folderName += "/"
 	}
 	var results = make(map[esign.APIVersion]Document)
-	for _, fn := range apis {
-		if !strings.HasPrefix(fn, "/") {
-			fn = folderName + "/" + fn
+	for _, f := range fis {
+		if f.IsDir() || !strings.HasSuffix(f.Name(), ".json") {
+			continue
 		}
-		b, err := ioutil.ReadFile(fn)
+		b, err := ioutil.ReadFile(folderName + f.Name())
 		if err != nil {
 			return nil, err
 		}
 		var doc *Document
 		if err = json.Unmarshal(b, &doc); err != nil {
-			return nil, fmt.Errorf("%s decode %w", fn, err)
+			return nil, fmt.Errorf("%s decode %w", f.Name(), err)
 		}
 		apikey := doc.Info.Title + ":" + doc.Info.Version
 		apiVersion, ok := definitionFileMap[apikey]
 		if !ok {
-			log.Fatalf("no matching api version for %s", apikey)
+			return nil, fmt.Errorf("no matching api version for %s", apikey)
 		}
 		results[apiVersion] = *doc
+	}
+	if len(results) == 0 {
+		return nil, fmt.Errorf("no definition files specified in %s", folderName)
 	}
 	return results, nil
 }
