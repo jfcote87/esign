@@ -3,8 +3,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Rate limits are defined at https://developers.docusign.com/docs/esign-soap-api/esign101/security/call-limits/
-
+// Package ratelimit provides tools for reporting on DocuSign's rate limits.  Documentation
+// may be found at https://developers.docusign.com/docs/esign-soap-api/esign101/security/call-limits/
 package ratelimit
 
 import (
@@ -16,6 +16,15 @@ import (
 
 	"github.com/jfcote87/esign"
 )
+
+type reportCtxKey struct{}
+
+// ReportPtrContextKey is used to store a **Report pointer into a
+// context to retrieve a Report for a single call.  When used in a
+// context passing through a RateLimit.Credential, the most recent report
+// is set to the **Report pointer.
+// See ExampleCredential_context() in example.go
+var ReportPtrContextKey *reportCtxKey
 
 // Report contains the rate limit values after an
 // API request
@@ -64,6 +73,10 @@ func (rlc *Credential) AuthDo(ctx context.Context, op *esign.Op) (*http.Response
 	if err != nil {
 		return nil, err
 	}
+	if ptr, ok := ctx.Value(ReportPtrContextKey).(**Report); ok {
+		*ptr = New(res.Header)
+	}
+
 	if rlc.ReportHandler != nil {
 		if err := rlc.Handle(ctx, res); err != nil {
 			res.Body.Close()

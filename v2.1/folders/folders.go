@@ -7,331 +7,331 @@
 
 // Package folders implements the DocuSign SDK
 // category Folders.
-//
+// 
 // Use the Folders category to organize envelopes and templates.
 // You can list the folder contents and move envelopes and templates between folders.
 //
 // Service Api documentation may be found at:
-// https://developers.docusign.com/docs/esign-rest-api/reference/Folders
+// https://developers.docusign.com/docs/esign-api/reference/Folders
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/folders"
 //       "github.com/jfcote87/esign/v2.1/model"
-//   )
+//   ) 
 //   ...
 //   foldersService := folders.New(esignCredential)
-package folders // import "github.com/jfcote87/esign/v2.1//folders"
+package folders // import "github.com/jfcote87/esignv2.1/folders"
 
 import (
-	"context"
-	"fmt"
-	"net/url"
-	"strings"
-	"time"
-
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+    "context"
+    "fmt"
+    "net/url"
+    "strings"
+    "time"
+    
+    "github.com/jfcote87/esign"
+    "github.com/jfcote87/esign/v2.1/model"
 )
 
 // Service implements DocuSign Folders Category API operations
 type Service struct {
-	credential esign.Credential
+    credential esign.Credential 
 }
 
 // New initializes a folders service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-	return &Service{credential: cred}
+    return &Service{credential: cred}
 }
 
 // List gets a list of the folders for the account.
-//
-// https://developers.docusign.com/docs/esign-rest-api/reference/folders/folders/list
-//
+// 
+// https://developers.docusign.com/docs/esign-api/reference/folders/folders/list
+// 
 // SDK Method Folders::list
 func (s *Service) List() *ListOp {
-	return &ListOp{
-		Credential: s.credential,
-		Method:     "GET",
-		Path:       "folders",
-		Accept:     "application/json",
-		QueryOpts:  make(url.Values),
-		Version:    esign.APIv21,
-	}
+    return &ListOp{
+        Credential: s.credential,
+        Method:  "GET",
+        Path: "folders",
+        Accept: "application/json",
+        QueryOpts: make(url.Values),
+        Version: esign.APIv21,
+    }
 }
 
 // ListOp implements DocuSign API SDK Folders::list
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context) (*model.FoldersResponse, error) {
-	var res *model.FoldersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListOp) Do(ctx context.Context)  (*model.FoldersResponse, error) {
+    var res *model.FoldersResponse
+    return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Include is a comma-separated list of folder types to include in the response.
 // Valid values are:
-//
+// 
 // - `envelope_folders`: Returns a list of envelope folders. (Default)
-// - `template_folders`: Returns a list of template folders.
+// - `template_folders`: Returns a list of template folders. 
 // - `shared_template_folders`: Returns a list of shared template folders.
 func (op *ListOp) Include(val string) *ListOp {
-	if op != nil {
-		op.QueryOpts.Set("include", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("include", val)
+    }
+    return op
 }
 
 // IncludeItems indicates whether folder items are included in the response. If this parameter is omitted, the default is false.
 func (op *ListOp) IncludeItems(val string) *ListOp {
-	if op != nil {
-		op.QueryOpts.Set("include_items", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("include_items", val)
+    }
+    return op
 }
 
 // StartPosition is the zero-based index of the
 // result from which to start returning results.
-//
+// 
 // The default value is `0`.
 func (op *ListOp) StartPosition(val int) *ListOp {
-	if op != nil {
-		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
+    }
+    return op
 }
 
 // Template this parameter is deprecated as of version 2.1. Use `include` instead.
 func (op *ListOp) Template(val string) *ListOp {
-	if op != nil {
-		op.QueryOpts.Set("template", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("template", val)
+    }
+    return op
 }
 
 // UserFilter narrows down the resulting folder list by the following values:
-//
+// 
 // - `all`: Returns all templates owned or shared with the user. (default)
 // - `owned_by_me`: Returns only  templates the user owns.
 // - `shared_with_me`: Returns only templates that are shared with the user.
 func (op *ListOp) UserFilter(val string) *ListOp {
-	if op != nil {
-		op.QueryOpts.Set("user_filter", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("user_filter", val)
+    }
+    return op
 }
 
 // ListItems gets information about the specified folder.
-//
-// https://developers.docusign.com/docs/esign-rest-api/reference/folders/folders/listitems
-//
+// 
+// https://developers.docusign.com/docs/esign-api/reference/folders/folders/listitems
+// 
 // SDK Method Folders::listItems
 func (s *Service) ListItems(folderID string) *ListItemsOp {
-	return &ListItemsOp{
-		Credential: s.credential,
-		Method:     "GET",
-		Path:       strings.Join([]string{"folders", folderID}, "/"),
-		Accept:     "application/json",
-		QueryOpts:  make(url.Values),
-		Version:    esign.APIv21,
-	}
+    return &ListItemsOp{
+        Credential: s.credential,
+        Method:  "GET",
+        Path: strings.Join([]string{"folders",folderID},"/"),
+        Accept: "application/json",
+        QueryOpts: make(url.Values),
+        Version: esign.APIv21,
+    }
 }
 
 // ListItemsOp implements DocuSign API SDK Folders::listItems
 type ListItemsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListItemsOp) Do(ctx context.Context) (*model.FolderItemsResponse, error) {
-	var res *model.FolderItemsResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListItemsOp) Do(ctx context.Context)  (*model.FolderItemsResponse, error) {
+    var res *model.FolderItemsResponse
+    return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // FromDate reserved for DocuSign.
 func (op *ListItemsOp) FromDate(val time.Time) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+    }
+    return op
 }
 
 // IncludeItems indicates whether folder items are included in the response. If this parameter is omitted, the default is false.
 func (op *ListItemsOp) IncludeItems(val string) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("include_items", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("include_items", val)
+    }
+    return op
 }
 
 // OwnerEmail reserved for DocuSign.
 func (op *ListItemsOp) OwnerEmail(val string) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("owner_email", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("owner_email", val)
+    }
+    return op
 }
 
 // OwnerName reserved for DocuSign.
 func (op *ListItemsOp) OwnerName(val string) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("owner_name", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("owner_name", val)
+    }
+    return op
 }
 
 // SearchText reserved for DocuSign.
 func (op *ListItemsOp) SearchText(val string) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("search_text", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("search_text", val)
+    }
+    return op
 }
 
 // StartPosition reserved for DocuSign.
 func (op *ListItemsOp) StartPosition(val int) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
+    }
+    return op
 }
 
 // Status reserved for DocuSign.
 func (op *ListItemsOp) Status(val string) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("status", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("status", val)
+    }
+    return op
 }
 
 // ToDate reserved for DocuSign.
 func (op *ListItemsOp) ToDate(val time.Time) *ListItemsOp {
-	if op != nil {
-		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+    }
+    return op
 }
 
 // MoveEnvelopes moves an envelope from its current folder to the specified folder.
-//
-// https://developers.docusign.com/docs/esign-rest-api/reference/folders/folders/moveenvelopes
-//
+// 
+// https://developers.docusign.com/docs/esign-api/reference/folders/folders/moveenvelopes
+// 
 // SDK Method Folders::moveEnvelopes
 func (s *Service) MoveEnvelopes(folderID string, foldersRequest *model.FoldersRequest) *MoveEnvelopesOp {
-	return &MoveEnvelopesOp{
-		Credential: s.credential,
-		Method:     "PUT",
-		Path:       strings.Join([]string{"folders", folderID}, "/"),
-		Payload:    foldersRequest,
-		Accept:     "application/json",
-		QueryOpts:  make(url.Values),
-		Version:    esign.APIv21,
-	}
+    return &MoveEnvelopesOp{
+        Credential: s.credential,
+        Method:  "PUT",
+        Path: strings.Join([]string{"folders",folderID},"/"),
+        Payload: foldersRequest,
+        Accept: "application/json",
+        QueryOpts: make(url.Values),
+        Version: esign.APIv21,
+    }
 }
 
 // MoveEnvelopesOp implements DocuSign API SDK Folders::moveEnvelopes
 type MoveEnvelopesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *MoveEnvelopesOp) Do(ctx context.Context) (*model.FoldersResponse, error) {
-	var res *model.FoldersResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *MoveEnvelopesOp) Do(ctx context.Context)  (*model.FoldersResponse, error) {
+    var res *model.FoldersResponse
+    return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Search gets a list of envelopes in folders matching the specified criteria.
-//
-// https://developers.docusign.com/docs/esign-rest-api/reference/folders/folders/search
-//
+// 
+// https://developers.docusign.com/docs/esign-api/reference/folders/folders/search
+// 
 // SDK Method Folders::search
 func (s *Service) Search(searchFolderID string) *SearchOp {
-	return &SearchOp{
-		Credential: s.credential,
-		Method:     "GET",
-		Path:       strings.Join([]string{"search_folders", searchFolderID}, "/"),
-		Accept:     "application/json",
-		QueryOpts:  make(url.Values),
-		Version:    esign.APIv21,
-	}
+    return &SearchOp{
+        Credential: s.credential,
+        Method:  "GET",
+        Path: strings.Join([]string{"search_folders",searchFolderID},"/"),
+        Accept: "application/json",
+        QueryOpts: make(url.Values),
+        Version: esign.APIv21,
+    }
 }
 
 // SearchOp implements DocuSign API SDK Folders::search
 type SearchOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SearchOp) Do(ctx context.Context) (*model.FolderItemResponse, error) {
-	var res *model.FolderItemResponse
-	return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SearchOp) Do(ctx context.Context)  (*model.FolderItemResponse, error) {
+    var res *model.FolderItemResponse
+    return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // All specifies that all envelopes that match the criteria are returned.
 func (op *SearchOp) All() *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("all", "true")
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("all", "true")
+    }
+    return op
 }
 
 // Count is the maximum number of results to return.
-//
+// 
 // Use `start_position` to specify the number of results to skip.
-//
+// 
 // Valid values: `1` to `100`
 func (op *SearchOp) Count(val int) *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
+    }
+    return op
 }
 
 // FromDate specifies the start of the date range to return. If no value is provided, the default search is the previous 30 days.
 func (op *SearchOp) FromDate(val time.Time) *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+    }
+    return op
 }
 
 // IncludeRecipients when **true,** the recipient information is returned in the response.
 func (op *SearchOp) IncludeRecipients() *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("include_recipients", "true")
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("include_recipients", "true")
+    }
+    return op
 }
 
 // Order specifies the order in which the list is returned. Valid values are: `asc` for ascending order, and `desc` for descending order.
 func (op *SearchOp) Order(val string) *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("order", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("order", val)
+    }
+    return op
 }
 
 // OrderBy specifies the property used to sort the list. Valid values are: `action_required`, `created`, `completed`, `sent`, `signer_list`, `status`, or `subject`.
 func (op *SearchOp) OrderBy(val string) *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("order_by", val)
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("order_by", val)
+    }
+    return op
 }
 
 // StartPosition is the zero-based index of the
 // result from which to start returning results.
-//
+// 
 // Use with `count` to limit the number
 // of results.
-//
+// 
 // The default value is `0`.
 func (op *SearchOp) StartPosition(val int) *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
+    }
+    return op
 }
 
 // ToDate specifies the end of the date range to return.
 func (op *SearchOp) ToDate(val time.Time) *SearchOp {
-	if op != nil {
-		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-	}
-	return op
+    if op != nil {
+        op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+    }
+    return op
 }
+

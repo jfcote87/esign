@@ -7,13 +7,12 @@
 // I created it for use with esign package. It is incomplete and not
 // tested for other swagger implementations.
 
-package main
+package swagger
 
 import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"log"
 	"math"
 	"regexp"
 	"sort"
@@ -171,13 +170,13 @@ func getGoFieldType(f Field) string {
 	case "-":
 		fldType = "-"
 	case "":
+
 		fldType = "*Self" //defMap[f.Ref].StructName()
 	case "string":
 		fldType = "string"
 	case "integer":
-		var validFormats = map[string]string{"int32": "int32", "int64": "int64"}
-		var ok bool
-		if fldType, ok = validFormats[f.Format]; !ok {
+		fldType = f.Format
+		if fldType != "int32" && fldType != "int64" {
 			fldType = "int"
 		}
 	case "boolean":
@@ -185,8 +184,13 @@ func getGoFieldType(f Field) string {
 	case "number":
 		fldType = "float64"
 	case "object":
+		fldType = "interface{}"
 		if f.AdditionalProperties != nil {
-			fldType = "map[string]" + getGoFieldType(Field{Type: f.AdditionalProperties.Type})
+			ft := getGoFieldType(Field{Type: f.AdditionalProperties.Type})
+			if ft == "*Self" {
+				ft = "interface{}"
+			}
+			fldType = "map[string]" + ft //getGoFieldType(Field{Type: f.AdditionalProperties.Type})
 		}
 	case "array":
 		ty := "interface{}"
@@ -232,22 +236,22 @@ func (d Definition) StructFields(defMap map[string]Definition, overrides map[str
 			})
 		}
 	}
-	log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
+	//log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
 	for _, f := range d.Fields {
-		log.Printf("a%s", f.Name)
+		//log.Printf("a%s", f.Name)
 		if fldType, ok = overrideMap[f.Name]; !ok {
-			log.Printf("a")
+			//log.Printf("a")
 			fldType = getGoFieldType(f)
-			log.Printf("q")
+			//log.Printf("q")
 			switch fldType {
 			case "*Self":
 				fldType = "*" + defMap[f.Ref].StructName()
 			case "[]REF":
 				fldType = "[]" + defMap[f.Items.Ref].StructName()
 			}
-			log.Printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+			//log.Printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 		}
-		log.Printf("zzz%s", f.Name)
+		//log.Printf("zzz%s", f.Name)
 		if fldType != "-" {
 			fields = append(fields, StructField{
 				Name:     ToGoName(f.Name),
@@ -256,9 +260,9 @@ func (d Definition) StructFields(defMap map[string]Definition, overrides map[str
 				Comments: strings.Split(f.Description, "\n"),
 			})
 		}
-		log.Printf("ZZZZZZZZZZZZZZZZZZZZZZZZZz")
+		//log.Printf("ZZZZZZZZZZZZZZZZZZZZZZZZZz")
 	}
-	log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
+	//log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
 	return fields
 }
 
@@ -375,10 +379,18 @@ type Operation struct {
 // Accept converts the Consumes slice to a comma
 // separated string to use for Accept Header.
 func (o Operation) Accept() string {
-	if o.hasJSONResponse() {
+	if o.ReturnsJSON() {
 		return "application/json"
 	}
 	return strings.Join(o.Consumes, ", ")
+}
+
+// ReturnsJSON indicates whether response content-type is json
+func (o *Operation) ReturnsJSON() bool {
+	if okResponse, ok := o.Responses["200"]; ok {
+		return okResponse.Schema != nil && okResponse.Schema.Ref > ""
+	}
+	return false
 }
 
 // ContentType returns the
@@ -464,8 +476,8 @@ func (o Operation) OpPath2(ver string, p []PathParam) string {
 }
 
 // GoFuncName provides a go formatted name
-func (o Operation) GoFuncName(prefixList []string) string {
-	if len(o.Tags) == 0 || o.Service == "Uncategorized" {
+func (o Operation) GoFuncName(useMethodName bool, prefixList []string) string {
+	if useMethodName || len(o.Tags) == 0 || o.Service == "Uncategorized" {
 		return ToGoName(o.MethodName)
 	}
 	tag := o.Tags[0]
@@ -505,6 +517,9 @@ func (o Operation) Payload(defMap map[string]Definition, modelPkgName string) *P
 					}
 					ifType = modelPkgName + ToGoName(def.Name)
 				}
+			}
+			if ifType == "object" {
+				ifType = "interface{}"
 			}
 			return &Payload{GoName: ToGoNameLC(p.Name), Type: ifType}
 		}
@@ -584,6 +599,17 @@ func (o Operation) QueryOpts(overrides map[string]map[string]string) []QueryOpt 
 			if !ok {
 				ty = p.Type
 			}
+			switch ty {
+			case "integer":
+				if ty != "int32" && ty != "int64" {
+					ty = "int"
+				}
+			case "array":
+				ty = "...string"
+			case "boolean":
+				ty = "bool"
+			}
+
 			/*comments := strings.Split(strings.TrimRight(p.Description, "\n"), "\n")
 			if len(comments[0]) == 0 {
 				comments = nil
@@ -622,6 +648,12 @@ func (o Operation) Result(structMap map[string]Definition, pkgName string) strin
 				if v.Schema.Type == "file" {
 					return "*esign.Download"
 				}
+				if v.Schema.Type == "object" {
+					return "map[string]interface{}"
+				}
+				if v.Schema.Type == "array" {
+					return "[]interface{}"
+				}
 				return v.Schema.Type
 			}
 		}
@@ -636,6 +668,7 @@ type Property struct {
 	Description string     `json:"description,omitempty"`
 	Required    bool       `json:"required,omitempty"`
 	Type        string     `json:"type,omitempty"`
+	Format      string     `json:"format,omitempty"`
 	Schema      *SchemaRef `json:"schema,omitempty"`
 }
 
@@ -643,9 +676,9 @@ type Property struct {
 // query options.
 func valueCode(ty string) string {
 	switch ty {
-	case "bool":
+	case "bool", "boolean":
 		return `"true"`
-	case "int":
+	case "int", "int32", "int64":
 		return "fmt.Sprintf(\"%d\", val )"
 	case "float64":
 		return "fmt.Sprintf(\"%f\", val )"

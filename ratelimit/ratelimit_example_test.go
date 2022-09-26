@@ -10,9 +10,25 @@ import (
 	"github.com/jfcote87/esign"
 	"github.com/jfcote87/esign/ratelimit"
 	"github.com/jfcote87/esign/v2.1/envelopes"
+	"github.com/jfcote87/esign/v2.1/folders"
 )
 
-func ExampleCredential() {
+func ExampleCredential_context() {
+	existingCredential, _ := getCredential(context.Background(), "me")
+	var rpt *ratelimit.Report
+	ctx := context.WithValue(context.Background(), ratelimit.ReportPtrContextKey, &rpt)
+	cred := &ratelimit.Credential{Credential: existingCredential}
+	sv := folders.New(cred)
+	fl, err := sv.List().Do(ctx)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	log.Printf("total folders: %s", fl.TotalSetSize)
+
+	log.Printf("Limit: %d  Remaining: %d   Refresh Time: %s", rpt.RateLimit, rpt.RateRemaining, rpt.ResetAt().Format("2006-01-02T15:04:05"))
+}
+
+func ExampleCredential_handler() {
 	ctx := context.TODO()
 	apiUserID := "78e5a047-f767-41f8-8dbd-10e3eed65c55"
 	cred, err := getCredential(ctx, apiUserID)
@@ -25,7 +41,7 @@ func ExampleCredential() {
 		ReportHandler: globalRateLimitHandler,
 	}
 	sv := envelopes.New(rateLimitCred)
-	envInfo, err := sv.ListStatusChanges().FolderIds("F1", "F2").Do(ctx)
+	envInfo, err := sv.ListStatusChanges().EnvelopeIds("F1", "F2").Do(ctx)
 	if err != nil {
 		log.Fatalf("listing error %v", err)
 	}

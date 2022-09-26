@@ -20,60 +20,6 @@ import (
     "time"
 )	
 
-// DSBool is used to fix problem of capitalized and quoted 
-// booleans in json returned from DocuSign. Unmarshals
-// "True" and "true" as true, any other value returns false
-type DSBool bool
-
-// UnmarshalJSON checks for "True" or "true"
-func (d *DSBool) UnmarshalJSON(b []byte) error {
-	*d = DSBool(b[0] == 0x22 && (b[1] == 0x54 || b[1] == 0x74))
-	return nil
-}
-
-// MarshalJSON encodes DSBool as string
-func (d DSBool) MarshalJSON() ([]byte, error) {
-	if d {
-		return []byte(`"true"`), nil
-	}
-	return []byte(`"false"`), nil
-}
-
-// TabRequired used for the required tab field.  As this field defaults to
-// true, a new type was required.  Set to true or false using the REQUIRED
-// enums.
-type TabRequired int
-
-const (
-	REQUIRED_DEFAULT TabRequired = 0
-	REQUIRED_FALSE   TabRequired = 1
-	REQUIRED_TRUE    TabRequired = 2
-)
-
-// MarshalJSON outputs "true" or "false" for TabRequired field
-func (r TabRequired) MarshalJSON() ([]byte, error) {
-	var b DSBool = (r != REQUIRED_FALSE)
-	return b.MarshalJSON()
-}
-
-// UnmarshalJSON checks for "True" or "true"
-func (r *TabRequired) UnmarshalJSON(b []byte) error {
-	var dsbool DSBool
-	if err := (&dsbool).UnmarshalJSON(b); err != nil {
-		return err
-	}
-	*r = REQUIRED_FALSE
-	if dsbool {
-		*r = REQUIRED_TRUE
-	}
-	return nil
-}
-
-// IsRequired declares whether the tab is required
-func (r TabRequired) IsRequired() bool {
-	return (r != REQUIRED_FALSE)
-}
-
 {{ range .Definitions }}{{if len .CommentLines}}{{ range .CommentLines}}
 // {{.}}{{end}}{{end}}
 type {{.StructName}} struct { {{range .StructFields $defMap $fldOverrides}}

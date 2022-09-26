@@ -6,10 +6,12 @@
 // This file provides lists of type overrides for definition
 // properties (struct fields) and for operation parameters found in
 // Docusign's Rest API swagger definition.
-package main
+package swagger
 
 import (
 	"strings"
+
+	"github.com/jfcote87/esign"
 )
 
 // ServiceNameOverride provides map of new names x-ds-service
@@ -27,240 +29,239 @@ var OperationSkipList = map[string]bool{
 	"v2.1:OAuth2_PostToken":  true,
 }
 
-var adminResourceMap = map[string]string{
-	"AccountSettingsExport":      "BulkOperations",
-	"AccountSettingsImport":      "BulkOperations",
-	"SingleAccountUserImport":    "BulkOperations",
-	"UserExport":                 "BulkOperations",
-	"UserImport":                 "BulkOperations",
-	"IdentityProviders":          "IdentityProviders",
-	"Organization":               "Organization",
-	"ReservedDomains":            "ReservedDomains",
-	"eSignUserManagement":        "UserManagement",
-	"MultiProductUserManagement": "UserManagement",
-	"Users":                      "UserManagement",
-}
+var ResourceMaps = map[esign.APIVersion]map[string]string{
+	esign.AdminV2: {
+		"AccountSettingsExport":      "BulkOperations",
+		"AccountSettingsImport":      "BulkOperations",
+		"SingleAccountUserImport":    "BulkOperations",
+		"UserExport":                 "BulkOperations",
+		"UserImport":                 "BulkOperations",
+		"IdentityProviders":          "IdentityProviders",
+		"Organization":               "Organization",
+		"ReservedDomains":            "ReservedDomains",
+		"eSignUserManagement":        "UserManagement",
+		"MultiProductUserManagement": "UserManagement",
+		"Users":                      "UserManagement",
+	},
 
-var roomsResourceMap = map[string]string{
-	"Accounts":                 "Accounts",
-	"Documents":                "Documents",
-	"ESignPermissionProfiles":  "ESignPermissionProfiles",
-	"Fields":                   "Fields",
-	"ExternalFormFillSessions": "Forms",
-	"FormDetails":              "Forms",
-	"FormGroups":               "Forms",
-	"FormLibraries":            "Forms",
-	"ClosingStatuses":          "GlobalResources",
-	"ContactSides":             "GlobalResources",
-	"Countries":                "GlobalResources",
-	"Currencies":               "GlobalResources",
-	"FinancingTypes":           "GlobalResources",
-	"OriginsOfLeads":           "GlobalResources",
-	"PropertyTypes":            "GlobalResources",
-	"RoomContactTypes":         "GlobalResources",
-	"SellerDecisionTypes":      "GlobalResources",
-	"SpecialCircumstanceTypes": "GlobalResources",
-	"States":                   "GlobalResources",
-	"TaskDateTypes":            "GlobalResources",
-	"TaskResponsibilityTypes":  "GlobalResources",
-	"TaskStatuses":             "GlobalResources",
-	"TimeZones":                "GlobalResources",
-	"TransactionSides":         "GlobalResources",
-	"Offices":                  "Offices",
-	"Regions":                  "Regions",
-	"Roles":                    "Roles",
-	"RoomFolderss":             "Rooms",
-	"Rooms":                    "Rooms",
-	"RoomTemplates":            "RoomTemplates",
-	"TaskLists":                "TaskLists",
-	"TaskListTemplates":        "TaskLists",
-	"Users":                    "Users",
-}
-
-var clickResourceMap = map[string]string{
-	"Uncategorized": "Click",
-}
-
-var monitorResourceMap = map[string]string{
-	"DataSet": "Monitor",
-}
-
-var v2ResourceMap = map[string]string{
-	"AccountBrands":                         "Accounts",
-	"AccountConsumerDisclosures":            "Accounts",
-	"AccountCustomFields":                   "Accounts",
-	"AccountPasswordRules":                  "Accounts",
-	"AccountPermissionProfiles":             "Accounts",
-	"Accounts":                              "Accounts",
-	"AccountSealProviders":                  "Accounts",
-	"AccountSignatureProviders":             "Accounts",
-	"AccountTabSettings":                    "Accounts",
-	"AccountWatermarks":                     "Accounts",
-	"ConnectSecret":                         "Accounts",
-	"ENoteConfigurations":                   "Accounts",
-	"IdentityVerifications":                 "Accounts",
-	"Authentication":                        "Authentication",
-	"UserSocialAccountLogins":               "Authentication",
-	"BillingPlans":                          "Billing",
-	"Invoices":                              "Billing",
-	"Payments":                              "Billing",
-	"BulkEnvelopes":                         "BulkEnvelopes",
-	"BulkSend":                              "BulkEnvelopes",
-	"EnvelopeBulkRecipients":                "EnvelopeBulkRecipients",
-	"CloudStorage":                          "CloudStorage",
-	"CloudStorageProviders":                 "CloudStorage",
-	"ConnectConfigurations":                 "Connect",
-	"ConnectEvents":                         "Connect",
-	"CustomTabs":                            "CustomTabs",
-	"RequestLogs":                           "Diagnostics",
-	"Resources":                             "Diagnostics",
-	"Services":                              "Diagnostics",
-	"BCCEmailArchive":                       "EmailArchive",
-	"ChunkedUploads":                        "Envelopes",
-	"Comments":                              "Envelopes",
-	"DocumentResponsiveHtmlPreview":         "Envelopes",
-	"EnvelopeAttachments":                   "Envelopes",
-	"EnvelopeConsumerDisclosures":           "Envelopes",
-	"EnvelopeCustomFields":                  "Envelopes",
-	"EnvelopeDocumentFields":                "Envelopes",
-	"EnvelopeDocumentHtmlDefinitions":       "Envelopes",
-	"EnvelopeDocuments":                     "Envelopes",
-	"EnvelopeDocumentTabs":                  "Envelopes",
-	"EnvelopeDocumentVisibility":            "Envelopes",
-	"EnvelopeEmailSettings":                 "Envelopes",
-	"EnvelopeFormData":                      "Envelopes",
-	"EnvelopeHtmlDefinitions":               "Envelopes",
-	"EnvelopeLocks":                         "Envelopes",
-	"EnvelopePublish":                       "Envelopes",
-	"EnvelopeRecipients":                    "Envelopes",
-	"EnvelopeRecipientTabs":                 "Envelopes",
-	"Envelopes":                             "Envelopes",
-	"EnvelopeTemplates":                     "Envelopes",
-	"EnvelopeTransferRules":                 "Envelopes",
-	"EnvelopeViews":                         "Envelopes",
-	"NotaryJournals":                        "Envelopes",
-	"ResponsiveHtmlPreview":                 "Envelopes",
-	"TabsBlob":                              "Envelopes",
-	"Folders":                               "Folders",
-	"PaymentGatewayAccounts":                "Payments",
-	"PowerFormData":                         "PowerForms",
-	"PowerForms":                            "PowerForms",
-	"SigningGroups":                         "SigningGroups",
-	"SigningGroupUsers":                     "SigningGroups",
-	"TemplateBulkRecipients":                "Templates",
-	"TemplateCustomFields":                  "Templates",
-	"TemplateDocumentFields":                "Templates",
-	"TemplateDocumentHtmlDefinitions":       "Templates",
-	"TemplateDocumentResponsiveHtmlPreview": "Templates",
-	"TemplateDocuments":                     "Templates",
-	"TemplateDocumentTabs":                  "Templates",
-	"TemplateDocumentVisibility":            "Templates",
-	"TemplateHtmlDefinitions":               "Templates",
-	"TemplateLocks":                         "Templates",
-	"TemplateRecipients":                    "Templates",
-	"TemplateRecipientTabs":                 "Templates",
-	"TemplateResponsiveHtmlPreview":         "Templates",
-	"Templates":                             "Templates",
-	"TemplateViews":                         "Templates",
-	"GroupBrands":                           "UserGroups",
-	"Groups":                                "UserGroups",
-	"GroupUsers":                            "UserGroups",
-	"Contacts":                              "Users",
-	"UserCustomSettings":                    "Users",
-	"UserProfiles":                          "Users",
-	"Users":                                 "Users",
-	"UserSignatures":                        "Users",
-	"WorkspaceItems":                        "Workspaces",
-	"Workspaces":                            "Workspaces",
-}
-
-var v21ResourceMap = map[string]string{
-	"AccountBrands":                         "Accounts",
-	"AccountConsumerDisclosures":            "Accounts",
-	"AccountCustomFields":                   "Accounts",
-	"AccountPasswordRules":                  "Accounts",
-	"AccountPermissionProfiles":             "Accounts",
-	"Accounts":                              "Accounts",
-	"AccountSealProviders":                  "Accounts",
-	"AccountSignatureProviders":             "Accounts",
-	"AccountSignatures":                     "Accounts",
-	"AccountTabSettings":                    "Accounts",
-	"AccountWatermarks":                     "Accounts",
-	"ENoteConfigurations":                   "Accounts",
-	"FavoriteTemplates":                     "Accounts",
-	"IdentityVerifications":                 "Accounts",
-	"BillingPlans":                          "Billing",
-	"Invoices":                              "Billing",
-	"Payments":                              "Billing",
-	"BulkSend":                              "BulkEnvelopes",
-	"CloudStorage":                          "CloudStorage",
-	"CloudStorageProviders":                 "CloudStorage",
-	"ConnectConfigurations":                 "Connect",
-	"ConnectEvents":                         "Connect",
-	"CustomTabs":                            "CustomTabs",
-	"RequestLogs":                           "Diagnostics",
-	"Resources":                             "Diagnostics",
-	"Services":                              "Diagnostics",
-	"BCCEmailArchive":                       "EmailArchive",
-	"ChunkedUploads":                        "Envelopes",
-	"Comments":                              "Envelopes",
-	"DocumentResponsiveHtmlPreview":         "Envelopes",
-	"EnvelopeAttachments":                   "Envelopes",
-	"EnvelopeConsumerDisclosures":           "Envelopes",
-	"EnvelopeCustomFields":                  "Envelopes",
-	"EnvelopeDocumentFields":                "Envelopes",
-	"EnvelopeDocumentHtmlDefinitions":       "Envelopes",
-	"EnvelopeDocuments":                     "Envelopes",
-	"EnvelopeDocumentTabs":                  "Envelopes",
-	"EnvelopeDocumentVisibility":            "Envelopes",
-	"EnvelopeEmailSettings":                 "Envelopes",
-	"EnvelopeFormData":                      "Envelopes",
-	"EnvelopeHtmlDefinitions":               "Envelopes",
-	"EnvelopeLocks":                         "Envelopes",
-	"EnvelopePublish":                       "Envelopes",
-	"EnvelopeRecipients":                    "Envelopes",
-	"EnvelopeRecipientTabs":                 "Envelopes",
-	"Envelopes":                             "Envelopes",
-	"EnvelopeTemplates":                     "Envelopes",
-	"EnvelopeTransferRules":                 "Envelopes",
-	"EnvelopeViews":                         "Envelopes",
-	"EnvelopeWorkflowDefinition":            "Envelopes",
-	"NotaryJournals":                        "Envelopes",
-	"ResponsiveHtmlPreview":                 "Envelopes",
-	"TabsBlob":                              "Envelopes",
-	"Folders":                               "Folders",
-	"NotaryJurisdiction":                    "Notary",
-	"Notary":                                "Notary",
-	"PaymentGatewayAccounts":                "Payments",
-	"PowerFormData":                         "PowerForms",
-	"PowerForms":                            "PowerForms",
-	"SigningGroups":                         "SigningGroups",
-	"SigningGroupUsers":                     "SigningGroups",
-	"TemplateBulkRecipients":                "Templates",
-	"TemplateCustomFields":                  "Templates",
-	"TemplateDocumentFields":                "Templates",
-	"TemplateDocumentHtmlDefinitions":       "Templates",
-	"TemplateDocumentResponsiveHtmlPreview": "Templates",
-	"TemplateDocuments":                     "Templates",
-	"TemplateDocumentTabs":                  "Templates",
-	"TemplateDocumentVisibility":            "Templates",
-	"TemplateHtmlDefinitions":               "Templates",
-	"TemplateLocks":                         "Templates",
-	"TemplateRecipients":                    "Templates",
-	"TemplateRecipientTabs":                 "Templates",
-	"TemplateResponsiveHtmlPreview":         "Templates",
-	"Templates":                             "Templates",
-	"TemplateViews":                         "Templates",
-	"GroupBrands":                           "UserGroups",
-	"Groups":                                "UserGroups",
-	"GroupUsers":                            "UserGroups",
-	"Contacts":                              "Users",
-	"UserCustomSettings":                    "Users",
-	"UserProfiles":                          "Users",
-	"Users":                                 "Users",
-	"UserSignatures":                        "Users",
-	"WorkspaceItems":                        "Workspaces",
-	"Workspaces":                            "Workspaces",
+	esign.RoomsV2: {
+		"Accounts":                 "Accounts",
+		"Documents":                "Documents",
+		"ESignPermissionProfiles":  "ESignPermissionProfiles",
+		"Fields":                   "Fields",
+		"ExternalFormFillSessions": "Forms",
+		"FormDetails":              "Forms",
+		"FormGroups":               "Forms",
+		"FormLibraries":            "Forms",
+		"ClosingStatuses":          "GlobalResources",
+		"ContactSides":             "GlobalResources",
+		"Countries":                "GlobalResources",
+		"Currencies":               "GlobalResources",
+		"FinancingTypes":           "GlobalResources",
+		"OriginsOfLeads":           "GlobalResources",
+		"PropertyTypes":            "GlobalResources",
+		"RoomContactTypes":         "GlobalResources",
+		"SellerDecisionTypes":      "GlobalResources",
+		"SpecialCircumstanceTypes": "GlobalResources",
+		"States":                   "GlobalResources",
+		"TaskDateTypes":            "GlobalResources",
+		"TaskResponsibilityTypes":  "GlobalResources",
+		"TaskStatuses":             "GlobalResources",
+		"TimeZones":                "GlobalResources",
+		"TransactionSides":         "GlobalResources",
+		"Offices":                  "Offices",
+		"Regions":                  "Regions",
+		"Roles":                    "Roles",
+		"RoomFolderss":             "Rooms",
+		"Rooms":                    "Rooms",
+		"RoomTemplates":            "RoomTemplates",
+		"TaskLists":                "TaskLists",
+		"TaskListTemplates":        "TaskLists",
+		"Users":                    "Users",
+	},
+	esign.ClickV1: {
+		"Uncategorized": "Click",
+		"ClickWraps":    "Click",
+	},
+	esign.MonitorV2: {
+		"DataSet": "Monitor",
+	},
+	esign.APIv2: {
+		"AccountBrands":                         "Accounts",
+		"AccountConsumerDisclosures":            "Accounts",
+		"AccountCustomFields":                   "Accounts",
+		"AccountPasswordRules":                  "Accounts",
+		"AccountPermissionProfiles":             "Accounts",
+		"Accounts":                              "Accounts",
+		"AccountSealProviders":                  "Accounts",
+		"AccountSignatureProviders":             "Accounts",
+		"AccountTabSettings":                    "Accounts",
+		"AccountWatermarks":                     "Accounts",
+		"ConnectSecret":                         "Accounts",
+		"ENoteConfigurations":                   "Accounts",
+		"IdentityVerifications":                 "Accounts",
+		"Authentication":                        "Authentication",
+		"UserSocialAccountLogins":               "Authentication",
+		"BillingPlans":                          "Billing",
+		"Invoices":                              "Billing",
+		"Payments":                              "Billing",
+		"BulkEnvelopes":                         "BulkEnvelopes",
+		"BulkSend":                              "BulkEnvelopes",
+		"EnvelopeBulkRecipients":                "EnvelopeBulkRecipients",
+		"CloudStorage":                          "CloudStorage",
+		"CloudStorageProviders":                 "CloudStorage",
+		"ConnectConfigurations":                 "Connect",
+		"ConnectEvents":                         "Connect",
+		"CustomTabs":                            "CustomTabs",
+		"RequestLogs":                           "Diagnostics",
+		"Resources":                             "Diagnostics",
+		"Services":                              "Diagnostics",
+		"BCCEmailArchive":                       "EmailArchive",
+		"ChunkedUploads":                        "Envelopes",
+		"Comments":                              "Envelopes",
+		"DocumentResponsiveHtmlPreview":         "Envelopes",
+		"EnvelopeAttachments":                   "Envelopes",
+		"EnvelopeConsumerDisclosures":           "Envelopes",
+		"EnvelopeCustomFields":                  "Envelopes",
+		"EnvelopeDocumentFields":                "Envelopes",
+		"EnvelopeDocumentHtmlDefinitions":       "Envelopes",
+		"EnvelopeDocuments":                     "Envelopes",
+		"EnvelopeDocumentTabs":                  "Envelopes",
+		"EnvelopeDocumentVisibility":            "Envelopes",
+		"EnvelopeEmailSettings":                 "Envelopes",
+		"EnvelopeFormData":                      "Envelopes",
+		"EnvelopeHtmlDefinitions":               "Envelopes",
+		"EnvelopeLocks":                         "Envelopes",
+		"EnvelopePublish":                       "Envelopes",
+		"EnvelopeRecipients":                    "Envelopes",
+		"EnvelopeRecipientTabs":                 "Envelopes",
+		"Envelopes":                             "Envelopes",
+		"EnvelopeTemplates":                     "Envelopes",
+		"EnvelopeTransferRules":                 "Envelopes",
+		"EnvelopeViews":                         "Envelopes",
+		"NotaryJournals":                        "Envelopes",
+		"ResponsiveHtmlPreview":                 "Envelopes",
+		"TabsBlob":                              "Envelopes",
+		"Folders":                               "Folders",
+		"PaymentGatewayAccounts":                "Payments",
+		"PowerFormData":                         "PowerForms",
+		"PowerForms":                            "PowerForms",
+		"SigningGroups":                         "SigningGroups",
+		"SigningGroupUsers":                     "SigningGroups",
+		"TemplateBulkRecipients":                "Templates",
+		"TemplateCustomFields":                  "Templates",
+		"TemplateDocumentFields":                "Templates",
+		"TemplateDocumentHtmlDefinitions":       "Templates",
+		"TemplateDocumentResponsiveHtmlPreview": "Templates",
+		"TemplateDocuments":                     "Templates",
+		"TemplateDocumentTabs":                  "Templates",
+		"TemplateDocumentVisibility":            "Templates",
+		"TemplateHtmlDefinitions":               "Templates",
+		"TemplateLocks":                         "Templates",
+		"TemplateRecipients":                    "Templates",
+		"TemplateRecipientTabs":                 "Templates",
+		"TemplateResponsiveHtmlPreview":         "Templates",
+		"Templates":                             "Templates",
+		"TemplateViews":                         "Templates",
+		"GroupBrands":                           "UserGroups",
+		"Groups":                                "UserGroups",
+		"GroupUsers":                            "UserGroups",
+		"Contacts":                              "Users",
+		"UserCustomSettings":                    "Users",
+		"UserProfiles":                          "Users",
+		"Users":                                 "Users",
+		"UserSignatures":                        "Users",
+		"WorkspaceItems":                        "Workspaces",
+		"Workspaces":                            "Workspaces",
+	},
+	esign.APIv21: {
+		"AccountBrands":                         "Accounts",
+		"AccountConsumerDisclosures":            "Accounts",
+		"AccountCustomFields":                   "Accounts",
+		"AccountPasswordRules":                  "Accounts",
+		"AccountPermissionProfiles":             "Accounts",
+		"Accounts":                              "Accounts",
+		"AccountSealProviders":                  "Accounts",
+		"AccountSignatureProviders":             "Accounts",
+		"AccountSignatures":                     "Accounts",
+		"AccountTabSettings":                    "Accounts",
+		"AccountWatermarks":                     "Accounts",
+		"ENoteConfigurations":                   "Accounts",
+		"FavoriteTemplates":                     "Accounts",
+		"IdentityVerifications":                 "Accounts",
+		"BillingPlans":                          "Billing",
+		"Invoices":                              "Billing",
+		"Payments":                              "Billing",
+		"BulkSend":                              "BulkEnvelopes",
+		"CloudStorage":                          "CloudStorage",
+		"CloudStorageProviders":                 "CloudStorage",
+		"ConnectConfigurations":                 "Connect",
+		"ConnectEvents":                         "Connect",
+		"CustomTabs":                            "CustomTabs",
+		"RequestLogs":                           "Diagnostics",
+		"Resources":                             "Diagnostics",
+		"Services":                              "Diagnostics",
+		"BCCEmailArchive":                       "EmailArchive",
+		"ChunkedUploads":                        "Envelopes",
+		"Comments":                              "Envelopes",
+		"DocumentResponsiveHtmlPreview":         "Envelopes",
+		"EnvelopeAttachments":                   "Envelopes",
+		"EnvelopeConsumerDisclosures":           "Envelopes",
+		"EnvelopeCustomFields":                  "Envelopes",
+		"EnvelopeDocumentFields":                "Envelopes",
+		"EnvelopeDocumentHtmlDefinitions":       "Envelopes",
+		"EnvelopeDocuments":                     "Envelopes",
+		"EnvelopeDocumentTabs":                  "Envelopes",
+		"EnvelopeDocumentVisibility":            "Envelopes",
+		"EnvelopeEmailSettings":                 "Envelopes",
+		"EnvelopeFormData":                      "Envelopes",
+		"EnvelopeHtmlDefinitions":               "Envelopes",
+		"EnvelopeLocks":                         "Envelopes",
+		"EnvelopePublish":                       "Envelopes",
+		"EnvelopeRecipients":                    "Envelopes",
+		"EnvelopeRecipientTabs":                 "Envelopes",
+		"Envelopes":                             "Envelopes",
+		"EnvelopeTemplates":                     "Envelopes",
+		"EnvelopeTransferRules":                 "Envelopes",
+		"EnvelopeViews":                         "Envelopes",
+		"EnvelopeWorkflowDefinition":            "Envelopes",
+		"NotaryJournals":                        "Envelopes",
+		"ResponsiveHtmlPreview":                 "Envelopes",
+		"TabsBlob":                              "Envelopes",
+		"Folders":                               "Folders",
+		"NotaryJurisdiction":                    "Notary",
+		"Notary":                                "Notary",
+		"PaymentGatewayAccounts":                "Payments",
+		"PowerFormData":                         "PowerForms",
+		"PowerForms":                            "PowerForms",
+		"SigningGroups":                         "SigningGroups",
+		"SigningGroupUsers":                     "SigningGroups",
+		"TemplateBulkRecipients":                "Templates",
+		"TemplateCustomFields":                  "Templates",
+		"TemplateDocumentFields":                "Templates",
+		"TemplateDocumentHtmlDefinitions":       "Templates",
+		"TemplateDocumentResponsiveHtmlPreview": "Templates",
+		"TemplateDocuments":                     "Templates",
+		"TemplateDocumentTabs":                  "Templates",
+		"TemplateDocumentVisibility":            "Templates",
+		"TemplateHtmlDefinitions":               "Templates",
+		"TemplateLocks":                         "Templates",
+		"TemplateRecipients":                    "Templates",
+		"TemplateRecipientTabs":                 "Templates",
+		"TemplateResponsiveHtmlPreview":         "Templates",
+		"Templates":                             "Templates",
+		"TemplateViews":                         "Templates",
+		"GroupBrands":                           "UserGroups",
+		"Groups":                                "UserGroups",
+		"GroupUsers":                            "UserGroups",
+		"Contacts":                              "Users",
+		"UserCustomSettings":                    "Users",
+		"UserProfiles":                          "Users",
+		"Users":                                 "Users",
+		"UserSignatures":                        "Users",
+		"WorkspaceItems":                        "Workspaces",
+		"Workspaces":                            "Workspaces",
+	},
 }
 
 /*var serviceOverrides = map[string]string{
@@ -1532,9 +1533,9 @@ func GetDownloadAdditions(opID string) []DownloadAddition {
 // TabDefs return a list of embeded tab structs based upon the version
 func TabDefs(apiname string, defMap map[string]Definition, overrides map[string]map[string]string) []Definition {
 	switch apiname {
-	case "esignV2":
+	case esign.APIv2.Name():
 		return TabDefsV2(defMap, overrides)
-	case "esignV2.1":
+	case esign.APIv21.Name():
 		return TabDefsV21(defMap, overrides)
 	}
 	return make([]Definition, 0, 0)
@@ -1994,8 +1995,73 @@ func TabDefsV21(defMap map[string]Definition, overrides map[string]map[string]st
 	return results
 }
 
-// CustomCode is lines of code to append to model.go
-const CustomCode = `// GetTabValues returns a NameValue list of all entry tabs
+// CustomCode provides additional specific code for a package
+func CustomCode(apiname string) string {
+	switch apiname {
+	case esign.APIv2.Name():
+		return esignTabCustomCode
+	case esign.APIv21.Name():
+		return esignTabCustomCode
+	}
+	return ""
+}
+
+// esignTabCustomCode is lines of code to append to esign v2 and v2.1 model.go
+const esignTabCustomCode = `// DSBool is used to fix problem of capitalized and quoted 
+// booleans in json returned from DocuSign. Unmarshals
+// "True" and "true" as true, any other value returns false
+type DSBool bool
+
+// UnmarshalJSON checks for "True" or "true"
+func (d *DSBool) UnmarshalJSON(b []byte) error {
+	*d = DSBool(b[0] == 0x22 && (b[1] == 0x54 || b[1] == 0x74))
+	return nil
+}
+
+// MarshalJSON encodes DSBool as string
+func (d DSBool) MarshalJSON() ([]byte, error) {
+	if d {
+		return []byte("\"true\""), nil
+	}
+	return []byte("\"false\""), nil
+}
+
+// TabRequired used for the required tab field.  As this field defaults to
+// true, a new type was required.  Set to true or false using the REQUIRED
+// enums.
+type TabRequired int
+
+const (
+	REQUIRED_DEFAULT TabRequired = 0
+	REQUIRED_FALSE   TabRequired = 1
+	REQUIRED_TRUE    TabRequired = 2
+)
+
+// MarshalJSON outputs "true" or "false" for TabRequired field
+func (r TabRequired) MarshalJSON() ([]byte, error) {
+	var b DSBool = (r != REQUIRED_FALSE)
+	return b.MarshalJSON()
+}
+
+// UnmarshalJSON checks for "True" or "true"
+func (r *TabRequired) UnmarshalJSON(b []byte) error {
+	var dsbool DSBool
+	if err := (&dsbool).UnmarshalJSON(b); err != nil {
+		return err
+	}
+	*r = REQUIRED_FALSE
+	if dsbool {
+		*r = REQUIRED_TRUE
+	}
+	return nil
+}
+
+// IsRequired declares whether the tab is required
+func (r TabRequired) IsRequired() bool {
+	return (r != REQUIRED_FALSE)
+}
+
+// GetTabValues returns a NameValue list of all entry tabs
 func GetTabValues(tabs Tabs) []NameValue {
 	results := make([]NameValue, 0)
 	for _, v := range tabs.CheckboxTabs {
