@@ -7,477 +7,478 @@
 
 // Package accounts implements the DocuSign SDK
 // category Accounts.
-// 
+//
 // Use the Account category for various account management tasks including:
-// 
+//
 // * Programmatically creating and deleting accounts.
 // * Getting information about an account and its capabilities.
 // * Branding the account with custom colors, message text, and more.
 // * Account charges.
-// 
+//
 // The Accounts category also includes end points for listing the recipient names associated with an email address that was used by the account. For example, a single email address is often shared by multiple members of a family.
 //
+//
 // Service Api documentation may be found at:
-// https://developers.docusign.com/docs/esign-api/reference/Accounts
+// https://developers.docusign.com/docs/esign-rest-api/reference/Accounts
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/v2.1/model"
-//   ) 
+//   )
 //   ...
 //   accountsService := accounts.New(esignCredential)
 package accounts // import "github.com/jfcote87/esignv2.1/accounts"
 
 import (
-    "context"
-    "fmt"
-    "io"
-    "net/url"
-    "strings"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/v2.1/model"
+	"context"
+	"fmt"
+	"io"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/v2.1/model"
 )
 
-// Service implements DocuSign Accounts Category API operations
+// Service implements DocuSign Accounts API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a accounts service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // BrandsCreate creates one or more brand profiles for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/create
+//
 // SDK Method Accounts::createBrand
 func (s *Service) BrandsCreate(brand *model.Brand) *BrandsCreateOp {
-    return &BrandsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "brands",
-        Payload: brand,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "brands",
+		Payload:    brand,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsCreateOp implements DocuSign API SDK Accounts::createBrand
 type BrandsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsCreateOp) Do(ctx context.Context)  (*model.BrandsResponse, error) {
-    var res *model.BrandsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsCreateOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+	var res *model.BrandsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // BrandsDelete deletes a brand.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/delete
+//
 // SDK Method Accounts::deleteBrand
 func (s *Service) BrandsDelete(brandID string) *BrandsDeleteOp {
-    return &BrandsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"brands",brandID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"brands", brandID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsDeleteOp implements DocuSign API SDK Accounts::deleteBrand
 type BrandsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsDeleteOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsDeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // BrandsDeleteList deletes one or more brand profiles.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/deletelist
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/deletelist
+//
 // SDK Method Accounts::deleteBrands
 func (s *Service) BrandsDeleteList(brandsRequest *model.BrandsRequest) *BrandsDeleteListOp {
-    return &BrandsDeleteListOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: "brands",
-        Payload: brandsRequest,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsDeleteListOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "brands",
+		Payload:    brandsRequest,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsDeleteListOp implements DocuSign API SDK Accounts::deleteBrands
 type BrandsDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsDeleteListOp) Do(ctx context.Context)  (*model.BrandsResponse, error) {
-    var res *model.BrandsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsDeleteListOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+	var res *model.BrandsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // BrandsDeleteLogo deletes a brand logo.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/deletelogo
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/deletelogo
+//
 // SDK Method Accounts::deleteBrandLogoByType
 func (s *Service) BrandsDeleteLogo(brandID string, logoType string) *BrandsDeleteLogoOp {
-    return &BrandsDeleteLogoOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"brands",brandID,"logos",logoType},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsDeleteLogoOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"brands", brandID, "logos", logoType}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsDeleteLogoOp implements DocuSign API SDK Accounts::deleteBrandLogoByType
 type BrandsDeleteLogoOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsDeleteLogoOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsDeleteLogoOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // BrandsGet gets information about a brand.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/get
+//
 // SDK Method Accounts::getBrand
 func (s *Service) BrandsGet(brandID string) *BrandsGetOp {
-    return &BrandsGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"brands",brandID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"brands", brandID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsGetOp implements DocuSign API SDK Accounts::getBrand
 type BrandsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetOp) Do(ctx context.Context)  (*model.Brand, error) {
-    var res *model.Brand
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsGetOp) Do(ctx context.Context) (*model.Brand, error) {
+	var res *model.Brand
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeExternalReferences when **true,** the landing pages and links associated with the brand are included in the response.
 func (op *BrandsGetOp) IncludeExternalReferences() *BrandsGetOp {
-    if op != nil {
-        op.QueryOpts.Set("include_external_references", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_external_references", "true")
+	}
+	return op
 }
 
 // IncludeLogos when **true,** the URIs for the logos associated with the brand are included in the response.
 func (op *BrandsGetOp) IncludeLogos() *BrandsGetOp {
-    if op != nil {
-        op.QueryOpts.Set("include_logos", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_logos", "true")
+	}
+	return op
 }
 
 // BrandsGetExportFile exports a brand.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/getexportfile
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/getexportfile
+//
 // SDK Method Accounts::getBrandExportFile
 func (s *Service) BrandsGetExportFile(brandID string) *BrandsGetExportFileOp {
-    return &BrandsGetExportFileOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"brands",brandID,"file"},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsGetExportFileOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"brands", brandID, "file"}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsGetExportFileOp implements DocuSign API SDK Accounts::getBrandExportFile
 type BrandsGetExportFileOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetExportFileOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsGetExportFileOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // BrandsGetLogo gets a brand logo.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/getlogo
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/getlogo
+//
 // SDK Method Accounts::getBrandLogoByType
 func (s *Service) BrandsGetLogo(brandID string, logoType string) *BrandsGetLogoOp {
-    return &BrandsGetLogoOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"brands",brandID,"logos",logoType},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsGetLogoOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"brands", brandID, "logos", logoType}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsGetLogoOp implements DocuSign API SDK Accounts::getBrandLogoByType
 type BrandsGetLogoOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetLogoOp) Do(ctx context.Context)  (*esign.Download, error) {
-    var res *esign.Download
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsGetLogoOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // BrandsGetResource returns a branding resource file.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/getresource
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/getresource
+//
 // SDK Method Accounts::getBrandResourcesByContentType
 func (s *Service) BrandsGetResource(brandID string, resourceContentType string) *BrandsGetResourceOp {
-    return &BrandsGetResourceOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"brands",brandID,"resources",resourceContentType},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsGetResourceOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"brands", brandID, "resources", resourceContentType}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsGetResourceOp implements DocuSign API SDK Accounts::getBrandResourcesByContentType
 type BrandsGetResourceOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsGetResourceOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsGetResourceOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // Langcode is the ISO 3166-1 alpha-2 codes for the languages that the brand supports.
 func (op *BrandsGetResourceOp) Langcode(val string) *BrandsGetResourceOp {
-    if op != nil {
-        op.QueryOpts.Set("langcode", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("langcode", val)
+	}
+	return op
 }
 
 // ReturnMaster specifies which resource file data to return. When **true,** only the master resource file is returned. When **false,** only the elements that you modified are returned.
 func (op *BrandsGetResourceOp) ReturnMaster() *BrandsGetResourceOp {
-    if op != nil {
-        op.QueryOpts.Set("return_master", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("return_master", "true")
+	}
+	return op
 }
 
 // BrandsList gets a list of brands.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/list
+//
 // SDK Method Accounts::listBrands
 func (s *Service) BrandsList() *BrandsListOp {
-    return &BrandsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "brands",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "brands",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsListOp implements DocuSign API SDK Accounts::listBrands
 type BrandsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsListOp) Do(ctx context.Context)  (*model.BrandsResponse, error) {
-    var res *model.BrandsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsListOp) Do(ctx context.Context) (*model.BrandsResponse, error) {
+	var res *model.BrandsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ExcludeDistributorBrand when **true,** excludes distributor brand information from the response set.
 func (op *BrandsListOp) ExcludeDistributorBrand() *BrandsListOp {
-    if op != nil {
-        op.QueryOpts.Set("exclude_distributor_brand", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("exclude_distributor_brand", "true")
+	}
+	return op
 }
 
 // IncludeLogos when **true,** returns the logos associated with the brand.
 func (op *BrandsListOp) IncludeLogos() *BrandsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_logos", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_logos", "true")
+	}
+	return op
 }
 
 // BrandsListResources returns metadata about the branding resources for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/listresources
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/listresources
+//
 // SDK Method Accounts::getBrandResources
 func (s *Service) BrandsListResources(brandID string) *BrandsListResourcesOp {
-    return &BrandsListResourcesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"brands",brandID,"resources"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsListResourcesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"brands", brandID, "resources"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsListResourcesOp implements DocuSign API SDK Accounts::getBrandResources
 type BrandsListResourcesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsListResourcesOp) Do(ctx context.Context)  (*model.BrandResourcesList, error) {
-    var res *model.BrandResourcesList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsListResourcesOp) Do(ctx context.Context) (*model.BrandResourcesList, error) {
+	var res *model.BrandResourcesList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // BrandsUpdate updates an existing brand.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/update
+//
 // SDK Method Accounts::updateBrand
 func (s *Service) BrandsUpdate(brandID string, brand *model.Brand) *BrandsUpdateOp {
-    return &BrandsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"brands",brandID},"/"),
-        Payload: brand,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"brands", brandID}, "/"),
+		Payload:    brand,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsUpdateOp implements DocuSign API SDK Accounts::updateBrand
 type BrandsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsUpdateOp) Do(ctx context.Context)  (*model.Brand, error) {
-    var res *model.Brand
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsUpdateOp) Do(ctx context.Context) (*model.Brand, error) {
+	var res *model.Brand
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ReplaceBrand set the call query parameter replace_brand
 func (op *BrandsUpdateOp) ReplaceBrand(val string) *BrandsUpdateOp {
-    if op != nil {
-        op.QueryOpts.Set("replace_brand", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("replace_brand", val)
+	}
+	return op
 }
 
 // BrandsUpdateLogo updates a brand logo.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/updatelogo
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/updatelogo
+//
 // SDK Method Accounts::updateBrandLogoByType
 func (s *Service) BrandsUpdateLogo(brandID string, logoType string, logoFileBytes []byte) *BrandsUpdateLogoOp {
-    return &BrandsUpdateLogoOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"brands",brandID,"logos",logoType},"/"),
-        Payload: logoFileBytes,
-        Accept: "image/png",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsUpdateLogoOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"brands", brandID, "logos", logoType}, "/"),
+		Payload:    logoFileBytes,
+		Accept:     "image/png",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsUpdateLogoOp implements DocuSign API SDK Accounts::updateBrandLogoByType
 type BrandsUpdateLogoOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsUpdateLogoOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *BrandsUpdateLogoOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // BrandsUpdateResource updates a branding resource file.
 // If media is an io.ReadCloser, Do() will close media.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountbrands/updateresource
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountbrands/updateresource
+//
 // SDK Method Accounts::updateBrandResourcesByContentType
 func (s *Service) BrandsUpdateResource(brandID string, resourceContentType string, media io.Reader, mimeType string) *BrandsUpdateResourceOp {
-    return &BrandsUpdateResourceOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"brands",brandID,"resources",resourceContentType},"/"),
-        Payload: &esign.UploadFile{ Reader: media, ContentType: mimeType },
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BrandsUpdateResourceOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"brands", brandID, "resources", resourceContentType}, "/"),
+		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BrandsUpdateResourceOp implements DocuSign API SDK Accounts::updateBrandResourcesByContentType
 type BrandsUpdateResourceOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BrandsUpdateResourceOp) Do(ctx context.Context)  (*model.BrandResources, error) {
-    var res *model.BrandResources
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BrandsUpdateResourceOp) Do(ctx context.Context) (*model.BrandResources, error) {
+	var res *model.BrandResources
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ConsumerDisclosuresGet gets the Electronic Record and Signature Disclosure for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountconsumerdisclosures/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountconsumerdisclosures/get
+//
 // SDK Method Accounts::getConsumerDisclosure
 func (s *Service) ConsumerDisclosuresGet(langCode string) *ConsumerDisclosuresGetOp {
-    return &ConsumerDisclosuresGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"consumer_disclosure",langCode},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ConsumerDisclosuresGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"consumer_disclosure", langCode}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ConsumerDisclosuresGetOp implements DocuSign API SDK Accounts::getConsumerDisclosure
 type ConsumerDisclosuresGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context)  (*model.ConsumerDisclosure, error) {
-    var res *model.ConsumerDisclosure
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ConsumerDisclosuresGetOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+	var res *model.ConsumerDisclosure
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ConsumerDisclosuresGetDefault gets the default Electronic Record and Signature Disclosure for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountconsumerdisclosures/getdefault
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountconsumerdisclosures/getdefault
+//
 // SDK Method Accounts::getConsumerDisclosureDefault
 func (s *Service) ConsumerDisclosuresGetDefault() *ConsumerDisclosuresGetDefaultOp {
-    return &ConsumerDisclosuresGetDefaultOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "consumer_disclosure",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ConsumerDisclosuresGetDefaultOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "consumer_disclosure",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ConsumerDisclosuresGetDefaultOp implements DocuSign API SDK Accounts::getConsumerDisclosureDefault
 type ConsumerDisclosuresGetDefaultOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context)  (*model.ConsumerDisclosure, error) {
-    var res *model.ConsumerDisclosure
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+	var res *model.ConsumerDisclosure
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // LangCode is the code for the signer language version of the disclosure that you want to retrieve. The following languages are supported:
-// 
+//
 // - Arabic (`ar`)
 // - Bulgarian (`bg`)
 // - Czech (`cs`)
@@ -521,835 +522,835 @@ func (op *ConsumerDisclosuresGetDefaultOp) Do(ctx context.Context)  (*model.Cons
 // - Turkish (`tr`)
 // - Ukrainian (`uk`)
 // - Vietnamese (`vi`)
-// 
+//
 // Additionally, you can automatically detect the browser language being used by the viewer and display the disclosure in that language by setting the value to `browser`.
 func (op *ConsumerDisclosuresGetDefaultOp) LangCode(val string) *ConsumerDisclosuresGetDefaultOp {
-    if op != nil {
-        op.QueryOpts.Set("langCode", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("langCode", val)
+	}
+	return op
 }
 
 // ConsumerDisclosuresUpdate updates the Electronic Record and Signature Disclosure for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountconsumerdisclosures/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountconsumerdisclosures/update
+//
 // SDK Method Accounts::updateConsumerDisclosure
 func (s *Service) ConsumerDisclosuresUpdate(langCode string, consumerDisclosure *model.ConsumerDisclosure) *ConsumerDisclosuresUpdateOp {
-    return &ConsumerDisclosuresUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"consumer_disclosure",langCode},"/"),
-        Payload: consumerDisclosure,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ConsumerDisclosuresUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"consumer_disclosure", langCode}, "/"),
+		Payload:    consumerDisclosure,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ConsumerDisclosuresUpdateOp implements DocuSign API SDK Accounts::updateConsumerDisclosure
 type ConsumerDisclosuresUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ConsumerDisclosuresUpdateOp) Do(ctx context.Context)  (*model.ConsumerDisclosure, error) {
-    var res *model.ConsumerDisclosure
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ConsumerDisclosuresUpdateOp) Do(ctx context.Context) (*model.ConsumerDisclosure, error) {
+	var res *model.ConsumerDisclosure
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeMetadata (Optional) When true, the response includes metadata indicating which properties are editable.
 func (op *ConsumerDisclosuresUpdateOp) IncludeMetadata(val string) *ConsumerDisclosuresUpdateOp {
-    if op != nil {
-        op.QueryOpts.Set("include_metadata", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_metadata", val)
+	}
+	return op
 }
 
 // CustomFieldsCreate creates an account custom field.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountcustomfields/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountcustomfields/create
+//
 // SDK Method Accounts::createCustomField
 func (s *Service) CustomFieldsCreate(customField *model.CustomField) *CustomFieldsCreateOp {
-    return &CustomFieldsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "custom_fields",
-        Payload: customField,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "custom_fields",
+		Payload:    customField,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsCreateOp implements DocuSign API SDK Accounts::createCustomField
 type CustomFieldsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsCreateOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ApplyToTemplates (Optional) When **true,** the new custom field is applied to all of the templates on the account.
 func (op *CustomFieldsCreateOp) ApplyToTemplates() *CustomFieldsCreateOp {
-    if op != nil {
-        op.QueryOpts.Set("apply_to_templates", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("apply_to_templates", "true")
+	}
+	return op
 }
 
 // CustomFieldsDelete deletes an account custom field.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountcustomfields/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountcustomfields/delete
+//
 // SDK Method Accounts::deleteCustomField
 func (s *Service) CustomFieldsDelete(customFieldID string) *CustomFieldsDeleteOp {
-    return &CustomFieldsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"custom_fields",customFieldID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"custom_fields", customFieldID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsDeleteOp implements DocuSign API SDK Accounts::deleteCustomField
 type CustomFieldsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsDeleteOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *CustomFieldsDeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // ApplyToTemplates set the call query parameter apply_to_templates
 func (op *CustomFieldsDeleteOp) ApplyToTemplates() *CustomFieldsDeleteOp {
-    if op != nil {
-        op.QueryOpts.Set("apply_to_templates", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("apply_to_templates", "true")
+	}
+	return op
 }
 
 // CustomFieldsList gets a list of custom fields.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountcustomfields/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountcustomfields/list
+//
 // SDK Method Accounts::listCustomFields
 func (s *Service) CustomFieldsList() *CustomFieldsListOp {
-    return &CustomFieldsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "custom_fields",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "custom_fields",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsListOp implements DocuSign API SDK Accounts::listCustomFields
 type CustomFieldsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsListOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // CustomFieldsUpdate updates an account custom field.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountcustomfields/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountcustomfields/update
+//
 // SDK Method Accounts::updateCustomField
 func (s *Service) CustomFieldsUpdate(customFieldID string, customField *model.CustomField) *CustomFieldsUpdateOp {
-    return &CustomFieldsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"custom_fields",customFieldID},"/"),
-        Payload: customField,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"custom_fields", customFieldID}, "/"),
+		Payload:    customField,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsUpdateOp implements DocuSign API SDK Accounts::updateCustomField
 type CustomFieldsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsUpdateOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ApplyToTemplates set the call query parameter apply_to_templates
 func (op *CustomFieldsUpdateOp) ApplyToTemplates() *CustomFieldsUpdateOp {
-    if op != nil {
-        op.QueryOpts.Set("apply_to_templates", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("apply_to_templates", "true")
+	}
+	return op
 }
 
 // PasswordRulesGet gets the password rules for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpasswordrules/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpasswordrules/get
+//
 // SDK Method Accounts::getAccountPasswordRules
 func (s *Service) PasswordRulesGet() *PasswordRulesGetOp {
-    return &PasswordRulesGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "settings/password_rules",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PasswordRulesGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "settings/password_rules",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PasswordRulesGetOp implements DocuSign API SDK Accounts::getAccountPasswordRules
 type PasswordRulesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PasswordRulesGetOp) Do(ctx context.Context)  (*model.AccountPasswordRules, error) {
-    var res *model.AccountPasswordRules
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PasswordRulesGetOp) Do(ctx context.Context) (*model.AccountPasswordRules, error) {
+	var res *model.AccountPasswordRules
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // PasswordRulesGetForUser gets membership account password rules.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpasswordrules/getforuser
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpasswordrules/getforuser
+//
 // SDK Method Accounts::getPasswordRules
 func (s *Service) PasswordRulesGetForUser() *PasswordRulesGetForUserOp {
-    return &PasswordRulesGetForUserOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "/v2.1/current_user/password_rules",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PasswordRulesGetForUserOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2.1/current_user/password_rules",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PasswordRulesGetForUserOp implements DocuSign API SDK Accounts::getPasswordRules
 type PasswordRulesGetForUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PasswordRulesGetForUserOp) Do(ctx context.Context)  (*model.UserPasswordRules, error) {
-    var res *model.UserPasswordRules
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PasswordRulesGetForUserOp) Do(ctx context.Context) (*model.UserPasswordRules, error) {
+	var res *model.UserPasswordRules
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // PasswordRulesUpdate updates the password rules for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpasswordrules/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpasswordrules/update
+//
 // SDK Method Accounts::updateAccountPasswordRules
 func (s *Service) PasswordRulesUpdate(accountPasswordRules *model.AccountPasswordRules) *PasswordRulesUpdateOp {
-    return &PasswordRulesUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "settings/password_rules",
-        Payload: accountPasswordRules,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PasswordRulesUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "settings/password_rules",
+		Payload:    accountPasswordRules,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PasswordRulesUpdateOp implements DocuSign API SDK Accounts::updateAccountPasswordRules
 type PasswordRulesUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PasswordRulesUpdateOp) Do(ctx context.Context)  (*model.AccountPasswordRules, error) {
-    var res *model.AccountPasswordRules
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PasswordRulesUpdateOp) Do(ctx context.Context) (*model.AccountPasswordRules, error) {
+	var res *model.AccountPasswordRules
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // PermissionProfilesCreate creates a new permission profile for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpermissionprofiles/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/create
+//
 // SDK Method Accounts::createPermissionProfile
 func (s *Service) PermissionProfilesCreate(permissionProfile *model.PermissionProfile) *PermissionProfilesCreateOp {
-    return &PermissionProfilesCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "permission_profiles",
-        Payload: permissionProfile,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PermissionProfilesCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "permission_profiles",
+		Payload:    permissionProfile,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PermissionProfilesCreateOp implements DocuSign API SDK Accounts::createPermissionProfile
 type PermissionProfilesCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesCreateOp) Do(ctx context.Context)  (*model.PermissionProfile, error) {
-    var res *model.PermissionProfile
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PermissionProfilesCreateOp) Do(ctx context.Context) (*model.PermissionProfile, error) {
+	var res *model.PermissionProfile
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Include is a comma-separated list of additional properties to return in the response. The only valid value for this request is `metadata`, which returns metadata indicating whether the properties associated with the account permission profile are editable.
 func (op *PermissionProfilesCreateOp) Include(val ...string) *PermissionProfilesCreateOp {
-    if op != nil {
-        op.QueryOpts.Set("include", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // PermissionProfilesDelete deletes a permission profile from an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpermissionprofiles/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/delete
+//
 // SDK Method Accounts::deletePermissionProfile
 func (s *Service) PermissionProfilesDelete(permissionProfileID string) *PermissionProfilesDeleteOp {
-    return &PermissionProfilesDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"permission_profiles",permissionProfileID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PermissionProfilesDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"permission_profiles", permissionProfileID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PermissionProfilesDeleteOp implements DocuSign API SDK Accounts::deletePermissionProfile
 type PermissionProfilesDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesDeleteOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *PermissionProfilesDeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // MoveUsersTo set the call query parameter move_users_to
 func (op *PermissionProfilesDeleteOp) MoveUsersTo(val string) *PermissionProfilesDeleteOp {
-    if op != nil {
-        op.QueryOpts.Set("move_users_to", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("move_users_to", val)
+	}
+	return op
 }
 
 // PermissionProfilesGet returns a permission profile for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpermissionprofiles/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/get
+//
 // SDK Method Accounts::getPermissionProfile
 func (s *Service) PermissionProfilesGet(permissionProfileID string) *PermissionProfilesGetOp {
-    return &PermissionProfilesGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"permission_profiles",permissionProfileID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PermissionProfilesGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"permission_profiles", permissionProfileID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PermissionProfilesGetOp implements DocuSign API SDK Accounts::getPermissionProfile
 type PermissionProfilesGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesGetOp) Do(ctx context.Context)  (*model.PermissionProfile, error) {
-    var res *model.PermissionProfile
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PermissionProfilesGetOp) Do(ctx context.Context) (*model.PermissionProfile, error) {
+	var res *model.PermissionProfile
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Include is a comma-separated list of additional properties to return in the response. The only valid value for this request is `metadata`, which returns metadata indicating whether the properties associated with the account permission profile are editable.
 func (op *PermissionProfilesGetOp) Include(val ...string) *PermissionProfilesGetOp {
-    if op != nil {
-        op.QueryOpts.Set("include", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // PermissionProfilesList gets a list of permission profiles.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpermissionprofiles/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/list
+//
 // SDK Method Accounts::listPermissions
 func (s *Service) PermissionProfilesList() *PermissionProfilesListOp {
-    return &PermissionProfilesListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "permission_profiles",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PermissionProfilesListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "permission_profiles",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PermissionProfilesListOp implements DocuSign API SDK Accounts::listPermissions
 type PermissionProfilesListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesListOp) Do(ctx context.Context)  (*model.PermissionProfileInformation, error) {
-    var res *model.PermissionProfileInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PermissionProfilesListOp) Do(ctx context.Context) (*model.PermissionProfileInformation, error) {
+	var res *model.PermissionProfileInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Include is a comma-separated list of additional properties to return in the response. Valid values are:
-// 
+//
 // - `user_count`: The total number of users associated with the permission profile.
 // - `closed_users`: Includes closed users in the `user_count`.
 // - `account_management`: The account management settings.
 // - `metadata`: Metadata indicating whether the properties associated with the account permission profile are editable.
-// 
+//
 // Example: `user_count,closed_users`
 func (op *PermissionProfilesListOp) Include(val string) *PermissionProfilesListOp {
-    if op != nil {
-        op.QueryOpts.Set("include", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include", val)
+	}
+	return op
 }
 
 // PermissionProfilesUpdate updates a permission profile.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountpermissionprofiles/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountpermissionprofiles/update
+//
 // SDK Method Accounts::updatePermissionProfile
 func (s *Service) PermissionProfilesUpdate(permissionProfileID string, permissionProfile *model.PermissionProfile) *PermissionProfilesUpdateOp {
-    return &PermissionProfilesUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"permission_profiles",permissionProfileID},"/"),
-        Payload: permissionProfile,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &PermissionProfilesUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"permission_profiles", permissionProfileID}, "/"),
+		Payload:    permissionProfile,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // PermissionProfilesUpdateOp implements DocuSign API SDK Accounts::updatePermissionProfile
 type PermissionProfilesUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *PermissionProfilesUpdateOp) Do(ctx context.Context)  (*model.PermissionProfile, error) {
-    var res *model.PermissionProfile
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *PermissionProfilesUpdateOp) Do(ctx context.Context) (*model.PermissionProfile, error) {
+	var res *model.PermissionProfile
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Include is a comma-separated list of additional properties to return in the response. The only valid value for this request is `metadata`, which returns metadata indicating whether the properties associated with the account permission profile are editable.
 func (op *PermissionProfilesUpdateOp) Include(val ...string) *PermissionProfilesUpdateOp {
-    if op != nil {
-        op.QueryOpts.Set("include", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // SignatureProvidersList gets the available signature providers for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatureproviders/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatureproviders/list
+//
 // SDK Method Accounts::listSignatureProviders
 func (s *Service) SignatureProvidersList() *SignatureProvidersListOp {
-    return &SignatureProvidersListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "signatureProviders",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignatureProvidersListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "signatureProviders",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignatureProvidersListOp implements DocuSign API SDK Accounts::listSignatureProviders
 type SignatureProvidersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignatureProvidersListOp) Do(ctx context.Context)  (*model.AccountSignatureProviders, error) {
-    var res *model.AccountSignatureProviders
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignatureProvidersListOp) Do(ctx context.Context) (*model.AccountSignatureProviders, error) {
+	var res *model.AccountSignatureProviders
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // TabSettingsGet returns tab settings list for specified account
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounttabsettings/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounttabsettings/get
+//
 // SDK Method Accounts::getAccountTabSettings
 func (s *Service) TabSettingsGet() *TabSettingsGetOp {
-    return &TabSettingsGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "settings/tabs",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &TabSettingsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "settings/tabs",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // TabSettingsGetOp implements DocuSign API SDK Accounts::getAccountTabSettings
 type TabSettingsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TabSettingsGetOp) Do(ctx context.Context)  (*model.TabAccountSettings, error) {
-    var res *model.TabAccountSettings
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *TabSettingsGetOp) Do(ctx context.Context) (*model.TabAccountSettings, error) {
+	var res *model.TabAccountSettings
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // TabSettingsUpdate modifies tab settings for specified account
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounttabsettings/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounttabsettings/update
+//
 // SDK Method Accounts::updateAccountTabSettings
 func (s *Service) TabSettingsUpdate(tabAccountSettings *model.TabAccountSettings) *TabSettingsUpdateOp {
-    return &TabSettingsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "settings/tabs",
-        Payload: tabAccountSettings,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &TabSettingsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "settings/tabs",
+		Payload:    tabAccountSettings,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // TabSettingsUpdateOp implements DocuSign API SDK Accounts::updateAccountTabSettings
 type TabSettingsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *TabSettingsUpdateOp) Do(ctx context.Context)  (*model.TabAccountSettings, error) {
-    var res *model.TabAccountSettings
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *TabSettingsUpdateOp) Do(ctx context.Context) (*model.TabAccountSettings, error) {
+	var res *model.TabAccountSettings
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // WatermarksGet get watermark information.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountwatermarks/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountwatermarks/get
+//
 // SDK Method Accounts::getWatermark
 func (s *Service) WatermarksGet() *WatermarksGetOp {
-    return &WatermarksGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "watermark",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &WatermarksGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "watermark",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // WatermarksGetOp implements DocuSign API SDK Accounts::getWatermark
 type WatermarksGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *WatermarksGetOp) Do(ctx context.Context)  (*model.Watermark, error) {
-    var res *model.Watermark
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *WatermarksGetOp) Do(ctx context.Context) (*model.Watermark, error) {
+	var res *model.Watermark
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // WatermarksPreview get watermark preview.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountwatermarks/preview
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountwatermarks/preview
+//
 // SDK Method Accounts::getWatermarkPreview
 func (s *Service) WatermarksPreview(watermark *model.Watermark) *WatermarksPreviewOp {
-    return &WatermarksPreviewOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "watermark/preview",
-        Payload: watermark,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &WatermarksPreviewOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "watermark/preview",
+		Payload:    watermark,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // WatermarksPreviewOp implements DocuSign API SDK Accounts::getWatermarkPreview
 type WatermarksPreviewOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *WatermarksPreviewOp) Do(ctx context.Context)  (*model.Watermark, error) {
-    var res *model.Watermark
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *WatermarksPreviewOp) Do(ctx context.Context) (*model.Watermark, error) {
+	var res *model.Watermark
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // WatermarksUpdate update watermark information.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountwatermarks/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountwatermarks/update
+//
 // SDK Method Accounts::updateWatermark
 func (s *Service) WatermarksUpdate(watermark *model.Watermark) *WatermarksUpdateOp {
-    return &WatermarksUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "watermark",
-        Payload: watermark,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &WatermarksUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "watermark",
+		Payload:    watermark,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // WatermarksUpdateOp implements DocuSign API SDK Accounts::updateWatermark
 type WatermarksUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *WatermarksUpdateOp) Do(ctx context.Context)  (*model.Watermark, error) {
-    var res *model.Watermark
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *WatermarksUpdateOp) Do(ctx context.Context) (*model.Watermark, error) {
+	var res *model.Watermark
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Create creates new accounts.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/create
+//
 // SDK Method Accounts::create
 func (s *Service) Create(newAccountDefinition *model.NewAccountDefinition) *CreateOp {
-    return &CreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "/v2.1/accounts",
-        Payload: newAccountDefinition,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "/v2.1/accounts",
+		Payload:    newAccountDefinition,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CreateOp implements DocuSign API SDK Accounts::create
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context)  (*model.NewAccountSummary, error) {
-    var res *model.NewAccountSummary
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CreateOp) Do(ctx context.Context) (*model.NewAccountSummary, error) {
+	var res *model.NewAccountSummary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Delete deletes the specified account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/delete
+//
 // SDK Method Accounts::delete
 func (s *Service) Delete() *DeleteOp {
-    return &DeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: "/v2.1/accounts/{accountId}",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "/v2.1/accounts/{accountId}",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DeleteOp implements DocuSign API SDK Accounts::delete
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // DeleteCaptiveRecipient deletes the signature for one or more captive recipient records.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/deletecaptiverecipient
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/deletecaptiverecipient
+//
 // SDK Method Accounts::deleteCaptiveRecipient
 func (s *Service) DeleteCaptiveRecipient(recipientPart string, captiveRecipientInformation *model.CaptiveRecipientInformation) *DeleteCaptiveRecipientOp {
-    return &DeleteCaptiveRecipientOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"captive_recipients",recipientPart},"/"),
-        Payload: captiveRecipientInformation,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DeleteCaptiveRecipientOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"captive_recipients", recipientPart}, "/"),
+		Payload:    captiveRecipientInformation,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DeleteCaptiveRecipientOp implements DocuSign API SDK Accounts::deleteCaptiveRecipient
 type DeleteCaptiveRecipientOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteCaptiveRecipientOp) Do(ctx context.Context)  (*model.CaptiveRecipientInformation, error) {
-    var res *model.CaptiveRecipientInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DeleteCaptiveRecipientOp) Do(ctx context.Context) (*model.CaptiveRecipientInformation, error) {
+	var res *model.CaptiveRecipientInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Get retrieves the account information for the specified account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/get
+//
 // SDK Method Accounts::GetAccountInformation
 func (s *Service) Get() *GetOp {
-    return &GetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "/v2.1/accounts/{accountId}",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2.1/accounts/{accountId}",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetOp implements DocuSign API SDK Accounts::GetAccountInformation
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context)  (*model.AccountInformation, error) {
-    var res *model.AccountInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetOp) Do(ctx context.Context) (*model.AccountInformation, error) {
+	var res *model.AccountInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeAccountSettings when **true,** includes account settings
 // in the response. If you omit this parameter, the default behavior is **false.**
 func (op *GetOp) IncludeAccountSettings() *GetOp {
-    if op != nil {
-        op.QueryOpts.Set("include_account_settings", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_account_settings", "true")
+	}
+	return op
 }
 
 // GetBillingCharges gets list of recurring and usage charges for the account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/getbillingcharges
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/getbillingcharges
+//
 // SDK Method Accounts::getBillingCharges
 func (s *Service) GetBillingCharges() *GetBillingChargesOp {
-    return &GetBillingChargesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "billing_charges",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetBillingChargesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "billing_charges",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetBillingChargesOp implements DocuSign API SDK Accounts::getBillingCharges
 type GetBillingChargesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetBillingChargesOp) Do(ctx context.Context)  (*model.BillingChargeResponse, error) {
-    var res *model.BillingChargeResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetBillingChargesOp) Do(ctx context.Context) (*model.BillingChargeResponse, error) {
+	var res *model.BillingChargeResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeCharges specifies which billing charges to return.
 // Valid values are:
-// 
+//
 // * envelopes
 // * seats
 func (op *GetBillingChargesOp) IncludeCharges(val string) *GetBillingChargesOp {
-    if op != nil {
-        op.QueryOpts.Set("include_charges", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_charges", val)
+	}
+	return op
 }
 
 // GetProvisioning retrieves the account provisioning information for the account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/getprovisioning
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/getprovisioning
+//
 // SDK Method Accounts::getProvisioning
 func (s *Service) GetProvisioning() *GetProvisioningOp {
-    return &GetProvisioningOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "/v2.1/accounts/provisioning",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetProvisioningOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2.1/accounts/provisioning",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetProvisioningOp implements DocuSign API SDK Accounts::getProvisioning
 type GetProvisioningOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetProvisioningOp) Do(ctx context.Context)  (*model.ProvisioningInformation, error) {
-    var res *model.ProvisioningInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetProvisioningOp) Do(ctx context.Context) (*model.ProvisioningInformation, error) {
+	var res *model.ProvisioningInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ListRecipientNamesByEmail gets the recipient names associated with an email address.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/listrecipientnamesbyemail
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/listrecipientnamesbyemail
+//
 // SDK Method Accounts::listRecipientNamesByEmail
 func (s *Service) ListRecipientNamesByEmail() *ListRecipientNamesByEmailOp {
-    return &ListRecipientNamesByEmailOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "recipient_names",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListRecipientNamesByEmailOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "recipient_names",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListRecipientNamesByEmailOp implements DocuSign API SDK Accounts::listRecipientNamesByEmail
 type ListRecipientNamesByEmailOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListRecipientNamesByEmailOp) Do(ctx context.Context)  (*model.RecipientNamesResponse, error) {
-    var res *model.RecipientNamesResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListRecipientNamesByEmailOp) Do(ctx context.Context) (*model.RecipientNamesResponse, error) {
+	var res *model.RecipientNamesResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Email is the email address for which you want to retrieve recipient names.
 func (op *ListRecipientNamesByEmailOp) Email(val string) *ListRecipientNamesByEmailOp {
-    if op != nil {
-        op.QueryOpts.Set("email", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("email", val)
+	}
+	return op
 }
 
 // ListSettings gets account settings information.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/listsettings
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/listsettings
+//
 // SDK Method Accounts::listSettings
 func (s *Service) ListSettings() *ListSettingsOp {
-    return &ListSettingsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "settings",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListSettingsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "settings",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListSettingsOp implements DocuSign API SDK Accounts::listSettings
 type ListSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSettingsOp) Do(ctx context.Context)  (*model.AccountSettingsInformation, error) {
-    var res *model.AccountSettingsInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListSettingsOp) Do(ctx context.Context) (*model.AccountSettingsInformation, error) {
+	var res *model.AccountSettingsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ListSharedAccess reserved: Gets the shared item status for one or more users.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/listsharedaccess
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/listsharedaccess
+//
 // SDK Method Accounts::listSharedAccess
 func (s *Service) ListSharedAccess() *ListSharedAccessOp {
-    return &ListSharedAccessOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "shared_access",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListSharedAccessOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "shared_access",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListSharedAccessOp implements DocuSign API SDK Accounts::listSharedAccess
 type ListSharedAccessOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSharedAccessOp) Do(ctx context.Context)  (*model.AccountSharedAccess, error) {
-    var res *model.AccountSharedAccess
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListSharedAccessOp) Do(ctx context.Context) (*model.AccountSharedAccess, error) {
+	var res *model.AccountSharedAccess
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count is the maximum number of results to return.
-// 
+//
 // Use `start_position` to specify the number of results to skip.
-// 
+//
 // Default: `1000`
 func (op *ListSharedAccessOp) Count(val int) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // EnvelopesNotSharedUserStatus this query parameter works in conjunction with `user_ids`. When you specify one of the following user statuses, the query limits the results to only users that match the specified status:
@@ -1359,178 +1360,178 @@ func (op *ListSharedAccessOp) Count(val int) *ListSharedAccessOp {
 // - `Closed`: User Membership is closed
 // - `Disabled`: User Membership is disabled
 func (op *ListSharedAccessOp) EnvelopesNotSharedUserStatus(val string) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("envelopes_not_shared_user_status", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("envelopes_not_shared_user_status", val)
+	}
+	return op
 }
 
 // FolderIds is a comma-separated list of folder IDs for which to return shared item information. If `item_type` is set to `folders`, at least one folder ID is required.
 func (op *ListSharedAccessOp) FolderIds(val ...string) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("folder_ids", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("folder_ids", strings.Join(val, ","))
+	}
+	return op
 }
 
 // ItemType specifies the type of shared item being requested. Valid values:
-// 
+//
 // - `envelopes`: Get information about envelope sharing between users.
 // - `templates`: Get information about template sharing among users and groups.
 // - `folders`: Get information about folder sharing among users and groups.
 func (op *ListSharedAccessOp) ItemType(val string) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("item_type", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("item_type", val)
+	}
+	return op
 }
 
 // SearchText filter user names based on the specified string. The wild-card '*' (asterisk) can be used in the string.
 func (op *ListSharedAccessOp) SearchText(val string) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("search_text", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("search_text", val)
+	}
+	return op
 }
 
-// Shared is a comma-separated list of sharing filters that specifies which users appear in the response. 
-// 
+// Shared is a comma-separated list of sharing filters that specifies which users appear in the response.
+//
 // - `not_shared`: The response lists users who do not share items of `item_type` with the current user.
-// 
+//
 // - `shared_to`: The response lists users in `user_list` who are sharing items to current user.
-// 
+//
 // - `shared_from`: The response lists users in `user_list` who are sharing items from the current user.
-// 
+//
 // - `shared_to_and_from`: The response lists users in `user_list` who are sharing items to and from the current user.
-// 
+//
 // If the current user does not have administrative privileges, only the `shared_to` option is valid.
 func (op *ListSharedAccessOp) Shared(val string) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("shared", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("shared", val)
+	}
+	return op
 }
 
 // StartPosition is the zero-based index of the
 // result from which to start returning results.
-// 
+//
 // Use with `count` to limit the number
 // of results.
-// 
+//
 // The default value is `0`.
 func (op *ListSharedAccessOp) StartPosition(val int) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // UserIds is a comma-separated list of user IDs for whom the shared item information is being requested.
 func (op *ListSharedAccessOp) UserIds(val ...string) *ListSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("user_ids", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("user_ids", strings.Join(val, ","))
+	}
+	return op
 }
 
 // ListSupportedLanguages gets the supported languages for envelope recipients.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/listsupportedlanguages
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/listsupportedlanguages
+//
 // SDK Method Accounts::getSupportedLanguages
 func (s *Service) ListSupportedLanguages() *ListSupportedLanguagesOp {
-    return &ListSupportedLanguagesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "supported_languages",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListSupportedLanguagesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "supported_languages",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListSupportedLanguagesOp implements DocuSign API SDK Accounts::getSupportedLanguages
 type ListSupportedLanguagesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSupportedLanguagesOp) Do(ctx context.Context)  (*model.SupportedLanguages, error) {
-    var res *model.SupportedLanguages
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListSupportedLanguagesOp) Do(ctx context.Context) (*model.SupportedLanguages, error) {
+	var res *model.SupportedLanguages
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ListUnsupportedFileTypes gets a list of unsupported file types.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/listunsupportedfiletypes
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/listunsupportedfiletypes
+//
 // SDK Method Accounts::listUnsupportedFileTypes
 func (s *Service) ListUnsupportedFileTypes() *ListUnsupportedFileTypesOp {
-    return &ListUnsupportedFileTypesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "unsupported_file_types",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListUnsupportedFileTypesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "unsupported_file_types",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListUnsupportedFileTypesOp implements DocuSign API SDK Accounts::listUnsupportedFileTypes
 type ListUnsupportedFileTypesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListUnsupportedFileTypesOp) Do(ctx context.Context)  (*model.FileTypeList, error) {
-    var res *model.FileTypeList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListUnsupportedFileTypesOp) Do(ctx context.Context) (*model.FileTypeList, error) {
+	var res *model.FileTypeList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // UpdateSettings updates the account settings for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/updatesettings
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/updatesettings
+//
 // SDK Method Accounts::updateSettings
 func (s *Service) UpdateSettings(accountSettingsInformation *model.AccountSettingsInformation) *UpdateSettingsOp {
-    return &UpdateSettingsOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "settings",
-        Payload: accountSettingsInformation,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateSettingsOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "settings",
+		Payload:    accountSettingsInformation,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateSettingsOp implements DocuSign API SDK Accounts::updateSettings
 type UpdateSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateSettingsOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UpdateSettingsOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // UpdateSharedAccess reserved: Sets the shared access information for users.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/updatesharedaccess
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/updatesharedaccess
+//
 // SDK Method Accounts::updateSharedAccess
 func (s *Service) UpdateSharedAccess(accountSharedAccess *model.AccountSharedAccess) *UpdateSharedAccessOp {
-    return &UpdateSharedAccessOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "shared_access",
-        Payload: accountSharedAccess,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateSharedAccessOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "shared_access",
+		Payload:    accountSharedAccess,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateSharedAccessOp implements DocuSign API SDK Accounts::updateSharedAccess
 type UpdateSharedAccessOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateSharedAccessOp) Do(ctx context.Context)  (*model.AccountSharedAccess, error) {
-    var res *model.AccountSharedAccess
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateSharedAccessOp) Do(ctx context.Context) (*model.AccountSharedAccess, error) {
+	var res *model.AccountSharedAccess
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ItemType specifies the type of shared item being set:
@@ -1538,613 +1539,612 @@ func (op *UpdateSharedAccessOp) Do(ctx context.Context)  (*model.AccountSharedAc
 // - `templates`: Set information about template sharing among users and groups.
 // - `folders`: Get information about folder sharing among users and groups.
 func (op *UpdateSharedAccessOp) ItemType(val string) *UpdateSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("item_type", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("item_type", val)
+	}
+	return op
 }
 
 // PreserveExistingSharedAccess when **true,** preserve the existing shared access settings.
 func (op *UpdateSharedAccessOp) PreserveExistingSharedAccess(val string) *UpdateSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("preserve_existing_shared_access", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("preserve_existing_shared_access", val)
+	}
+	return op
 }
 
 // UserIds is a comma-separated list of IDs for users whose shared item access is being set.
 func (op *UpdateSharedAccessOp) UserIds(val ...string) *UpdateSharedAccessOp {
-    if op != nil {
-        op.QueryOpts.Set("user_ids", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("user_ids", strings.Join(val, ","))
+	}
+	return op
 }
 
 // ENoteConfigurationsDelete deletes configuration information for the eNote eOriginal integration.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/enoteconfigurations/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/enoteconfigurations/delete
+//
 // SDK Method Accounts::deleteENoteConfiguration
 func (s *Service) ENoteConfigurationsDelete() *ENoteConfigurationsDeleteOp {
-    return &ENoteConfigurationsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: "settings/enote_configuration",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ENoteConfigurationsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "settings/enote_configuration",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ENoteConfigurationsDeleteOp implements DocuSign API SDK Accounts::deleteENoteConfiguration
 type ENoteConfigurationsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ENoteConfigurationsDeleteOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *ENoteConfigurationsDeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // ENoteConfigurationsGet returns the configuration information for the eNote eOriginal integration.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/enoteconfigurations/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/enoteconfigurations/get
+//
 // SDK Method Accounts::getENoteConfiguration
 func (s *Service) ENoteConfigurationsGet() *ENoteConfigurationsGetOp {
-    return &ENoteConfigurationsGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "settings/enote_configuration",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ENoteConfigurationsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "settings/enote_configuration",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ENoteConfigurationsGetOp implements DocuSign API SDK Accounts::getENoteConfiguration
 type ENoteConfigurationsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ENoteConfigurationsGetOp) Do(ctx context.Context)  (*model.ENoteConfiguration, error) {
-    var res *model.ENoteConfiguration
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ENoteConfigurationsGetOp) Do(ctx context.Context) (*model.ENoteConfiguration, error) {
+	var res *model.ENoteConfiguration
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ENoteConfigurationsUpdate updates configuration information for the eNote eOriginal integration.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/enoteconfigurations/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/enoteconfigurations/update
+//
 // SDK Method Accounts::updateENoteConfiguration
 func (s *Service) ENoteConfigurationsUpdate(eNoteConfiguration *model.ENoteConfiguration) *ENoteConfigurationsUpdateOp {
-    return &ENoteConfigurationsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "settings/enote_configuration",
-        Payload: eNoteConfiguration,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ENoteConfigurationsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "settings/enote_configuration",
+		Payload:    eNoteConfiguration,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ENoteConfigurationsUpdateOp implements DocuSign API SDK Accounts::updateENoteConfiguration
 type ENoteConfigurationsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context)  (*model.ENoteConfiguration, error) {
-    var res *model.ENoteConfiguration
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ENoteConfigurationsUpdateOp) Do(ctx context.Context) (*model.ENoteConfiguration, error) {
+	var res *model.ENoteConfiguration
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // SealProvidersList returns available seals for specified account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsealproviders/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsealproviders/list
+//
 // SDK Method Accounts::getSealProviders
 func (s *Service) SealProvidersList() *SealProvidersListOp {
-    return &SealProvidersListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "seals",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SealProvidersListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "seals",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SealProvidersListOp implements DocuSign API SDK Accounts::getSealProviders
 type SealProvidersListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SealProvidersListOp) Do(ctx context.Context)  (*model.AccountSeals, error) {
-    var res *model.AccountSeals
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SealProvidersListOp) Do(ctx context.Context) (*model.AccountSeals, error) {
+	var res *model.AccountSeals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // SignaturesCreateAccountSignatures adds or updates one or more account signatures.
 // This request may include images in multi-part format.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/createaccountsignatures
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/createaccountsignatures
+//
 // SDK Method Accounts::createAccountSignatures
 func (s *Service) SignaturesCreateAccountSignatures(accountSignaturesInformation *model.AccountSignaturesInformation) *SignaturesCreateAccountSignaturesOp {
-    return &SignaturesCreateAccountSignaturesOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "signatures",
-        Payload: accountSignaturesInformation,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesCreateAccountSignaturesOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "signatures",
+		Payload:    accountSignaturesInformation,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesCreateAccountSignaturesOp implements DocuSign API SDK Accounts::createAccountSignatures
 type SignaturesCreateAccountSignaturesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesCreateAccountSignaturesOp) Do(ctx context.Context)  (*model.AccountSignaturesInformation, error) {
-    var res *model.AccountSignaturesInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesCreateAccountSignaturesOp) Do(ctx context.Context) (*model.AccountSignaturesInformation, error) {
+	var res *model.AccountSignaturesInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DecodeOnly set the call query parameter decode_only
 func (op *SignaturesCreateAccountSignaturesOp) DecodeOnly(val string) *SignaturesCreateAccountSignaturesOp {
-    if op != nil {
-        op.QueryOpts.Set("decode_only", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("decode_only", val)
+	}
+	return op
 }
 
 // SignaturesDeleteAccountSignature close the specified signature by ID.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/deleteaccountsignature
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/deleteaccountsignature
+//
 // SDK Method Accounts::deleteAccountSignature
 func (s *Service) SignaturesDeleteAccountSignature(signatureID string) *SignaturesDeleteAccountSignatureOp {
-    return &SignaturesDeleteAccountSignatureOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"signatures",signatureID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesDeleteAccountSignatureOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"signatures", signatureID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesDeleteAccountSignatureOp implements DocuSign API SDK Accounts::deleteAccountSignature
 type SignaturesDeleteAccountSignatureOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesDeleteAccountSignatureOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *SignaturesDeleteAccountSignatureOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // SignaturesDeleteAccountSignatureImage deletes a signature image, initials, or stamp.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/deleteaccountsignatureimage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/deleteaccountsignatureimage
+//
 // SDK Method Accounts::deleteAccountSignatureImage
 func (s *Service) SignaturesDeleteAccountSignatureImage(imageType string, signatureID string) *SignaturesDeleteAccountSignatureImageOp {
-    return &SignaturesDeleteAccountSignatureImageOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"signatures",signatureID,imageType},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesDeleteAccountSignatureImageOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"signatures", signatureID, imageType}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesDeleteAccountSignatureImageOp implements DocuSign API SDK Accounts::deleteAccountSignatureImage
 type SignaturesDeleteAccountSignatureImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesDeleteAccountSignatureImageOp) Do(ctx context.Context)  (*model.AccountSignature, error) {
-    var res *model.AccountSignature
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesDeleteAccountSignatureImageOp) Do(ctx context.Context) (*model.AccountSignature, error) {
+	var res *model.AccountSignature
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // SignaturesGetAccountSignature returns information about the specified signature.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/getaccountsignature
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/getaccountsignature
+//
 // SDK Method Accounts::getAccountSignature
 func (s *Service) SignaturesGetAccountSignature(signatureID string) *SignaturesGetAccountSignatureOp {
-    return &SignaturesGetAccountSignatureOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"signatures",signatureID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesGetAccountSignatureOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"signatures", signatureID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesGetAccountSignatureOp implements DocuSign API SDK Accounts::getAccountSignature
 type SignaturesGetAccountSignatureOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesGetAccountSignatureOp) Do(ctx context.Context)  (*model.AccountSignature, error) {
-    var res *model.AccountSignature
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesGetAccountSignatureOp) Do(ctx context.Context) (*model.AccountSignature, error) {
+	var res *model.AccountSignature
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // SignaturesGetAccountSignatureImage returns a signature image, initials, or stamp.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/getaccountsignatureimage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/getaccountsignatureimage
+//
 // SDK Method Accounts::getAccountSignatureImage
 func (s *Service) SignaturesGetAccountSignatureImage(imageType string, signatureID string) *SignaturesGetAccountSignatureImageOp {
-    return &SignaturesGetAccountSignatureImageOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"signatures",signatureID,imageType},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesGetAccountSignatureImageOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"signatures", signatureID, imageType}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesGetAccountSignatureImageOp implements DocuSign API SDK Accounts::getAccountSignatureImage
 type SignaturesGetAccountSignatureImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesGetAccountSignatureImageOp) Do(ctx context.Context)  (*esign.Download, error) {
-    var res *esign.Download
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesGetAccountSignatureImageOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeChrome when **true,** the chrome (or frame containing the added line and identifier) is included with the signature image.
 func (op *SignaturesGetAccountSignatureImageOp) IncludeChrome(val string) *SignaturesGetAccountSignatureImageOp {
-    if op != nil {
-        op.QueryOpts.Set("include_chrome", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_chrome", val)
+	}
+	return op
 }
 
 // SignaturesGetAccountSignatures returns the managed signature definitions for the account
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/getaccountsignatures
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/getaccountsignatures
+//
 // SDK Method Accounts::getAccountSignatures
 func (s *Service) SignaturesGetAccountSignatures() *SignaturesGetAccountSignaturesOp {
-    return &SignaturesGetAccountSignaturesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "signatures",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesGetAccountSignaturesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "signatures",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesGetAccountSignaturesOp implements DocuSign API SDK Accounts::getAccountSignatures
 type SignaturesGetAccountSignaturesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesGetAccountSignaturesOp) Do(ctx context.Context)  (*model.AccountSignaturesInformation, error) {
-    var res *model.AccountSignaturesInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesGetAccountSignaturesOp) Do(ctx context.Context) (*model.AccountSignaturesInformation, error) {
+	var res *model.AccountSignaturesInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // StampFormat set the call query parameter stamp_format
 func (op *SignaturesGetAccountSignaturesOp) StampFormat(val string) *SignaturesGetAccountSignaturesOp {
-    if op != nil {
-        op.QueryOpts.Set("stamp_format", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("stamp_format", val)
+	}
+	return op
 }
 
 // StampName set the call query parameter stamp_name
 func (op *SignaturesGetAccountSignaturesOp) StampName(val string) *SignaturesGetAccountSignaturesOp {
-    if op != nil {
-        op.QueryOpts.Set("stamp_name", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("stamp_name", val)
+	}
+	return op
 }
 
 // StampType set the call query parameter stamp_type
 func (op *SignaturesGetAccountSignaturesOp) StampType(val string) *SignaturesGetAccountSignaturesOp {
-    if op != nil {
-        op.QueryOpts.Set("stamp_type", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("stamp_type", val)
+	}
+	return op
 }
 
 // SignaturesUpdateAccountSignature updates an account signature.
-// 
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/updateaccountsignature
-// 
+//
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/updateaccountsignature
+//
 // SDK Method Accounts::updateAccountSignature
 func (s *Service) SignaturesUpdateAccountSignature(accountSignaturesInformation *model.AccountSignaturesInformation) *SignaturesUpdateAccountSignatureOp {
-    return &SignaturesUpdateAccountSignatureOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "signatures",
-        Payload: accountSignaturesInformation,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesUpdateAccountSignatureOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "signatures",
+		Payload:    accountSignaturesInformation,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesUpdateAccountSignatureOp implements DocuSign API SDK Accounts::updateAccountSignature
 type SignaturesUpdateAccountSignatureOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesUpdateAccountSignatureOp) Do(ctx context.Context)  (*model.AccountSignaturesInformation, error) {
-    var res *model.AccountSignaturesInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesUpdateAccountSignatureOp) Do(ctx context.Context) (*model.AccountSignaturesInformation, error) {
+	var res *model.AccountSignaturesInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // SignaturesUpdateAccountSignatureByID updates an account signature.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/updateaccountsignaturebyid
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/updateaccountsignaturebyid
+//
 // SDK Method Accounts::updateAccountSignatureById
 func (s *Service) SignaturesUpdateAccountSignatureByID(signatureID string, accountSignatureDefinition *model.AccountSignatureDefinition) *SignaturesUpdateAccountSignatureByIDOp {
-    return &SignaturesUpdateAccountSignatureByIDOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"signatures",signatureID},"/"),
-        Payload: accountSignatureDefinition,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesUpdateAccountSignatureByIDOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"signatures", signatureID}, "/"),
+		Payload:    accountSignatureDefinition,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesUpdateAccountSignatureByIDOp implements DocuSign API SDK Accounts::updateAccountSignatureById
 type SignaturesUpdateAccountSignatureByIDOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesUpdateAccountSignatureByIDOp) Do(ctx context.Context)  (*model.AccountSignature, error) {
-    var res *model.AccountSignature
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesUpdateAccountSignatureByIDOp) Do(ctx context.Context) (*model.AccountSignature, error) {
+	var res *model.AccountSignature
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // CloseExistingSignature when **true,** closes the current signature.
 func (op *SignaturesUpdateAccountSignatureByIDOp) CloseExistingSignature(val string) *SignaturesUpdateAccountSignatureByIDOp {
-    if op != nil {
-        op.QueryOpts.Set("close_existing_signature", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("close_existing_signature", val)
+	}
+	return op
 }
 
 // SignaturesUpdateAccountSignatureImage sets a signature image, initials, or stamp.
 // If media is an io.ReadCloser, Do() will close media.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accountsignatures/updateaccountsignatureimage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/updateaccountsignatureimage
+//
 // SDK Method Accounts::updateAccountSignatureImage
 func (s *Service) SignaturesUpdateAccountSignatureImage(imageType string, signatureID string, media io.Reader, mimeType string) *SignaturesUpdateAccountSignatureImageOp {
-    return &SignaturesUpdateAccountSignatureImageOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"signatures",signatureID,imageType},"/"),
-        Payload: &esign.UploadFile{ Reader: media, ContentType: mimeType },
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &SignaturesUpdateAccountSignatureImageOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"signatures", signatureID, imageType}, "/"),
+		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // SignaturesUpdateAccountSignatureImageOp implements DocuSign API SDK Accounts::updateAccountSignatureImage
 type SignaturesUpdateAccountSignatureImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *SignaturesUpdateAccountSignatureImageOp) Do(ctx context.Context)  (*model.AccountSignature, error) {
-    var res *model.AccountSignature
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *SignaturesUpdateAccountSignatureImageOp) Do(ctx context.Context) (*model.AccountSignature, error) {
+	var res *model.AccountSignature
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // TransparentPng set the call query parameter transparent_png
 func (op *SignaturesUpdateAccountSignatureImageOp) TransparentPng(val string) *SignaturesUpdateAccountSignatureImageOp {
-    if op != nil {
-        op.QueryOpts.Set("transparent_png", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("transparent_png", val)
+	}
+	return op
 }
 
 // GetEnvelopePurgeConfiguration gets the envelope purge configuration for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/getenvelopepurgeconfiguration
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/getenvelopepurgeconfiguration
+//
 // SDK Method Accounts::getEnvelopePurgeConfiguration
 func (s *Service) GetEnvelopePurgeConfiguration() *GetEnvelopePurgeConfigurationOp {
-    return &GetEnvelopePurgeConfigurationOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "settings/envelope_purge_configuration",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetEnvelopePurgeConfigurationOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "settings/envelope_purge_configuration",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetEnvelopePurgeConfigurationOp implements DocuSign API SDK Accounts::getEnvelopePurgeConfiguration
 type GetEnvelopePurgeConfigurationOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetEnvelopePurgeConfigurationOp) Do(ctx context.Context)  (*model.EnvelopePurgeConfiguration, error) {
-    var res *model.EnvelopePurgeConfiguration
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetEnvelopePurgeConfigurationOp) Do(ctx context.Context) (*model.EnvelopePurgeConfiguration, error) {
+	var res *model.EnvelopePurgeConfiguration
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // GetNotificationDefaults gets envelope notification defaults.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/getnotificationdefaults
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/getnotificationdefaults
+//
 // SDK Method Accounts::getNotificationDefaults
 func (s *Service) GetNotificationDefaults() *GetNotificationDefaultsOp {
-    return &GetNotificationDefaultsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "settings/notification_defaults",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetNotificationDefaultsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "settings/notification_defaults",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetNotificationDefaultsOp implements DocuSign API SDK Accounts::getNotificationDefaults
 type GetNotificationDefaultsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetNotificationDefaultsOp) Do(ctx context.Context)  (*model.NotificationDefaults, error) {
-    var res *model.NotificationDefaults
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetNotificationDefaultsOp) Do(ctx context.Context) (*model.NotificationDefaults, error) {
+	var res *model.NotificationDefaults
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // UpdateEnvelopePurgeConfiguration sets the envelope purge configuration for an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/updateenvelopepurgeconfiguration
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/updateenvelopepurgeconfiguration
+//
 // SDK Method Accounts::updateEnvelopePurgeConfiguration
 func (s *Service) UpdateEnvelopePurgeConfiguration(envelopePurgeConfiguration *model.EnvelopePurgeConfiguration) *UpdateEnvelopePurgeConfigurationOp {
-    return &UpdateEnvelopePurgeConfigurationOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "settings/envelope_purge_configuration",
-        Payload: envelopePurgeConfiguration,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateEnvelopePurgeConfigurationOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "settings/envelope_purge_configuration",
+		Payload:    envelopePurgeConfiguration,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateEnvelopePurgeConfigurationOp implements DocuSign API SDK Accounts::updateEnvelopePurgeConfiguration
 type UpdateEnvelopePurgeConfigurationOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateEnvelopePurgeConfigurationOp) Do(ctx context.Context)  (*model.EnvelopePurgeConfiguration, error) {
-    var res *model.EnvelopePurgeConfiguration
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateEnvelopePurgeConfigurationOp) Do(ctx context.Context) (*model.EnvelopePurgeConfiguration, error) {
+	var res *model.EnvelopePurgeConfiguration
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // UpdateNotificationDefaults updates envelope notification default settings.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/accounts/updatenotificationdefaults
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accounts/updatenotificationdefaults
+//
 // SDK Method Accounts::updateNotificationDefaults
 func (s *Service) UpdateNotificationDefaults(notificationDefaults *model.NotificationDefaults) *UpdateNotificationDefaultsOp {
-    return &UpdateNotificationDefaultsOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "settings/notification_defaults",
-        Payload: notificationDefaults,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateNotificationDefaultsOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "settings/notification_defaults",
+		Payload:    notificationDefaults,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateNotificationDefaultsOp implements DocuSign API SDK Accounts::updateNotificationDefaults
 type UpdateNotificationDefaultsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateNotificationDefaultsOp) Do(ctx context.Context)  (*model.NotificationDefaults, error) {
-    var res *model.NotificationDefaults
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateNotificationDefaultsOp) Do(ctx context.Context) (*model.NotificationDefaults, error) {
+	var res *model.NotificationDefaults
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // FavoriteTemplatesGetFavoriteTemplates retrieves the list of favorited templates for this caller.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/favoritetemplates/getfavoritetemplates
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/favoritetemplates/getfavoritetemplates
+//
 // SDK Method Accounts::getFavoriteTemplates
 func (s *Service) FavoriteTemplatesGetFavoriteTemplates() *FavoriteTemplatesGetFavoriteTemplatesOp {
-    return &FavoriteTemplatesGetFavoriteTemplatesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "favorite_templates",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &FavoriteTemplatesGetFavoriteTemplatesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "favorite_templates",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // FavoriteTemplatesGetFavoriteTemplatesOp implements DocuSign API SDK Accounts::getFavoriteTemplates
 type FavoriteTemplatesGetFavoriteTemplatesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *FavoriteTemplatesGetFavoriteTemplatesOp) Do(ctx context.Context)  (*model.FavoriteTemplatesInfo, error) {
-    var res *model.FavoriteTemplatesInfo
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *FavoriteTemplatesGetFavoriteTemplatesOp) Do(ctx context.Context) (*model.FavoriteTemplatesInfo, error) {
+	var res *model.FavoriteTemplatesInfo
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // FavoriteTemplatesUnFavoriteTemplate unfavorites a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/favoritetemplates/unfavoritetemplate
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/favoritetemplates/unfavoritetemplate
+//
 // SDK Method Accounts::unFavoriteTemplate
 func (s *Service) FavoriteTemplatesUnFavoriteTemplate(favoriteTemplatesInfo *model.FavoriteTemplatesInfo) *FavoriteTemplatesUnFavoriteTemplateOp {
-    return &FavoriteTemplatesUnFavoriteTemplateOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: "favorite_templates",
-        Payload: favoriteTemplatesInfo,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &FavoriteTemplatesUnFavoriteTemplateOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "favorite_templates",
+		Payload:    favoriteTemplatesInfo,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // FavoriteTemplatesUnFavoriteTemplateOp implements DocuSign API SDK Accounts::unFavoriteTemplate
 type FavoriteTemplatesUnFavoriteTemplateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *FavoriteTemplatesUnFavoriteTemplateOp) Do(ctx context.Context)  (*model.FavoriteTemplatesInfo, error) {
-    var res *model.FavoriteTemplatesInfo
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *FavoriteTemplatesUnFavoriteTemplateOp) Do(ctx context.Context) (*model.FavoriteTemplatesInfo, error) {
+	var res *model.FavoriteTemplatesInfo
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // FavoriteTemplatesUpdateFavoriteTemplate sets a template as a favorite.
-// 
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/favoritetemplates/updatefavoritetemplate
-// 
+//
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/favoritetemplates/updatefavoritetemplate
+//
 // SDK Method Accounts::updateFavoriteTemplate
 func (s *Service) FavoriteTemplatesUpdateFavoriteTemplate(favoriteTemplatesInfo *model.FavoriteTemplatesInfo) *FavoriteTemplatesUpdateFavoriteTemplateOp {
-    return &FavoriteTemplatesUpdateFavoriteTemplateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "favorite_templates",
-        Payload: favoriteTemplatesInfo,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &FavoriteTemplatesUpdateFavoriteTemplateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "favorite_templates",
+		Payload:    favoriteTemplatesInfo,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // FavoriteTemplatesUpdateFavoriteTemplateOp implements DocuSign API SDK Accounts::updateFavoriteTemplate
 type FavoriteTemplatesUpdateFavoriteTemplateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *FavoriteTemplatesUpdateFavoriteTemplateOp) Do(ctx context.Context)  (*model.FavoriteTemplatesInfo, error) {
-    var res *model.FavoriteTemplatesInfo
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *FavoriteTemplatesUpdateFavoriteTemplateOp) Do(ctx context.Context) (*model.FavoriteTemplatesInfo, error) {
+	var res *model.FavoriteTemplatesInfo
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IdentityVerificationsList retrieves the Identity Verification workflows available to an account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/accounts/identityverifications/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/accounts/identityverifications/list
+//
 // SDK Method Accounts::getAccountIdentityVerification
 func (s *Service) IdentityVerificationsList() *IdentityVerificationsListOp {
-    return &IdentityVerificationsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "identity_verification",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &IdentityVerificationsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "identity_verification",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // IdentityVerificationsListOp implements DocuSign API SDK Accounts::getAccountIdentityVerification
 type IdentityVerificationsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *IdentityVerificationsListOp) Do(ctx context.Context)  (*model.AccountIdentityVerificationResponse, error) {
-    var res *model.AccountIdentityVerificationResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *IdentityVerificationsListOp) Do(ctx context.Context) (*model.AccountIdentityVerificationResponse, error) {
+	var res *model.AccountIdentityVerificationResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

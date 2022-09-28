@@ -25,6 +25,16 @@ import (
 	"github.com/jfcote87/oauth2/jwt"
 )
 
+const (
+	oauthScopeImpersonation    = "impersonation"
+	oauthScopeExtendedLifetime = "extended"
+	// OAuthScopeSignature is required to call most eSignature REST API endpoints and set automatically by OAuth2 calls.
+	OAuthScopeSignature = "signature"
+	// OAuthScopeOpenID enables granting consent to an external app on behalf of your users. See
+	// https://developers.docusign.com/platform/auth/consent for details.
+	OAuthScopeOpenID = "openid"
+)
+
 type demoFlag bool
 
 func (df demoFlag) endpoint() oauth2.Endpoint {
@@ -121,10 +131,10 @@ func addUnique(scopes []string, scope string) []string {
 // the state query parameter on your redirect callback.
 func (c *OAuth2Config) AuthURL(state string, scopes ...string) string {
 	if len(scopes) == 0 {
-		scopes = []string{"signature"}
+		scopes = append(scopes, OAuthScopeSignature)
 	}
 	if c.ExtendedLifetime {
-		scopes = addUnique(scopes, "extended")
+		scopes = addUnique(scopes, oauthScopeExtendedLifetime)
 	}
 	cfg := c.codeGrantConfig(scopes...)
 	opts := make([]oauth2.AuthCodeOption, 0)
@@ -240,9 +250,9 @@ type JWTConfig struct {
 // UserConsentURL creates a url allowing a user to consent to impersonation
 // https://developers.docusign.com/esign-rest-api/guides/authentication/obtaining-consent#individual-consent
 func (c *JWTConfig) UserConsentURL(redirectURL string, scopes ...string) string {
-	scopeValue := "signature impersonation"
+	scopeValue := OAuthScopeSignature + " " + oauthScopeImpersonation
 	if len(scopes) > 0 {
-		scopeValue = strings.Join(addUnique(scopes, "impersonation"), " ")
+		scopeValue = strings.Join(addUnique(scopes, oauthScopeImpersonation), " ")
 	}
 	// docusign insists upon %20 not + in scope definition
 	return demoFlag(c.IsDemo).endpoint().AuthURL + "?" + replacePlus(url.Values{
@@ -278,7 +288,7 @@ func (c *JWTConfig) ExternalAdminConsentURL(redirectURL, authType, state string,
 		return "", fmt.Errorf("at least one scope must be specified")
 	}
 	v := url.Values{
-		"scope":               {"openid"},
+		"scope":               {OAuthScopeOpenID},
 		"client_id":           {c.IntegratorKey},
 		"response_type":       {authType},
 		"redirect_uri":        {redirectURL},
@@ -311,10 +321,10 @@ type AdminConsentResponse struct {
 
 func (c *JWTConfig) jwtRefresher(apiUserName string, signer jws.Signer, scopes ...string) func(ctx context.Context, tk *oauth2.Token) (*oauth2.Token, error) {
 	if len(scopes) == 0 {
-		scopes = []string{"signature", "impersonation"}
-	} else {
-		scopes = addUnique(scopes, "impersonation")
+		scopes = append(scopes, OAuthScopeSignature)
 	}
+	scopes = addUnique(scopes, oauthScopeImpersonation)
+
 	cfg := &jwt.Config{
 		Issuer:         c.IntegratorKey,
 		Signer:         signer,

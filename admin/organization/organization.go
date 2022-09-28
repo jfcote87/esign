@@ -7,8 +7,9 @@
 
 // Package organization implements the DocuSign SDK
 // category Organization.
-// 
+//
 // Methods for working with organizations.
+//
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/admin-api/reference/Organization
@@ -17,64 +18,63 @@
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/admin"
-//   ) 
+//   )
 //   ...
 //   organizationService := organization.New(esignCredential)
 package organization // import "github.com/jfcote87/esignadmin/organization"
 
 import (
-    "context"
-    "net/url"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/admin"
+	"context"
+	"net/url"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/admin"
 )
 
-// Service implements DocuSign Organization Category API operations
+// Service implements DocuSign Organization API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a organization service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // GetOrganizations returns a list of organizations that the authenticated user belongs to.
-// 
+//
 // https://developers.docusign.com/docs/admin-api/reference/organization/organization/getorganizations
-// 
+//
 // SDK Method Organization::getOrganizations
 func (s *Service) GetOrganizations() *GetOrganizationsOp {
-    return &GetOrganizationsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "/v2/organizations",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.AdminV2,
-    }
+	return &GetOrganizationsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2/organizations",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.AdminV2,
+	}
 }
 
 // GetOrganizationsOp implements DocuSign API SDK Organization::getOrganizations
 type GetOrganizationsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOrganizationsOp) Do(ctx context.Context)  (*admin.OrganizationsResponse, error) {
-    var res *admin.OrganizationsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetOrganizationsOp) Do(ctx context.Context) (*admin.OrganizationsResponse, error) {
+	var res *admin.OrganizationsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Mode specifies how to select the organizations. Valid values:
-// 
+//
 // - `org_admin`: Returns organizations for which the authenticated user is an admin.
 // - `account_membership`: Returns organizations that contain an account of which the authenticated user is a member
-// 
+//
 // Default value: `org_admin`
 func (op *GetOrganizationsOp) Mode(val string) *GetOrganizationsOp {
-    if op != nil {
-        op.QueryOpts.Set("mode", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("mode", val)
+	}
+	return op
 }
-

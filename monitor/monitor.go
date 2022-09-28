@@ -7,79 +7,79 @@
 
 // Package monitor implements the DocuSign SDK
 // category Monitor.
-// 
+//
 // Each time an event occurs, DocuSign Monitor returns JSON Data Types from a download endpoint. The endpoints include the Monitor UI, SIEMs such as Splunk, and other Customer API endpoints.
-// 
+//
 // **Note**: Your accounts must exist inside an organization to access this data.
 //
+//
 // Service Api documentation may be found at:
-// https://developers.docusign.com/docs/monitor-api/reference/Monitor
+// https://developers.docusign.com/docs/monitor-api/reference/monitor
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
-//   ) 
+//   )
 //   ...
 //   monitorService := monitor.New(esignCredential)
 package monitor // import "github.com/jfcote87/esign/monitor"
 
 import (
-    "context"
-    "fmt"
-    "net/url"
-    "strings"
-    
-    "github.com/jfcote87/esign"
+	"context"
+	"fmt"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
 )
 
-// Service implements DocuSign Monitor Category API operations
+// Service implements DocuSign Monitor API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a monitor service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // GetStream gets customer event data for an organization.
-// 
+//
 // https://developers.docusign.com/docs/monitor-api/reference/monitor/dataset/getstream
-// 
+//
 // SDK Method Monitor::getStream
 func (s *Service) GetStream(dataSetName string, version string) *GetStreamOp {
-    return &GetStreamOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"","api","v{version}","datasets",dataSetName,"stream"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.MonitorV2,
-    }
+	return &GetStreamOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"", "api", "v{version}", "datasets", dataSetName, "stream"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.MonitorV2,
+	}
 }
 
 // GetStreamOp implements DocuSign API SDK Monitor::getStream
 type GetStreamOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetStreamOp) Do(ctx context.Context)  (CursoredResult, error) {
-    var res CursoredResult
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetStreamOp) Do(ctx context.Context) (CursoredResult, error) {
+	var res CursoredResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Cursor is a location in the DataSet that continues querying data.
 func (op *GetStreamOp) Cursor(val string) *GetStreamOp {
-    if op != nil {
-        op.QueryOpts.Set("cursor", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("cursor", val)
+	}
+	return op
 }
 
 // Limit is the maximum number of records to return.
 func (op *GetStreamOp) Limit(val int) *GetStreamOp {
-    if op != nil {
-        op.QueryOpts.Set("limit", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("limit", fmt.Sprintf("%d", val))
+	}
+	return op
 }
-

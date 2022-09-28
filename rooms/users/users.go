@@ -7,8 +7,9 @@
 
 // Package users implements the DocuSign SDK
 // category Users.
-// 
+//
 // A user is a person who is either added to a room (as a participant), or who is a member of a company. This section shows you how to manage users, including how to update and delete National Association of REALTORS® member numbers.
+//
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/rooms-api/reference/Users
@@ -17,144 +18,144 @@
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/rooms"
-//   ) 
+//   )
 //   ...
 //   usersService := users.New(esignCredential)
 package users // import "github.com/jfcote87/esignrooms//users"
 
 import (
-    "context"
-    "fmt"
-    "io"
-    "net/url"
-    "strings"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/rooms"
+	"context"
+	"fmt"
+	"io"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/rooms"
 )
 
-// Service implements DocuSign Users Category API operations
+// Service implements DocuSign Users API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a users service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // AddUserToOffice adds a user to an office.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/addusertooffice
-// 
+//
 // SDK Method Users::AddUserToOffice
 func (s *Service) AddUserToOffice(userID string, body *rooms.DesignatedOffice) *AddUserToOfficeOp {
-    return &AddUserToOfficeOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"add_to_office"},"/"),
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &AddUserToOfficeOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "add_to_office"}, "/"),
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // AddUserToOfficeOp implements DocuSign API SDK Users::AddUserToOffice
 type AddUserToOfficeOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AddUserToOfficeOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *AddUserToOfficeOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // AddUserToRegion adds a user to a region.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/addusertoregion
-// 
+//
 // SDK Method Users::AddUserToRegion
 func (s *Service) AddUserToRegion(userID string, body *rooms.DesignatedRegion) *AddUserToRegionOp {
-    return &AddUserToRegionOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"add_to_region"},"/"),
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &AddUserToRegionOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "add_to_region"}, "/"),
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // AddUserToRegionOp implements DocuSign API SDK Users::AddUserToRegion
 type AddUserToRegionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *AddUserToRegionOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *AddUserToRegionOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // GetUser gets a user.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/getuser
-// 
+//
 // SDK Method Users::GetUser
 func (s *Service) GetUser(userID string) *GetUserOp {
-    return &GetUserOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"users",userID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &GetUserOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"users", userID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // GetUserOp implements DocuSign API SDK Users::GetUser
 type GetUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetUserOp) Do(ctx context.Context)  (*rooms.User, error) {
-    var res *rooms.User
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetUserOp) Do(ctx context.Context) (*rooms.User, error) {
+	var res *rooms.User
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // GetUsers gets a list of users.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/getusers
-// 
+//
 // SDK Method Users::GetUsers
 func (s *Service) GetUsers() *GetUsersOp {
-    return &GetUsersOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "users",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &GetUsersOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "users",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // GetUsersOp implements DocuSign API SDK Users::GetUsers
 type GetUsersOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetUsersOp) Do(ctx context.Context)  (*rooms.UserSummaryList, error) {
-    var res *rooms.UserSummaryList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetUsersOp) Do(ctx context.Context) (*rooms.UserSummaryList, error) {
+	var res *rooms.UserSummaryList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
-// Filter (Optional) Filters results by name and email address. This is a  "starts with" filter, which means that you can enter only the beginning of a name or email address. 
-// 
+// Filter (Optional) Filters results by name and email address. This is a  "starts with" filter, which means that you can enter only the beginning of a name or email address.
+//
 // **Note**: You do not use a wildcard with this filter.
 func (op *GetUsersOp) Filter(val string) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("filter", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("filter", val)
+	}
+	return op
 }
 
 // Sort (Optional) Specifies how to sort the results. Valid values are:
-// 
+//
 // - `FirstNameAsc`
 // - `LastNameAsc`
 // - `EmailAsc`
@@ -162,364 +163,363 @@ func (op *GetUsersOp) Filter(val string) *GetUsersOp {
 // - `LastNameDesc`
 // - `EmailDesc`
 func (op *GetUsersOp) Sort(val string) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("sort", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("sort", val)
+	}
+	return op
 }
 
 // DefaultOfficeID (Optional) Filters for users who have this office id as their default office id.
 func (op *GetUsersOp) DefaultOfficeID(val int) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("defaultOfficeId", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("defaultOfficeId", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // AccessLevel (Optional) Filters for users who have the specified access level. A user's access level and role determine the types of resources and actions that are available to them.
-// 
+//
 // Valid values are:
 // - Company: Users with this access level can administer resources across the company.
-// - Region: Users with this access level can administer offices and other resources within their regions. 
+// - Region: Users with this access level can administer offices and other resources within their regions.
 // - Office: Users with this access level can administer resources within their offices.
 // - Contributor: Users with this access level can only administer their own resources.
-// 
+//
 // **Note**: In requests, the values that you may use for this property depend on your permissions and whether you can add users at your access level or lower. This property applies only to Rooms Version 6.
 func (op *GetUsersOp) AccessLevel(val string) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("accessLevel", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("accessLevel", val)
+	}
+	return op
 }
 
 // TitleID (Optional) For Rooms Version 5 only, filters for users whose managers have the specified `titleId`.
 func (op *GetUsersOp) TitleID(val int) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("titleId", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("titleId", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // RoleID (Optional) For Rooms Version 6 only, filters for users who have the specified `roleId`.
 func (op *GetUsersOp) RoleID(val int) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("roleId", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("roleId", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // Status (Optional) Filters for users who have the specified `status`.
-// 
+//
 // Valid values are:
-// 
+//
 // - `Active`: The user is active.
 // - `Pending`: The user has been invited but has not yet accepted the invitation.
 func (op *GetUsersOp) Status(val string) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("status", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("status", val)
+	}
+	return op
 }
 
 // LockedOnly (Optional) When set to **true**, filters for users whose accounts are locked.
 func (op *GetUsersOp) LockedOnly() *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("lockedOnly", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("lockedOnly", "true")
+	}
+	return op
 }
 
 // StartPosition (Optional) The starting zero-based index position within the result set from which to begin the response. The default is `0`.
 func (op *GetUsersOp) StartPosition(val int) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("startPosition", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("startPosition", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // Count (Optional) The maximum number of users to return in the response. This value must be a number between `1` and `100` (default).
 func (op *GetUsersOp) Count(val int) *GetUsersOp {
-    if op != nil {
-        op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // InviteClassicAdmin invites a user to a v5 company account as an Admin.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/inviteclassicadmin
-// 
+//
 // SDK Method Users::InviteClassicAdmin
 func (s *Service) InviteClassicAdmin(body *rooms.ClassicAdminToInvite) *InviteClassicAdminOp {
-    return &InviteClassicAdminOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "users/invite_classic_admin",
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &InviteClassicAdminOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "users/invite_classic_admin",
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // InviteClassicAdminOp implements DocuSign API SDK Users::InviteClassicAdmin
 type InviteClassicAdminOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InviteClassicAdminOp) Do(ctx context.Context)  (*rooms.User, error) {
-    var res *rooms.User
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *InviteClassicAdminOp) Do(ctx context.Context) (*rooms.User, error) {
+	var res *rooms.User
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // InviteClassicAgent invites a user to a v5 company account as an Agent.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/inviteclassicagent
-// 
+//
 // SDK Method Users::InviteClassicAgent
 func (s *Service) InviteClassicAgent(body *rooms.ClassicAgentToInvite) *InviteClassicAgentOp {
-    return &InviteClassicAgentOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "users/invite_classic_agent",
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &InviteClassicAgentOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "users/invite_classic_agent",
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // InviteClassicAgentOp implements DocuSign API SDK Users::InviteClassicAgent
 type InviteClassicAgentOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InviteClassicAgentOp) Do(ctx context.Context)  (*rooms.User, error) {
-    var res *rooms.User
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *InviteClassicAgentOp) Do(ctx context.Context) (*rooms.User, error) {
+	var res *rooms.User
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // InviteClassicManager invites a user to a v5 company account as a Manager.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/inviteclassicmanager
-// 
+//
 // SDK Method Users::InviteClassicManager
 func (s *Service) InviteClassicManager(body *rooms.ClassicManagerToInvite) *InviteClassicManagerOp {
-    return &InviteClassicManagerOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "users/invite_classic_manager",
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &InviteClassicManagerOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "users/invite_classic_manager",
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // InviteClassicManagerOp implements DocuSign API SDK Users::InviteClassicManager
 type InviteClassicManagerOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InviteClassicManagerOp) Do(ctx context.Context)  (*rooms.User, error) {
-    var res *rooms.User
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *InviteClassicManagerOp) Do(ctx context.Context) (*rooms.User, error) {
+	var res *rooms.User
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // InviteUser invites a user to a v6 company account.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/inviteuser
-// 
+//
 // SDK Method Users::InviteUser
 func (s *Service) InviteUser(body *rooms.UserToInvite) *InviteUserOp {
-    return &InviteUserOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "users/invite_user",
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &InviteUserOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "users/invite_user",
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // InviteUserOp implements DocuSign API SDK Users::InviteUser
 type InviteUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *InviteUserOp) Do(ctx context.Context)  (*rooms.User, error) {
-    var res *rooms.User
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *InviteUserOp) Do(ctx context.Context) (*rooms.User, error) {
+	var res *rooms.User
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // LockUser locks a user's account.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/lockuser
-// 
+//
 // SDK Method Users::LockUser
 func (s *Service) LockUser(userID string, body *rooms.LockedOutDetails) *LockUserOp {
-    return &LockUserOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"lock"},"/"),
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &LockUserOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "lock"}, "/"),
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // LockUserOp implements DocuSign API SDK Users::LockUser
 type LockUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LockUserOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *LockUserOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // ReinviteUser reinvites a user to join a company account.
 // If media is an io.ReadCloser, Do() will close media.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/reinviteuser
-// 
+//
 // SDK Method Users::ReinviteUser
 func (s *Service) ReinviteUser(userID string, media io.Reader, mimeType string) *ReinviteUserOp {
-    return &ReinviteUserOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"reinvite"},"/"),
-        Payload: &esign.UploadFile{ Reader: media, ContentType: mimeType },
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &ReinviteUserOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "reinvite"}, "/"),
+		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // ReinviteUserOp implements DocuSign API SDK Users::ReinviteUser
 type ReinviteUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ReinviteUserOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *ReinviteUserOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // RemoveUser removes a user from a company account.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/removeuser
-// 
+//
 // SDK Method Users::RemoveUser
 func (s *Service) RemoveUser(userID string) *RemoveUserOp {
-    return &RemoveUserOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"users",userID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &RemoveUserOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"users", userID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // RemoveUserOp implements DocuSign API SDK Users::RemoveUser
 type RemoveUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RemoveUserOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *RemoveUserOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // RemoveUserFromOffice removes a user from an office.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/removeuserfromoffice
-// 
+//
 // SDK Method Users::RemoveUserFromOffice
 func (s *Service) RemoveUserFromOffice(userID string, body *rooms.DesignatedOffice) *RemoveUserFromOfficeOp {
-    return &RemoveUserFromOfficeOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"remove_from_office"},"/"),
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &RemoveUserFromOfficeOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "remove_from_office"}, "/"),
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // RemoveUserFromOfficeOp implements DocuSign API SDK Users::RemoveUserFromOffice
 type RemoveUserFromOfficeOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RemoveUserFromOfficeOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *RemoveUserFromOfficeOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // RemoveUserFromRegion removes a user from a region.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/removeuserfromregion
-// 
+//
 // SDK Method Users::RemoveUserFromRegion
 func (s *Service) RemoveUserFromRegion(userID string, body *rooms.DesignatedRegion) *RemoveUserFromRegionOp {
-    return &RemoveUserFromRegionOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"remove_from_region"},"/"),
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &RemoveUserFromRegionOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "remove_from_region"}, "/"),
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // RemoveUserFromRegionOp implements DocuSign API SDK Users::RemoveUserFromRegion
 type RemoveUserFromRegionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RemoveUserFromRegionOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *RemoveUserFromRegionOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // UnlockUser unlocks  a user's account.
 // If media is an io.ReadCloser, Do() will close media.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/unlockuser
-// 
+//
 // SDK Method Users::UnlockUser
 func (s *Service) UnlockUser(userID string, media io.Reader, mimeType string) *UnlockUserOp {
-    return &UnlockUserOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"users",userID,"unlock"},"/"),
-        Payload: &esign.UploadFile{ Reader: media, ContentType: mimeType },
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &UnlockUserOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"users", userID, "unlock"}, "/"),
+		Payload:    &esign.UploadFile{Reader: media, ContentType: mimeType},
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // UnlockUserOp implements DocuSign API SDK Users::UnlockUser
 type UnlockUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UnlockUserOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *UnlockUserOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // UpdateUser updates a user's default office.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/users/users/updateuser
-// 
+//
 // SDK Method Users::UpdateUser
 func (s *Service) UpdateUser(userID string, body *rooms.UserForUpdate) *UpdateUserOp {
-    return &UpdateUserOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"users",userID},"/"),
-        Payload: body,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &UpdateUserOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"users", userID}, "/"),
+		Payload:    body,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // UpdateUserOp implements DocuSign API SDK Users::UpdateUser
 type UpdateUserOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateUserOp) Do(ctx context.Context)  (*rooms.User, error) {
-    var res *rooms.User
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateUserOp) Do(ctx context.Context) (*rooms.User, error) {
+	var res *rooms.User
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

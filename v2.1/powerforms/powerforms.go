@@ -7,250 +7,251 @@
 
 // Package powerforms implements the DocuSign SDK
 // category PowerForms.
-// 
+//
 // The PowerForms category enables you to create and manage PowerForms that you can use for self service and email forms.
 //
+//
 // Service Api documentation may be found at:
-// https://developers.docusign.com/docs/esign-api/reference/PowerForms
+// https://developers.docusign.com/docs/esign-rest-api/reference/PowerForms
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/v2.1/model"
-//   ) 
+//   )
 //   ...
 //   powerformsService := powerforms.New(esignCredential)
 package powerforms // import "github.com/jfcote87/esignv2.1/powerforms"
 
 import (
-    "context"
-    "fmt"
-    "net/url"
-    "strings"
-    "time"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/v2.1/model"
+	"context"
+	"fmt"
+	"net/url"
+	"strings"
+	"time"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/v2.1/model"
 )
 
-// Service implements DocuSign PowerForms Category API operations
+// Service implements DocuSign PowerForms API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a powerforms service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // DataList returns the data that users entered in a PowerForm.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerformdata/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerformdata/list
+//
 // SDK Method PowerForms::getPowerFormData
 func (s *Service) DataList(powerFormID string) *DataListOp {
-    return &DataListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"powerforms",powerFormID,"form_data"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DataListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"powerforms", powerFormID, "form_data"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DataListOp implements DocuSign API SDK PowerForms::getPowerFormData
 type DataListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DataListOp) Do(ctx context.Context)  (*model.PowerFormsFormDataResponse, error) {
-    var res *model.PowerFormsFormDataResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DataListOp) Do(ctx context.Context) (*model.PowerFormsFormDataResponse, error) {
+	var res *model.PowerFormsFormDataResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DataLayout is the layout in which to return the PowerForm data. Valid values are:
-// 
+//
 // - `Native`
 // - `Csv_Classic`
 // - `Csv_One_Envelope_Per_Line`
 // - `Xml_Classic`
 func (op *DataListOp) DataLayout(val string) *DataListOp {
-    if op != nil {
-        op.QueryOpts.Set("data_layout", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("data_layout", val)
+	}
+	return op
 }
 
 // FromDate is the start date for a date range in UTC DateTime format.
-// 
+//
 // **Note:** If this property is null, no date filtering is applied.
 func (op *DataListOp) FromDate(val time.Time) *DataListOp {
-    if op != nil {
-        op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // ToDate is the end date of a date range in UTC DateTime format. The default value is `UtcNow`.
 func (op *DataListOp) ToDate(val time.Time) *DataListOp {
-    if op != nil {
-        op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // Create creates a new PowerForm
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/create
+//
 // SDK Method PowerForms::createPowerForm
 func (s *Service) Create(powerForm *model.PowerForm) *CreateOp {
-    return &CreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "powerforms",
-        Payload: powerForm,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "powerforms",
+		Payload:    powerForm,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CreateOp implements DocuSign API SDK PowerForms::createPowerForm
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context)  (*model.PowerForm, error) {
-    var res *model.PowerForm
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CreateOp) Do(ctx context.Context) (*model.PowerForm, error) {
+	var res *model.PowerForm
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Delete deletes a PowerForm.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/delete
+//
 // SDK Method PowerForms::deletePowerForm
 func (s *Service) Delete(powerFormID string) *DeleteOp {
-    return &DeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"powerforms",powerFormID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DeleteOp implements DocuSign API SDK PowerForms::deletePowerForm
 type DeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // DeleteList deletes one or more PowerForms.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/deletelist
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/deletelist
+//
 // SDK Method PowerForms::deletePowerForms
 func (s *Service) DeleteList(powerFormsRequest *model.PowerFormsRequest) *DeleteListOp {
-    return &DeleteListOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: "powerforms",
-        Payload: powerFormsRequest,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DeleteListOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       "powerforms",
+		Payload:    powerFormsRequest,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DeleteListOp implements DocuSign API SDK PowerForms::deletePowerForms
 type DeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteListOp) Do(ctx context.Context)  (*model.PowerFormsResponse, error) {
-    var res *model.PowerFormsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DeleteListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
+	var res *model.PowerFormsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Get returns a single PowerForm.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/get
+//
 // SDK Method PowerForms::getPowerForm
 func (s *Service) Get(powerFormID string) *GetOp {
-    return &GetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"powerforms",powerFormID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetOp implements DocuSign API SDK PowerForms::getPowerForm
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context)  (*model.PowerForm, error) {
-    var res *model.PowerForm
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetOp) Do(ctx context.Context) (*model.PowerForm, error) {
+	var res *model.PowerForm
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // List returns a list of PowerForms.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/list
+//
 // SDK Method PowerForms::listPowerForms
 func (s *Service) List() *ListOp {
-    return &ListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "powerforms",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "powerforms",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListOp implements DocuSign API SDK PowerForms::listPowerForms
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context)  (*model.PowerFormsResponse, error) {
-    var res *model.PowerFormsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListOp) Do(ctx context.Context) (*model.PowerFormsResponse, error) {
+	var res *model.PowerFormsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // FromDate is the start date for a date range.
-// 
+//
 // **Note:** If no value is provided, no date filtering is applied.
 func (op *ListOp) FromDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // Order is the order in which to sort the results.
-// 
-// Valid values are: 
-// 
-// 
+//
+// Valid values are:
+//
+//
 // * `asc`: Ascending order.
 // * `desc`: Descending order.
 func (op *ListOp) Order(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("order", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("order", val)
+	}
+	return op
 }
 
 // OrderBy is the file attribute to use to sort the results.
-// 
+//
 // Valid values are:
-// 
+//
 // - `sender`
 // - `auth`
 // - `used`
@@ -261,98 +262,97 @@ func (op *ListOp) Order(val string) *ListOp {
 // - `templatename`
 // - `created`
 func (op *ListOp) OrderBy(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("order_by", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("order_by", val)
+	}
+	return op
 }
 
 // SearchFields is a comma-separated list of additional properties to include in a search.
-// 
+//
 // - `sender`: Include sender name and email in the search.
 // - `recipients`: Include recipient names and emails in the search.
 // - `envelope`: Include envelope information in the search.
 func (op *ListOp) SearchFields(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("search_fields", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("search_fields", val)
+	}
+	return op
 }
 
 // SearchText use this parameter to search for specific text.
 func (op *ListOp) SearchText(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("search_text", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("search_text", val)
+	}
+	return op
 }
 
 // ToDate is the end date for a date range.
-// 
+//
 // **Note:** If no value is provided, this property defaults to the current date.
 func (op *ListOp) ToDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // ListSenders gets PowerForm senders.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/listsenders
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/listsenders
+//
 // SDK Method PowerForms::listPowerFormSenders
 func (s *Service) ListSenders() *ListSendersOp {
-    return &ListSendersOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "powerforms/senders",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListSendersOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "powerforms/senders",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListSendersOp implements DocuSign API SDK PowerForms::listPowerFormSenders
 type ListSendersOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListSendersOp) Do(ctx context.Context)  (*model.PowerFormSendersResponse, error) {
-    var res *model.PowerFormSendersResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListSendersOp) Do(ctx context.Context) (*model.PowerFormSendersResponse, error) {
+	var res *model.PowerFormSendersResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // StartPosition is the position within the total result set from which to start returning values. The value **thumbnail** may be used to return the page image.
 func (op *ListSendersOp) StartPosition(val int) *ListSendersOp {
-    if op != nil {
-        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // Update updates an existing PowerForm.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/powerforms/powerforms/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/powerforms/powerforms/update
+//
 // SDK Method PowerForms::updatePowerForm
 func (s *Service) Update(powerFormID string, powerForm *model.PowerForm) *UpdateOp {
-    return &UpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"powerforms",powerFormID},"/"),
-        Payload: powerForm,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"powerforms", powerFormID}, "/"),
+		Payload:    powerForm,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateOp implements DocuSign API SDK PowerForms::updatePowerForm
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context)  (*model.PowerForm, error) {
-    var res *model.PowerForm
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateOp) Do(ctx context.Context) (*model.PowerForm, error) {
+	var res *model.PowerForm
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

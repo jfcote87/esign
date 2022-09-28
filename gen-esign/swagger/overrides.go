@@ -3,9 +3,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// This file provides lists of type overrides for definition
-// properties (struct fields) and for operation parameters found in
-// Docusign's Rest API swagger definition.
 package swagger
 
 import (
@@ -29,6 +26,8 @@ var OperationSkipList = map[string]bool{
 	"v2.1:OAuth2_PostToken":  true,
 }
 
+// ResourceMaps provides links from the operation's tags to
+// the service
 var ResourceMaps = map[esign.APIVersion]map[string]string{
 	esign.AdminV2: {
 		"AccountSettingsExport":      "BulkOperations",
@@ -263,49 +262,6 @@ var ResourceMaps = map[esign.APIVersion]map[string]string{
 		"Workspaces":                            "Workspaces",
 	},
 }
-
-/*var serviceOverrides = map[string]string{
-	"v2:AccountSignatureProviders_GetSealProviders":                   "Accounts",
-	"v2:AccountIdentityVerification_GetAccountIdentityVerification":   "Accounts",
-	"v2:NotaryJournals_GetNotaryJournals":                             "Envelopes",
-	"v2:Views_PostEnvelopeRecipientSharedView":                        "Envelopes",
-	"v2.1:BillingPlan_GetDowngradeRequestBillingInfo":                 "Billing:GetDowngradeRequestBillingInfo",
-	"v2.1:BillingPlan_PutDowngradeAccountBillingPlan":                 "Billing:UpdatedBillingPlan",
-	"v2.1:AccountSignatureProviders_GetSealProviders":                 "Accounts",
-	"v2.1:AccountIdentityVerification_GetAccountIdentityVerification": "Accounts",
-	"v2.1:AccountSignatures_GetAccountSignatures":                     "Accounts:ListSignatures",
-	"v2.1:AccountSignatures_PutAccountSignature":                      "Accounts:UpdateSignatures",
-	"v2.1:AccountSignatures_GetAccountSignatureImage":                 "Accounts:GetAccountSignatureImage",
-	"v2.1:NotificationDefaults_PutNotificationDefaults":               "Accounts:UpdateNotificationDefaults",
-	"v2.1:NotaryJournals_GetNotaryJournals":                           "Envelopes",
-	"v2.1:Views_PostEnvelopeRecipientSharedView":                      "Envelopes",
-	"v2.1:Comments_PostEnvelopeComments":                              "Envelopes:CreateComments",
-	"v2.1:Comments_GetCommentsTranscript":                             "Envelopes:GetCommentsTranscript",
-	"v2.1:ResponsiveHtml_GetEnvelopeDocumentHtmlDefinitions":          "Envelopes:GetDocumentHtmlDefinitions",
-	"v2.1:ResponsiveHtml_PostDocumentResponsiveHtmlPreview":           "Envelopes:CreateDocumentResponsiveHtmlPreview",
-	"v2.1:Tabs_PutDocumentTabs":                                       "Envelopes:UpdateDocumentTabs",
-	"v2.1:Tabs_PostDocumentTabs":                                      "Envelopes:CreateDocumentTabs",
-	"v2.1:Tabs_DeleteDocumentTabs":                                    "Envelopes:DeleteDocumentTabs",
-	"v2.1:ResponsiveHtml_GetEnvelopeHtmlDefinitions":                  "Envelopes:GetHtmlDefinitions",
-	"v2.1:ResponsiveHtml_PostResponsiveHtmlPreview":                   "Envelopes:CreateResponsiveHtmlPreview",
-	"v2.1:Views_PostEnvelopeRecipientPreview":                         "Envelopes:CreateRecipientPreview",
-	"v2.1:EnvelopeTransferRules_GetEnvelopeTransferRules":             "Envelopes:GetTransferRules",
-	"v2.1:EnvelopeTransferRules_PutEnvelopeTransferRules":             "Envelopes:UpdateTransferRules",
-	"v2.1:EnvelopeTransferRules_PostEnvelopeTransferRules":            "Envelopes:CreateTransferRules",
-	"v2.1:EnvelopeTransferRules_PutEnvelopeTransferRule":              "Envelopes:UpdateTransferRules",
-	"v2.1:EnvelopeTransferRules_DeleteEnvelopeTransferRules":          "Envelopes:DeleteTransferRules",
-	"v2.1:EnvelopePurgeConfiguration_GetEnvelopePurgeConfiguration":   "Envelopes:GetPurgeConfiguration",
-	"v2.1:EnvelopePurgeConfiguration_PutEnvelopePurgeConfiguration":   "Envelopes:UpdatePurgeConfiguration",
-	"v2.1:NotificationDefaults_GetNotificationDefaults":               "Accounts:UpdateNotificationDefaults",
-	"v2.1:ResponsiveHtml_GetTemplateDocumentHtmlDefinitions":          "Templates:GetDocumentHtmlDefinitions",
-	"v2.1:ResponsiveHtml_PostTemplateDocumentResponsiveHtmlPreview":   "Templates:CreateDocumentResponsiveHtmlPreview",
-	"v2.1:Tabs_PutupdateTemplateDocumentTabs ":                        "Templates:UpdateDocumentTabs",
-	"v2.1:Tabs_PostTemplateDocumentTabs":                              "Templates:CreateDocumentTabs",
-	"v2.1:Tabs_DeleteTemplateDocumentTabs":                            "Templates:DeleteDocumentTabs",
-	"v2.1:ResponsiveHtml_GetTemplateHtmlDefinitions":                  "Templates:GetHtmlDefinitions",
-	"v2.1:ResponsiveHtml_PostTemplateResponsiveHtmlPreview":           "Templates:CreateResponsiveHtmlPreview",
-	"v2.1:Views_PostTemplateRecipientPreview":                         "Templates:CreateRecipientPreview",
-} */
 
 type override struct {
 	Object string
@@ -2127,3 +2083,73 @@ func getRadioTabValues(tabs []RadioGroup) []NameValue {
 	}
 	return results
 }`
+
+// PackageScopes return definitions of scopes for the package
+func PackageScopes(ver esign.APIVersion) string {
+	switch ver {
+	case esign.AdminV2:
+		return scopesAdmin
+	case esign.RoomsV2:
+		return scopesRooms
+	case esign.ClickV1:
+		return scopesClick
+	}
+	return ""
+}
+
+const (
+	scopesAdmin = `
+// For more infomation on how to use scopes, see https://developers.docusign.com/docs/admin-api/admin101/auth/
+const (
+	// OAuthScopeOrganizationRead required to get lists of organizations and organization data.
+	OAuthScopeOrganizationRead = "organization_read"
+	// OAuthScopeGroupRead required to get lists of groups associated with an account.
+	OAuthScopeGroupRead = "group_read"
+	// OAuthScopePermissionRead equired to get lists of permission profiles associated with an account.
+	OAuthScopePermissionRead = "permission_read"
+	// OAuthScopeUserRead required to read user data.
+	OAuthScopeUserRead = "user_read"
+	// OAuthScopeUserWrite required to update, create, or delete users.
+	OAuthScopeUserWrite = "user_write"
+	// OAuthScopeAccountRead required to get account data.
+	OAuthScopeAccountRead = "account_read"
+	// OAuthScopeDomainRead required to get data on claimed domains for the organization.
+	OAuthScopeDomainRead = "domain_read"
+	// OAuthScopeIdentityProviderRead required to get data on already-defined identity providers for an organization.
+	OAuthScopeIdentityProviderRead = "identity_provider_read"
+)
+`
+	scopesRooms = `
+// For more infomation on how to use scopes, see https://developers.docusign.com/docs/rooms-api/rooms101/auth/
+const (
+	// OAuthScopeRead authorizes reading DocuSign Rooms data
+	OAuthScopeRead = "dtr.rooms.read"
+	// OAuthScopeWrite authorizes updating DocuSign Room data
+	OAuthScopeWrite = "dtr.rooms.write"
+	// OAuthScopeDocumentsRead authorizes reading of documents from DocuSign Rooms
+	OAuthScopeDocumentsRead = "dtr.documents.read"
+	// OAuthScopeDocumentsWrite authorizes writing documents to DocuSign Rooms
+	OAuthScopeDocumentsWrite = "dtr.documents.write"
+	// OAuthScopeProfileRead authorizes reading of profile data for accounts or signers associated with your company
+	OAuthScopeProfileRead = "dtr.profile.read"
+	// OAuthScopeProfileWrite authorizes writing profile data to accounts or signers associated with your company
+	OAuthScopeProfileWrite = "dtr.profile.write"
+	// OAuthScopeCompanyRead authorizes reading information from all rooms and profiles associated with your company
+	OAuthScopeCompanyRead = "dtr.company.read"
+	// OAuthScopeCompanyWrite authorizes writing information to all rooms and profiles associated with your company
+	OAuthScopeCompanyWrite = "dtr.company.write"
+	// OAuthScopeForms authorizes use of endpoints related to the Forms feature
+	OAuthScopeForms = "room_forms"
+)
+`
+	scopesClick = `
+// For more infomation on how to use scopes, see https://developers.docusign.com/docs/click-api/click101/auth/
+const (
+	// OAuthScopeManage enables all clickwrap operations, including creating, sending, and updating clickwraps;
+	// getting a list of clickwraps, creating user agreements, getting a list of users, and retrieving responses.
+	OAuthScopeManage = "click.manage"
+	// OAuthScopeSend required to send a new clickwrap or check for a previously sent one.
+	OAuthScopeSend = "click.send"
+)
+`
+)

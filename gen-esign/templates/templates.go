@@ -20,8 +20,9 @@ const Service = `// Copyright 2019 James Cote
 // {{range .Comments}}
 // {{.}}{{end}}
 //
-// {{$callVersion := .CallVersion}}{{$verPrefix := .VersionID}}{{$docPrefix := .DocPrefix}}{{if .AddDocLinks}}Service Api documentation may be found at:
-// https://developers.docusign.com/docs/{{$docPrefix}}reference/{{.Service}}{{end}}
+// {{$callVersion := .CallVersion}}{{$verPrefix := .VersionID}}{{$docPrefix := .DocPrefix}}{{$docService := .DocService}}{{if .AddDocLinks}}
+// Service Api documentation may be found at:
+// https://developers.docusign.com/docs/{{$docPrefix}}reference/{{.DocService}}{{end}}
 // Usage example:
 //
 //   import (
@@ -36,7 +37,7 @@ import ({{range .Packages}}
     {{.}}{{end}}
 )
 
-// Service implements DocuSign {{.Service}} Category API operations
+// Service implements DocuSign {{.Service}} API operations
 type Service struct {
     credential esign.Credential 
 }
@@ -46,7 +47,7 @@ func New(cred esign.Credential) *Service {
     return &Service{credential: cred}
 }
 
-{{ range .Operations }}{{$accept:=.Accept}}{{range .CommentLines .FuncName $docPrefix .HasUploads .IsMediaUpload}}// {{.}}
+{{ range .Operations }}{{$accept:=.Accept}}{{range .CommentLines .FuncName $docService $docPrefix .HasUploads .IsMediaUpload}}// {{.}}
 {{end}}func (s *Service) {{.FuncName}}({{range $i, $p := .PathParams}}{{if $i}}, {{end}}{{$p.GoName}} string{{end}}{{if .OpPayload}}{{if len .PathParams}}, {{end}}{{if .IsMediaUpload}}media io.Reader, mimeType string{{else}}{{.OpPayload.GoName}} {{.OpPayload.Type}}{{end}}{{end}}{{if .HasUploads}}, uploads ...*esign.UploadFile{{end}}) *{{.FuncName}}Op {
     return &{{.FuncName}}Op{
         Credential: s.credential,
@@ -111,6 +112,7 @@ package {{.ModelPackage}} // import "github.com/jfcote87/esign/{{.ModelPackagePa
 import ({{range .ModelImports}}
     "{{.}}"{{end}}
 ){{end}}
+{{if .Scopes}}{{.Scopes}}{{end}}
 {{ range .Definitions }}{{if len .CommentLines}}{{ range .CommentLines}}
 // {{.}}{{end}}{{end}}
 type {{.StructName}} struct { {{range .StructFields $defMap $fldOverrides}}

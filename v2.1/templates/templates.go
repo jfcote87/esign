@@ -7,865 +7,866 @@
 
 // Package templates implements the DocuSign SDK
 // category Templates.
-// 
+//
 // Use the Templates category to manage your account's templates.
-// 
+//
 // This section shows you how to perform the following tasks:
-// 
+//
 // * Create, list, get, update, and delete templates.
 // * Manage the notification and group sharing settings for templates.
 // * Fetch and rotate pages from a document used by a template.
-// 
+//
 // You can create templates either programmatically or through the DocuSign web interface and then used by your application.
 //
+//
 // Service Api documentation may be found at:
-// https://developers.docusign.com/docs/esign-api/reference/Templates
+// https://developers.docusign.com/docs/esign-rest-api/reference/Templates
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/v2.1/model"
-//   ) 
+//   )
 //   ...
 //   templatesService := templates.New(esignCredential)
 package templates // import "github.com/jfcote87/esignv2.1/templates"
 
 import (
-    "context"
-    "fmt"
-    "net/url"
-    "strings"
-    "time"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/v2.1/model"
+	"context"
+	"fmt"
+	"net/url"
+	"strings"
+	"time"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/v2.1/model"
 )
 
-// Service implements DocuSign Templates Category API operations
+// Service implements DocuSign Templates API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a templates service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // DocumentVisibilityGet returns document visibility for a template recipient
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentvisibility/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentvisibility/get
+//
 // SDK Method Templates::getTemplateRecipientDocumentVisibility
 func (s *Service) DocumentVisibilityGet(recipientID string, templateID string) *DocumentVisibilityGetOp {
-    return &DocumentVisibilityGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"document_visibility"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentVisibilityGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentVisibilityGetOp implements DocuSign API SDK Templates::getTemplateRecipientDocumentVisibility
 type DocumentVisibilityGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentVisibilityGetOp) Do(ctx context.Context)  (*model.DocumentVisibilityList, error) {
-    var res *model.DocumentVisibilityList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentVisibilityGetOp) Do(ctx context.Context) (*model.DocumentVisibilityList, error) {
+	var res *model.DocumentVisibilityList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentVisibilityUpdate updates document visibility for a template recipient
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentvisibility/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentvisibility/update
+//
 // SDK Method Templates::updateTemplateRecipientDocumentVisibility
 func (s *Service) DocumentVisibilityUpdate(recipientID string, templateID string, templateDocumentVisibilityList *model.TemplateDocumentVisibilityList) *DocumentVisibilityUpdateOp {
-    return &DocumentVisibilityUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"document_visibility"},"/"),
-        Payload: templateDocumentVisibilityList,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentVisibilityUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "document_visibility"}, "/"),
+		Payload:    templateDocumentVisibilityList,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentVisibilityUpdateOp implements DocuSign API SDK Templates::updateTemplateRecipientDocumentVisibility
 type DocumentVisibilityUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentVisibilityUpdateOp) Do(ctx context.Context)  (*model.TemplateDocumentVisibilityList, error) {
-    var res *model.TemplateDocumentVisibilityList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentVisibilityUpdateOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
+	var res *model.TemplateDocumentVisibilityList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentVisibilityUpdateList updates document visibility for template recipients
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentvisibility/updatelist
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentvisibility/updatelist
+//
 // SDK Method Templates::updateTemplateRecipientsDocumentVisibility
 func (s *Service) DocumentVisibilityUpdateList(templateID string, templateDocumentVisibilityList *model.TemplateDocumentVisibilityList) *DocumentVisibilityUpdateListOp {
-    return &DocumentVisibilityUpdateListOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"recipients","document_visibility"},"/"),
-        Payload: templateDocumentVisibilityList,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentVisibilityUpdateListOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", "document_visibility"}, "/"),
+		Payload:    templateDocumentVisibilityList,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentVisibilityUpdateListOp implements DocuSign API SDK Templates::updateTemplateRecipientsDocumentVisibility
 type DocumentVisibilityUpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentVisibilityUpdateListOp) Do(ctx context.Context)  (*model.TemplateDocumentVisibilityList, error) {
-    var res *model.TemplateDocumentVisibilityList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentVisibilityUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumentVisibilityList, error) {
+	var res *model.TemplateDocumentVisibilityList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // BulkRecipientsDelete deletes the bulk recipient list on a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatebulkrecipients/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatebulkrecipients/delete
+//
 // SDK Method Templates::deleteBulkRecipients
 func (s *Service) BulkRecipientsDelete(recipientID string, templateID string) *BulkRecipientsDeleteOp {
-    return &BulkRecipientsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"bulk_recipients"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BulkRecipientsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BulkRecipientsDeleteOp implements DocuSign API SDK Templates::deleteBulkRecipients
 type BulkRecipientsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BulkRecipientsDeleteOp) Do(ctx context.Context)  (*model.BulkRecipientsUpdateResponse, error) {
-    var res *model.BulkRecipientsUpdateResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BulkRecipientsDeleteOp) Do(ctx context.Context) (*model.BulkRecipientsUpdateResponse, error) {
+	var res *model.BulkRecipientsUpdateResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // BulkRecipientsList gets the bulk recipient file from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatebulkrecipients/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatebulkrecipients/list
+//
 // SDK Method Templates::listBulkRecipients
 func (s *Service) BulkRecipientsList(recipientID string, templateID string) *BulkRecipientsListOp {
-    return &BulkRecipientsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"bulk_recipients"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &BulkRecipientsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "bulk_recipients"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // BulkRecipientsListOp implements DocuSign API SDK Templates::listBulkRecipients
 type BulkRecipientsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *BulkRecipientsListOp) Do(ctx context.Context)  (*model.BulkRecipientsResponse, error) {
-    var res *model.BulkRecipientsResponse
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *BulkRecipientsListOp) Do(ctx context.Context) (*model.BulkRecipientsResponse, error) {
+	var res *model.BulkRecipientsResponse
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeTabs when **true,** the tab information associated with the recipient is included in the response. If you do not specify this parameter, the effect is the default behavior (**false**).
 func (op *BulkRecipientsListOp) IncludeTabs() *BulkRecipientsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_tabs", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_tabs", "true")
+	}
+	return op
 }
 
 // StartPosition is the zero-based index of the
 // result from which to start returning results.
-// 
+//
 // Use with `count` to limit the number
 // of results.
-// 
+//
 // The default value is `0`.
 func (op *BulkRecipientsListOp) StartPosition(val int) *BulkRecipientsListOp {
-    if op != nil {
-        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // CustomFieldsCreate creates custom document fields in an existing template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatecustomfields/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/create
+//
 // SDK Method Templates::createCustomFields
 func (s *Service) CustomFieldsCreate(templateID string, templateCustomFields *model.TemplateCustomFields) *CustomFieldsCreateOp {
-    return &CustomFieldsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"custom_fields"},"/"),
-        Payload: templateCustomFields,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
+		Payload:    templateCustomFields,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsCreateOp implements DocuSign API SDK Templates::createCustomFields
 type CustomFieldsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsCreateOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsCreateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // CustomFieldsDelete deletes envelope custom fields in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatecustomfields/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/delete
+//
 // SDK Method Templates::deleteCustomFields
 func (s *Service) CustomFieldsDelete(templateID string, templateCustomFields *model.TemplateCustomFields) *CustomFieldsDeleteOp {
-    return &CustomFieldsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"custom_fields"},"/"),
-        Payload: templateCustomFields,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
+		Payload:    templateCustomFields,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsDeleteOp implements DocuSign API SDK Templates::deleteCustomFields
 type CustomFieldsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsDeleteOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsDeleteOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // CustomFieldsList gets the custom document fields from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatecustomfields/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/list
+//
 // SDK Method Templates::listCustomFields
 func (s *Service) CustomFieldsList(templateID string) *CustomFieldsListOp {
-    return &CustomFieldsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"custom_fields"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsListOp implements DocuSign API SDK Templates::listCustomFields
 type CustomFieldsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsListOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsListOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // CustomFieldsUpdate updates envelope custom fields in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatecustomfields/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatecustomfields/update
+//
 // SDK Method Templates::updateCustomFields
 func (s *Service) CustomFieldsUpdate(templateID string, templateCustomFields *model.TemplateCustomFields) *CustomFieldsUpdateOp {
-    return &CustomFieldsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"custom_fields"},"/"),
-        Payload: templateCustomFields,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CustomFieldsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "custom_fields"}, "/"),
+		Payload:    templateCustomFields,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CustomFieldsUpdateOp implements DocuSign API SDK Templates::updateCustomFields
 type CustomFieldsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CustomFieldsUpdateOp) Do(ctx context.Context)  (*model.CustomFields, error) {
-    var res *model.CustomFields
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CustomFieldsUpdateOp) Do(ctx context.Context) (*model.CustomFields, error) {
+	var res *model.CustomFields
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentFieldsCreate creates custom document fields in an existing template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentfields/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/create
+//
 // SDK Method Templates::createDocumentFields
 func (s *Service) DocumentFieldsCreate(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsCreateOp {
-    return &DocumentFieldsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"fields"},"/"),
-        Payload: documentFieldsInformation,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentFieldsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
+		Payload:    documentFieldsInformation,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentFieldsCreateOp implements DocuSign API SDK Templates::createDocumentFields
 type DocumentFieldsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsCreateOp) Do(ctx context.Context)  (*model.DocumentFieldsInformation, error) {
-    var res *model.DocumentFieldsInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentFieldsCreateOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+	var res *model.DocumentFieldsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentFieldsDelete deletes custom document fields from an existing template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentfields/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/delete
+//
 // SDK Method Templates::deleteDocumentFields
 func (s *Service) DocumentFieldsDelete(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsDeleteOp {
-    return &DocumentFieldsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"fields"},"/"),
-        Payload: documentFieldsInformation,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentFieldsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
+		Payload:    documentFieldsInformation,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentFieldsDeleteOp implements DocuSign API SDK Templates::deleteDocumentFields
 type DocumentFieldsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsDeleteOp) Do(ctx context.Context)  (*model.DocumentFieldsInformation, error) {
-    var res *model.DocumentFieldsInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentFieldsDeleteOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+	var res *model.DocumentFieldsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentFieldsList gets the custom document fields for a an existing template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentfields/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/list
+//
 // SDK Method Templates::listDocumentFields
 func (s *Service) DocumentFieldsList(documentID string, templateID string) *DocumentFieldsListOp {
-    return &DocumentFieldsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"fields"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentFieldsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentFieldsListOp implements DocuSign API SDK Templates::listDocumentFields
 type DocumentFieldsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsListOp) Do(ctx context.Context)  (*model.DocumentFieldsInformation, error) {
-    var res *model.DocumentFieldsInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentFieldsListOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+	var res *model.DocumentFieldsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentFieldsUpdate updates existing custom document fields in an existing template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentfields/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentfields/update
+//
 // SDK Method Templates::updateDocumentFields
 func (s *Service) DocumentFieldsUpdate(documentID string, templateID string, documentFieldsInformation *model.DocumentFieldsInformation) *DocumentFieldsUpdateOp {
-    return &DocumentFieldsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"fields"},"/"),
-        Payload: documentFieldsInformation,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentFieldsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "fields"}, "/"),
+		Payload:    documentFieldsInformation,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentFieldsUpdateOp implements DocuSign API SDK Templates::updateDocumentFields
 type DocumentFieldsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentFieldsUpdateOp) Do(ctx context.Context)  (*model.DocumentFieldsInformation, error) {
-    var res *model.DocumentFieldsInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentFieldsUpdateOp) Do(ctx context.Context) (*model.DocumentFieldsInformation, error) {
+	var res *model.DocumentFieldsInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentTabsGet returns tabs on a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumenttabs/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/get
+//
 // SDK Method Templates::getDocumentTabs
 func (s *Service) DocumentTabsGet(documentID string, templateID string) *DocumentTabsGetOp {
-    return &DocumentTabsGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"tabs"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentTabsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentTabsGetOp implements DocuSign API SDK Templates::getDocumentTabs
 type DocumentTabsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsGetOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentTabsGetOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // PageNumbers filters for tabs that occur on the pages that you specify. Enter as a comma-separated list of page Guids.
-// 
+//
 // Example: `page_numbers=2,6`
 func (op *DocumentTabsGetOp) PageNumbers(val string) *DocumentTabsGetOp {
-    if op != nil {
-        op.QueryOpts.Set("page_numbers", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("page_numbers", val)
+	}
+	return op
 }
 
 // DocumentTabsGetByPage returns tabs on the specified page.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumenttabs/getbypage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/getbypage
+//
 // SDK Method Templates::getPageTabs
 func (s *Service) DocumentTabsGetByPage(documentID string, pageNumber string, templateID string) *DocumentTabsGetByPageOp {
-    return &DocumentTabsGetByPageOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"pages",pageNumber,"tabs"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentTabsGetByPageOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "tabs"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentTabsGetByPageOp implements DocuSign API SDK Templates::getPageTabs
 type DocumentTabsGetByPageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsGetByPageOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentTabsGetByPageOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentsDelete deletes documents from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocuments/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/delete
+//
 // SDK Method Templates::deleteDocuments
 func (s *Service) DocumentsDelete(templateID string, envelopeDefinition *model.EnvelopeDefinition) *DocumentsDeleteOp {
-    return &DocumentsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"documents"},"/"),
-        Payload: envelopeDefinition,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
+		Payload:    envelopeDefinition,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentsDeleteOp implements DocuSign API SDK Templates::deleteDocuments
 type DocumentsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsDeleteOp) Do(ctx context.Context)  (*model.TemplateDocumentsResult, error) {
-    var res *model.TemplateDocumentsResult
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentsDeleteOp) Do(ctx context.Context) (*model.TemplateDocumentsResult, error) {
+	var res *model.TemplateDocumentsResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentsGet gets PDF documents from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocuments/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/get
+//
 // SDK Method Templates::getDocument
 func (s *Service) DocumentsGet(documentID string, templateID string) *DocumentsGetOp {
-    return &DocumentsGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentsGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentsGetOp implements DocuSign API SDK Templates::getDocument
 type DocumentsGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsGetOp) Do(ctx context.Context)  (*esign.Download, error) {
-    var res *esign.Download
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentsGetOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Encrypt when **true,** the PDF bytes returned in the response are encrypted for all the key managers configured on your DocuSign account. You can decrypt the documents by using the Key Manager DecryptDocument API method. For more information about Key Manager, see the DocuSign Security Appliance Installation Guide that your organization received from DocuSign.
 func (op *DocumentsGetOp) Encrypt() *DocumentsGetOp {
-    if op != nil {
-        op.QueryOpts.Set("encrypt", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("encrypt", "true")
+	}
+	return op
 }
 
 // ShowChanges when **true,** any document fields that a recipient changed are highlighted in yellow in the returned PDF document, and optional signatures or initials are outlined in red.
 func (op *DocumentsGetOp) ShowChanges() *DocumentsGetOp {
-    if op != nil {
-        op.QueryOpts.Set("show_changes", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("show_changes", "true")
+	}
+	return op
 }
 
 // DocumentsList gets a list of documents associated with a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocuments/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/list
+//
 // SDK Method Templates::listDocuments
 func (s *Service) DocumentsList(templateID string) *DocumentsListOp {
-    return &DocumentsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentsListOp implements DocuSign API SDK Templates::listDocuments
 type DocumentsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsListOp) Do(ctx context.Context)  (*model.TemplateDocumentsResult, error) {
-    var res *model.TemplateDocumentsResult
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentsListOp) Do(ctx context.Context) (*model.TemplateDocumentsResult, error) {
+	var res *model.TemplateDocumentsResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeTabs reserved for DocuSign.
 func (op *DocumentsListOp) IncludeTabs(val string) *DocumentsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_tabs", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_tabs", val)
+	}
+	return op
 }
 
 // DocumentsUpdate updates a template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocuments/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/update
+//
 // SDK Method Templates::updateDocument
 func (s *Service) DocumentsUpdate(documentID string, templateID string, envelopeDefinition *model.EnvelopeDefinition) *DocumentsUpdateOp {
-    return &DocumentsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID},"/"),
-        Payload: envelopeDefinition,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID}, "/"),
+		Payload:    envelopeDefinition,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentsUpdateOp implements DocuSign API SDK Templates::updateDocument
 type DocumentsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsUpdateOp) Do(ctx context.Context)  (*model.EnvelopeDocument, error) {
-    var res *model.EnvelopeDocument
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentsUpdateOp) Do(ctx context.Context) (*model.EnvelopeDocument, error) {
+	var res *model.EnvelopeDocument
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IsEnvelopeDefinition set the call query parameter is_envelope_definition
 func (op *DocumentsUpdateOp) IsEnvelopeDefinition() *DocumentsUpdateOp {
-    if op != nil {
-        op.QueryOpts.Set("is_envelope_definition", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("is_envelope_definition", "true")
+	}
+	return op
 }
 
 // DocumentsUpdateList adds documents to a template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocuments/updatelist
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocuments/updatelist
+//
 // SDK Method Templates::updateDocuments
 func (s *Service) DocumentsUpdateList(templateID string, envelopeDefinition *model.EnvelopeDefinition) *DocumentsUpdateListOp {
-    return &DocumentsUpdateListOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"documents"},"/"),
-        Payload: envelopeDefinition,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentsUpdateListOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "documents"}, "/"),
+		Payload:    envelopeDefinition,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentsUpdateListOp implements DocuSign API SDK Templates::updateDocuments
 type DocumentsUpdateListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentsUpdateListOp) Do(ctx context.Context)  (*model.TemplateDocumentsResult, error) {
-    var res *model.TemplateDocumentsResult
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentsUpdateListOp) Do(ctx context.Context) (*model.TemplateDocumentsResult, error) {
+	var res *model.TemplateDocumentsResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // LocksCreate locks a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatelocks/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/create
+//
 // SDK Method Templates::createLock
 func (s *Service) LocksCreate(templateID string, lockRequest *model.LockRequest) *LocksCreateOp {
-    return &LocksCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"lock"},"/"),
-        Payload: lockRequest,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &LocksCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
+		Payload:    lockRequest,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // LocksCreateOp implements DocuSign API SDK Templates::createLock
 type LocksCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksCreateOp) Do(ctx context.Context)  (*model.LockInformation, error) {
-    var res *model.LockInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *LocksCreateOp) Do(ctx context.Context) (*model.LockInformation, error) {
+	var res *model.LockInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // LocksDelete deletes a template lock.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatelocks/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/delete
+//
 // SDK Method Templates::deleteLock
 func (s *Service) LocksDelete(templateID string, lockRequest *model.LockRequest) *LocksDeleteOp {
-    return &LocksDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"lock"},"/"),
-        Payload: lockRequest,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &LocksDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
+		Payload:    lockRequest,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // LocksDeleteOp implements DocuSign API SDK Templates::deleteLock
 type LocksDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksDeleteOp) Do(ctx context.Context)  (*model.LockInformation, error) {
-    var res *model.LockInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *LocksDeleteOp) Do(ctx context.Context) (*model.LockInformation, error) {
+	var res *model.LockInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // LocksGet gets template lock information.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatelocks/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/get
+//
 // SDK Method Templates::getLock
 func (s *Service) LocksGet(templateID string) *LocksGetOp {
-    return &LocksGetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"lock"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &LocksGetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // LocksGetOp implements DocuSign API SDK Templates::getLock
 type LocksGetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksGetOp) Do(ctx context.Context)  (*model.LockInformation, error) {
-    var res *model.LockInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *LocksGetOp) Do(ctx context.Context) (*model.LockInformation, error) {
+	var res *model.LockInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // LocksUpdate updates a template lock.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatelocks/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatelocks/update
+//
 // SDK Method Templates::updateLock
 func (s *Service) LocksUpdate(templateID string, lockRequest *model.LockRequest) *LocksUpdateOp {
-    return &LocksUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"lock"},"/"),
-        Payload: lockRequest,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &LocksUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "lock"}, "/"),
+		Payload:    lockRequest,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // LocksUpdateOp implements DocuSign API SDK Templates::updateLock
 type LocksUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *LocksUpdateOp) Do(ctx context.Context)  (*model.LockInformation, error) {
-    var res *model.LockInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *LocksUpdateOp) Do(ctx context.Context) (*model.LockInformation, error) {
+	var res *model.LockInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientTabsCreate adds tabs for a recipient.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipienttabs/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/create
+//
 // SDK Method Templates::createTabs
 func (s *Service) RecipientTabsCreate(recipientID string, templateID string, templateTabs *model.TemplateTabs) *RecipientTabsCreateOp {
-    return &RecipientTabsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"tabs"},"/"),
-        Payload: templateTabs,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientTabsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Payload:    templateTabs,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientTabsCreateOp implements DocuSign API SDK Templates::createTabs
 type RecipientTabsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsCreateOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientTabsCreateOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientTabsDelete deletes the tabs associated with a recipient in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipienttabs/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/delete
+//
 // SDK Method Templates::deleteTabs
 func (s *Service) RecipientTabsDelete(recipientID string, templateID string, templateTabs *model.TemplateTabs) *RecipientTabsDeleteOp {
-    return &RecipientTabsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"tabs"},"/"),
-        Payload: templateTabs,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientTabsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Payload:    templateTabs,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientTabsDeleteOp implements DocuSign API SDK Templates::deleteTabs
 type RecipientTabsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsDeleteOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientTabsDeleteOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientTabsList gets the tabs information for a signer or sign-in-person recipient in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipienttabs/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/list
+//
 // SDK Method Templates::listTabs
 func (s *Service) RecipientTabsList(recipientID string, templateID string) *RecipientTabsListOp {
-    return &RecipientTabsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"tabs"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientTabsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientTabsListOp implements DocuSign API SDK Templates::listTabs
 type RecipientTabsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsListOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientTabsListOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeAnchorTabLocations when **true,** all tabs with anchor tab properties are included in the response. The default value is **false.**
 func (op *RecipientTabsListOp) IncludeAnchorTabLocations() *RecipientTabsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_anchor_tab_locations", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_anchor_tab_locations", "true")
+	}
+	return op
 }
 
 // IncludeMetadata when **true,** the response includes metadata indicating which properties are editable.
 func (op *RecipientTabsListOp) IncludeMetadata(val string) *RecipientTabsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_metadata", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_metadata", val)
+	}
+	return op
 }
 
 // RecipientTabsUpdate updates the tabs for a recipient.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipienttabs/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipienttabs/update
+//
 // SDK Method Templates::updateTabs
 func (s *Service) RecipientTabsUpdate(recipientID string, templateID string, templateTabs *model.TemplateTabs) *RecipientTabsUpdateOp {
-    return &RecipientTabsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID,"tabs"},"/"),
-        Payload: templateTabs,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientTabsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID, "tabs"}, "/"),
+		Payload:    templateTabs,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientTabsUpdateOp implements DocuSign API SDK Templates::updateTabs
 type RecipientTabsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientTabsUpdateOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientTabsUpdateOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientsCreate adds tabs for a recipient.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipients/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/create
+//
 // SDK Method Templates::createRecipients
 func (s *Service) RecipientsCreate(templateID string, templateRecipients *model.TemplateRecipients) *RecipientsCreateOp {
-    return &RecipientsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"recipients"},"/"),
-        Payload: templateRecipients,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
+		Payload:    templateRecipients,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientsCreateOp implements DocuSign API SDK Templates::createRecipients
 type RecipientsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsCreateOp) Do(ctx context.Context)  (*model.Recipients, error) {
-    var res *model.Recipients
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientsCreateOp) Do(ctx context.Context) (*model.Recipients, error) {
+	var res *model.Recipients
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ResendEnvelope when **true,**
@@ -874,142 +875,142 @@ func (op *RecipientsCreateOp) Do(ctx context.Context)  (*model.Recipients, error
 // Use this parameter to resend the envelope
 // to a recipient
 // who deleted the original email notification.
-// 
+//
 // **Note:** Correcting an envelope is a different process.
 // DocuSign always resends an envelope when you correct it,
 // regardless of the value that you enter here.
 func (op *RecipientsCreateOp) ResendEnvelope() *RecipientsCreateOp {
-    if op != nil {
-        op.QueryOpts.Set("resend_envelope", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("resend_envelope", "true")
+	}
+	return op
 }
 
 // RecipientsDelete deletes the specified recipient file from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipients/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/delete
+//
 // SDK Method Templates::deleteRecipient
 func (s *Service) RecipientsDelete(recipientID string, templateID string, templateRecipients *model.TemplateRecipients) *RecipientsDeleteOp {
-    return &RecipientsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"recipients",recipientID},"/"),
-        Payload: templateRecipients,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "recipients", recipientID}, "/"),
+		Payload:    templateRecipients,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientsDeleteOp implements DocuSign API SDK Templates::deleteRecipient
 type RecipientsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsDeleteOp) Do(ctx context.Context)  (*model.Recipients, error) {
-    var res *model.Recipients
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientsDeleteOp) Do(ctx context.Context) (*model.Recipients, error) {
+	var res *model.Recipients
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientsDeleteList deletes recipients from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipients/deletelist
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/deletelist
+//
 // SDK Method Templates::deleteRecipients
 func (s *Service) RecipientsDeleteList(templateID string, templateRecipients *model.TemplateRecipients) *RecipientsDeleteListOp {
-    return &RecipientsDeleteListOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"recipients"},"/"),
-        Payload: templateRecipients,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientsDeleteListOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
+		Payload:    templateRecipients,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientsDeleteListOp implements DocuSign API SDK Templates::deleteRecipients
 type RecipientsDeleteListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsDeleteListOp) Do(ctx context.Context)  (*model.Recipients, error) {
-    var res *model.Recipients
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientsDeleteListOp) Do(ctx context.Context) (*model.Recipients, error) {
+	var res *model.Recipients
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientsList gets recipient information from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipients/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/list
+//
 // SDK Method Templates::listRecipients
 func (s *Service) RecipientsList(templateID string) *RecipientsListOp {
-    return &RecipientsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"recipients"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientsListOp implements DocuSign API SDK Templates::listRecipients
 type RecipientsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsListOp) Do(ctx context.Context)  (*model.Recipients, error) {
-    var res *model.Recipients
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientsListOp) Do(ctx context.Context) (*model.Recipients, error) {
+	var res *model.Recipients
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeAnchorTabLocations when **true** and `include_tabs` is set to **true,** all tabs with anchor tab properties are included in the response.
 func (op *RecipientsListOp) IncludeAnchorTabLocations() *RecipientsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_anchor_tab_locations", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_anchor_tab_locations", "true")
+	}
+	return op
 }
 
 // IncludeExtended when **true,** the extended properties are included in the response.
 func (op *RecipientsListOp) IncludeExtended() *RecipientsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_extended", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_extended", "true")
+	}
+	return op
 }
 
 // IncludeTabs when **true,** the tab information associated with the recipient is included in the response.
 func (op *RecipientsListOp) IncludeTabs() *RecipientsListOp {
-    if op != nil {
-        op.QueryOpts.Set("include_tabs", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_tabs", "true")
+	}
+	return op
 }
 
 // RecipientsUpdate updates recipients in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipients/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/update
+//
 // SDK Method Templates::updateRecipients
 func (s *Service) RecipientsUpdate(templateID string, templateRecipients *model.TemplateRecipients) *RecipientsUpdateOp {
-    return &RecipientsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"recipients"},"/"),
-        Payload: templateRecipients,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "recipients"}, "/"),
+		Payload:    templateRecipients,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientsUpdateOp implements DocuSign API SDK Templates::updateRecipients
 type RecipientsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsUpdateOp) Do(ctx context.Context)  (*model.RecipientsUpdateSummary, error) {
-    var res *model.RecipientsUpdateSummary
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientsUpdateOp) Do(ctx context.Context) (*model.RecipientsUpdateSummary, error) {
+	var res *model.RecipientsUpdateSummary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ResendEnvelope when **true,**
@@ -1018,407 +1019,407 @@ func (op *RecipientsUpdateOp) Do(ctx context.Context)  (*model.RecipientsUpdateS
 // Use this parameter to resend the envelope
 // to a recipient
 // who deleted the original email notification.
-// 
+//
 // **Note:** Correcting an envelope is a different process.
 // DocuSign always resends an envelope when you correct it,
 // regardless of the value that you enter here.
 func (op *RecipientsUpdateOp) ResendEnvelope() *RecipientsUpdateOp {
-    if op != nil {
-        op.QueryOpts.Set("resend_envelope", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("resend_envelope", "true")
+	}
+	return op
 }
 
 // ViewsCreateEdit gets a URL for a template edit view.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templateviews/createedit
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templateviews/createedit
+//
 // SDK Method Templates::createEditView
 func (s *Service) ViewsCreateEdit(templateID string, returnURLRequest *model.ReturnURLRequest) *ViewsCreateEditOp {
-    return &ViewsCreateEditOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"views","edit"},"/"),
-        Payload: returnURLRequest,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ViewsCreateEditOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "views", "edit"}, "/"),
+		Payload:    returnURLRequest,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ViewsCreateEditOp implements DocuSign API SDK Templates::createEditView
 type ViewsCreateEditOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ViewsCreateEditOp) Do(ctx context.Context)  (*model.ViewURL, error) {
-    var res *model.ViewURL
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ViewsCreateEditOp) Do(ctx context.Context) (*model.ViewURL, error) {
+	var res *model.ViewURL
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Create creates one or more templates.
 // If any uploads[x].Reader is an io.ReadCloser(s), Do() will always close Reader.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/create
+//
 // SDK Method Templates::createTemplate
 func (s *Service) Create(envelopeTemplate *model.EnvelopeTemplate, uploads ...*esign.UploadFile) *CreateOp {
-    return &CreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "templates",
-        Payload: envelopeTemplate,
-        Files: uploads,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "templates",
+		Payload:    envelopeTemplate,
+		Files:      uploads,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CreateOp implements DocuSign API SDK Templates::createTemplate
 type CreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateOp) Do(ctx context.Context)  (*model.TemplateSummary, error) {
-    var res *model.TemplateSummary
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CreateOp) Do(ctx context.Context) (*model.TemplateSummary, error) {
+	var res *model.TemplateSummary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DeleteDocumentPage deletes a page from a document in an template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/deletedocumentpage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/deletedocumentpage
+//
 // SDK Method Templates::deleteDocumentPage
 func (s *Service) DeleteDocumentPage(documentID string, pageNumber string, templateID string, pageRequest *model.PageRequest) *DeleteDocumentPageOp {
-    return &DeleteDocumentPageOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"pages",pageNumber},"/"),
-        Payload: pageRequest,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DeleteDocumentPageOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber}, "/"),
+		Payload:    pageRequest,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DeleteDocumentPageOp implements DocuSign API SDK Templates::deleteDocumentPage
 type DeleteDocumentPageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteDocumentPageOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteDocumentPageOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // DeleteGroupShare removes a member group's sharing permissions for a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/deletegroupshare
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/deletegroupshare
+//
 // SDK Method Templates::deleteGroupShare
 func (s *Service) DeleteGroupShare(templateID string, templatePart string, groupInformation *model.GroupInformation) *DeleteGroupShareOp {
-    return &DeleteGroupShareOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,templatePart},"/"),
-        Payload: groupInformation,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DeleteGroupShareOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
+		Payload:    groupInformation,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DeleteGroupShareOp implements DocuSign API SDK Templates::deleteGroupShare
 type DeleteGroupShareOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteGroupShareOp) Do(ctx context.Context)  (*model.GroupInformation, error) {
-    var res *model.GroupInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DeleteGroupShareOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+	var res *model.GroupInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Get gets a specific template associated with a specified account.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/get
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/get
+//
 // SDK Method Templates::get
 func (s *Service) Get(templateID string) *GetOp {
-    return &GetOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetOp implements DocuSign API SDK Templates::get
 type GetOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetOp) Do(ctx context.Context)  (*model.EnvelopeTemplate, error) {
-    var res *model.EnvelopeTemplate
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetOp) Do(ctx context.Context) (*model.EnvelopeTemplate, error) {
+	var res *model.EnvelopeTemplate
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Include is a comma-separated list
 // of additional template attributes
 // to include in the response.
 // Valid values are:
-// 
+//
 // - `powerforms`: Includes information about PowerForms.
 // - `tabs`: Includes information about tabs.
 // - `documents`: Includes information about documents.
 // - `favorite_template_status`: : Includes the template `favoritedByMe` property in the response. **Note:** You can mark a template as a favorite only in eSignature v2.1.
 func (op *GetOp) Include(val ...string) *GetOp {
-    if op != nil {
-        op.QueryOpts.Set("include", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // GetDocumentPageImage gets a page image from a template for display.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/getdocumentpageimage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/getdocumentpageimage
+//
 // SDK Method Templates::getDocumentPageImage
 func (s *Service) GetDocumentPageImage(documentID string, pageNumber string, templateID string) *GetDocumentPageImageOp {
-    return &GetDocumentPageImageOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"pages",pageNumber,"page_image"},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetDocumentPageImageOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetDocumentPageImageOp implements DocuSign API SDK Templates::getDocumentPageImage
 type GetDocumentPageImageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetDocumentPageImageOp) Do(ctx context.Context)  (*esign.Download, error) {
-    var res *esign.Download
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetDocumentPageImageOp) Do(ctx context.Context) (*esign.Download, error) {
+	var res *esign.Download
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Dpi is the number of dots per inch (DPI) for the resulting images. Valid values are 1-310 DPI. The default value is 94.
 func (op *GetDocumentPageImageOp) Dpi(val int) *GetDocumentPageImageOp {
-    if op != nil {
-        op.QueryOpts.Set("dpi", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("dpi", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // MaxHeight sets the maximum height of the returned images in pixels.
 func (op *GetDocumentPageImageOp) MaxHeight(val int) *GetDocumentPageImageOp {
-    if op != nil {
-        op.QueryOpts.Set("max_height", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("max_height", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // MaxWidth sets the maximum width of the returned images in pixels.
 func (op *GetDocumentPageImageOp) MaxWidth(val int) *GetDocumentPageImageOp {
-    if op != nil {
-        op.QueryOpts.Set("max_width", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("max_width", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // ShowChanges set the call query parameter show_changes
 func (op *GetDocumentPageImageOp) ShowChanges() *GetDocumentPageImageOp {
-    if op != nil {
-        op.QueryOpts.Set("show_changes", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("show_changes", "true")
+	}
+	return op
 }
 
 // GetNotificationSettings gets template notification information.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/getnotificationsettings
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/getnotificationsettings
+//
 // SDK Method Templates::getNotificationSettings
 func (s *Service) GetNotificationSettings(templateID string) *GetNotificationSettingsOp {
-    return &GetNotificationSettingsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"notification"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetNotificationSettingsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "notification"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetNotificationSettingsOp implements DocuSign API SDK Templates::getNotificationSettings
 type GetNotificationSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetNotificationSettingsOp) Do(ctx context.Context)  (*model.Notification, error) {
-    var res *model.Notification
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, error) {
+	var res *model.Notification
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // GetPageImages returns document page images based on input.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/getpageimages
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/getpageimages
+//
 // SDK Method Templates::getDocumentPageImages
 func (s *Service) GetPageImages(documentID string, templateID string) *GetPageImagesOp {
-    return &GetPageImagesOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"pages"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetPageImagesOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetPageImagesOp implements DocuSign API SDK Templates::getDocumentPageImages
 type GetPageImagesOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetPageImagesOp) Do(ctx context.Context)  (*model.PageImages, error) {
-    var res *model.PageImages
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetPageImagesOp) Do(ctx context.Context) (*model.PageImages, error) {
+	var res *model.PageImages
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count is the maximum number of results to return.
 func (op *GetPageImagesOp) Count(val int) *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // Dpi is the number of dots per inch (DPI) for the resulting images. Valid values are 1-310 DPI. The default value is 94.
 func (op *GetPageImagesOp) Dpi(val int) *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("dpi", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("dpi", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // MaxHeight sets the maximum height of the returned images in pixels.
 func (op *GetPageImagesOp) MaxHeight(val int) *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("max_height", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("max_height", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // MaxWidth sets the maximum width of the returned images in pixels.
 func (op *GetPageImagesOp) MaxWidth(val int) *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("max_width", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("max_width", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // Nocache when **true,** using cache is disabled and image information is retrieved from a database. **True** is the default value.
 func (op *GetPageImagesOp) Nocache() *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("nocache", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("nocache", "true")
+	}
+	return op
 }
 
 // ShowChanges when **true,** changes display in the user interface.
 func (op *GetPageImagesOp) ShowChanges() *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("show_changes", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("show_changes", "true")
+	}
+	return op
 }
 
 // StartPosition is the position within the total result set from which to start returning values. The value **thumbnail** may be used to return the page image.
 func (op *GetPageImagesOp) StartPosition(val int) *GetPageImagesOp {
-    if op != nil {
-        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // List gets the list of templates.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/list
+//
 // SDK Method Templates::ListTemplates
 func (s *Service) List() *ListOp {
-    return &ListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "templates",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "templates",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ListOp implements DocuSign API SDK Templates::ListTemplates
 type ListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ListOp) Do(ctx context.Context)  (*model.EnvelopeTemplateResults, error) {
-    var res *model.EnvelopeTemplateResults
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ListOp) Do(ctx context.Context) (*model.EnvelopeTemplateResults, error) {
+	var res *model.EnvelopeTemplateResults
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count is the maximum number of results to return.
-// 
+//
 // Use `start_position` to specify the number of results to skip.
 func (op *ListOp) Count(val int) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // CreatedFromDate lists templates created on or after this date.
 func (op *ListOp) CreatedFromDate(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("created_from_date", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("created_from_date", val)
+	}
+	return op
 }
 
 // CreatedToDate lists templates modified before this date.
 func (op *ListOp) CreatedToDate(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("created_to_date", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("created_to_date", val)
+	}
+	return op
 }
 
 // FolderIds is a comma-separated list of folder ID GUIDs.
 func (op *ListOp) FolderIds(val ...string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("folder_ids", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("folder_ids", strings.Join(val, ","))
+	}
+	return op
 }
 
 // FolderTypes is the type of folder to return templates for. Possible values are:
-// 
+//
 // - `templates`: Templates in the **My Templates** folder.
 //   Templates in the **Shared Templates**  and **All Template** folders (if the request ID from and Admin) are excluded.
 // - `templates_root`: Templates in the root level of the **My Templates** folder, but not in an actual folder. Note that the **My Templates** folder is not a real folder.
 // - `recylebin`: Templates that have been deleted.
 func (op *ListOp) FolderTypes(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("folder_types", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("folder_types", val)
+	}
+	return op
 }
 
 // FromDate start of the search date range. Only returns templates created on or after this date/time. If no value is specified, there is no limit on the earliest date created.
 func (op *ListOp) FromDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("from_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // Include is a comma-separated list
 // of additional template attributes
 // to include in the response.
 // Valid values are:
-// 
+//
 // - `powerforms`: Includes details about the PowerForms associated with the templates.
 // - `documents`: Includes information about template documents.
 // - `folders`: Includes information about the folder that holds the template.
@@ -1428,475 +1429,474 @@ func (op *ListOp) FromDate(val time.Time) *ListOp {
 // - `custom_fields`: Includes information about template custom fields.
 // - `notifications`: Includes information about the notification settings for templates.
 func (op *ListOp) Include(val ...string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("include", strings.Join(val,","))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include", strings.Join(val, ","))
+	}
+	return op
 }
 
 // IsDeletedTemplateOnly set the call query parameter is_deleted_template_only
 func (op *ListOp) IsDeletedTemplateOnly(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("is_deleted_template_only", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("is_deleted_template_only", val)
+	}
+	return op
 }
 
 // IsDownload when **true,** downloads the templates listed in `template_ids` as a collection of JSON definitions in a single zip file.
-// 
+//
 // The `Content-Disposition` header is set in the response. The value of the header provides the filename of the file.
-// 
+//
 // The default is **false.**
-// 
+//
 // **Note:** This parameter only works when you specify a list of templates in the `template_ids` parameter.
 func (op *ListOp) IsDownload(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("is_download", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("is_download", val)
+	}
+	return op
 }
 
 // ModifiedFromDate lists templates modified on or after this date.
 func (op *ListOp) ModifiedFromDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("modified_from_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("modified_from_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // ModifiedToDate lists templates modified before this date.
 func (op *ListOp) ModifiedToDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("modified_to_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("modified_to_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // Order specifies the sort order of the search results.
 // Valid values are:
-// 
+//
 // - `asc`: Ascending (A to Z)
 // - `desc`: Descending (Z to A)
 func (op *ListOp) Order(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("order", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("order", val)
+	}
+	return op
 }
 
 // OrderBy specifies how the search results are listed.
 // Valid values are:
-// 
+//
 // - `name`: template name
 // - `modified`: date/time template was last modified
 // - `used`: date/time the template was last used.
 func (op *ListOp) OrderBy(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("order_by", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("order_by", val)
+	}
+	return op
 }
 
 // SearchFields is a comma-separated list of additional template properties to search.
-// 
-// 
+//
+//
 // - `sender`: Include sender name and email in the search.
 // - `recipients`: Include recipient names and emails in the search.
 // - `envelope`: Not used in template searches.
 func (op *ListOp) SearchFields(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("search_fields", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("search_fields", val)
+	}
+	return op
 }
 
 // SearchText is the text to use to search the names of templates.
-// 
+//
 // Limit: 48 characters.
 func (op *ListOp) SearchText(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("search_text", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("search_text", val)
+	}
+	return op
 }
 
 // SharedByMe when **true,** the response only includes templates shared by the user. If false, the response only returns template not shared by the user. If not specified, the response is not affected.
 func (op *ListOp) SharedByMe(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("shared_by_me", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("shared_by_me", val)
+	}
+	return op
 }
 
 // StartPosition is the zero-based index of the
 // result from which to start returning results.
-// 
+//
 // Use with `count` to limit the number
 // of results.
-// 
+//
 // The default value is `0`.
 func (op *ListOp) StartPosition(val int) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("start_position", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // TemplateIds is a comma-separated list of template IDs to download. This value is valid only when `is_download` is **true.**
 func (op *ListOp) TemplateIds(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("template_ids", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("template_ids", val)
+	}
+	return op
 }
 
 // ToDate is the end of a search date range in UTC DateTime format. When you use this parameter, only templates created up to this date and time are returned.
-// 
+//
 // **Note:** If this property is null, the value defaults to the current date.
 func (op *ListOp) ToDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("to_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // UsedFromDate start of the search date range. Only returns templates used or edited on or after this date/time. If no value is specified, there is no limit on the earliest date used.
 func (op *ListOp) UsedFromDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("used_from_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("used_from_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
 // UsedToDate end of the search date range. Only returns templates used or edited up to this date/time. If no value is provided, this defaults to the current date.
 func (op *ListOp) UsedToDate(val time.Time) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("used_to_date", val.Format(time.RFC3339))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("used_to_date", val.Format(time.RFC3339))
+	}
+	return op
 }
 
-// UserFilter filters the templates in the response. Valid values are: 
-// 
+// UserFilter filters the templates in the response. Valid values are:
+//
 // - `owned_by_me`: Results include only templates owned by the user.
-// - `shared_with_me`: Results include only templates owned by the user.  
+// - `shared_with_me`: Results include only templates owned by the user.
 // - `all`:  Results include all templates owned or shared with the user.
 func (op *ListOp) UserFilter(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("user_filter", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("user_filter", val)
+	}
+	return op
 }
 
 // UserID is the ID of the user.
 func (op *ListOp) UserID(val string) *ListOp {
-    if op != nil {
-        op.QueryOpts.Set("user_id", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("user_id", val)
+	}
+	return op
 }
 
 // RotateDocumentPage rotates page image from a template for display.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/rotatedocumentpage
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/rotatedocumentpage
+//
 // SDK Method Templates::rotateDocumentPage
 func (s *Service) RotateDocumentPage(documentID string, pageNumber string, templateID string, pageRequest *model.PageRequest) *RotateDocumentPageOp {
-    return &RotateDocumentPageOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"pages",pageNumber,"page_image"},"/"),
-        Payload: pageRequest,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RotateDocumentPageOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "pages", pageNumber, "page_image"}, "/"),
+		Payload:    pageRequest,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RotateDocumentPageOp implements DocuSign API SDK Templates::rotateDocumentPage
 type RotateDocumentPageOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RotateDocumentPageOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *RotateDocumentPageOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // Update updates an existing template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/update
+//
 // SDK Method Templates::update
 func (s *Service) Update(templateID string, envelopeTemplate *model.EnvelopeTemplate) *UpdateOp {
-    return &UpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID},"/"),
-        Payload: envelopeTemplate,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID}, "/"),
+		Payload:    envelopeTemplate,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateOp implements DocuSign API SDK Templates::update
 type UpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateOp) Do(ctx context.Context)  (*model.TemplateUpdateSummary, error) {
-    var res *model.TemplateUpdateSummary
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateOp) Do(ctx context.Context) (*model.TemplateUpdateSummary, error) {
+	var res *model.TemplateUpdateSummary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // UpdateGroupShare shares a template with a group.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/updategroupshare
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/updategroupshare
+//
 // SDK Method Templates::updateGroupShare
 func (s *Service) UpdateGroupShare(templateID string, templatePart string, groupInformation *model.GroupInformation) *UpdateGroupShareOp {
-    return &UpdateGroupShareOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,templatePart},"/"),
-        Payload: groupInformation,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateGroupShareOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, templatePart}, "/"),
+		Payload:    groupInformation,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateGroupShareOp implements DocuSign API SDK Templates::updateGroupShare
 type UpdateGroupShareOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateGroupShareOp) Do(ctx context.Context)  (*model.GroupInformation, error) {
-    var res *model.GroupInformation
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateGroupShareOp) Do(ctx context.Context) (*model.GroupInformation, error) {
+	var res *model.GroupInformation
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // UpdateNotificationSettings updates the notification  structure for an existing template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templates/updatenotificationsettings
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templates/updatenotificationsettings
+//
 // SDK Method Templates::updateNotificationSettings
 func (s *Service) UpdateNotificationSettings(templateID string, templateNotificationRequest *model.TemplateNotificationRequest) *UpdateNotificationSettingsOp {
-    return &UpdateNotificationSettingsOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"notification"},"/"),
-        Payload: templateNotificationRequest,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateNotificationSettingsOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "notification"}, "/"),
+		Payload:    templateNotificationRequest,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateNotificationSettingsOp implements DocuSign API SDK Templates::updateNotificationSettings
 type UpdateNotificationSettingsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateNotificationSettingsOp) Do(ctx context.Context)  (*model.Notification, error) {
-    var res *model.Notification
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateNotificationSettingsOp) Do(ctx context.Context) (*model.Notification, error) {
+	var res *model.Notification
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentHTMLDefinitionsList gets the Original HTML Definition used to generate the Responsive HTML for a given document in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumenthtmldefinitions/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenthtmldefinitions/list
+//
 // SDK Method Templates::getTemplateDocumentHtmlDefinitions
 func (s *Service) DocumentHTMLDefinitionsList(documentID string, templateID string) *DocumentHTMLDefinitionsListOp {
-    return &DocumentHTMLDefinitionsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"html_definitions"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentHTMLDefinitionsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "html_definitions"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentHTMLDefinitionsListOp implements DocuSign API SDK Templates::getTemplateDocumentHtmlDefinitions
 type DocumentHTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentHTMLDefinitionsListOp) Do(ctx context.Context)  (*model.DocumentHTMLDefinitionOriginals, error) {
-    var res *model.DocumentHTMLDefinitionOriginals
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentHTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+	var res *model.DocumentHTMLDefinitionOriginals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentResponsiveHTMLPreviewCreate creates a preview of the responsive version of a template document.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumentresponsivehtmlpreview/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumentresponsivehtmlpreview/create
+//
 // SDK Method Templates::createTemplateDocumentResponsiveHtmlPreview
 func (s *Service) DocumentResponsiveHTMLPreviewCreate(documentID string, templateID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *DocumentResponsiveHTMLPreviewCreateOp {
-    return &DocumentResponsiveHTMLPreviewCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"responsive_html_preview"},"/"),
-        Payload: documentHTMLDefinition,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentResponsiveHTMLPreviewCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "responsive_html_preview"}, "/"),
+		Payload:    documentHTMLDefinition,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentResponsiveHTMLPreviewCreateOp implements DocuSign API SDK Templates::createTemplateDocumentResponsiveHtmlPreview
 type DocumentResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context)  (*model.DocumentHTMLDefinitions, error) {
-    var res *model.DocumentHTMLDefinitions
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+	var res *model.DocumentHTMLDefinitions
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentTabsCreate adds tabs to a document in a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumenttabs/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/create
+//
 // SDK Method Templates::postDocumentTabs
 func (s *Service) DocumentTabsCreate(documentID string, templateID string, templateTabs *model.TemplateTabs) *DocumentTabsCreateOp {
-    return &DocumentTabsCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"tabs"},"/"),
-        Payload: templateTabs,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentTabsCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Payload:    templateTabs,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentTabsCreateOp implements DocuSign API SDK Templates::postDocumentTabs
 type DocumentTabsCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsCreateOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentTabsCreateOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentTabsDelete deletes tabs from a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumenttabs/delete
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/delete
+//
 // SDK Method Templates::deleteDocumentTabs
 func (s *Service) DocumentTabsDelete(documentID string, templateID string, templateTabs *model.TemplateTabs) *DocumentTabsDeleteOp {
-    return &DocumentTabsDeleteOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"tabs"},"/"),
-        Payload: templateTabs,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentTabsDeleteOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Payload:    templateTabs,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentTabsDeleteOp implements DocuSign API SDK Templates::deleteDocumentTabs
 type DocumentTabsDeleteOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsDeleteOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentTabsDeleteOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DocumentTabsUpdate updates the tabs for a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatedocumenttabs/update
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatedocumenttabs/update
+//
 // SDK Method Templates::putDocumentTabs
 func (s *Service) DocumentTabsUpdate(documentID string, templateID string, templateTabs *model.TemplateTabs) *DocumentTabsUpdateOp {
-    return &DocumentTabsUpdateOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"templates",templateID,"documents",documentID,"tabs"},"/"),
-        Payload: templateTabs,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &DocumentTabsUpdateOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"templates", templateID, "documents", documentID, "tabs"}, "/"),
+		Payload:    templateTabs,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // DocumentTabsUpdateOp implements DocuSign API SDK Templates::putDocumentTabs
 type DocumentTabsUpdateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DocumentTabsUpdateOp) Do(ctx context.Context)  (*model.Tabs, error) {
-    var res *model.Tabs
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *DocumentTabsUpdateOp) Do(ctx context.Context) (*model.Tabs, error) {
+	var res *model.Tabs
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // HTMLDefinitionsList gets the Original HTML Definition used to generate the Responsive HTML for the template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templatehtmldefinitions/list
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templatehtmldefinitions/list
+//
 // SDK Method Templates::getTemplateHtmlDefinitions
 func (s *Service) HTMLDefinitionsList(templateID string) *HTMLDefinitionsListOp {
-    return &HTMLDefinitionsListOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"templates",templateID,"html_definitions"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &HTMLDefinitionsListOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"templates", templateID, "html_definitions"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // HTMLDefinitionsListOp implements DocuSign API SDK Templates::getTemplateHtmlDefinitions
 type HTMLDefinitionsListOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *HTMLDefinitionsListOp) Do(ctx context.Context)  (*model.DocumentHTMLDefinitionOriginals, error) {
-    var res *model.DocumentHTMLDefinitionOriginals
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *HTMLDefinitionsListOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitionOriginals, error) {
+	var res *model.DocumentHTMLDefinitionOriginals
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // RecipientsCreateTemplateRecipientPreview creates a template recipient preview.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templaterecipients/createtemplaterecipientpreview
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templaterecipients/createtemplaterecipientpreview
+//
 // SDK Method Templates::createTemplateRecipientPreview
 func (s *Service) RecipientsCreateTemplateRecipientPreview(templateID string, recipientPreviewRequest *model.RecipientPreviewRequest) *RecipientsCreateTemplateRecipientPreviewOp {
-    return &RecipientsCreateTemplateRecipientPreviewOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"views","recipient_preview"},"/"),
-        Payload: recipientPreviewRequest,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &RecipientsCreateTemplateRecipientPreviewOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "views", "recipient_preview"}, "/"),
+		Payload:    recipientPreviewRequest,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // RecipientsCreateTemplateRecipientPreviewOp implements DocuSign API SDK Templates::createTemplateRecipientPreview
 type RecipientsCreateTemplateRecipientPreviewOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *RecipientsCreateTemplateRecipientPreviewOp) Do(ctx context.Context)  (*model.ViewURL, error) {
-    var res *model.ViewURL
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *RecipientsCreateTemplateRecipientPreviewOp) Do(ctx context.Context) (*model.ViewURL, error) {
+	var res *model.ViewURL
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // ResponsiveHTMLPreviewCreate creates a preview of the responsive versions of all of the documents associated with a template.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/templates/templateresponsivehtmlpreview/create
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/templates/templateresponsivehtmlpreview/create
+//
 // SDK Method Templates::createTemplateResponsiveHtmlPreview
 func (s *Service) ResponsiveHTMLPreviewCreate(templateID string, documentHTMLDefinition *model.DocumentHTMLDefinition) *ResponsiveHTMLPreviewCreateOp {
-    return &ResponsiveHTMLPreviewCreateOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: strings.Join([]string{"templates",templateID,"responsive_html_preview"},"/"),
-        Payload: documentHTMLDefinition,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &ResponsiveHTMLPreviewCreateOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       strings.Join([]string{"templates", templateID, "responsive_html_preview"}, "/"),
+		Payload:    documentHTMLDefinition,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // ResponsiveHTMLPreviewCreateOp implements DocuSign API SDK Templates::createTemplateResponsiveHtmlPreview
 type ResponsiveHTMLPreviewCreateOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context)  (*model.DocumentHTMLDefinitions, error) {
-    var res *model.DocumentHTMLDefinitions
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *ResponsiveHTMLPreviewCreateOp) Do(ctx context.Context) (*model.DocumentHTMLDefinitions, error) {
+	var res *model.DocumentHTMLDefinitions
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

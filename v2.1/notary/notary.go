@@ -7,248 +7,248 @@
 
 // Package notary implements the DocuSign SDK
 // category Notary.
-// 
+//
 // DocuSign eNotary makes the notarization process fully digital
 // for senders, signers, and notaries.
 // It enables a notary public to act as an in-person witness
 // to electronic signing of documents.
 //
+//
 // Service Api documentation may be found at:
-// https://developers.docusign.com/docs/esign-api/reference/Notary
+// https://developers.docusign.com/docs/esign-rest-api/reference/Notary
 // Usage example:
 //
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/v2.1/model"
-//   ) 
+//   )
 //   ...
 //   notaryService := notary.New(esignCredential)
 package notary // import "github.com/jfcote87/esignv2.1/notary"
 
 import (
-    "context"
-    "net/url"
-    "strings"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/v2.1/model"
+	"context"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/v2.1/model"
 )
 
-// Service implements DocuSign Notary Category API operations
+// Service implements DocuSign Notary API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a notary service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // CreateNotary registers the current user as a notary.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notary/createnotary
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notary/createnotary
+//
 // SDK Method Notary::createNotary
 func (s *Service) CreateNotary(notary *model.Notary) *CreateNotaryOp {
-    return &CreateNotaryOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "/v2.1/current_user/notary",
-        Payload: notary,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &CreateNotaryOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "/v2.1/current_user/notary",
+		Payload:    notary,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // CreateNotaryOp implements DocuSign API SDK Notary::createNotary
 type CreateNotaryOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateNotaryOp) Do(ctx context.Context)  (*model.Notary, error) {
-    var res *model.Notary
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CreateNotaryOp) Do(ctx context.Context) (*model.Notary, error) {
+	var res *model.Notary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // GetNotary gets settings for a  notary user.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notary/getnotary
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notary/getnotary
+//
 // SDK Method Notary::getNotary
 func (s *Service) GetNotary() *GetNotaryOp {
-    return &GetNotaryOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "/v2.1/current_user/notary",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &GetNotaryOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2.1/current_user/notary",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // GetNotaryOp implements DocuSign API SDK Notary::getNotary
 type GetNotaryOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetNotaryOp) Do(ctx context.Context)  (*model.NotaryResult, error) {
-    var res *model.NotaryResult
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetNotaryOp) Do(ctx context.Context) (*model.NotaryResult, error) {
+	var res *model.NotaryResult
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // IncludeJurisdictions when **true,** the response will include a `jurisdiction` property that contains an array of all supported jurisdictions for the current user.
 func (op *GetNotaryOp) IncludeJurisdictions(val string) *GetNotaryOp {
-    if op != nil {
-        op.QueryOpts.Set("include_jurisdictions", val)
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("include_jurisdictions", val)
+	}
+	return op
 }
 
 // UpdateNotary updates notary information for the current user.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notary/updatenotary
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notary/updatenotary
+//
 // SDK Method Notary::updateNotary
 func (s *Service) UpdateNotary(notary *model.Notary) *UpdateNotaryOp {
-    return &UpdateNotaryOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: "/v2.1/current_user/notary",
-        Payload: notary,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &UpdateNotaryOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       "/v2.1/current_user/notary",
+		Payload:    notary,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // UpdateNotaryOp implements DocuSign API SDK Notary::updateNotary
 type UpdateNotaryOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *UpdateNotaryOp) Do(ctx context.Context)  (*model.Notary, error) {
-    var res *model.Notary
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *UpdateNotaryOp) Do(ctx context.Context) (*model.Notary, error) {
+	var res *model.Notary
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // JurisdictionCreateNotaryJurisdictions creates a jurisdiction object.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notaryjurisdiction/createnotaryjurisdictions
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/createnotaryjurisdictions
+//
 // SDK Method Notary::createNotaryJurisdictions
 func (s *Service) JurisdictionCreateNotaryJurisdictions(notaryJurisdiction *model.NotaryJurisdiction) *JurisdictionCreateNotaryJurisdictionsOp {
-    return &JurisdictionCreateNotaryJurisdictionsOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "/v2.1/current_user/notary/jurisdictions",
-        Payload: notaryJurisdiction,
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &JurisdictionCreateNotaryJurisdictionsOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "/v2.1/current_user/notary/jurisdictions",
+		Payload:    notaryJurisdiction,
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // JurisdictionCreateNotaryJurisdictionsOp implements DocuSign API SDK Notary::createNotaryJurisdictions
 type JurisdictionCreateNotaryJurisdictionsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *JurisdictionCreateNotaryJurisdictionsOp) Do(ctx context.Context)  (*model.NotaryJurisdiction, error) {
-    var res *model.NotaryJurisdiction
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *JurisdictionCreateNotaryJurisdictionsOp) Do(ctx context.Context) (*model.NotaryJurisdiction, error) {
+	var res *model.NotaryJurisdiction
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // JurisdictionDeleteNotaryJurisdiction deletes the specified jurisdiction.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notaryjurisdiction/deletenotaryjurisdiction
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/deletenotaryjurisdiction
+//
 // SDK Method Notary::deleteNotaryJurisdiction
 func (s *Service) JurisdictionDeleteNotaryJurisdiction(jurisdictionID string) *JurisdictionDeleteNotaryJurisdictionOp {
-    return &JurisdictionDeleteNotaryJurisdictionOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"","v2.1","current_user","notary","jurisdictions",jurisdictionID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &JurisdictionDeleteNotaryJurisdictionOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"", "v2.1", "current_user", "notary", "jurisdictions", jurisdictionID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // JurisdictionDeleteNotaryJurisdictionOp implements DocuSign API SDK Notary::deleteNotaryJurisdiction
 type JurisdictionDeleteNotaryJurisdictionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *JurisdictionDeleteNotaryJurisdictionOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *JurisdictionDeleteNotaryJurisdictionOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // JurisdictionGetNotaryJurisdiction gets a jurisdiction object for the current user. The user must be a notary.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notaryjurisdiction/getnotaryjurisdiction
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/getnotaryjurisdiction
+//
 // SDK Method Notary::getNotaryJurisdiction
 func (s *Service) JurisdictionGetNotaryJurisdiction(jurisdictionID string) *JurisdictionGetNotaryJurisdictionOp {
-    return &JurisdictionGetNotaryJurisdictionOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"","v2.1","current_user","notary","jurisdictions",jurisdictionID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &JurisdictionGetNotaryJurisdictionOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"", "v2.1", "current_user", "notary", "jurisdictions", jurisdictionID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // JurisdictionGetNotaryJurisdictionOp implements DocuSign API SDK Notary::getNotaryJurisdiction
 type JurisdictionGetNotaryJurisdictionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *JurisdictionGetNotaryJurisdictionOp) Do(ctx context.Context)  (*model.NotaryJurisdiction, error) {
-    var res *model.NotaryJurisdiction
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *JurisdictionGetNotaryJurisdictionOp) Do(ctx context.Context) (*model.NotaryJurisdiction, error) {
+	var res *model.NotaryJurisdiction
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // JurisdictionGetNotaryJurisdictions returns a list of jurisdictions that the notary is registered in.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notaryjurisdiction/getnotaryjurisdictions
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/getnotaryjurisdictions
+//
 // SDK Method Notary::getNotaryJurisdictions
 func (s *Service) JurisdictionGetNotaryJurisdictions() *JurisdictionGetNotaryJurisdictionsOp {
-    return &JurisdictionGetNotaryJurisdictionsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "/v2.1/current_user/notary/jurisdictions",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &JurisdictionGetNotaryJurisdictionsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "/v2.1/current_user/notary/jurisdictions",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // JurisdictionGetNotaryJurisdictionsOp implements DocuSign API SDK Notary::getNotaryJurisdictions
 type JurisdictionGetNotaryJurisdictionsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *JurisdictionGetNotaryJurisdictionsOp) Do(ctx context.Context)  (*model.NotaryJurisdictionList, error) {
-    var res *model.NotaryJurisdictionList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *JurisdictionGetNotaryJurisdictionsOp) Do(ctx context.Context) (*model.NotaryJurisdictionList, error) {
+	var res *model.NotaryJurisdictionList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // JurisdictionUpdateNotaryJurisdiction updates the jurisdiction information about a notary.
-// 
-// https://developers.docusign.com/docs/esign-api/reference/notary/notaryjurisdiction/updatenotaryjurisdiction
-// 
+//
+// https://developers.docusign.com/docs/esign-rest-api/reference/notary/notaryjurisdiction/updatenotaryjurisdiction
+//
 // SDK Method Notary::updateNotaryJurisdiction
 func (s *Service) JurisdictionUpdateNotaryJurisdiction(jurisdictionID string, notaryJurisdiction *model.NotaryJurisdiction) *JurisdictionUpdateNotaryJurisdictionOp {
-    return &JurisdictionUpdateNotaryJurisdictionOp{
-        Credential: s.credential,
-        Method:  "PUT",
-        Path: strings.Join([]string{"","v2.1","current_user","notary","jurisdictions",jurisdictionID},"/"),
-        Payload: notaryJurisdiction,
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.APIv21,
-    }
+	return &JurisdictionUpdateNotaryJurisdictionOp{
+		Credential: s.credential,
+		Method:     "PUT",
+		Path:       strings.Join([]string{"", "v2.1", "current_user", "notary", "jurisdictions", jurisdictionID}, "/"),
+		Payload:    notaryJurisdiction,
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.APIv21,
+	}
 }
 
 // JurisdictionUpdateNotaryJurisdictionOp implements DocuSign API SDK Notary::updateNotaryJurisdiction
 type JurisdictionUpdateNotaryJurisdictionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *JurisdictionUpdateNotaryJurisdictionOp) Do(ctx context.Context)  (*model.NotaryJurisdiction, error) {
-    var res *model.NotaryJurisdiction
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *JurisdictionUpdateNotaryJurisdictionOp) Do(ctx context.Context) (*model.NotaryJurisdiction, error) {
+	var res *model.NotaryJurisdiction
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
-

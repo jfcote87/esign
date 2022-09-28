@@ -3,10 +3,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// swagger provides structs and utilities for handling a swagger file.
-// I created it for use with esign package. It is incomplete and not
-// tested for other swagger implementations.
-
+// Package swagger provides lists of type overrides for definition
+// properties (struct fields) and for operation parameters found in
+// Docusign's Rest API swagger definition.
 package swagger
 
 import (
@@ -399,11 +398,14 @@ func (o Operation) ContentType() string {
 }
 
 // CommentLines returns a list of comments to annotate the operation.
-func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUploads bool, isMediaUpload bool) []string {
+func (o Operation) CommentLines(funcName, docService, docPrefix string, hasFileUploads bool, isMediaUpload bool) []string {
 
 	comments := strings.Split(o.Summary, "\n")
 	tspace := " "
 	uncatFlag := (o.Service == "Uncategorized")
+	if docService == "" {
+		docService = o.Service
+	}
 
 	if len(comments[0]) > 0 {
 		if strings.HasPrefix(comments[0], "A ") || strings.HasPrefix(comments[0], "An ") || strings.HasPrefix(comments[0], "The ") {
@@ -420,7 +422,7 @@ func (o Operation) CommentLines(funcName string, docPrefix string, hasFileUpload
 			comments = append(comments, "operation is uncategorized and subject to change.")
 		} else {
 			if len(o.Tags) > 0 {
-				comments = append(comments, "", "https://developers.docusign.com/docs/"+strings.ToLower(docPrefix+"reference/"+o.Service+"/"+o.Tags[0]+"/"+o.Method))
+				comments = append(comments, "", "https://developers.docusign.com/docs/"+strings.ToLower(docPrefix+"reference/"+docService+"/"+o.Tags[0]+"/"+o.Method))
 			}
 			if o.InSDK {
 				comments = append(comments, "", "SDK Method "+o.SDK())
@@ -610,10 +612,6 @@ func (o Operation) QueryOpts(overrides map[string]map[string]string) []QueryOpt 
 				ty = "bool"
 			}
 
-			/*comments := strings.Split(strings.TrimRight(p.Description, "\n"), "\n")
-			if len(comments[0]) == 0 {
-				comments = nil
-			}*/
 			params = append(params, QueryOpt{
 				Name:     p.Name,
 				GoName:   ToGoName(p.Name),

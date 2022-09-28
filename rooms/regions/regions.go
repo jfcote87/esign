@@ -7,8 +7,9 @@
 
 // Package regions implements the DocuSign SDK
 // category Regions.
-// 
+//
 // This section shows you how to create and manage regions for a Rooms account.
+//
 //
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/rooms-api/reference/Regions
@@ -17,176 +18,175 @@
 //   import (
 //       "github.com/jfcote87/esign"
 //       "github.com/jfcote87/esign/rooms"
-//   ) 
+//   )
 //   ...
 //   regionsService := regions.New(esignCredential)
 package regions // import "github.com/jfcote87/esignrooms//regions"
 
 import (
-    "context"
-    "fmt"
-    "net/url"
-    "strings"
-    
-    "github.com/jfcote87/esign"
-    "github.com/jfcote87/esign/rooms"
+	"context"
+	"fmt"
+	"net/url"
+	"strings"
+
+	"github.com/jfcote87/esign"
+	"github.com/jfcote87/esign/rooms"
 )
 
-// Service implements DocuSign Regions Category API operations
+// Service implements DocuSign Regions API operations
 type Service struct {
-    credential esign.Credential 
+	credential esign.Credential
 }
 
 // New initializes a regions service using cred to authorize ops.
 func New(cred esign.Credential) *Service {
-    return &Service{credential: cred}
+	return &Service{credential: cred}
 }
 
 // CreateRegion creates a region.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/regions/regions/createregion
-// 
+//
 // SDK Method Regions::CreateRegion
 func (s *Service) CreateRegion(body *rooms.Region) *CreateRegionOp {
-    return &CreateRegionOp{
-        Credential: s.credential,
-        Method:  "POST",
-        Path: "regions",
-        Payload: body,
-        Accept: "application/json-patch+json, application/json, text/json, application/*+json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &CreateRegionOp{
+		Credential: s.credential,
+		Method:     "POST",
+		Path:       "regions",
+		Payload:    body,
+		Accept:     "application/json-patch+json, application/json, text/json, application/*+json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // CreateRegionOp implements DocuSign API SDK Regions::CreateRegion
 type CreateRegionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *CreateRegionOp) Do(ctx context.Context)  (*rooms.Region, error) {
-    var res *rooms.Region
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *CreateRegionOp) Do(ctx context.Context) (*rooms.Region, error) {
+	var res *rooms.Region
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // DeleteRegion deletes a region.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/regions/regions/deleteregion
-// 
+//
 // SDK Method Regions::DeleteRegion
 func (s *Service) DeleteRegion(regionID string) *DeleteRegionOp {
-    return &DeleteRegionOp{
-        Credential: s.credential,
-        Method:  "DELETE",
-        Path: strings.Join([]string{"regions",regionID},"/"),
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &DeleteRegionOp{
+		Credential: s.credential,
+		Method:     "DELETE",
+		Path:       strings.Join([]string{"regions", regionID}, "/"),
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // DeleteRegionOp implements DocuSign API SDK Regions::DeleteRegion
 type DeleteRegionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *DeleteRegionOp) Do(ctx context.Context)  error {
-    return ((*esign.Op)(op)).Do(ctx, nil)
+func (op *DeleteRegionOp) Do(ctx context.Context) error {
+	return ((*esign.Op)(op)).Do(ctx, nil)
 }
 
 // GetRegion gets information about a region.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/regions/regions/getregion
-// 
+//
 // SDK Method Regions::GetRegion
 func (s *Service) GetRegion(regionID string) *GetRegionOp {
-    return &GetRegionOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"regions",regionID},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &GetRegionOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"regions", regionID}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // GetRegionOp implements DocuSign API SDK Regions::GetRegion
 type GetRegionOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetRegionOp) Do(ctx context.Context)  (*rooms.Region, error) {
-    var res *rooms.Region
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetRegionOp) Do(ctx context.Context) (*rooms.Region, error) {
+	var res *rooms.Region
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // GetRegionReferenceCounts retrieves the number and type of objects that reference a region.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/regions/regions/getregionreferencecounts
-// 
+//
 // SDK Method Regions::GetRegionReferenceCounts
 func (s *Service) GetRegionReferenceCounts(regionID string) *GetRegionReferenceCountsOp {
-    return &GetRegionReferenceCountsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: strings.Join([]string{"regions",regionID,"reference_counts"},"/"),
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &GetRegionReferenceCountsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       strings.Join([]string{"regions", regionID, "reference_counts"}, "/"),
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // GetRegionReferenceCountsOp implements DocuSign API SDK Regions::GetRegionReferenceCounts
 type GetRegionReferenceCountsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetRegionReferenceCountsOp) Do(ctx context.Context)  (*rooms.RegionReferenceCountList, error) {
-    var res *rooms.RegionReferenceCountList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetRegionReferenceCountsOp) Do(ctx context.Context) (*rooms.RegionReferenceCountList, error) {
+	var res *rooms.RegionReferenceCountList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // GetRegions gets regions.
-// 
+//
 // https://developers.docusign.com/docs/rooms-api/reference/regions/regions/getregions
-// 
+//
 // SDK Method Regions::GetRegions
 func (s *Service) GetRegions() *GetRegionsOp {
-    return &GetRegionsOp{
-        Credential: s.credential,
-        Method:  "GET",
-        Path: "regions",
-        Accept: "application/json",
-        QueryOpts: make(url.Values),
-        Version: esign.RoomsV2,
-    }
+	return &GetRegionsOp{
+		Credential: s.credential,
+		Method:     "GET",
+		Path:       "regions",
+		Accept:     "application/json",
+		QueryOpts:  make(url.Values),
+		Version:    esign.RoomsV2,
+	}
 }
 
 // GetRegionsOp implements DocuSign API SDK Regions::GetRegions
 type GetRegionsOp esign.Op
 
 // Do executes the op.  A nil context will return error.
-func (op *GetRegionsOp) Do(ctx context.Context)  (*rooms.RegionSummaryList, error) {
-    var res *rooms.RegionSummaryList
-    return res, ((*esign.Op)(op)).Do(ctx, &res)
+func (op *GetRegionsOp) Do(ctx context.Context) (*rooms.RegionSummaryList, error) {
+	var res *rooms.RegionSummaryList
+	return res, ((*esign.Op)(op)).Do(ctx, &res)
 }
 
 // Count (Optional) The number of results to return. This value must be a number between `1` and `100` (default).
 func (op *GetRegionsOp) Count(val int) *GetRegionsOp {
-    if op != nil {
-        op.QueryOpts.Set("count", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("count", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // StartPosition (Optional) The starting zero-based index position of the results set from which to begin returning values. The default value is `0`.
 func (op *GetRegionsOp) StartPosition(val int) *GetRegionsOp {
-    if op != nil {
-        op.QueryOpts.Set("startPosition", fmt.Sprintf("%d", val ))
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("startPosition", fmt.Sprintf("%d", val))
+	}
+	return op
 }
 
 // ManagedOnly (Optional) When set to **true**, only the regions that the current user manages are returned. The default value is **false**.
 func (op *GetRegionsOp) ManagedOnly() *GetRegionsOp {
-    if op != nil {
-        op.QueryOpts.Set("managedOnly", "true")
-    }
-    return op
+	if op != nil {
+		op.QueryOpts.Set("managedOnly", "true")
+	}
+	return op
 }
-

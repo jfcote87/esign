@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 //
-//go:generate go run ./gen-esign/main.go ./gen-esign/swagger.go  ./gen-esign/overrides.go
+//go:generate go run ./gen-esign/main.go
 
 /*
 Package esign implements all interfaces of DocuSign's

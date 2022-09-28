@@ -128,23 +128,6 @@ func (v *apiVersion) ResolveDSURL(u *url.URL, host string, accountID string, isD
 	return &newURL
 }
 
-/* type ctxResponseReviewKeyType struct{}
-
-// CtxResponseReviewKey used to identify an HTTPReadResponse interface in a context.  If
-// a context has a value with this key and the is an HTTPResponseReader, HTTPResponseReader
-// ReadResponse method is passed the current http.Response.  This may be used for debugging and
-// is used the the ratelimit package to return rate limit header results.
-var CtxResponseReviewKey = (*ctxResponseReviewKeyType)(nil)
-
-// CtxResponseReviewer is used to review an api call's response prior to the response
-// json being decoded or returned as a stream.  Once added to a context with the value key
-// CtxResponseReviewKey, this method is called immediately after receiving the esign response.
-// If reading the body, the body should be copied to a io.ReadCloser and the response body must
-// be closed.  If an error occurs, a close of the response body is expected.
-type CtxResponseReviewer interface {
-	Review(*http.Response) (io.ReadCloser, error)
-} */
-
 // Credential adds an authorization header(s) for the http request,
 // resolves the http client and finalizes the url.  Credentials may
 // be created using the Oauth2Config and JWTConfig structs as well as

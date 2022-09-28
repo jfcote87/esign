@@ -44,9 +44,8 @@ var (
 	}
 	apiParametersMap = map[esign.APIVersion]APIGenerateCfg{
 		esign.APIv2: {
-			DocPrefix:   "esign-api/v2/",
-			CallVersion: "esign.APIv2",
-			//ResourceMap:      ,
+			DocPrefix:        "esign-rest-api/v2/",
+			CallVersion:      "esign.APIv2",
 			PackagePath:      "v2",
 			ModelFile:        "v2/model/model.go",
 			ModelPackage:     "model",
@@ -57,9 +56,8 @@ var (
 			paramOverrides:   swagger.GetParameterOverrides(),
 		},
 		esign.APIv21: {
-			DocPrefix:   "esign-api/",
-			CallVersion: "esign.APIv21",
-			//ResourceMap:      v21ResourceMap,
+			DocPrefix:        "esign-rest-api/",
+			CallVersion:      "esign.APIv21",
 			PackagePath:      "v2.1",
 			ModelFile:        "v2.1/model/model.go",
 			ModelPackage:     "model",
@@ -70,9 +68,8 @@ var (
 			paramOverrides:   swagger.GetParameterOverrides(),
 		},
 		esign.AdminV2: {
-			DocPrefix:   "admin-api/",
-			CallVersion: "esign.AdminV2",
-			//ResourceMap:      adminResourceMap,
+			DocPrefix:        "admin-api/",
+			CallVersion:      "esign.AdminV2",
 			PackagePath:      "admin",
 			ModelFile:        "admin/admin.go",
 			ModelPackage:     "admin",
@@ -83,9 +80,8 @@ var (
 			paramOverrides:   make(map[string]map[string]string),
 		},
 		esign.RoomsV2: {
-			DocPrefix:   "rooms-api/",
-			CallVersion: "esign.RoomsV2",
-			//ResourceMap:      roomsResourceMap,
+			DocPrefix:        "rooms-api/",
+			CallVersion:      "esign.RoomsV2",
 			PackagePath:      "rooms/",
 			ModelFile:        "rooms/rooms.go",
 			ModelPackage:     "rooms",
@@ -96,9 +92,9 @@ var (
 			paramOverrides:   make(map[string]map[string]string),
 		},
 		esign.ClickV1: {
-			DocPrefix:   "click-api/",
-			CallVersion: "esign.ClickV1",
-			//ResourceMap:      swagger.clickResourceMap,
+			DocPrefix:        "click-api/",
+			DocService:       "accounts",
+			CallVersion:      "esign.ClickV1",
 			PackagePath:      "",
 			ModelFile:        "click/model.go",
 			ModelPackage:     "click",
@@ -109,9 +105,9 @@ var (
 			paramOverrides:   make(map[string]map[string]string),
 		},
 		esign.MonitorV2: {
-			DocPrefix:   "monitor-api/",
-			CallVersion: "esign.MonitorV2",
-			//ResourceMap:      swagger.monitorResourceMap,
+			DocPrefix:        "monitor-api/",
+			DocService:       "monitor",
+			CallVersion:      "esign.MonitorV2",
 			PackagePath:      "",
 			ModelFile:        "monitor/model.go",
 			ModelPackage:     "monitor",
@@ -124,10 +120,10 @@ var (
 	}
 
 	baseDir     = flag.String("src", ".", "source directory")
-	serviceTmpl = flag.String("service_templ", "", "serivce package template")
+	serviceTmpl = flag.String("service_templ", "", "override service package template")
 	modelTmpl   = flag.String("model_templ", "", "api definitions template")
 	specsFolder = flag.String("swaggerfiles", "gen-esign/specs", "directory containing swagger specification files")
-	skipFormat  = flag.Bool("skip_format", false, "skip gofmt command")
+	skipFormat  = flag.Bool("skip_format", false, "skip gofmt command on generated files")
 )
 
 // APIGenerateCfg contains parameters for generating an eSignature version
@@ -140,6 +136,7 @@ type APIGenerateCfg struct {
 	Name             string
 	Version          string
 	DocPrefix        string
+	DocService       string
 	CallVersion      string
 	PackagePath      string
 	ModelFile        string
@@ -364,7 +361,6 @@ func (api *APIGenerateCfg) doModel(defList []swagger.Definition, defMap map[stri
 	// create model.go
 	// get field overrides and tab overrides
 	tabDefs := swagger.TabDefs(api.Name, defMap, api.fldOverrides)
-
 	var data = struct {
 		Definitions      []swagger.Definition
 		DefMap           map[string]swagger.Definition
@@ -376,17 +372,20 @@ func (api *APIGenerateCfg) doModel(defList []swagger.Definition, defMap map[stri
 		ModelPackage     string
 		ModelPackagePath string
 		ModelImports     []string
+		Scopes           string
 	}{
-		Definitions:      append(tabDefs, defList...), // Prepend tab definitions
-		DefMap:           defMap,
-		FldOverrides:     api.fldOverrides,
-		CustomCode:       swagger.CustomCode(api.Name),
-		DocPrefix:        api.DocPrefix,
+		Definitions:  append(tabDefs, defList...), // Prepend tab definitions
+		DefMap:       defMap,
+		FldOverrides: api.fldOverrides,
+		CustomCode:   swagger.CustomCode(api.Name),
+		DocPrefix:    api.DocPrefix,
+
 		VersionID:        api.Version,
 		IsPackage:        api.ModelIsPackage,
 		ModelPackage:     api.ModelPackage,
 		ModelPackagePath: api.ModelPackagePath,
 		ModelImports:     api.ModelImports,
+		Scopes:           swagger.PackageScopes(api.APIVersion),
 	}
 	modelBuffer := &bytes.Buffer{}
 	if err := modelTempl.Execute(modelBuffer, data); err != nil {
@@ -456,6 +455,10 @@ func (api *APIGenerateCfg) doPackage(resTempl *template.Template, serviceName st
 			JSONResponse:      op.ReturnsJSON(),
 		})
 	}
+	docService := serviceName
+	if api.DocService > "" {
+		docService = api.DocService
+	}
 	var data = struct {
 		Service          string
 		Package          string
@@ -468,6 +471,7 @@ func (api *APIGenerateCfg) doPackage(resTempl *template.Template, serviceName st
 		ModelPackagePath string
 		ModelIsPackage   bool
 		DocPrefix        string
+		DocService       string
 		VersionID        string
 		CallVersion      string
 		AddDocLinks      bool
@@ -484,6 +488,7 @@ func (api *APIGenerateCfg) doPackage(resTempl *template.Template, serviceName st
 		ModelPackagePath: api.ModelPackagePath,
 		ModelIsPackage:   api.ModelIsPackage,
 		DocPrefix:        api.DocPrefix,
+		DocService:       docService,
 		VersionID:        api.Version,
 		CallVersion:      api.CallVersion,
 		AddDocLinks:      (serviceName != "Uncategorized"),
