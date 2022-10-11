@@ -39,5 +39,4 @@ func TestXML(t *testing.T) {
 	if !v.EnvelopeStatus.Signed.Time().Equal(time.Date(2014, 11, 11, 13, 44, 23, 590000000, time.UTC)) {
 		t.Errorf("expected Signed = 2014-11-11 13:43:45.3; got %v", v.EnvelopeStatus.Signed.Time())
 	}
-	return
 }

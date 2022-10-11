@@ -92,8 +92,8 @@ func (v *apiVersion) Name() string {
 	return v.name
 }
 
-// APIVersion defines the prefix used to resolve an operation's url.  If
-// nil or blank, "v2" is assumed.
+// APIVersion resolves the final op url by completing the partial path and host properties
+// of u and returning a new URL.
 type APIVersion interface {
 	ResolveDSURL(u *url.URL, host string, accountID string, isDemo bool) *url.URL
 	Name() string
@@ -159,10 +159,6 @@ type Op struct {
 	Accept string
 	// Leave nil for v2
 	Version APIVersion
-}
-
-type requestHandler interface {
-	Do(context.Context, *http.Request) (*http.Response, error)
 }
 
 // ResponseError describes DocuSign's server error response.
@@ -269,7 +265,7 @@ func (op *Op) validate(ctx context.Context) error {
 	if err == nil {
 		for _, f := range op.Files {
 			if !f.Valid() {
-				err = fmt.Errorf("Invalid upload file %v", f)
+				err = fmt.Errorf("invalid upload file %v", f)
 				break
 			}
 		}
@@ -303,22 +299,11 @@ func (op *Op) Do(ctx context.Context, result interface{}) error {
 		}
 		return nil
 	}
-
 	defer res.Body.Close()
-	done := make(chan error, 1)
-	go func() {
-		defer close(done)
-		if result != nil {
-			done <- json.NewDecoder(res.Body).Decode(result)
-		}
-	}()
-	select {
-	case <-ctx.Done():
-		err = ctx.Err()
-	case err = <-done:
+	if result != nil {
+		return json.NewDecoder(res.Body).Decode(result)
 	}
-	return err
-
+	return nil
 }
 
 // multiPartBody sends files thru a multipart writer. Using io.Pipe
@@ -351,7 +336,6 @@ func multiPartBody(files []*UploadFile) (io.Reader, string) {
 			mpw.Close()
 		}
 		pw.CloseWithError(err)
-		return
 	}()
 	return pr, "multipart/form-data; boundary=" + mpw.Boundary()
 }

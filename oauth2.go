@@ -207,7 +207,7 @@ func (c *OAuth2Config) Credential(tk *oauth2.Token, u *UserInfo) (*OAuth2Credent
 		}
 	}
 	return &OAuth2Credential{
-		accountID:   c.AccountID,
+		accountID:   accountID,
 		baseURI:     baseURI,
 		cachedToken: tk,
 		refresher:   c.refresher(),
@@ -371,30 +371,6 @@ type OAuth2Credential struct {
 	ctxclient.Func
 }
 
-// AuthDo2 set the authorization header and completes request's url
-// with the users's baseURI and account id before sending the request
-func (cred *OAuth2Credential) AuthDo2(ctx context.Context, req *http.Request, v APIVersion) (*http.Response, error) {
-	t, err := cred.Token(ctx)
-	if err != nil {
-		if req.Body != nil {
-			req.Body.Close()
-		}
-		return nil, err
-	}
-	r2 := *req
-	h := make(http.Header)
-	for k, v := range req.Header {
-		h[k] = v
-	}
-	r2.Header = h
-
-	t.SetAuthHeader(&r2)
-	// finalize url
-	//r2.URL = ResolveAPIVersionURL(v, req.URL, cred.baseURI.Host, cred.accountID, bool(cred.isDemo))
-	res, err := cred.Func.Do(ctx, &r2)
-	return res, toResponseError(err)
-}
-
 // AuthDo set the authorization header and completes request's url
 // with the users's baseURI and account id before sending the request
 func (cred *OAuth2Credential) AuthDo(ctx context.Context, op *Op) (*http.Response, error) {
@@ -444,10 +420,10 @@ var errNilCredential = errors.New("nil credential")
 // UserInfo returns user data returned from the /oauth/userinfo ednpoint.
 // See https://developers.docusign.com/esign-rest-api/guides/authentication/user-info-endpoints
 func (cred *OAuth2Credential) UserInfo(ctx context.Context) (*UserInfo, error) {
-	cred.mu.Lock()
 	if cred == nil {
 		return nil, errNilCredential
 	}
+	cred.mu.Lock()
 	if cred.userInfo == nil {
 		cred.mu.Unlock() // release lock b/c Token locks
 		// Token assignes userInfo if nil...

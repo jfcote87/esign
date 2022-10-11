@@ -704,9 +704,7 @@ func GetFieldOverrides() map[string]map[string]string {
 			"isEnabled":     "DSBool",
 		},
 		"filter": {
-			"fromDateTime": "*time.Time",
-			"isTemplate":   "DSBool",
-			"toDateTime":   "*time.Time",
+			"isTemplate": "DSBool",
 		},
 		"folderItem": {
 			"completedDateTime":           "*time.Time",

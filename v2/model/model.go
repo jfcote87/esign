@@ -1,4 +1,4 @@
-// Copyright 2019 James Cote
+// Copyright 2022 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -4564,7 +4564,7 @@ type Filter struct {
 	//
 	FolderIds string `json:"folderIds,omitempty"`
 	//
-	FromDateTime *time.Time `json:"fromDateTime,omitempty"`
+	FromDateTime string `json:"fromDateTime,omitempty"`
 	//
 	IsTemplate DSBool `json:"isTemplate,omitempty"`
 	// An optional value that sets the direction order used to sort the item list.
@@ -4583,7 +4583,7 @@ type Filter struct {
 	// Filter status.
 	Status string `json:"status,omitempty"`
 	// Latest date to filter.
-	ToDateTime *time.Time `json:"toDateTime,omitempty"`
+	ToDateTime string `json:"toDateTime,omitempty"`
 }
 
 // FirstName is a tab that displays the recipient's first name. This tab

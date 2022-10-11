@@ -1,4 +1,4 @@
-// Copyright 2019 James Cote
+// Copyright 2022 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -11211,7 +11211,7 @@ type Filter struct {
 	// - `waiting_for_others`
 	FolderIds string `json:"folderIds,omitempty"`
 	// The UTC DateTime of the beginning of a date range. If no value is provided, the default search is the previous 30 days.
-	FromDateTime *time.Time `json:"fromDateTime,omitempty"`
+	FromDateTime string `json:"fromDateTime,omitempty"`
 	// When **true,** the item is a template.
 	IsTemplate DSBool `json:"isTemplate,omitempty"`
 	// The order in which to sort the results.
@@ -11235,7 +11235,7 @@ type Filter struct {
 	// For details, see [Envelope Status Code Descriptions](/docs/esign-rest-api/esign101/rules-and-limits/responses/).
 	Status string `json:"status,omitempty"`
 	// The UTC DateTime of the end of a date range. If no value is provided, the default search is to the current date.
-	ToDateTime *time.Time `json:"toDateTime,omitempty"`
+	ToDateTime string `json:"toDateTime,omitempty"`
 }
 
 // FirstName is a tab that displays the recipient's first name. This tab

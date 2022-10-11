@@ -8,7 +8,7 @@
 package templates
 
 // Service is the default template for constructing service package files
-const Service = `// Copyright 2019 James Cote
+const Service = `// Copyright 2022 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -93,7 +93,7 @@ func (op *{{.FuncName}}Op) Do(ctx context.Context)  {{if .Result}}({{.Result}}, 
 {{end}}{{end}}`
 
 // Model is the default template for defining packages input and output structures
-const Model = `// Copyright 2019 James Cote
+const Model = `// Copyright 2022 James Cote
 // All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.

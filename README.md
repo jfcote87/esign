@@ -1,24 +1,28 @@
-# DocuSign eSignature RestApi v2 and v2.1(Beta) for Go
+# DocuSign eSignature RestApi v2 and v2.1, Admin, Click, Monitor, Rooms  for Go
 
 [![GoDoc](https://godoc.org/github.com/jfcote87/esign?status.svg)](https://godoc.org/github.com/jfcote87/esign)
 
-esign provides Go packages for interacting with DocuSign's eSignature RestApi and
-has been created using the lastest published swagger definition.
+esign provides Go packages for executing and consuming DocuSign's eSignature, Admin, Monitor, Rooms 
+and Click RestApis.  The gen-esign module created the apis' definitions using lastest published swagger definitions
+found at https://github.com/docusign/OpenAPI-Specifications.
 Definitions for call payloads and return values are found in  {VERSIONID}/model/model.go file.  
-Docusign has split the API into major categories, and each category has a corresponding package 
+DocuSign has split the API into major categories, and each category has a corresponding package 
 in the v2 and v2.1 directory.  
 
-The package requires Go 1.7 or above and has been tested with Go 1.9-1.12.
 
 The previous package github.com/jfcote87/docusign is now deprecated.
 
 ## Announcements
 
-eSignature v2.1 and [click api](https://developers.docusign.com/click-api) are now available.
+Add new docusign apis admin, click, monitor and room to the package.  Please consider these BETA until I can test further.
+
+Added ratelime package to allow for checking api rate limit values.  Please see ratelimite_example_test.go.
+
+Fixed DocuSign documentation links.
 
 ## Resources
 
-Official documentation: [https://developers.docusign.com/](https://developers.docusign.com/)
+DocuSign API documentation: [https://developers.docusign.com/](https://developers.docusign.com/)
 
 ## Package Updates
 
@@ -48,7 +52,7 @@ The model package describes the structure of all data passed to and received fro
 
 Each package has a service object which is initialized via the <packagename>.New(<credential>) call.
 The service methods define all operations for the package with corresponding options.  An operation is
-executed via a Do(context.Context) function.  A context must be passwed for all operation
+executed via a Do(context.Context) function.  A context must be passed for all operation
 
 ## Example
 
