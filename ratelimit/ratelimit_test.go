@@ -46,7 +46,7 @@ func (rls *RateLimitServer) Handle(ctx context.Context, res *http.Response) erro
 
 func (rls *RateLimitServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("x-msg") == "noheader" {
-		w.Write([]byte("{}"))
+		_, _ = w.Write([]byte("{}"))
 		return
 	}
 	if r.Header.Get("x-msg") == "404" {

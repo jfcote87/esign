@@ -314,45 +314,13 @@ func (api *APIGenerateCfg) genVersion(doc *swagger.Document) error {
 	serviceTmpl := api.Templates.Lookup("service.tmpl")
 	for k, v := range ops {
 		log.Printf("Generating %s", k)
-		descrip, _ := tagDescMap[k]
+		descrip := tagDescMap[k]
 
 		if err := api.doPackage(serviceTmpl, k, descrip, v, defMap); err != nil {
 			return fmt.Errorf("%s generate %s.go failed: %v", api.Version, k, err)
 		}
 	}
 	return nil
-}
-
-// getDocument loads the swagger def file and applies overrides
-func getDocument(fn string) (*swagger.Document, error) {
-	// Open swagger file and parse
-	f, err := os.Open(fn)
-	if err != nil {
-		return nil, fmt.Errorf("Unable to open: %v", err)
-	}
-	defer f.Close()
-	var doc *swagger.Document
-	if err = json.NewDecoder(f).Decode(&doc); err != nil {
-		return nil, fmt.Errorf("Unable to parse: %v", err)
-	}
-	var opAdditions swagger.OpList
-	// Add additional operations from overrides package
-	for i, op := range doc.Operations {
-		if strings.Contains(op.Description, "**Deprecated**") {
-			doc.Operations[i].Deprecated = true
-		}
-		// add media download when empty get response
-		if op.HTTPMethod == "GET" && op.Responses["200"].Schema == nil {
-			newResp := op.Responses["200"]
-			newResp.Schema = &swagger.SchemaRef{
-				Type: "file",
-			}
-			doc.Operations[i].Responses["200"] = newResp
-		}
-	}
-	doc.Operations = append(doc.Operations, opAdditions...)
-
-	return doc, nil
 }
 
 // doModel generates the model.go in the model package
@@ -545,22 +513,6 @@ func (api *APIGenerateCfg) doPackage(resTempl *template.Template, serviceName st
 	return api.makePackageFile(packageFile, pkgBuffer.Bytes())
 
 }
-
-func (api *APIGenerateCfg) getEsignDir() string {
-	p := path.Join(api.BaseDir, api.Version)
-	if strings.HasPrefix(p, api.Version) {
-		p = "./" + p
-	}
-	return p
-}
-
-/*
-func (api *APIGenerateCfg) pkgdir(packageName string) (string, string) {
-	//if packageName == "Uncategorized" && api.UncategorizedToTop {
-	//	return api.getEsignDir(), api.Version
-	//}
-	return api.getEsignDir() + "/" + packageName, packageName
-}*/
 
 func (api *APIGenerateCfg) makePackageFile(fileName string, content []byte) error {
 

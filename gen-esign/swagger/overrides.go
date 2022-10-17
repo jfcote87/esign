@@ -263,12 +263,6 @@ var ResourceMaps = map[esign.APIVersion]map[string]string{
 	},
 }
 
-type override struct {
-	Object string
-	Field  string
-	Type   string
-}
-
 // GetServicePrefixes provides a list of prefixes
 // to remove from Tags for creating op FuncName
 func GetServicePrefixes(service string) []string {
@@ -1492,7 +1486,7 @@ func TabDefs(apiname string, defMap map[string]Definition, overrides map[string]
 	case esign.APIv21.Name():
 		return TabDefsV21(defMap, overrides)
 	}
-	return make([]Definition, 0, 0)
+	return make([]Definition, 0)
 }
 
 // TabDefsV2 creates a list definitions for embedded tab structs from the defMap parameter.

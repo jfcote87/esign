@@ -183,7 +183,7 @@ func NewResponseError(buff []byte, status int) *ResponseError {
 		Status: status,
 		Raw:    buff,
 	}
-	json.Unmarshal(buff, &re)
+	_ = json.Unmarshal(buff, &re)
 	return &re
 }
 

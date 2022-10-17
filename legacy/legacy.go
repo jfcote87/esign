@@ -181,6 +181,9 @@ func (o *OauthCredential) OnBehalfOfCredential(ctx context.Context, integratorKe
 // AuthDo adds authorization headers, adds accountID to url and sends request
 func (c Config) AuthDo(ctx context.Context, op *esign.Op) (*http.Response, error) {
 	req, err := op.CreateRequest()
+	if err != nil {
+		return nil, err
+	}
 	req.URL = op.Version.ResolveDSURL(req.URL, getHost(c.IsDemoAccount, c.Host), c.AccountID, c.IsDemoAccount)
 
 	var onBehalfOf string

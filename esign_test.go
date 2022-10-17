@@ -240,7 +240,7 @@ func (t *testFile) ReOpen() {
 	t.m.Lock()
 	t.closed = false
 	t.timesClosed = 0
-	t.reader.Seek(0, io.SeekStart)
+	_, _ = t.reader.Seek(0, io.SeekStart)
 	t.m.Unlock()
 }
 
