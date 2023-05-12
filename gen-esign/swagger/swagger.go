@@ -220,7 +220,6 @@ func handleArray(fldType string) string {
 // defMap is a map of all definitions and the overrides specify
 // type overrides.
 func (d Definition) StructFields(defMap map[string]Definition, overrides map[string]map[string]string) []StructField {
-
 	// use x-definition-name for lookup
 	overrideMap, ok := overrides[d.Name]
 	if !ok {
@@ -235,22 +234,17 @@ func (d Definition) StructFields(defMap map[string]Definition, overrides map[str
 			})
 		}
 	}
-	//log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
 	for _, f := range d.Fields {
-		//log.Printf("a%s", f.Name)
 		if fldType, ok = overrideMap[f.Name]; !ok {
-			//log.Printf("a")
+
 			fldType = getGoFieldType(f)
-			//log.Printf("q")
 			switch fldType {
 			case "*Self":
 				fldType = "*" + defMap[f.Ref].StructName()
 			case "[]REF":
 				fldType = "[]" + defMap[f.Items.Ref].StructName()
 			}
-			//log.Printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 		}
-		//log.Printf("zzz%s", f.Name)
 		if fldType != "-" {
 			fields = append(fields, StructField{
 				Name:     ToGoName(f.Name),
@@ -259,9 +253,7 @@ func (d Definition) StructFields(defMap map[string]Definition, overrides map[str
 				Comments: strings.Split(f.Description, "\n"),
 			})
 		}
-		//log.Printf("ZZZZZZZZZZZZZZZZZZZZZZZZZz")
 	}
-	//log.Printf("Def: %s %d %v", d.Name, len(fields), fields == nil)
 	return fields
 }
 

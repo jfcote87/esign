@@ -33,6 +33,7 @@ const (
 	OAuthScopeIdentityProviderRead = "identity_provider_read"
 )
 
+// AddDSGroupAndUsersResponse not described in definition file
 type AddDSGroupAndUsersResponse struct {
 	//
 	Group *DSGroupResponse `json:"group,omitempty"`
@@ -40,6 +41,7 @@ type AddDSGroupAndUsersResponse struct {
 	GroupUsers *AddDSGroupUsersResponse `json:"group_users,omitempty"`
 }
 
+// AddDSGroupUsersResponse not described in definition file
 type AddDSGroupUsersResponse struct {
 	//
 	TotalCount int32 `json:"TotalCount,omitempty"`
@@ -91,6 +93,7 @@ type AddUserResponse struct {
 	UserName string `json:"user_name,omitempty"`
 }
 
+// AddUserResponseAccountProperties not described in definition file
 type AddUserResponseAccountProperties struct {
 	// The user's company name.
 	CompanyName string `json:"company_name,omitempty"`
@@ -122,6 +125,7 @@ type CertificateResponse struct {
 	Thumbprint string `json:"thumbprint,omitempty"`
 }
 
+// DSGroupAddRequest not described in definition file
 type DSGroupAddRequest struct {
 	//
 	Description string `json:"description,omitempty"`
@@ -129,6 +133,7 @@ type DSGroupAddRequest struct {
 	GroupName string `json:"group_name,omitempty"`
 }
 
+// DSGroupAndUsersResponse not described in definition file
 type DSGroupAndUsersResponse struct {
 	//
 	Group *DSGroupResponse `json:"group,omitempty"`
@@ -136,6 +141,7 @@ type DSGroupAndUsersResponse struct {
 	GroupUsers *DSGroupUsersResponse `json:"group_users,omitempty"`
 }
 
+// DSGroupListResponse not described in definition file
 type DSGroupListResponse struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
@@ -149,11 +155,13 @@ type DSGroupListResponse struct {
 	TotalCount int32 `json:"total_count,omitempty"`
 }
 
+// DSGroupRequest not described in definition file
 type DSGroupRequest struct {
 	//
 	DsGroupID string `json:"ds_group_id,omitempty"`
 }
 
+// DSGroupResponse not described in definition file
 type DSGroupResponse struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
@@ -179,6 +187,7 @@ type DSGroupResponse struct {
 	UserCount int32 `json:"user_count,omitempty"`
 }
 
+// DSGroupUserResponse not described in definition file
 type DSGroupUserResponse struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
@@ -198,16 +207,19 @@ type DSGroupUserResponse struct {
 	UserName string `json:"user_name,omitempty"`
 }
 
+// DSGroupUsersAddRequest not described in definition file
 type DSGroupUsersAddRequest struct {
 	//
 	UserIds []string `json:"user_ids,omitempty"`
 }
 
+// DSGroupUsersRemoveRequest not described in definition file
 type DSGroupUsersRemoveRequest struct {
 	//
 	UserIds []string `json:"user_ids,omitempty"`
 }
 
+// DSGroupUsersResponse not described in definition file
 type DSGroupUsersResponse struct {
 	// The page number.
 	Page int32 `json:"page,omitempty"`
@@ -219,6 +231,7 @@ type DSGroupUsersResponse struct {
 	Users []DSGroupUserResponse `json:"users,omitempty"`
 }
 
+// DeleteMembershipRequest not described in definition file
 type DeleteMembershipRequest struct {
 	// The ID of a user's account you want to close.
 	ID string `json:"id,omitempty"`
@@ -299,6 +312,7 @@ type ErrorDetails struct {
 	ErrorDescription string `json:"error_description,omitempty"`
 }
 
+// ForceActivateMembershipRequest not described in definition file
 type ForceActivateMembershipRequest struct {
 	//
 	SiteID int32 `json:"site_id,omitempty"`
@@ -342,6 +356,7 @@ type IdentityProviderResponse struct {
 	Type string `json:"type,omitempty"`
 }
 
+// IdentityProvidersResponse not described in definition file
 type IdentityProvidersResponse struct {
 	//
 	IdentityProviders []IdentityProviderResponse `json:"identity_providers,omitempty"`
@@ -454,6 +469,7 @@ type NewAccountUserRequest struct {
 	UserName string `json:"user_name,omitempty"`
 }
 
+// NewMultiProductUserAddRequest not described in definition file
 type NewMultiProductUserAddRequest struct {
 	// The access code that the user needs to activate an account.
 	AccessCode string `json:"access_code,omitempty"`
@@ -618,6 +634,7 @@ type NewUserResponseAccountProperties struct {
 	SiteID int32 `json:"site_id,omitempty"`
 }
 
+// OASIRRErrorDetails not described in definition file
 type OASIRRErrorDetails struct {
 	// The error number.
 	Error string `json:"error,omitempty"`
@@ -625,6 +642,7 @@ type OASIRRErrorDetails struct {
 	ErrorDescription string `json:"error_description,omitempty"`
 }
 
+// OASIRROrganizationAccountSettingsErrorDataResponse not described in definition file
 type OASIRROrganizationAccountSettingsErrorDataResponse struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
@@ -638,6 +656,7 @@ type OASIRROrganizationAccountSettingsErrorDataResponse struct {
 	SettingKey string `json:"setting_key,omitempty"`
 }
 
+// OETRErrorDetails not described in definition file
 type OETRErrorDetails struct {
 	// The error number.
 	Error string `json:"error,omitempty"`
@@ -645,6 +664,7 @@ type OETRErrorDetails struct {
 	ErrorDescription string `json:"error_description,omitempty"`
 }
 
+// OSAMRContact not described in definition file
 type OSAMRContact struct {
 	// The email address.
 	Email string `json:"email,omitempty"`
@@ -654,16 +674,19 @@ type OSAMRContact struct {
 	Title string `json:"title,omitempty"`
 }
 
+// OrgExportSelectedAccount not described in definition file
 type OrgExportSelectedAccount struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
 }
 
+// OrgExportSelectedDomain not described in definition file
 type OrgExportSelectedDomain struct {
 	//
 	Domain string `json:"domain,omitempty"`
 }
 
+// OrgReportConfigurationResponse not described in definition file
 type OrgReportConfigurationResponse struct {
 	//
 	CustomDatesEnabled bool `json:"custom_dates_enabled,omitempty"`
@@ -673,16 +696,19 @@ type OrgReportConfigurationResponse struct {
 	IsAccountLimitDisabled bool `json:"is_account_limit_disabled,omitempty"`
 }
 
+// OrgReportCreateResponse not described in definition file
 type OrgReportCreateResponse struct {
 	//
 	ReportCorrelationID string `json:"report_correlation_id,omitempty"`
 }
 
+// OrgReportListResponse not described in definition file
 type OrgReportListResponse struct {
 	//
 	Reports []OrgReportListResponseOrgReport `json:"reports,omitempty"`
 }
 
+// OrgReportListResponseOrgReport not described in definition file
 type OrgReportListResponseOrgReport struct {
 	//
 	AccountExportCount int32 `json:"account_export_count,omitempty"`
@@ -710,6 +736,7 @@ type OrgReportListResponseOrgReport struct {
 	URL string `json:"url,omitempty"`
 }
 
+// OrgReportListResponseRequestor not described in definition file
 type OrgReportListResponseRequestor struct {
 	//
 	ID string `json:"id,omitempty"`
@@ -717,6 +744,7 @@ type OrgReportListResponseRequestor struct {
 	Name string `json:"name,omitempty"`
 }
 
+// OrgReportRequest not described in definition file
 type OrgReportRequest struct {
 	//
 	AccountIds []string `json:"account_ids,omitempty"`
@@ -730,6 +758,7 @@ type OrgReportRequest struct {
 	ReportType string `json:"report_type,omitempty"`
 }
 
+// OrganizationAccountRequest not described in definition file
 type OrganizationAccountRequest struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
@@ -747,6 +776,7 @@ type OrganizationAccountResponse struct {
 	SiteID int32 `json:"site_id,omitempty"`
 }
 
+// OrganizationAccountSettingsImportRequestorResponse not described in definition file
 type OrganizationAccountSettingsImportRequestorResponse struct {
 	// The email address.
 	Email string `json:"email,omitempty"`
@@ -758,6 +788,7 @@ type OrganizationAccountSettingsImportRequestorResponse struct {
 	Type string `json:"type,omitempty"`
 }
 
+// OrganizationAccountSettingsImportResponse not described in definition file
 type OrganizationAccountSettingsImportResponse struct {
 	//
 	Completed string `json:"completed,omitempty"`
@@ -791,6 +822,7 @@ type OrganizationAccountSettingsImportResponse struct {
 	Type string `json:"type,omitempty"`
 }
 
+// OrganizationAccountSettingsImportResultResponse not described in definition file
 type OrganizationAccountSettingsImportResultResponse struct {
 	// Error results.
 	ErrorDetails *OASIRRErrorDetails `json:"error_details,omitempty"`
@@ -808,16 +840,19 @@ type OrganizationAccountSettingsImportResultResponse struct {
 	URL string `json:"url,omitempty"`
 }
 
+// OrganizationAccountsRequest not described in definition file
 type OrganizationAccountsRequest struct {
 	//
 	Accounts []OrganizationAccountRequest `json:"accounts,omitempty"`
 }
 
+// OrganizationExportAccount not described in definition file
 type OrganizationExportAccount struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
 }
 
+// OrganizationExportDomain not described in definition file
 type OrganizationExportDomain struct {
 	//
 	Domain string `json:"domain,omitempty"`
@@ -838,6 +873,7 @@ type OrganizationExportRequest struct {
 	Type string `json:"type,omitempty"`
 }
 
+// OrganizationExportRequestorResponse not described in definition file
 type OrganizationExportRequestorResponse struct {
 	// The email address.
 	Email string `json:"email,omitempty"`
@@ -849,6 +885,7 @@ type OrganizationExportRequestorResponse struct {
 	Type string `json:"type,omitempty"`
 }
 
+// OrganizationExportResponse not described in definition file
 type OrganizationExportResponse struct {
 	//
 	Completed string `json:"completed,omitempty"`
@@ -884,6 +921,7 @@ type OrganizationExportResponse struct {
 	Type string `json:"type,omitempty"`
 }
 
+// OrganizationExportTaskResponse not described in definition file
 type OrganizationExportTaskResponse struct {
 	// Error results.
 	ErrorDetails *OETRErrorDetails `json:"error_details,omitempty"`
@@ -899,6 +937,7 @@ type OrganizationExportTaskResponse struct {
 	URL string `json:"url,omitempty"`
 }
 
+// OrganizationExportsResponse not described in definition file
 type OrganizationExportsResponse struct {
 	//
 	Exports []OrganizationExportResponse `json:"exports,omitempty"`
@@ -960,6 +999,7 @@ type OrganizationImportResponse struct {
 	WarningCount int32 `json:"warning_count,omitempty"`
 }
 
+// OrganizationImportResponseErrorRollup not described in definition file
 type OrganizationImportResponseErrorRollup struct {
 	//
 	Count int32 `json:"count,omitempty"`
@@ -967,6 +1007,7 @@ type OrganizationImportResponseErrorRollup struct {
 	ErrorType string `json:"error_type,omitempty"`
 }
 
+// OrganizationImportResponseRequestor not described in definition file
 type OrganizationImportResponseRequestor struct {
 	// The email address.
 	Email string `json:"email,omitempty"`
@@ -978,6 +1019,7 @@ type OrganizationImportResponseRequestor struct {
 	Type string `json:"type,omitempty"`
 }
 
+// OrganizationImportResponseWarningRollup not described in definition file
 type OrganizationImportResponseWarningRollup struct {
 	//
 	Count int32 `json:"count,omitempty"`
@@ -985,6 +1027,7 @@ type OrganizationImportResponseWarningRollup struct {
 	WarningType string `json:"warning_type,omitempty"`
 }
 
+// OrganizationImportsResponse not described in definition file
 type OrganizationImportsResponse struct {
 	//
 	Imports []OrganizationImportResponse `json:"imports,omitempty"`
@@ -1022,6 +1065,7 @@ type OrganizationResponse struct {
 	Users []OrganizationSimpleIDObject `json:"users,omitempty"`
 }
 
+// OrganizationSalesforceAccountManagersResponse not described in definition file
 type OrganizationSalesforceAccountManagersResponse struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`
@@ -1095,6 +1139,7 @@ type OrganizationsResponse struct {
 	Organizations []OrganizationResponse `json:"organizations,omitempty"`
 }
 
+// PagingResponseProperties not described in definition file
 type PagingResponseProperties struct {
 	//
 	Next string `json:"next,omitempty"`
@@ -1128,6 +1173,7 @@ type PermissionProfileResponse struct {
 	Name string `json:"name,omitempty"`
 }
 
+// PermissionProfileResponse21 not described in definition file
 type PermissionProfileResponse21 struct {
 	//
 	PermissionProfileID string `json:"permission_profile_id,omitempty"`
@@ -1141,6 +1187,7 @@ type PermissionsResponse struct {
 	Permissions []PermissionProfileResponse `json:"permissions,omitempty"`
 }
 
+// ProductPermissionProfileRequest not described in definition file
 type ProductPermissionProfileRequest struct {
 	//
 	PermissionProfileID string `json:"permission_profile_id,omitempty"`
@@ -1148,6 +1195,7 @@ type ProductPermissionProfileRequest struct {
 	ProductID string `json:"product_id,omitempty"`
 }
 
+// ProductPermissionProfileResponse not described in definition file
 type ProductPermissionProfileResponse struct {
 	//
 	ErrorMessage string `json:"error_message,omitempty"`
@@ -1159,16 +1207,19 @@ type ProductPermissionProfileResponse struct {
 	ProductName string `json:"product_name,omitempty"`
 }
 
+// ProductPermissionProfilesRequest not described in definition file
 type ProductPermissionProfilesRequest struct {
 	//
 	ProductPermissionProfiles []ProductPermissionProfileRequest `json:"product_permission_profiles,omitempty"`
 }
 
+// ProductPermissionProfilesResponse not described in definition file
 type ProductPermissionProfilesResponse struct {
 	//
 	ProductPermissionProfiles []ProductPermissionProfileResponse `json:"product_permission_profiles,omitempty"`
 }
 
+// RemoveDSGroupUsersResponse not described in definition file
 type RemoveDSGroupUsersResponse struct {
 	//
 	FailedUsers []DSGroupUserResponse `json:"failed_users,omitempty"`
@@ -1401,6 +1452,7 @@ type UserIdentityResponse struct {
 	UserID string `json:"user_id,omitempty"`
 }
 
+// UserProductPermissionProfilesResponse not described in definition file
 type UserProductPermissionProfilesResponse struct {
 	// Select users that are members of the specified account. At least one of `email`, `account_id` or `organization_reserved_domain_id` must be specified.
 	AccountID string `json:"account_id,omitempty"`

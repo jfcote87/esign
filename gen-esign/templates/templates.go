@@ -114,7 +114,7 @@ import ({{range .ModelImports}}
 ){{end}}
 {{if .Scopes}}{{.Scopes}}{{end}}
 {{ range .Definitions }}{{if len .CommentLines}}{{ range .CommentLines}}
-// {{.}}{{end}}{{end}}
+// {{.}}{{end}}{{else}}// {{.StructName}} not described in definition file{{end}}
 type {{.StructName}} struct { {{range .StructFields $defMap $fldOverrides}}
     {{range .Comments}}// {{.}}
     {{end}}{{.Name}}{{if .Type}} {{.Type}}{{end}}{{if .JSON}} ` + "`json:\"{{.JSON}},omitempty\"`" + `{{end}}{{end }}

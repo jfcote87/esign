@@ -6,6 +6,7 @@
 // gen-esign creates the esign subpackages based upon DocuSign's
 // esignature.rest.swagger.json definition file.
 
+// Package main is the executable for gen-esign
 package main
 
 import (

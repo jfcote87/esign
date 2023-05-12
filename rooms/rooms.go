@@ -35,9 +35,11 @@ const (
 	OAuthScopeForms = "room_forms"
 )
 
+// AccessLevel not described in definition file
 type AccessLevel struct {
 }
 
+// AccountStatus not described in definition file
 type AccountStatus struct {
 }
 
@@ -310,6 +312,7 @@ type Document struct {
 	Size int64 `json:"size,omitempty"`
 }
 
+// DocumentUser not described in definition file
 type DocumentUser struct {
 	// **True** if the user `userId` has can approve a task for this document.
 	CanApproveTask bool `json:"canApproveTask,omitempty"`
@@ -339,6 +342,7 @@ type DocumentUser struct {
 	UserID int32 `json:"userId,omitempty"`
 }
 
+// DocumentUserForCreate not described in definition file
 type DocumentUserForCreate struct {
 	// The id of the user.
 	UserID int32 `json:"userId,omitempty"`
@@ -555,6 +559,7 @@ type FieldSet struct {
 	Title string `json:"title,omitempty"`
 }
 
+// FieldsCustomDataFilterType not described in definition file
 type FieldsCustomDataFilterType struct {
 }
 
@@ -640,11 +645,13 @@ type FormGroupForCreate struct {
 	Name string `json:"name,omitempty"`
 }
 
+// FormGroupForUpdate not described in definition file
 type FormGroupForUpdate struct {
 	// The name of the office.
 	Name string `json:"name,omitempty"`
 }
 
+// FormGroupFormToAssign not described in definition file
 type FormGroupFormToAssign struct {
 	// The id of the form.
 	//
@@ -842,6 +849,7 @@ type GlobalTaskResponsibilityTypes struct {
 	TaskResponsibilityTypes []TaskResponsibilityType `json:"taskResponsibilityTypes,omitempty"`
 }
 
+// GlobalTaskStatuses not described in definition file
 type GlobalTaskStatuses struct {
 	//
 	TaskStatuses []TaskStatus `json:"taskStatuses,omitempty"`
@@ -882,6 +890,7 @@ type LockedOutDetails struct {
 	Reason string `json:"reason,omitempty"`
 }
 
+// MemberSortingOption not described in definition file
 type MemberSortingOption struct {
 }
 
@@ -1168,6 +1177,7 @@ type Permissions struct {
 	IsVisibleInRooms bool `json:"isVisibleInRooms,omitempty"`
 }
 
+// ProductVersion not described in definition file
 type ProductVersion struct {
 }
 
@@ -1181,6 +1191,7 @@ type PropertyType struct {
 	PropertyTypeID string `json:"propertyTypeId,omitempty"`
 }
 
+// Region not described in definition file
 type Region struct {
 	// UTC datetime that the region was created (for example "2019-06-27T19:32:46.943"). Note that the service assigns this value, so it is read-only.
 	CreatedDate string `json:"createdDate,omitempty"`
@@ -1453,6 +1464,7 @@ type RoomDocumentList struct {
 	TotalRowCount int32 `json:"totalRowCount,omitempty"`
 }
 
+// RoomDocumentOwner not described in definition file
 type RoomDocumentOwner struct {
 	// The company name.
 	CompanyName string `json:"companyName,omitempty"`
@@ -1572,6 +1584,7 @@ type RoomPicture struct {
 	URL string `json:"url,omitempty"`
 }
 
+// RoomStatus not described in definition file
 type RoomStatus struct {
 }
 
@@ -1724,6 +1737,7 @@ type RoomUserRemovalDetail struct {
 	RevocationDate string `json:"revocationDate,omitempty"`
 }
 
+// RoomUserSortingOption not described in definition file
 type RoomUserSortingOption struct {
 }
 
@@ -2054,6 +2068,7 @@ type TaskResponsibilityType struct {
 	TaskResponsibilityTypeID string `json:"taskResponsibilityTypeId,omitempty"`
 }
 
+// TaskStatus not described in definition file
 type TaskStatus struct {
 	// The name of the office.
 	Name string `json:"name,omitempty"`
