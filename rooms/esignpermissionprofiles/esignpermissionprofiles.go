@@ -12,25 +12,24 @@
 //
 // You can use the API only to retrieve and assign eSignature permission profiles. You create and modify permission profiles in the DocuSign console.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/rooms-api/reference/ESignPermissionProfiles
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/rooms"
-//   )
-//   ...
-//   esignpermissionprofilesService := esignpermissionprofiles.New(esignCredential)
-package esignpermissionprofiles // import "github.com/jfcote87/esignrooms//esignpermissionprofiles"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/rooms"
+//	)
+//	...
+//	esignpermissionprofilesService := esignpermissionprofiles.New(esignCredential)
+package esignpermissionprofiles // import "github.com/jacobwilson41/esignrooms//esignpermissionprofiles"
 
 import (
 	"context"
 	"net/url"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/rooms"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/rooms"
 )
 
 // Service implements DocuSign ESignPermissionProfiles API operations

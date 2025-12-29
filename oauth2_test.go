@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/jfcote87/esign"
+	"github.com/jacobwilson41/esign"
 	"github.com/jfcote87/oauth2"
 	"github.com/jfcote87/testutils"
 )

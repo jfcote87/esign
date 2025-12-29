@@ -11,7 +11,7 @@
 //
 // Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference
-package model // import "github.com/jfcote87/esign/v2.1/model
+package model // import "github.com/jacobwilson41/esign/v2.1/model
 
 import (
 	"fmt"
@@ -3544,7 +3544,6 @@ type AccountSignatureDefinition struct {
 
 // AccountSignatureProvider contains information about the signature provider associated with the Identity Verification workflow.
 // If empty, then this specific workflow is not intended for signers.
-//
 type AccountSignatureProvider struct {
 	// Reserved for DocuSign.
 	IsRequired string `json:"isRequired,omitempty"`
@@ -3577,7 +3576,6 @@ type AccountSignatureProviderOption struct {
 }
 
 // AccountSignatureProviders this resource provides information on the Standards Based Signature providers that have been provisioned for an account.
-//
 type AccountSignatureProviders struct {
 	// Names of electronic or digital signature providers that can be used.
 	SignatureProviders []AccountSignatureProvider `json:"signatureProviders,omitempty"`
@@ -3982,7 +3980,6 @@ type AppStoreReceipt struct {
 // Approve is a tab that allows the recipient to approve documents
 // without placing a signature or initials on the
 // document.
-//
 type Approve struct {
 	TabBase
 	TabGuidedForm
@@ -4306,7 +4303,6 @@ type BccEmailArchiveHistory struct {
 }
 
 // BccEmailArchiveHistoryList is the `EmailArchive` resource provides methods for managing your email archive configuration, which consists of the BCC email address or addresses that you want to use to archive DocuSign emails. Each account can use up to five BCC email addresses for archiving purposes.
-//
 type BccEmailArchiveHistoryList struct {
 	// A list of changes to the BCC email archive configuration.
 	BccEmailArchiveHistory []BccEmailArchiveHistory `json:"bccEmailArchiveHistory,omitempty"`
@@ -4919,7 +4915,6 @@ type BrandLink struct {
 // These are read-only properties that provide a URI to logos in use.
 // To update a logo use
 // [AccountBrands: updateLogo](/docs/esign-rest-api/reference/accounts/accountbrands/updatelogo/).
-//
 type BrandLogos struct {
 	// The URI for the brand's secondary logo.
 	//
@@ -6139,7 +6134,6 @@ type CertifiedDelivery struct {
 }
 
 // Checkbox is a tab that allows the recipient to select a yes/no (on/off) option.
-//
 type Checkbox struct {
 	TabBase
 	TabGuidedForm
@@ -6507,7 +6501,6 @@ type CommentsPublish struct {
 }
 
 // CommissionCounty is a Commission County tab displays the county of a notary's commission. The tab is populated with the notary's commission information, but the recipient can also edit the value when notarizing. This tab can only be assigned to a remote notary recipient using [DocuSign Notary](/docs/notary-api/).
-//
 type CommissionCounty struct {
 	TabBase
 	TabGuidedForm
@@ -6582,7 +6575,6 @@ type CommissionCounty struct {
 }
 
 // CommissionExpiration is a Commission Expiration tab displays the expiration date of a notary's commission. The tab is populated with the notary's commission information, but the recipient can also edit the value when notarizing. This tab can only be assigned to a remote notary recipient using [DocuSign Notary](/docs/notary-api/).
-//
 type CommissionExpiration struct {
 	TabBase
 	TabGuidedForm
@@ -6659,7 +6651,6 @@ type CommissionExpiration struct {
 // CommissionNumber is a Commission Number tab displays a notary's commission number. The tab is populated with the notary's commission information, but the recipient can also edit the value when notarizing. This tab can only be assigned to a remote notary recipient using [DocuSign Notary][notary].
 //
 // [notary]: /docs/notary-api/
-//
 type CommissionNumber struct {
 	TabBase
 	TabGuidedForm
@@ -6736,7 +6727,6 @@ type CommissionNumber struct {
 // CommissionState is a Commission State tab displays the state in which a notary's commission was granted. The tab is populated with the notary's commission information, but the recipient can also edit the value when notarizing. This tab can only be assigned to a remote notary recipient using [DocuSign Notary][notary].
 //
 // [notary]: /docs/notary-api/
-//
 type CommissionState struct {
 	TabBase
 	TabGuidedForm
@@ -6811,7 +6801,6 @@ type CommissionState struct {
 }
 
 // Company is a tab that displays the recipient's company name.
-//
 type Company struct {
 	TabBase
 	TabGuidedForm
@@ -7989,7 +7978,6 @@ type CustomSettingsInformation struct {
 // particular date format enforced, DocuSign recommends using a
 // Text tab with a validation pattern and a validation message
 // to enforce the format.
-//
 type Date struct {
 	TabBase
 	TabGuidedForm
@@ -8097,7 +8085,6 @@ type Date struct {
 
 // DateSigned is a tab that displays the date that the recipient signed the
 // document.
-//
 type DateSigned struct {
 	TabBase
 	TabGuidedForm
@@ -8168,7 +8155,6 @@ type DateStampProperties struct {
 // Decline is a tab that allows the recipient the option of declining an
 // envelope. If the recipient clicks the tab during the signing
 // process, the envelope is voided.
-//
 type Decline struct {
 	TabBase
 	TabGuidedForm
@@ -9376,7 +9362,6 @@ type Editor struct {
 // When getting information that includes
 // this tab type, the original value of the tab when the
 // associated envelope was sent is included in the response.
-//
 type Email struct {
 	TabBase
 	TabGuidedForm
@@ -9484,7 +9469,6 @@ type Email struct {
 
 // EmailAddress is a tab that displays the recipient's email as entered in the
 // recipient information.
-//
 type EmailAddress struct {
 	TabBase
 	TabGuidedForm
@@ -10348,10 +10332,9 @@ type EnvelopeFormData struct {
 //
 // **Note:**  The eSignature API uses the name `envelopeId` two ways:
 //
-// - As a _property_ of type `string` used to identify an envelope  by its GUID.
-// - As an _object_ used to represent an envelope tab that displays
-//   the envelope's GUID.
-//
+//   - As a _property_ of type `string` used to identify an envelope  by its GUID.
+//   - As an _object_ used to represent an envelope tab that displays
+//     the envelope's GUID.
 type EnvelopeID struct {
 	TabBase
 	TabGuidedForm
@@ -10404,7 +10387,6 @@ type EnvelopeID struct {
 //
 // - `envelope_ids=request_body`
 // - `transaction_ids=request_body`
-//
 type EnvelopeIdsRequest struct {
 	// A comma-separated list of envelope IDs to include in the results.
 	EnvelopeIds []string `json:"envelopeIds,omitempty"`
@@ -11103,7 +11085,6 @@ type EventResult struct {
 }
 
 // Expirations is a complex element that specifies the expiration settings for the envelope. When an envelope expires, it is voided and no longer available for signing. **Note:** there is a short delay between when the envelope expires and when it is voided.
-//
 type Expirations struct {
 	// An integer that sets the number of days the envelope is active. For this value to be used, `expireEnabled` must be explicitly set to **true.**
 	ExpireAfter string `json:"expireAfter,omitempty"`
@@ -11333,7 +11314,6 @@ type Filter struct {
 // takes the recipient's name as entered in the recipient
 // information, splits it into sections based on spaces and
 // uses the first section as the first name.
-//
 type FirstName struct {
 	TabBase
 	TabGuidedForm
@@ -11623,8 +11603,7 @@ type FormDataItem struct {
 // to learn more about payments.
 //
 // [calculatedfields]: https://support.docusign.com/en/guides/ndse-user-guide-calculated-fields
-// [paymentguide]:     https://support.docusign.com/en/guides/requesting-payments-along-with-signatures
-//
+// [paymentguide]: https://support.docusign.com/en/guides/requesting-payments-along-with-signatures
 type FormulaTab struct {
 	TabBase
 	TabGuidedForm
@@ -11792,7 +11771,6 @@ type FormulaTab struct {
 }
 
 // FullName is a tab that displays the recipient's full name.
-//
 type FullName struct {
 	TabBase
 	TabGuidedForm
@@ -11940,7 +11918,6 @@ type IDEvidenceViewLink struct {
 // see the [EnvelopeRecipients resource][resource].
 //
 // [resource]: /docs/esign-rest-api/reference/envelopes/enveloperecipients/#in-person-signer-recipient
-//
 type InPersonSigner struct {
 	// If a value is provided, the recipient must enter the value as the access code to view and sign the envelope.
 	//
@@ -12257,7 +12234,6 @@ type InPersonSigner struct {
 
 // InitialHere is a tab that allows the recipient to initial the document. May
 // be optional.
-//
 type InitialHere struct {
 	TabBase
 	TabGuidedForm
@@ -12654,7 +12630,6 @@ type Jurisdiction struct {
 // takes the recipient's name as entered in the recipient
 // information, splits it into sections based on spaces and
 // uses the last section as the last name.
-//
 type LastName struct {
 	TabBase
 	TabGuidedForm
@@ -12730,7 +12705,6 @@ type LinkedExternalPrimaryAccount struct {
 // property contains a list of
 // [`listItem`](/docs/esign-rest-api/reference/envelopes/enveloperecipienttabs/create/)
 // objects to specify the selectable options.
-//
 type List struct {
 	TabBase
 	TabGuidedForm
@@ -13215,7 +13189,6 @@ type MemberSharedItems struct {
 }
 
 // MergeField contains information for transferring values between Salesforce data fields and DocuSign tabs.
-//
 type MergeField struct {
 	// When **true,** the sender can modify the value of the `mergeField` tab during the sending process.
 	AllowSenderToEdit Bool `json:"allowSenderToEdit,omitempty"`
@@ -13263,7 +13236,6 @@ type MobileNotifierConfigurationInformation struct {
 
 // Money describes information
 // about the `total` of a payment.
-//
 type Money struct {
 	// The total payment amount
 	// in the currency's base unit.
@@ -13668,7 +13640,6 @@ type Notarize struct {
 // Notary use DocuSign eNotary to notarize documents digitally.
 // Check the [DocuSign eNotary support documentation](https://support.docusign.com/en/guides/ndse-user-guide-enotary-resources)
 // to see which jurisdictions are supported.
-//
 type Notary struct {
 	// The creation date of the account in UTC timedate format.
 	CreatedDate string `json:"createdDate,omitempty"`
@@ -13689,7 +13660,6 @@ type Notary struct {
 // * `name`: Specifies the notary's full legal name.
 // * `email`: Specifies the notary's email address.
 // * `recipientId`: A unique ID number for the notary signing host.
-//
 type NotaryHost struct {
 	// If a value is provided, the recipient must enter the value as the access code to view and sign the envelope.
 	//
@@ -14568,7 +14538,6 @@ type NotarySeal struct {
 
 // Note is a tab that displays additional information, in the form of a
 // note, for the recipient.
-//
 type Note struct {
 	TabBase
 	TabGuidedForm
@@ -14661,7 +14630,6 @@ type NotificationDefaults struct {
 
 // Number is a tab that allows the recipient to enter numbers and decimal
 // (.) points.
-//
 type Number struct {
 	TabBase
 	TabGuidedForm
@@ -15154,8 +15122,7 @@ type PayPalLegacySettings struct {
 // in the DocuSign Support Center
 // to learn more about payments.
 //
-// [paymentguide]:     https://support.docusign.com/en/guides/requesting-payments-along-with-signatures
-//
+// [paymentguide]: https://support.docusign.com/en/guides/requesting-payments-along-with-signatures
 type PaymentDetails struct {
 	// An array of accepted payment methods:
 	//
@@ -15385,8 +15352,6 @@ type PaymentGatewayAccountsInfo struct {
 // PaymentLineItem is a line item describes details
 // about an individual line item
 // in a payment request.
-//
-//
 type PaymentLineItem struct {
 	// This is a the `tabLabel`
 	// that specifies the amount paid
@@ -16371,20 +16336,17 @@ type PrefillFormData struct {
 // - check boxes
 // - radio buttons
 //
-//
-//
 // [Pre-Fill Your Own Document Fields][app]
 // describes how prefill tabs
 // work in the web application.
-//
 //
 // [Customize your envelopes with pre-fill fields][catblog]
 // shows how to use prefill tabs
 // in your application using the eSignature
 // SDKs.
 //
-// [app]:      https://support.docusign.com/en/guides/ndse-user-guide-prefill-fields
-// [catblog]:  https://www.docusign.com/blog/developers/common-api-tasks-customize-your-envelopes-pre-fill-fields
+// [app]: https://support.docusign.com/en/guides/ndse-user-guide-prefill-fields
+// [catblog]: https://www.docusign.com/blog/developers/common-api-tasks-customize-your-envelopes-pre-fill-fields
 type PrefillTabs struct {
 	// A list of
 	// [Checkbox tabs][checkbox].
@@ -16545,7 +16507,6 @@ type PurchasedEnvelopesInformation struct {
 // Radio one of the selectable radio buttons
 // in the `radios` property
 // of a [`radioGroup`](/docs/esign-rest-api/reference/envelopes/enveloperecipienttabs/) tab.
-//
 type Radio struct {
 	// When **true,** the text string in the document may have extra whitespace and still match the anchor string. This occurs in two cases.
 	//
@@ -16814,7 +16775,6 @@ type Radio struct {
 // [`radio`](/docs/esign-rest-api/reference/envelopes/enveloperecipienttabs/)
 // objects  associated with the group. Only one radio button can
 // be selected in a group.
-//
 type RadioGroup struct {
 	TabBase
 	TabValue
@@ -17210,7 +17170,6 @@ type RecipientSignatureInformation struct {
 }
 
 // RecipientSignatureProvider is an Electronic or Standards Based Signature (digital signature) provider for the signer to use. [More information](/docs/esign-rest-api/esign101/concepts/standards-based-signatures/).
-//
 type RecipientSignatureProvider struct {
 	// By default, electronic seals apply on all documents in an envelope. If any of the documents has a `signHere` tab, then a visual representation of the electronic seal will show up in the final document. If not, the electronic seal will be visible in the metadata but not in the content of the document.
 	//
@@ -17544,25 +17503,26 @@ type SealIdentifier struct {
 // Example:
 //
 // ```json
-// "recipients": {
-//       "seals": [
-//         {
-//           "recipientId": "1",
-//           "routingOrder" : 1,
-//           "recipientSignatureProviders": [
-//             {
-//               "sealName": "52e9d968-xxxx-xxxx-xxxx-4682bc45c106"
-//             }
-//       	]
-//     	}
-//   	]
-// 	},
-//     .
-//     .
-//     .
+//
+//	"recipients": {
+//	      "seals": [
+//	        {
+//	          "recipientId": "1",
+//	          "routingOrder" : 1,
+//	          "recipientSignatureProviders": [
+//	            {
+//	              "sealName": "52e9d968-xxxx-xxxx-xxxx-4682bc45c106"
+//	            }
+//	      	]
+//	    	}
+//	  	]
+//		},
+//	    .
+//	    .
+//	    .
+//
 // ```
 // For more information about Electronic Seals, see [Apply Electronic Seals to Your Documents](https://support.docusign.com/en/guides/ndse-user-guide-apply-electronic-seals).
-//
 type SealSign struct {
 	// Not applicable.
 	AccessCode string `json:"accessCode,omitempty"`
@@ -18499,7 +18459,6 @@ type SharedItem struct {
 
 // SignHere is a tab that allows the recipient to sign a document. May be
 // optional.
-//
 type SignHere struct {
 	TabBase
 	TabGuidedForm
@@ -18935,7 +18894,6 @@ type Signer struct {
 
 // SignerAttachment is a tab that allows the recipient to attach supporting
 // documents to an envelope.
-//
 type SignerAttachment struct {
 	TabBase
 	TabGuidedForm
@@ -18994,7 +18952,6 @@ type SignerAttachment struct {
 }
 
 // SignerEmailNotifications is an array of email notifications that specifies the email the user receives when they are a recipient. When the specific email notification is set to true, the user receives those types of email notifications from DocuSign. The user inherits the default account email notification settings when the user is created.
-//
 type SignerEmailNotifications struct {
 	// When **true,** the user receives agent notification emails.
 	AgentNotification Bool `json:"agentNotification,omitempty"`
@@ -19483,7 +19440,6 @@ type SocialAuthentication struct {
 // Security Number. The SSN can be typed with or without
 // dashes. It uses the same parameters as a Text tab, with the
 // validation message and pattern set for SSN information.
-//
 type SSN struct {
 	TabBase
 	TabGuidedForm
@@ -20332,7 +20288,6 @@ type TabMetadataList struct {
 }
 
 // Tabs all of the tabs associated with a recipient. Each property is a list of a type of tab.
-//
 type Tabs struct {
 	// A list of
 	// [Approve tabs][approve].
@@ -21286,7 +21241,6 @@ type TemplateUpdateSummary struct {
 }
 
 // Text is a tab that allows the recipient to enter any type of text.
-//
 type Text struct {
 	TabBase
 	TabGuidedForm
@@ -21443,7 +21397,6 @@ type TextCustomField struct {
 }
 
 // Title is a tab that displays the recipient's title.
-//
 type Title struct {
 	TabBase
 	TabGuidedForm
@@ -22602,8 +22555,6 @@ type View struct {
 // - [Embedded signing and sending](/docs/esign-rest-api/esign101/concepts/embedding/)
 // - [Send an envelope via your app](/docs/esign-rest-api/how-to/embedded-sending/)
 // - [Introducing customizable embedded sending](https://www.docusign.com/blog/developers/introducing-customizable-embedded-sending)
-//
-//
 type ViewURL struct {
 	// The view URL to be navigated to.
 	URL string `json:"url,omitempty"`
@@ -23244,7 +23195,6 @@ type WorkspaceUserAuthorization struct {
 // The zip code can be typed with or without dashes. It uses
 // the same parameters as a Text tab, with the validation
 // message and pattern set for ZIP code information.
-//
 type Zip struct {
 	TabBase
 	TabGuidedForm

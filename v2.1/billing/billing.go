@@ -14,18 +14,17 @@
 // * Retrieve invoices.
 // * Retrieve and update payment information.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/Billing
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   billingService := billing.New(esignCredential)
-package billing // import "github.com/jfcote87/esignv2.1/billing"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	billingService := billing.New(esignCredential)
+package billing // import "github.com/jacobwilson41/esignv2.1/billing"
 
 import (
 	"context"
@@ -33,8 +32,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign Billing API operations

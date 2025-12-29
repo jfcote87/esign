@@ -12,18 +12,17 @@
 //
 // It is also used to manage the user's authentication/accounts with cloud storage service providers.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/CloudStorage
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   cloudstorageService := cloudstorage.New(esignCredential)
-package cloudstorage // import "github.com/jfcote87/esignv2.1/cloudstorage"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	cloudstorageService := cloudstorage.New(esignCredential)
+package cloudstorage // import "github.com/jacobwilson41/esignv2.1/cloudstorage"
 
 import (
 	"context"
@@ -31,8 +30,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign CloudStorage API operations
@@ -101,7 +100,6 @@ func (op *ListOp) Count(val int) *ListOp {
 // Order is the order in which to sort the results.
 //
 // Valid values are:
-//
 //
 // * `asc`: Ascending order.
 // * `desc`: Descending order.
@@ -195,7 +193,6 @@ func (op *ListFoldersOp) Count(val int) *ListFoldersOp {
 // Order is the order in which to sort the results.
 //
 // Valid values are:
-//
 //
 // * `asc`: Ascending order.
 // * `desc`: Descending order.

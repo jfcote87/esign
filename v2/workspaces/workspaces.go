@@ -10,18 +10,17 @@
 //
 // Workspaces creation and management.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/v2/reference/Workspaces
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   workspacesService := workspaces.New(esignCredential)
-package workspaces // import "github.com/jfcote87/esignv2/workspaces"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2/model"
+//	)
+//	...
+//	workspacesService := workspaces.New(esignCredential)
+package workspaces // import "github.com/jacobwilson41/esignv2/workspaces"
 
 import (
 	"context"
@@ -30,8 +29,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2/model"
 )
 
 // Service implements DocuSign Workspaces API operations

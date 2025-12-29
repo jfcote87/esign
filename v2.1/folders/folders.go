@@ -11,18 +11,17 @@
 // Use the Folders category to organize envelopes and templates.
 // You can list the folder contents and move envelopes and templates between folders.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/Folders
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   foldersService := folders.New(esignCredential)
-package folders // import "github.com/jfcote87/esignv2.1/folders"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	foldersService := folders.New(esignCredential)
+package folders // import "github.com/jacobwilson41/esignv2.1/folders"
 
 import (
 	"context"
@@ -31,8 +30,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign Folders API operations

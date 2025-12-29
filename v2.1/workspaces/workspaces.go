@@ -21,18 +21,17 @@
 //
 // **Note:** Documents in a template are not individually listed as files.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/Workspaces
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   workspacesService := workspaces.New(esignCredential)
-package workspaces // import "github.com/jfcote87/esignv2.1/workspaces"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	workspacesService := workspaces.New(esignCredential)
+package workspaces // import "github.com/jacobwilson41/esignv2.1/workspaces"
 
 import (
 	"context"
@@ -41,8 +40,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign Workspaces API operations

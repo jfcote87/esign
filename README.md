@@ -1,6 +1,6 @@
 # DocuSign eSignature RestApi v2 and v2.1, Admin, Click, Monitor, Rooms  for Go
 
-[![GoDoc](https://godoc.org/github.com/jfcote87/esign?status.svg)](https://godoc.org/github.com/jfcote87/esign)
+[![GoDoc](https://godoc.org/github.com/jacobwilson41/esign?status.svg)](https://godoc.org/github.com/jacobwilson41/esign)
 
 esign provides Go packages for executing and consuming DocuSign's eSignature, Admin, Monitor, Rooms 
 and Click RestApis.  The gen-esign module created the apis' definitions using lastest published swagger definitions
@@ -59,9 +59,9 @@ executed via a Do(context.Context) function.  A context must be passed for all o
 Create envelope
 
 ```go
-    import "github.com/jfcote87/esign"
-    import "github.com/jfcote87/esign/v2/envelope"
-    import "github.com/jfcote87/esign/v2/model"
+    import "github.com/jacobwilson41/esign"
+    import "github.com/jacobwilson41/esign/v2/envelope"
+    import "github.com/jacobwilson41/esign/v2/model"
 
     sv := envelopes.New(credential)
 

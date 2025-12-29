@@ -16,26 +16,25 @@
 //
 // For more information about this topic, see [Signing Groups](https://support.docusign.com/en/guides/ndse-user-guide-signing-groups).
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/SigningGroups
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   signinggroupsService := signinggroups.New(esignCredential)
-package signinggroups // import "github.com/jfcote87/esignv2.1/signinggroups"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	signinggroupsService := signinggroups.New(esignCredential)
+package signinggroups // import "github.com/jacobwilson41/esignv2.1/signinggroups"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign SigningGroups API operations

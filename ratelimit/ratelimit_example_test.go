@@ -12,10 +12,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/ratelimit"
-	"github.com/jfcote87/esign/v2.1/envelopes"
-	"github.com/jfcote87/esign/v2.1/folders"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/ratelimit"
+	"github.com/jacobwilson41/esign/v2.1/envelopes"
+	"github.com/jacobwilson41/esign/v2.1/folders"
 )
 
 func ExampleCredential_context() {

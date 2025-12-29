@@ -14,9 +14,9 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2/model"
 	"github.com/jfcote87/ctxclient"
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
 )
 
 // Documentation: https://docs.docusign.com/esign/
@@ -30,11 +30,12 @@ import (
 // https://eu.docusign.net/restapi/v2/accounts/{accountId}
 //
 // EXAMPLES
-// 	"https://www.docusign.net/restapi/v2"  (deprecated?)
-// 	"https://na2.docusign.net/restapi/v2"   (north america)
-// 	"https://na3.docusign.net/restapi/v2"   (north america)
-// 	"https://eu.docusign.net/restapi/v2"   (europe)
-// 	"https://demo.docusign.net/restapi/v2" (sandbox)
+//
+//	"https://www.docusign.net/restapi/v2"  (deprecated?)
+//	"https://na2.docusign.net/restapi/v2"   (north america)
+//	"https://na3.docusign.net/restapi/v2"   (north america)
+//	"https://eu.docusign.net/restapi/v2"   (europe)
+//	"https://demo.docusign.net/restapi/v2" (sandbox)
 var (
 	demoHost = "demo.docusign.net"
 	baseHost = "www.docusign.net"

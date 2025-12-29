@@ -31,7 +31,7 @@ const Service = `// Copyright 2022 James Cote
 //   ) 
 //   ...
 //   {{.Package}}Service := {{.Package}}.New(esignCredential)
-package {{.Package}} // import "github.com/jfcote87/esign{{.PackagePath}}/{{.Package}}"
+package {{.Package}} // import "github.com/jacobwilson41/esign{{.PackagePath}}/{{.Package}}"
 
 import ({{range .Packages}}
     {{.}}{{end}}
@@ -106,7 +106,7 @@ const Model = `// Copyright 2022 James Cote
 //
 // Api documentation may be found at:
 // https://developers.docusign.com/docs/{{$docPrefix := .DocPrefix}}{{$docPrefix}}reference
-package {{.ModelPackage}} // import "github.com/jfcote87/esign/{{.ModelPackagePath}}{{else}}package {{.ModelPackage}}
+package {{.ModelPackage}} // import "github.com/jacobwilson41/esign/{{.ModelPackagePath}}{{else}}package {{.ModelPackage}}
 {{end}}{{if .ModelImports}}
 
 import ({{range .ModelImports}}

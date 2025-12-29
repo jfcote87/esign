@@ -10,25 +10,24 @@
 //
 // Information about accounts.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/rooms-api/reference/Accounts
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/rooms"
-//   )
-//   ...
-//   accountsService := accounts.New(esignCredential)
-package accounts // import "github.com/jfcote87/esignrooms//accounts"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/rooms"
+//	)
+//	...
+//	accountsService := accounts.New(esignCredential)
+package accounts // import "github.com/jacobwilson41/esignrooms//accounts"
 
 import (
 	"context"
 	"net/url"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/rooms"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/rooms"
 )
 
 // Service implements DocuSign Accounts API operations

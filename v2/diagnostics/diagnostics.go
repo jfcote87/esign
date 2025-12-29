@@ -14,26 +14,25 @@
 // * Requesting and managing the API call-logging feature. (Perfect for debugging your app!)
 // * Getting information on the API's resources and versions.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/v2/reference/Diagnostics
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   diagnosticsService := diagnostics.New(esignCredential)
-package diagnostics // import "github.com/jfcote87/esignv2/diagnostics"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2/model"
+//	)
+//	...
+//	diagnosticsService := diagnostics.New(esignCredential)
+package diagnostics // import "github.com/jacobwilson41/esignv2/diagnostics"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2/model"
 )
 
 // Service implements DocuSign Diagnostics API operations

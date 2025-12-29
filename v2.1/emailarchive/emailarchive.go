@@ -14,26 +14,25 @@
 //
 // **Note:** This feature is only available for certain account plans and must be enabled by DocuSign.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/EmailArchive
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   emailarchiveService := emailarchive.New(esignCredential)
-package emailarchive // import "github.com/jfcote87/esignv2.1/emailarchive"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	emailarchiveService := emailarchive.New(esignCredential)
+package emailarchive // import "github.com/jacobwilson41/esignv2.1/emailarchive"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign EmailArchive API operations

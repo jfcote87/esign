@@ -12,26 +12,25 @@
 //
 // This category enables custom tabs to be managed programmatically, including creation, deletion, etc.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/CustomTabs
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   customtabsService := customtabs.New(esignCredential)
-package customtabs // import "github.com/jfcote87/esignv2.1/customtabs"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	customtabsService := customtabs.New(esignCredential)
+package customtabs // import "github.com/jacobwilson41/esignv2.1/customtabs"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign CustomTabs API operations
@@ -151,8 +150,6 @@ func (op *ListOp) CustomTabOnly() *ListOp {
 }
 
 // Update updates custom tab information.
-//
-//
 //
 // https://developers.docusign.com/docs/esign-rest-api/reference/customtabs/customtabs/update
 //

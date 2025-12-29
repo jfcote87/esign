@@ -11,7 +11,7 @@
 //
 // Api documentation may be found at:
 // https://developers.docusign.com/docs/rooms-api/reference
-package rooms // import "github.com/jfcote87/esign/rooms
+package rooms // import "github.com/jacobwilson41/esign/rooms
 
 // For more infomation on how to use scopes, see https://developers.docusign.com/docs/rooms-api/rooms101/auth/
 const (

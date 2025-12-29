@@ -17,9 +17,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/ratelimit"
 	"github.com/jfcote87/ctxclient"
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/ratelimit"
 )
 
 type RateLimitServer struct {

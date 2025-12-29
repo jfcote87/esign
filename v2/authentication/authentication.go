@@ -14,26 +14,25 @@
 // * Managing linked social accounts.
 // * Getting and revoking OAuth tokens.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/v2/reference/Authentication
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   authenticationService := authentication.New(esignCredential)
-package authentication // import "github.com/jfcote87/esignv2/authentication"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2/model"
+//	)
+//	...
+//	authenticationService := authentication.New(esignCredential)
+package authentication // import "github.com/jacobwilson41/esignv2/authentication"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2/model"
 )
 
 // Service implements DocuSign Authentication API operations

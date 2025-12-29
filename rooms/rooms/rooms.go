@@ -10,18 +10,17 @@
 //
 // A room can hold documents, envelopes, a list of tasks comprising a workflow, and other related information. You can invite others to this space and assign them permissions on a per-room basis. The documentation in this section shows you how to perform these and other tasks.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/rooms-api/reference/Rooms
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/rooms"
-//   )
-//   ...
-//   roomsService := rooms.New(esignCredential)
-package rooms // import "github.com/jfcote87/esignrooms//rooms"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/rooms"
+//	)
+//	...
+//	roomsService := rooms.New(esignCredential)
+package rooms // import "github.com/jacobwilson41/esignrooms//rooms"
 
 import (
 	"context"
@@ -30,8 +29,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/rooms"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/rooms"
 )
 
 // Service implements DocuSign Rooms API operations
@@ -503,7 +502,6 @@ func (op *GetRoomsOp) FieldDataChangedStartDate(val string) *GetRoomsOp {
 }
 
 // FieldDataChangedEndDate (Optional) Ending date and time to filter rooms whose field data has changed before this date. Date and time is always given as UTC. If the time (`hh:mm:ss`) is omitted, it defaults to `00:00:00`.
-//
 //
 // Valid formats:
 //

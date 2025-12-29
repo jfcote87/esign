@@ -22,10 +22,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/folders"
+	"github.com/jacobwilson41/esign/v2.1/templates"
 	"github.com/jfcote87/ctxclient"
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/folders"
-	"github.com/jfcote87/esign/v2.1/templates"
 	"github.com/jfcote87/oauth2"
 	"github.com/jfcote87/testutils"
 )
@@ -37,7 +37,7 @@ type TestCred struct {
 	ctxclient.Func
 }
 
-//func (t *TestCred) AuthDo(ctx context.Context, req *http.Request, v esign.APIVersion) (*http.Response, error) {
+// func (t *TestCred) AuthDo(ctx context.Context, req *http.Request, v esign.APIVersion) (*http.Response, error) {
 func (t *TestCred) AuthDo(ctx context.Context, op *esign.Op) (*http.Response, error) {
 	req, err := op.CreateRequest()
 	if err != nil {

@@ -23,15 +23,15 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/gen-esign/swagger"
-	"github.com/jfcote87/esign/gen-esign/templates"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/gen-esign/swagger"
+	"github.com/jacobwilson41/esign/gen-esign/templates"
 )
 
 const (
 	openAPIdefinition = "https://github.com/docusign/eSign-OpenAPI-Specification"
 	generatorVersion  = "20190720"
-	pkgBaseName       = "github.com/jfcote87/esign"
+	pkgBaseName       = "github.com/jacobwilson41/esign"
 )
 
 var (

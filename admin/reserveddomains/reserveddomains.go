@@ -10,26 +10,25 @@
 //
 // Methods to get a list of reserved domains.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/admin-api/reference/ReservedDomains
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/admin"
-//   )
-//   ...
-//   reserveddomainsService := reserveddomains.New(esignCredential)
-package reserveddomains // import "github.com/jfcote87/esignadmin/reserveddomains"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/admin"
+//	)
+//	...
+//	reserveddomainsService := reserveddomains.New(esignCredential)
+package reserveddomains // import "github.com/jacobwilson41/esignadmin/reserveddomains"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/admin"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/admin"
 )
 
 // Service implements DocuSign ReservedDomains API operations

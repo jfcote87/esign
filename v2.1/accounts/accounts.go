@@ -17,18 +17,17 @@
 //
 // The Accounts category also includes end points for listing the recipient names associated with an email address that was used by the account. For example, a single email address is often shared by multiple members of a family.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/Accounts
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   accountsService := accounts.New(esignCredential)
-package accounts // import "github.com/jfcote87/esignv2.1/accounts"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	accountsService := accounts.New(esignCredential)
+package accounts // import "github.com/jacobwilson41/esignv2.1/accounts"
 
 import (
 	"context"
@@ -37,8 +36,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign Accounts API operations
@@ -1850,7 +1849,6 @@ func (op *SignaturesGetAccountSignaturesOp) StampType(val string) *SignaturesGet
 
 // SignaturesUpdateAccountSignature updates an account signature.
 //
-//
 // https://developers.docusign.com/docs/esign-rest-api/reference/accounts/accountsignatures/updateaccountsignature
 //
 // SDK Method Accounts::updateAccountSignature
@@ -2098,7 +2096,6 @@ func (op *FavoriteTemplatesUnFavoriteTemplateOp) Do(ctx context.Context) (*model
 }
 
 // FavoriteTemplatesUpdateFavoriteTemplate sets a template as a favorite.
-//
 //
 // https://developers.docusign.com/docs/esign-rest-api/reference/accounts/favoritetemplates/updatefavoritetemplate
 //

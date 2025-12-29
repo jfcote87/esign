@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jfcote87/esign"
+	"github.com/jacobwilson41/esign"
 )
 
 func TestXML(t *testing.T) {

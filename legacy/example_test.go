@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jfcote87/esign/legacy"
-	"github.com/jfcote87/esign/v2/folders"
+	"github.com/jacobwilson41/esign/legacy"
+	"github.com/jacobwilson41/esign/v2/folders"
 )
 
 func Example_config() {

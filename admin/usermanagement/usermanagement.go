@@ -10,18 +10,17 @@
 //
 // Methods to manage users in an account.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/admin-api/reference/UserManagement
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/admin"
-//   )
-//   ...
-//   usermanagementService := usermanagement.New(esignCredential)
-package usermanagement // import "github.com/jfcote87/esignadmin/usermanagement"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/admin"
+//	)
+//	...
+//	usermanagementService := usermanagement.New(esignCredential)
+package usermanagement // import "github.com/jacobwilson41/esignadmin/usermanagement"
 
 import (
 	"context"
@@ -29,8 +28,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/admin"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/admin"
 )
 
 // Service implements DocuSign UserManagement API operations
@@ -696,7 +695,6 @@ func (op *DeleteIdentitiesOp) Do(ctx context.Context) (*admin.DeleteResponse, er
 }
 
 // GetUserProfiles returns information about recently modified users.
-//
 //
 // https://developers.docusign.com/docs/admin-api/reference/usermanagement/esignusermanagement/getuserprofiles
 //

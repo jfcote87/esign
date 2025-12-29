@@ -8,26 +8,23 @@
 // Package click implements the DocuSign SDK
 // category Click.
 //
-//
-//
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/click-api/reference/accounts
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//   )
-//   ...
-//   clickService := click.New(esignCredential)
-package click // import "github.com/jfcote87/esign/click"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	)
+//	...
+//	clickService := click.New(esignCredential)
+package click // import "github.com/jacobwilson41/esign/click"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
+	"github.com/jacobwilson41/esign"
 )
 
 // Service implements DocuSign Click API operations

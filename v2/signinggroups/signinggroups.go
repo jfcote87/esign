@@ -12,26 +12,25 @@
 //
 // The category allows you create the signing group and manage the users in the group.
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/v2/reference/SigningGroups
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2/model"
-//   )
-//   ...
-//   signinggroupsService := signinggroups.New(esignCredential)
-package signinggroups // import "github.com/jfcote87/esignv2/signinggroups"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2/model"
+//	)
+//	...
+//	signinggroupsService := signinggroups.New(esignCredential)
+package signinggroups // import "github.com/jacobwilson41/esignv2/signinggroups"
 
 import (
 	"context"
 	"net/url"
 	"strings"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2/model"
 )
 
 // Service implements DocuSign SigningGroups API operations

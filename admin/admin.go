@@ -11,7 +11,7 @@
 //
 // Api documentation may be found at:
 // https://developers.docusign.com/docs/admin-api/reference
-package admin // import "github.com/jfcote87/esign/admin
+package admin // import "github.com/jacobwilson41/esign/admin
 
 // For more infomation on how to use scopes, see https://developers.docusign.com/docs/admin-api/admin101/auth/
 const (

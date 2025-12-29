@@ -14,18 +14,17 @@
 //
 // To learn more about envelopes, see [Envelopes](/docs/esign-rest-api/esign101/concepts/envelopes/).
 //
-//
 // Service Api documentation may be found at:
 // https://developers.docusign.com/docs/esign-rest-api/reference/Envelopes
 // Usage example:
 //
-//   import (
-//       "github.com/jfcote87/esign"
-//       "github.com/jfcote87/esign/v2.1/model"
-//   )
-//   ...
-//   envelopesService := envelopes.New(esignCredential)
-package envelopes // import "github.com/jfcote87/esignv2.1/envelopes"
+//	import (
+//	    "github.com/jacobwilson41/esign"
+//	    "github.com/jacobwilson41/esign/v2.1/model"
+//	)
+//	...
+//	envelopesService := envelopes.New(esignCredential)
+package envelopes // import "github.com/jacobwilson41/esignv2.1/envelopes"
 
 import (
 	"context"
@@ -35,8 +34,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jfcote87/esign"
-	"github.com/jfcote87/esign/v2.1/model"
+	"github.com/jacobwilson41/esign"
+	"github.com/jacobwilson41/esign/v2.1/model"
 )
 
 // Service implements DocuSign Envelopes API operations
@@ -1335,8 +1334,6 @@ func (op *RecipientTabsCreateOp) Do(ctx context.Context) (*model.Tabs, error) {
 // `templateLocked` property set to true.
 // This property corresponds to the **Restrict changes** option in the web app.
 //
-//
-//
 // https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/enveloperecipienttabs/delete
 //
 // SDK Method Envelopes::deleteTabs
@@ -1403,8 +1400,6 @@ func (op *RecipientTabsListOp) IncludeMetadata(val string) *RecipientTabsListOp 
 }
 
 // RecipientTabsUpdate updates the tabs for a recipient.
-//
-//
 //
 // https://developers.docusign.com/docs/esign-rest-api/reference/envelopes/enveloperecipienttabs/update
 //
@@ -2443,7 +2438,6 @@ func (op *ListStatusOp) FromDate(val time.Time) *ListStatusOp {
 }
 
 // FromToStatus is the envelope status that you are checking for. Possible values are:
-//
 //
 // - `Changed` (default)
 // - `Completed`
