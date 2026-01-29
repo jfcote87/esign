@@ -293,9 +293,10 @@ func (op *Op) Do(ctx context.Context, result interface{}) error {
 	// pass res.Body back if download
 	if f, ok := result.(**Download); ok {
 		*f = &Download{
-			ReadCloser:    res.Body,
-			ContentLength: res.ContentLength,
-			ContentType:   res.Header.Get("Content-Type"),
+			ReadCloser:         res.Body,
+			ContentLength:      res.ContentLength,
+			ContentType:        res.Header.Get("Content-Type"),
+			ContentDisposition: res.Header.Get("Content-Disposition"),
 		}
 		return nil
 	}
@@ -348,6 +349,8 @@ type Download struct {
 	ContentLength int64
 	// ContentType header value
 	ContentType string
+	// ContentDisposition header value
+	ContentDisposition string
 }
 
 // UploadFile describes an a document attachment for uploading.
